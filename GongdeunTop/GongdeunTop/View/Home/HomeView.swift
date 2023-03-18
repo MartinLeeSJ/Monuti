@@ -11,13 +11,29 @@ import SwiftUI
 
 struct HomeView: View {
     
+    
+    @State private var isSheetOn: Bool = false
+    
     var body: some View {
         NavigationView {
-          ToDoView()
+            ToDoView()
                 .toolbar {
                     ToolbarItem(placement: .bottomBar) {
-                        NavigationLink("오늘 하루 시작하기") {
+                        NavigationLink {
                             TimerView()
+                        } label: {
+                            Text("오늘 하루 시작하기")
+                        }
+                    }
+                    
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button {
+                            isSheetOn.toggle()
+                        } label: {
+                            Image(systemName: "gearshape")
+                        }
+                        .sheet(isPresented: $isSheetOn) {
+                            SetTimeView()
                         }
                     }
                 }

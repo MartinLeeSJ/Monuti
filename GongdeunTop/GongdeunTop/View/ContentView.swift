@@ -12,8 +12,8 @@ struct ContentView: View {
     
     var body: some View {
         TabView(selection: $tabSelection) {
-            HomeView().tabItem { /*@START_MENU_TOKEN@*/Text("Tab Label 1")/*@END_MENU_TOKEN@*/ }.tag(1)
-            RecordView().tabItem { /*@START_MENU_TOKEN@*/Text("Tab Label 2")/*@END_MENU_TOKEN@*/ }.tag(2)
+            HomeView().tabItem { Text("하루") }.tag(1)
+            RecordView().tabItem { Text("기록") }.tag(2)
         }
     }
 }

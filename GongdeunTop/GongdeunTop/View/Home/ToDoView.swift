@@ -24,26 +24,37 @@ struct ToDoView: View {
             VStack {
                 ScrollView {
                     ForEach(todos, id: \.self) { todo in
-                        HStack {
-                            Text(todo.title)
-                                .font(.headline)
-                            Spacer()
+                        VStack {
+                            HStack {
+                                VStack(alignment: .leading) {
+                                    Text(todo.title)
+                                        .font(.headline)
+                                    Text(todo.content)
+                                        .font(.callout)
+                                        .foregroundColor(.gray)
+                                }
+                                Spacer()
+                            }
+                            Divider()
                         }
                         .padding(.horizontal)
-                        .padding(.vertical, 5)
+                        .padding(.vertical, 2)
                     }
                 }
                 .padding()
-                .frame(width: width, height: height * 0.5)
+                .frame(width: width, height: height * 0.4)
                 .background {
                     RoundedRectangle(cornerRadius: 15)
                         .foregroundColor(.GTyellow)
                 }
                 
-                VStack(alignment: .leading, spacing: 15) {
+                VStack(alignment: .leading, spacing: 0) {
+                    
                     Text("제목")
                         .font(.headline)
                         .fontWeight(.medium)
+                        .padding(.vertical, 5)
+                        .padding(.top, 20)
                         
                         
                     
@@ -53,12 +64,15 @@ struct ToDoView: View {
                                 .overlay(.gray)
                                 .offset(y: 15)
                         }
-                        .padding(.bottom)
+                        
+                        
+                    Spacer()
                         
                     
                     Text("내용")
                         .font(.headline)
                         .fontWeight(.medium)
+                        .padding(.vertical, 5)
                         
                     
                     TextField("할 일 내용", text: $todo.content)
@@ -67,7 +81,8 @@ struct ToDoView: View {
                                 .overlay(.gray)
                                 .offset(y: 15)
                         }
-                        .padding(.bottom)
+                    
+                    Spacer()
                     
                     HStack{
                        Spacer()
@@ -79,9 +94,10 @@ struct ToDoView: View {
                         }
                        Spacer()
                     }
+                    .padding(.bottom)
                 }
                 .padding(.horizontal)
-                .frame(width: width, height: height * 0.4)
+                .frame(minWidth: width, idealWidth: width, maxWidth: width, minHeight: height * 0.4, idealHeight: height * 0.45, maxHeight: height * 0.48)
                 .background {
                     RoundedRectangle(cornerRadius: 15)
                         .foregroundColor(.GTyellowBright)
@@ -89,7 +105,8 @@ struct ToDoView: View {
                 
             }
         }
-        .navigationTitle("To Do List")
+        .navigationTitle("오늘 하루 할 일 적기")
+        .navigationBarTitleDisplayMode(.inline)
         .padding()
     }
 }

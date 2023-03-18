@@ -8,13 +8,20 @@
 import SwiftUI
 
 struct TimerView: View {
-    let initialSecond: Int = 25 * 60
-    @State private var remainSecond: Int = 25 * 60
+    @Environment(\.dismiss) private var dismiss
+    
+    var initialSecond: Int = 25 * 60
+    @State var remainSecond: Int = 25 * 60
+    var initialSeconds: [Int] = [25 * 60, 1 * 60, 25 * 60, 5 * 60, 25 * 60, 5 * 60, 25 * 60, 30 * 60 ]
+    @State var remainSeconds: [Int] = [25 * 60, 1 * 60, 25 * 60, 5 * 60, 25 * 60, 5 * 60, 25 * 60, 30 * 60 ]
+    
+    @State private var timeIndex: Int = 0
+    
     @State private var isRunning: Bool = false
     @State private var timer: Timer?
     
     private var minute: String {
-        let result: Int = Int(remainSecond / 60)
+        let result: Int = Int(remainSeconds[timeIndex] / 60)
         if result < 10 {
             return "0" + String(result)
         } else {
@@ -23,7 +30,7 @@ struct TimerView: View {
     }
     
     private var second: String {
-        let result: Int = remainSecond % 60
+        let result: Int = remainSeconds[timeIndex] % 60
         if result < 10 {
             return "0" + String(result)
         } else {
@@ -32,72 +39,102 @@ struct TimerView: View {
     }
     
     private var endDegree: Double {
-        return Double(remainSecond) / Double(initialSecond) * 360.0
+        return Double(remainSeconds[timeIndex]) / Double(initialSeconds[timeIndex]) * 360.0
     }
     
     
     var body: some View {
-        VStack(alignment: .center) {
-            HStack(spacing: 2) {
-                Text(minute)
-                Text(":")
-                Text(second)
-            }
-            .font(.largeTitle)
-            .padding(.bottom, 25)
-            
-            Button {
-                if isRunning {
-                    timer?.invalidate()
-                } else {
-                    timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
-                        print(endDegree)
-                        if remainSecond > 0 {
-                            remainSecond -= 1
+        GeometryReader { geo in
+            let width = geo.size.width
+            let height = geo.size.height
+            VStack {
+                Spacer()
+                    .frame(height: height * 0.2)
+                VStack(alignment: .center) {
+                    
+                    ZStack {
+                        Text(minute)
+                            .offset(x: -width * 0.1)
+                        Text(":")
+                        Text(second)
+                            .offset(x: width * 0.1)
+                    }
+                    .font(.largeTitle)
+                    .padding(.bottom, 25)
+                    
+                    Button {
+                        if isRunning {
+                            timer?.invalidate()
+                        } else {
+                            timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
+                                if remainSeconds[timeIndex] > 0 {
+                                    remainSeconds[timeIndex] -= 1
+                                } else {
+                                    timer?.invalidate()
+                                    isRunning = false
+                                    if timeIndex < initialSeconds.count - 1 {
+                                        timeIndex += 1
+                                    }
+                                    
+                                }
+                            }
                         }
-                    }
-                }
-                isRunning.toggle()
-            } label: {
-                Image(systemName: isRunning ?  "pause.fill" : "play.fill")
-                    .font(.title)
-                    .foregroundColor(.gray)
-            }
-            .overlay {
-                HStack {
-                    Button {
-                        timer?.invalidate()
-                        remainSecond = initialSecond
+                        isRunning.toggle()
                     } label: {
-                        Image(systemName: "chevron.backward.to.line")
+                        Image(systemName: isRunning ?  "pause.fill" : "play.fill")
                             .font(.title)
                             .foregroundColor(.gray)
                     }
-                    Spacer()
-                    Button {
-                        
-                    } label: {
-                        Image(systemName: "chevron.right.to.line")
-                            .font(.title)
-                            .foregroundColor(.gray)
+                    .overlay {
+                        HStack {
+                            Button {
+                                timer?.invalidate()
+                                isRunning = false
+                                remainSeconds[timeIndex] = initialSeconds[timeIndex]
+                            } label: {
+                                Image(systemName: "chevron.backward.to.line")
+                                    .font(.title)
+                                    .foregroundColor(.gray)
+                            }
+                            Spacer()
+                            Button {
+                                timer?.invalidate()
+                                isRunning = false
+                                if timeIndex < initialSeconds.count - 1 {
+                                    timeIndex += 1
+                                }
+                            } label: {
+                                Image(systemName: "chevron.right")
+                                    .font(.title)
+                                    .foregroundColor(.gray)
+                            }
+                        }
+                        .frame(width: width * 0.5)
                     }
-
                 }
-                .frame(width: 160)
+                .background {
+                    Circle()
+                        .foregroundColor(.GTyellowBright)
+                        .frame(width: width * 0.8, height: width * 0.8)
+                        .overlay {
+                            CircularSector(endDegree: endDegree)
+                                .foregroundColor(.GTyellow)
+                        }
+                }
+                Spacer()
             }
-            
-            
-            
+            .frame(width: width, height: height)
         }
-        .frame(width: 160)
-        .background {
-            Circle()
-                .foregroundColor(.GTyellowBright)
-                .frame(width: 300, height: 300)
-                .overlay {
-                    CircularSector(endDegree: endDegree)
-                        .foregroundColor(.GTyellow)
+        .navigationBarBackButtonHidden(true)
+        .toolbar {
+            ToolbarItem {
+                Button {
+                    dismiss()
+                } label: {
+                    Text("끝내기")
                 }
+
+            }
         }
     }
     
