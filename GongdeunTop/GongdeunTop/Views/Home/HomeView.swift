@@ -10,7 +10,7 @@ import SwiftUI
 
 
 struct HomeView: View {
-    
+    @StateObject var timerViewModel = TimerViewModel()
     
     @State private var isSheetOn: Bool = false
     
@@ -20,7 +20,7 @@ struct HomeView: View {
                 .toolbar {
                     ToolbarItem(placement: .bottomBar) {
                         NavigationLink {
-                            TimerView()
+                            TimerView(viewModel: timerViewModel)
                         } label: {
                             Text("오늘 하루 시작하기")
                         }
@@ -33,7 +33,7 @@ struct HomeView: View {
                             Image(systemName: "gearshape")
                         }
                         .sheet(isPresented: $isSheetOn) {
-                            SetTimeView()
+                            SetTimeView(viewModel: timerViewModel)
                         }
                     }
                 }

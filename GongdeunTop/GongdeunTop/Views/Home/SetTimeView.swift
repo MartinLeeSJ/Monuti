@@ -8,29 +8,27 @@
 import SwiftUI
 
 struct SetTimeView: View {
-    @State private var sessions: Int = 4
-    @State private var concentrationTime: Int = 25
-    @State private var refreshTime: Int = 5
+    @ObservedObject var viewModel: TimerViewModel
     
-    var concentrationRatio: CGFloat {
-        CGFloat(concentrationTime) / CGFloat(concentrationTime + refreshTime)
+    private var concentrationRatio: CGFloat {
+        CGFloat(viewModel.concentrationTime) / CGFloat(viewModel.concentrationTime + viewModel.refreshTime)
     }
     
-    var refreshRatio: CGFloat {
-        CGFloat(refreshTime) / CGFloat(concentrationTime + refreshTime)
+    private var refreshRatio: CGFloat {
+        CGFloat(viewModel.refreshTime) / CGFloat(viewModel.concentrationTime + viewModel.refreshTime)
     }
     
     var body: some View {
         GeometryReader { geo in
             let width = geo.size.width
-            let sessionWidth = width / CGFloat(sessions) - 15
+            let sessionWidth = width / CGFloat(viewModel.numOfSessions) - 15
             VStack {
-                Text("총 \((concentrationTime + refreshTime) * sessions)분")
+                Text("총 \(viewModel.getTotalTime())분")
                     .font(.title)
                     .bold()
                 
                 HStack {
-                    ForEach(0 ..< sessions, id: \.self) { _ in
+                    ForEach(0 ..< viewModel.numOfSessions, id: \.self) { _ in
                         HStack(spacing: 3) {
                             Rectangle()
                                 .foregroundColor(.pink)
@@ -48,24 +46,24 @@ struct SetTimeView: View {
                 HStack {
                     Text("세션 수")
                         .font(.headline)
-                    Stepper(value: $sessions, in: 3...6, step: 1) {
-                        Text("\(sessions)개")
+                    Stepper(value: $viewModel.numOfSessions, in: 3...6, step: 1) {
+                        Text("\(viewModel.numOfSessions)개")
                     }
                 }
                 
                 HStack{
                     Text("세션 당")
                         .font(.headline)
-                    Stepper(value: $concentrationTime, in: 15...50, step: 5) {
-                        Text("\(concentrationTime)분")
+                    Stepper(value: $viewModel.concentrationTime, in: 15...50, step: 5) {
+                        Text("\(viewModel.concentrationTime)분")
                     }
                 }
                 
                 HStack {
                     Text("쉬는시간")
                         .font(.headline)
-                    Stepper(value: $refreshTime, in: 5...10, step: 1) {
-                        Text("\(refreshTime)분")
+                    Stepper(value: $viewModel.refreshTime, in: 5...10, step: 1) {
+                        Text("\(viewModel.refreshTime)분")
                     }
                 }
                 
@@ -77,6 +75,6 @@ struct SetTimeView: View {
 
 struct SetTimeView_Previews: PreviewProvider {
     static var previews: some View {
-        SetTimeView()
+        SetTimeView(viewModel: TimerViewModel())
     }
 }
