@@ -11,16 +11,18 @@ import SwiftUI
 
 struct HomeView: View {
     @StateObject var timerViewModel = TimerViewModel()
+    @StateObject var toDoViewModel = ToDoViewModel()
     
     @State private var isSheetOn: Bool = false
     
     var body: some View {
         NavigationView {
-            ToDoView()
+            ToDoView(viewModel: toDoViewModel)
                 .toolbar {
                     ToolbarItem(placement: .bottomBar) {
                         NavigationLink {
-                            TimerView(viewModel: timerViewModel)
+                            TimerView(timerViewModel: timerViewModel,
+                                      toDoViewModel: toDoViewModel)
                         } label: {
                             Text("오늘 하루 시작하기")
                         }

@@ -7,14 +7,11 @@
 
 import SwiftUI
 
-struct ToDo: Hashable {
-    var title: String = ""
-    var content: String = ""
-}
+
 
 struct ToDoView: View {
-    @State private var todo: ToDo = .init(title: "", content: "")
-    @State private var todos: [ToDo] = []
+    @ObservedObject var viewModel: ToDoViewModel
+    @State private var tag: String = ""
     
     var body: some View {
         GeometryReader { geo in
@@ -22,82 +19,128 @@ struct ToDoView: View {
             let height = geo.size.height
             
             VStack {
-                ScrollView {
-                    ForEach(todos, id: \.self) { todo in
+                ScrollView(showsIndicators: false) {
+                    ForEach(viewModel.todos, id: \.self) { todo in
                         VStack {
-                            HStack {
-                                VStack(alignment: .leading) {
-                                    Text(todo.title)
-                                        .font(.headline)
+                            DisclosureGroup {
+                                HAlignment(alignment: .leading) {
                                     Text(todo.content)
                                         .font(.callout)
                                         .foregroundColor(.gray)
                                 }
-                                Spacer()
+                            } label: {
+                                Text(todo.title)
+                                    .font(.headline)
+                                    .foregroundColor(.black)
                             }
                             Divider()
                         }
-                        .padding(.horizontal)
                         .padding(.vertical, 2)
                     }
                 }
                 .padding()
-                .frame(width: width, height: height * 0.4)
+                .frame(width: width, height: height * 0.35)
                 .background {
                     RoundedRectangle(cornerRadius: 15)
                         .foregroundColor(.GTyellow)
                 }
                 
-                VStack(alignment: .leading, spacing: 0) {
-                    
-                    Text("제목")
-                        .font(.headline)
-                        .fontWeight(.medium)
-                        .padding(.vertical, 5)
-                        .padding(.top, 20)
-                        
-                        
-                    
-                    TextField("할 일 제목", text: $todo.title)
-                        .overlay {
-                           Divider()
-                                .overlay(.gray)
-                                .offset(y: 15)
+                    VStack(alignment: .leading, spacing: 0) {
+                        HStack {
+                            Text("제목")
+                                .font(.headline)
+                                .fontWeight(.medium)
+                            Divider()
+                            
+                            TextField("할 일 제목", text: $viewModel.todo.title)
+                        }
+                        .padding()
+                        .background {
+                            RoundedRectangle(cornerRadius: 15)
+                                .foregroundColor(.white.opacity(0.5))
                         }
                         
+                        Spacer()
                         
-                    Spacer()
-                        
-                    
-                    Text("내용")
-                        .font(.headline)
-                        .fontWeight(.medium)
-                        .padding(.vertical, 5)
-                        
-                    
-                    TextField("할 일 내용", text: $todo.content)
-                        .overlay {
-                           Divider()
-                                .overlay(.gray)
-                                .offset(y: 15)
+                        HStack {
+                            Text("내용")
+                                .font(.headline)
+                                .fontWeight(.medium)
+                            
+                            Divider()
+                            
+                            TextField("할 일 내용", text: $viewModel.todo.content)
                         }
-                    
-                    Spacer()
-                    
-                    HStack{
-                       Spacer()
-                        Button {
-                            todos.append(todo)
-                            todo = .init()
-                        } label: {
-                            Label("추가하기", systemImage: "plus.circle.fill")
+                        .padding()
+                        .background {
+                            RoundedRectangle(cornerRadius: 15)
+                                .foregroundColor(.white.opacity(0.5))
                         }
-                       Spacer()
+                        
+                        Spacer()
+                        
+                        HStack {
+                            Text("태그")
+                                .font(.headline)
+                                .fontWeight(.medium)
+                                .padding(.vertical, 5)
+                            
+                            Divider()
+                            
+                            TextField("태그", text: $tag)
+                            
+                            Button {
+                                viewModel.todo.tags.append(tag)
+                                tag = ""
+                            } label: {
+                                Text("등록")
+                            }
+                            .disabled(tag.isEmpty)
+                           
+                            
+                        }
+                        .padding()
+                        .background {
+                            RoundedRectangle(cornerRadius: 15)
+                                .foregroundColor(.white.opacity(0.5))
+                        }
+                        
+                        Spacer()
+                        
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            HStack {
+                                ForEach(viewModel.todo.tags, id: \.self) {tag in
+                                    Text(tag)
+                                        .font(.caption)
+                                        .padding(.vertical, 2)
+                                        .padding(.horizontal, 4)
+                                        .background(Capsule().fill(.green))
+                                }
+                            }
+                        }
+                        .frame(height: 10)
+                        
+                        Spacer()
+                 
+                            
+                        
+                        Divider()
+                            
+                        
+                        HAlignment(alignment: .center) {
+                            Button {
+                                viewModel.todos.append(viewModel.todo)
+                                viewModel.todo = ToDo(title: "", content: "")
+                            } label: {
+                                Label("추가하기", systemImage: "plus.circle.fill")
+                            }
+                            .tint(.black)
+                        }
+                        .padding(.vertical, 10)
+                        
                     }
-                    .padding(.bottom)
-                }
-                .padding(.horizontal)
-                .frame(minWidth: width, idealWidth: width, maxWidth: width, minHeight: height * 0.4, idealHeight: height * 0.45, maxHeight: height * 0.48)
+                .padding(12)
+                .frame(minWidth: width, idealWidth: width, maxWidth: width, minHeight: height * 0.6, idealHeight: height * 0.6, maxHeight: height * 0.64)
                 .background {
                     RoundedRectangle(cornerRadius: 15)
                         .foregroundColor(.GTyellowBright)
@@ -113,6 +156,6 @@ struct ToDoView: View {
 
 struct ToDoView_Previews: PreviewProvider {
     static var previews: some View {
-        ToDoView()
+        ContentView()
     }
 }

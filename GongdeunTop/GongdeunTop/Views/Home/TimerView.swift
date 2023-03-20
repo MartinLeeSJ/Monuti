@@ -9,7 +9,8 @@ import SwiftUI
 
 struct TimerView: View {
     @Environment(\.dismiss) private var dismiss
-    @ObservedObject var viewModel: TimerViewModel
+    @ObservedObject var timerViewModel: TimerViewModel
+    @ObservedObject var toDoViewModel: ToDoViewModel
     
     var body: some View {
         GeometryReader { geo in
@@ -29,6 +30,26 @@ struct TimerView: View {
                 .background {
                     getCircleBackground(width: width)
                 }
+                Spacer()
+                
+                if toDoViewModel.todos.isEmpty {
+                    
+                    
+                } else {
+                    
+                    Menu {
+                        ForEach(toDoViewModel.todos, id: \.self) { todo in
+                            Button {
+                                toDoViewModel.currentTodo = todo
+                            } label: {
+                                Text(todo.title)
+                            }
+                        }
+                    } label: {
+                        Text(toDoViewModel.currentTodo.title)
+                    }
+                }
+                
                 
                 Spacer()
             }
@@ -42,7 +63,7 @@ struct TimerView: View {
                 } label: {
                     Text("끝내기")
                 }
-
+                
             }
         }
     }
@@ -53,7 +74,7 @@ struct TimerView: View {
         Button {
             handlePlayButton()
         } label: {
-            Image(systemName: viewModel.isRunning ?  "pause.fill" : "play.fill")
+            Image(systemName: timerViewModel.isRunning ?  "pause.fill" : "play.fill")
                 .font(.largeTitle)
                 .foregroundColor(.gray)
         }
@@ -82,10 +103,10 @@ struct TimerView: View {
     @ViewBuilder
     private func getDigitTimes(width: CGFloat) -> some View {
         ZStack {
-            Text(viewModel.getMinute())
+            Text(timerViewModel.getMinute())
                 .offset(x: -width * 0.08)
             Text(":")
-            Text(viewModel.getSecond())
+            Text(timerViewModel.getSecond())
                 .offset(x: width * 0.08)
         }
         .font(.largeTitle.weight(.semibold))
@@ -98,45 +119,45 @@ struct TimerView: View {
             .foregroundColor(.GTyellowBright)
             .frame(width: width * 0.8, height: width * 0.8)
             .overlay {
-                CircularSector(endDegree: viewModel.getEndDegree())
+                CircularSector(endDegree: timerViewModel.getEndDegree())
                     .foregroundColor(.GTyellow)
             }
     }
     
     
     private func handlePlayButton() {
-        if viewModel.isRunning {
-            viewModel.timer?.invalidate()
+        if timerViewModel.isRunning {
+            timerViewModel.timer?.invalidate()
         } else {
-            viewModel.timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
-                if viewModel.remainSeconds > 0 {
-                    viewModel.remainSeconds -= 1
+            timerViewModel.timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
+                if timerViewModel.remainSeconds > 0 {
+                    timerViewModel.remainSeconds -= 1
                 } else {
-                    viewModel.timer?.invalidate()
-                    viewModel.isRunning = false
-                    if viewModel.knowIsInSession() {
-                        viewModel.currentSession += 1
+                    timerViewModel.timer?.invalidate()
+                    timerViewModel.isRunning = false
+                    if timerViewModel.knowIsInSession() {
+                        timerViewModel.currentSession += 1
                     }
                     
                 }
             }
         }
-        viewModel.isRunning.toggle()
+        timerViewModel.isRunning.toggle()
     }
     private func handleResetButton() {
-        viewModel.timer?.invalidate()
-        viewModel.isRunning = false
-        if viewModel.knowIsRefreshTime() {
-            viewModel.remainSeconds = viewModel.refreshTime * 60
+        timerViewModel.timer?.invalidate()
+        timerViewModel.isRunning = false
+        if timerViewModel.knowIsRefreshTime() {
+            timerViewModel.remainSeconds = timerViewModel.refreshTime * 60
         } else {
-            viewModel.remainSeconds = viewModel.concentrationTime * 60
+            timerViewModel.remainSeconds = timerViewModel.concentrationTime * 60
         }
     }
     private func handleNextButton() {
-        viewModel.timer?.invalidate()
-        viewModel.isRunning = false
-        if viewModel.knowIsInSession() {
-            viewModel.currentSession += 1
+        timerViewModel.timer?.invalidate()
+        timerViewModel.isRunning = false
+        if timerViewModel.knowIsInSession() {
+            timerViewModel.currentSession += 1
         }
     }
 }
@@ -145,6 +166,6 @@ struct TimerView: View {
 
 struct TimerView_Previews: PreviewProvider {
     static var previews: some View {
-        TimerView(viewModel: TimerViewModel())
+        TimerView(timerViewModel: TimerViewModel(), toDoViewModel: ToDoViewModel())
     }
 }

@@ -11,18 +11,12 @@ import SwiftUI
 @MainActor
 final class TimerViewModel: ObservableObject {
     @Published var numOfSessions: Int
-    @Published var concentrationTime: Int
+    @Published var concentrationTime: Int 
     @Published var refreshTime: Int
     
     @Published var currentSession: Int {
         willSet(newValue) {
-            if newValue % 2 == 0 && newValue < numOfSessions * 2 {
-                remainSeconds = refreshTime * 60
-            } else if newValue == numOfSessions * 2 {
-                remainSeconds = 30 * 60
-            } else {
-                remainSeconds = concentrationTime * 60
-            }
+            setRemainSeconds(currentSession: newValue)
         }
     }
     
@@ -40,6 +34,16 @@ final class TimerViewModel: ObservableObject {
         self.remainSeconds = concentrationTime * 60
     }
     
+    
+    func setRemainSeconds(currentSession: Int = 1) {
+        if currentSession % 2 == 0 && currentSession < numOfSessions * 2 {
+            remainSeconds = refreshTime * 60
+        } else if currentSession == numOfSessions * 2 {
+            remainSeconds = 30 * 60
+        } else {
+            remainSeconds = concentrationTime * 60
+        }
+    }
     
     func knowIsRefreshTime() -> Bool {
         self.currentSession % 2 == 0

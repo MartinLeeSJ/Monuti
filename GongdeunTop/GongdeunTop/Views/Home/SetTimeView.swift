@@ -52,15 +52,18 @@ struct SetTimeView: View {
                 }
                 
                 HStack{
-                    Text("세션 당")
+                    Text("집중")
                         .font(.headline)
+                    
                     Stepper(value: $viewModel.concentrationTime, in: 15...50, step: 5) {
                         Text("\(viewModel.concentrationTime)분")
+                    } onEditingChanged: { _ in
+                        viewModel.setRemainSeconds()
                     }
                 }
                 
                 HStack {
-                    Text("쉬는시간")
+                    Text("휴식")
                         .font(.headline)
                     Stepper(value: $viewModel.refreshTime, in: 5...10, step: 1) {
                         Text("\(viewModel.refreshTime)분")
