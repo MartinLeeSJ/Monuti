@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5B76D0F429C74FE0008883A8 /* TimerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B76D0F329C74FE0008883A8 /* TimerViewModel.swift */; };
+		5B76D0F629C76A2B008883A8 /* CircularSector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B76D0F529C76A2B008883A8 /* CircularSector.swift */; };
+		5BB4FEC429C81758009CCD43 /* SetTimeSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB4FEC329C81758009CCD43 /* SetTimeSheetViewController.swift */; };
+		5BB4FEC629C818CD009CCD43 /* MyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB4FEC529C818CD009CCD43 /* MyView.swift */; };
+		5BB4FEC829C83124009CCD43 /* ToDoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB4FEC729C83124009CCD43 /* ToDoViewModel.swift */; };
+		5BB4FECA29C832D9009CCD43 /* ToDo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB4FEC929C832D9009CCD43 /* ToDo.swift */; };
+		5BB4FECC29C83964009CCD43 /* HAlignment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB4FECB29C83964009CCD43 /* HAlignment.swift */; };
 		5BCF550429C2CB2500A19759 /* GongdeunTopApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCF550329C2CB2500A19759 /* GongdeunTopApp.swift */; };
 		5BCF550629C2CB2500A19759 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCF550529C2CB2500A19759 /* ContentView.swift */; };
 		5BCF550829C2CB2700A19759 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5BCF550729C2CB2700A19759 /* Assets.xcassets */; };
@@ -20,6 +27,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5B76D0F329C74FE0008883A8 /* TimerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerViewModel.swift; sourceTree = "<group>"; };
+		5B76D0F529C76A2B008883A8 /* CircularSector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularSector.swift; sourceTree = "<group>"; };
+		5BB4FEC329C81758009CCD43 /* SetTimeSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetTimeSheetViewController.swift; sourceTree = "<group>"; };
+		5BB4FEC529C818CD009CCD43 /* MyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyView.swift; sourceTree = "<group>"; };
+		5BB4FEC729C83124009CCD43 /* ToDoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoViewModel.swift; sourceTree = "<group>"; };
+		5BB4FEC929C832D9009CCD43 /* ToDo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDo.swift; sourceTree = "<group>"; };
+		5BB4FECB29C83964009CCD43 /* HAlignment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAlignment.swift; sourceTree = "<group>"; };
 		5BCF550029C2CB2500A19759 /* GongdeunTop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GongdeunTop.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5BCF550329C2CB2500A19759 /* GongdeunTopApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GongdeunTopApp.swift; sourceTree = "<group>"; };
 		5BCF550529C2CB2500A19759 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -44,6 +58,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5B76D0F729C7755A008883A8 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				5B76D0F329C74FE0008883A8 /* TimerViewModel.swift */,
+				5BB4FEC729C83124009CCD43 /* ToDoViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
 		5BCF54F729C2CB2500A19759 = {
 			isa = PBXGroup;
 			children = (
@@ -64,10 +87,16 @@
 			isa = PBXGroup;
 			children = (
 				5BCF550329C2CB2500A19759 /* GongdeunTopApp.swift */,
-				5BCF551729C3066A00A19759 /* View */,
+				5BB4FEC329C81758009CCD43 /* SetTimeSheetViewController.swift */,
+				5BB4FEC529C818CD009CCD43 /* MyView.swift */,
+				5BB4FEC929C832D9009CCD43 /* ToDo.swift */,
+				5BB4FECB29C83964009CCD43 /* HAlignment.swift */,
+				5B76D0F729C7755A008883A8 /* ViewModels */,
+				5BCF551729C3066A00A19759 /* Views */,
 				5BCF551129C2E50100A19759 /* Color+Custom.swift */,
 				5BCF550729C2CB2700A19759 /* Assets.xcassets */,
 				5BCF550929C2CB2700A19759 /* Preview Content */,
+				5B76D0F529C76A2B008883A8 /* CircularSector.swift */,
 			);
 			path = GongdeunTop;
 			sourceTree = "<group>";
@@ -80,14 +109,14 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		5BCF551729C3066A00A19759 /* View */ = {
+		5BCF551729C3066A00A19759 /* Views */ = {
 			isa = PBXGroup;
 			children = (
 				5BCF550529C2CB2500A19759 /* ContentView.swift */,
 				5BCF551829C3067500A19759 /* Home */,
 				5BCF551929C3067C00A19759 /* Record */,
 			);
-			path = View;
+			path = Views;
 			sourceTree = "<group>";
 		};
 		5BCF551829C3067500A19759 /* Home */ = {
@@ -179,14 +208,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5BB4FEC629C818CD009CCD43 /* MyView.swift in Sources */,
+				5BB4FECA29C832D9009CCD43 /* ToDo.swift in Sources */,
 				5BCF551D29C30DA800A19759 /* TimerView.swift in Sources */,
+				5B76D0F429C74FE0008883A8 /* TimerViewModel.swift in Sources */,
 				5BCF551229C2E50100A19759 /* Color+Custom.swift in Sources */,
 				5BFFDB8529C5F299004C5376 /* SetTimeView.swift in Sources */,
 				5BCF551429C305D300A19759 /* HomeView.swift in Sources */,
 				5BCF550629C2CB2500A19759 /* ContentView.swift in Sources */,
 				5BCF551629C3065E00A19759 /* RecordView.swift in Sources */,
 				5BCF551B29C30D1600A19759 /* ToDoView.swift in Sources */,
+				5BB4FEC829C83124009CCD43 /* ToDoViewModel.swift in Sources */,
+				5B76D0F629C76A2B008883A8 /* CircularSector.swift in Sources */,
+				5BB4FEC429C81758009CCD43 /* SetTimeSheetViewController.swift in Sources */,
 				5BCF550429C2CB2500A19759 /* GongdeunTopApp.swift in Sources */,
+				5BB4FECC29C83964009CCD43 /* HAlignment.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
