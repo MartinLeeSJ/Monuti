@@ -34,12 +34,12 @@ struct HAlignment<Content>: View where Content: View {
         HStack(alignment: .center) {
             switch alignment {
             case .leading:
-                Spacer()
                 content()
+                Spacer()
                 
             case.trailling:
-                content()
                 Spacer()
+                content()
                 
             case.center:
                 Spacer()

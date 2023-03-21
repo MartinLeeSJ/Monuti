@@ -83,8 +83,8 @@ struct TimerView: View {
                 Button {
                     handleResetButton()
                 } label: {
-                    Image(systemName: "chevron.backward.to.line")
-                        .font(.largeTitle)
+                    Image(systemName: "clock.arrow.circlepath")
+                        .font(.title)
                         .foregroundColor(.gray)
                 }
                 Spacer()
