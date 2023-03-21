@@ -13,29 +13,26 @@ struct HomeView: View {
     @StateObject var timerViewModel = TimerViewModel()
     @StateObject var toDoViewModel = ToDoViewModel()
     
-    @State private var isSheetOn: Bool = false
     
     var body: some View {
         NavigationView {
             ToDoView(viewModel: toDoViewModel)
                 .toolbar {
-                    ToolbarItem(placement: .bottomBar) {
+                    ToolbarItem(placement: .navigationBarTrailing) {
                         NavigationLink {
                             TimerView(timerViewModel: timerViewModel,
                                       toDoViewModel: toDoViewModel)
                         } label: {
-                            Text("오늘 하루 시작하기")
+                            Text("시작")
                         }
                     }
                     
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        Button {
-                            isSheetOn.toggle()
-                        } label: {
-                            Image(systemName: "gearshape")
-                        }
-                        .sheet(isPresented: $isSheetOn) {
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        SheetPresenter("", image: UIImage(systemName: "clock.badge.checkmark")) {
                             SetTimeView(viewModel: timerViewModel)
+                                .frame(width: UIScreen.main.bounds.width)
+                                .edgesIgnoringSafeArea(.bottom)
+                                .background(.white)
                         }
                     }
                 }

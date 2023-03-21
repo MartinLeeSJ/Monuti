@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5B63A59129C8931300AA4525 /* SheetPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B63A59029C8931300AA4525 /* SheetPresenter.swift */; };
+		5B63A59329C95AD500AA4525 /* SetToDoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B63A59229C95AD500AA4525 /* SetToDoView.swift */; };
 		5B76D0F429C74FE0008883A8 /* TimerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B76D0F329C74FE0008883A8 /* TimerViewModel.swift */; };
 		5B76D0F629C76A2B008883A8 /* CircularSector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B76D0F529C76A2B008883A8 /* CircularSector.swift */; };
 		5BB4FEC429C81758009CCD43 /* SetTimeSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB4FEC329C81758009CCD43 /* SetTimeSheetViewController.swift */; };
@@ -27,6 +29,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5B63A59029C8931300AA4525 /* SheetPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetPresenter.swift; sourceTree = "<group>"; };
+		5B63A59229C95AD500AA4525 /* SetToDoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetToDoView.swift; sourceTree = "<group>"; };
 		5B76D0F329C74FE0008883A8 /* TimerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerViewModel.swift; sourceTree = "<group>"; };
 		5B76D0F529C76A2B008883A8 /* CircularSector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularSector.swift; sourceTree = "<group>"; };
 		5BB4FEC329C81758009CCD43 /* SetTimeSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetTimeSheetViewController.swift; sourceTree = "<group>"; };
@@ -67,6 +71,14 @@
 			path = ViewModels;
 			sourceTree = "<group>";
 		};
+		5BB4FECD29C892B0009CCD43 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				5BB4FEC929C832D9009CCD43 /* ToDo.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		5BCF54F729C2CB2500A19759 = {
 			isa = PBXGroup;
 			children = (
@@ -89,10 +101,11 @@
 				5BCF550329C2CB2500A19759 /* GongdeunTopApp.swift */,
 				5BB4FEC329C81758009CCD43 /* SetTimeSheetViewController.swift */,
 				5BB4FEC529C818CD009CCD43 /* MyView.swift */,
-				5BB4FEC929C832D9009CCD43 /* ToDo.swift */,
 				5BB4FECB29C83964009CCD43 /* HAlignment.swift */,
-				5B76D0F729C7755A008883A8 /* ViewModels */,
+				5B63A59029C8931300AA4525 /* SheetPresenter.swift */,
+				5BB4FECD29C892B0009CCD43 /* Models */,
 				5BCF551729C3066A00A19759 /* Views */,
+				5B76D0F729C7755A008883A8 /* ViewModels */,
 				5BCF551129C2E50100A19759 /* Color+Custom.swift */,
 				5BCF550729C2CB2700A19759 /* Assets.xcassets */,
 				5BCF550929C2CB2700A19759 /* Preview Content */,
@@ -125,6 +138,7 @@
 				5BCF551329C305D300A19759 /* HomeView.swift */,
 				5BFFDB8429C5F298004C5376 /* SetTimeView.swift */,
 				5BCF551A29C30D1600A19759 /* ToDoView.swift */,
+				5B63A59229C95AD500AA4525 /* SetToDoView.swift */,
 				5BCF551C29C30DA800A19759 /* TimerView.swift */,
 			);
 			path = Home;
@@ -208,6 +222,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5B63A59129C8931300AA4525 /* SheetPresenter.swift in Sources */,
 				5BB4FEC629C818CD009CCD43 /* MyView.swift in Sources */,
 				5BB4FECA29C832D9009CCD43 /* ToDo.swift in Sources */,
 				5BCF551D29C30DA800A19759 /* TimerView.swift in Sources */,
@@ -221,6 +236,7 @@
 				5BB4FEC829C83124009CCD43 /* ToDoViewModel.swift in Sources */,
 				5B76D0F629C76A2B008883A8 /* CircularSector.swift in Sources */,
 				5BB4FEC429C81758009CCD43 /* SetTimeSheetViewController.swift in Sources */,
+				5B63A59329C95AD500AA4525 /* SetToDoView.swift in Sources */,
 				5BCF550429C2CB2500A19759 /* GongdeunTopApp.swift in Sources */,
 				5BB4FECC29C83964009CCD43 /* HAlignment.swift in Sources */,
 			);
