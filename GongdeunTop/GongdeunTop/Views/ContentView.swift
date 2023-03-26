@@ -8,12 +8,24 @@
 import SwiftUI
 
 struct ContentView: View {
+    @StateObject var timerViewModel = TimerViewModel()
+    @StateObject var toDoViewModel = ToDoViewModel()
+    
     @State private var tabSelection: Int8 = 1
     
     var body: some View {
         TabView(selection: $tabSelection) {
-            HomeView().tabItem { Text("하루") }.tag(1)
-            RecordView().tabItem { Text("기록") }.tag(2)
+            Home(timerViewModel: timerViewModel, toDoViewModel: toDoViewModel)
+            .tabItem {
+                Label("하루", systemImage: "deskclock")
+            }
+            .tag(1)
+            
+            RecordView(toDoViewModel: toDoViewModel)
+            .tabItem {
+                Label("기록", systemImage: "text.redaction")
+            }
+            .tag(2)
         }
     }
 }

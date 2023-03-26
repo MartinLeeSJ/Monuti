@@ -1,5 +1,5 @@
 //
-//  TimerView.swift
+//  GTTimer.swift
 //  GongdeunTop
 //
 //  Created by Martin on 2023/03/16.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct TimerView: View {
+struct GTTimer: View {
     @Environment(\.dismiss) private var dismiss
     @ObservedObject var timerViewModel: TimerViewModel
     @ObservedObject var toDoViewModel: ToDoViewModel
@@ -18,25 +18,24 @@ struct TimerView: View {
             let height = geo.size.height
             VStack {
                 Spacer()
-                    .frame(height: height * 0.2)
+                    .frame(height: height * 0.15)
                 
-                VStack(alignment: .center) {
-                    
-                    getDigitTimes(width: width)
-                    
-                    getButtons(width: width)
-                    
-                }
-                .background {
-                    getCircleBackground(width: width)
-                }
+                Text("\(toDoViewModel.todos.first?.timeSpent ?? 0)")
+                
+                getCircleBackground(width: width)
+                    .overlay {
+                        VStack(alignment: .center) {
+                            
+                            getDigitTimes(width: width)
+                            
+                            getButtons(width: width)
+                            
+                        }
+                    }
+                
                 Spacer()
                 
-                if toDoViewModel.todos.isEmpty {
-                    
-                    
-                } else {
-                    
+                if !toDoViewModel.todos.isEmpty {
                     Menu {
                         ForEach(toDoViewModel.todos, id: \.self) { todo in
                             Button {
@@ -46,11 +45,10 @@ struct TimerView: View {
                             }
                         }
                     } label: {
-                        Text(toDoViewModel.currentTodo.title)
+                        Text(toDoViewModel.currentTodo?.title ?? "현재 할 일 없음")
                     }
                 }
-                
-                
+
                 Spacer()
             }
             .frame(width: width, height: height)
@@ -98,18 +96,20 @@ struct TimerView: View {
             }
             .frame(width: width * 0.45)
         }
+        .frame(height: 30)
     }
     
     @ViewBuilder
     private func getDigitTimes(width: CGFloat) -> some View {
         ZStack {
             Text(timerViewModel.getMinute())
-                .offset(x: -width * 0.08)
+                .offset(x: -width * 0.1)
             Text(":")
+                .offset(y: -8)
             Text(timerViewModel.getSecond())
-                .offset(x: width * 0.08)
+                .offset(x: width * 0.1)
         }
-        .font(.largeTitle.weight(.semibold))
+        .font(.system(size: 54))
         .padding(.bottom, 25)
     }
     
@@ -122,6 +122,12 @@ struct TimerView: View {
                 CircularSector(endDegree: timerViewModel.getEndDegree())
                     .foregroundColor(.GTyellow)
             }
+            .overlay {
+                Rectangle()
+                    .frame(width: 10, height: 20)
+                    .offset(y: -width * 0.4)
+                    .rotationEffect(Angle(degrees: -90))
+            }
     }
     
     
@@ -132,18 +138,26 @@ struct TimerView: View {
             timerViewModel.timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
                 if timerViewModel.remainSeconds > 0 {
                     timerViewModel.remainSeconds -= 1
+                    updateToDoTimeSpent()
+                    
                 } else {
                     timerViewModel.timer?.invalidate()
                     timerViewModel.isRunning = false
                     if timerViewModel.knowIsInSession() {
                         timerViewModel.currentSession += 1
                     }
-                    
                 }
             }
         }
         timerViewModel.isRunning.toggle()
     }
+    
+    private func updateToDoTimeSpent() {
+        if var updatingToDo = toDoViewModel.todos.first(where: { $0.id == toDoViewModel.currentTodo?.id }) {
+            updatingToDo.timeSpent += 1
+        }
+    }
+    
     private func handleResetButton() {
         timerViewModel.timer?.invalidate()
         timerViewModel.isRunning = false
@@ -153,6 +167,7 @@ struct TimerView: View {
             timerViewModel.remainSeconds = timerViewModel.concentrationTime * 60
         }
     }
+    
     private func handleNextButton() {
         timerViewModel.timer?.invalidate()
         timerViewModel.isRunning = false
@@ -160,12 +175,15 @@ struct TimerView: View {
             timerViewModel.currentSession += 1
         }
     }
+    
+    
 }
 
 
 
 struct TimerView_Previews: PreviewProvider {
     static var previews: some View {
-        TimerView(timerViewModel: TimerViewModel(), toDoViewModel: ToDoViewModel())
+        Home(timerViewModel: TimerViewModel(), toDoViewModel: ToDoViewModel())
+        
     }
 }

@@ -17,9 +17,9 @@ final class ToDoViewModel: ObservableObject {
         }
     }
     
-    @Published var currentTodo: ToDo = ToDo()
+    @Published var currentTodo: ToDo? = nil
     
-    init(todo: ToDo = .init(title: "", content: "", tags: []), todos: [ToDo] = []) {
+    init(todo: ToDo = .init(title: "", content: "", tags: [], timeSpent: 0), todos: [ToDo] = []) {
         self.todo = todo
         self.todos = todos
     }
