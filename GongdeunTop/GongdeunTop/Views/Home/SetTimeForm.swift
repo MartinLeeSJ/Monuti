@@ -1,5 +1,5 @@
 //
-//  SetTimeView.swift
+//  SetTimeForm.swift
 //  GongdeunTop
 //
 //  Created by Martin on 2023/03/18.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SetTimeView: View {
+struct SetTimeForm: View {
     @ObservedObject var viewModel: TimerViewModel
     
     private var concentrationRatio: CGFloat {
@@ -22,7 +22,7 @@ struct SetTimeView: View {
         GeometryReader { geo in
             let width = geo.size.width
             let sessionWidth = width / CGFloat(viewModel.numOfSessions) - 15
-            VStack {
+            Form {
                 Text("총 \(viewModel.getTotalTime())분")
                     .font(.title)
                     .bold()
@@ -78,6 +78,6 @@ struct SetTimeView: View {
 
 struct SetTimeView_Previews: PreviewProvider {
     static var previews: some View {
-        SetTimeView(viewModel: TimerViewModel())
+        SetTimeForm(viewModel: TimerViewModel())
     }
 }

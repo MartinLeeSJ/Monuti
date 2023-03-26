@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SetToDoView: View {
+struct SetToDoForm: View {
     enum Field: Int, Hashable, CaseIterable {
         case title
         case content
@@ -47,7 +47,7 @@ struct SetToDoView: View {
     
     var body: some View {
         NavigationView {
-            List {
+            Form {
                 Section {
                     HStack {
                         Text("제목")
@@ -165,7 +165,7 @@ struct SetToDoView: View {
 
 struct AddToDoSheetView_Previews: PreviewProvider {
     static var previews: some View {
-        SetToDoView(viewModel: ToDoViewModel())
+        SetToDoForm(viewModel: ToDoViewModel())
     }
 }
 

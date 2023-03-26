@@ -8,13 +8,21 @@
 import SwiftUI
 
 struct RecordView: View {
+    @ObservedObject var toDoViewModel: ToDoViewModel
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NavigationView {
+            List(toDoViewModel.todos) { todo in
+             
+            }
+            .navigationTitle("보고서")
+            .navigationBarTitleDisplayMode(.inline)
+        }
     }
 }
 
 struct RecordView_Previews: PreviewProvider {
     static var previews: some View {
-        RecordView()
+        ContentView()
     }
 }

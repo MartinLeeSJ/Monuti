@@ -1,5 +1,5 @@
 //
-//  ToDoView.swift
+//  ToDoList.swift
 //  GongdeunTop
 //
 //  Created by Martin on 2023/03/16.
@@ -9,7 +9,7 @@ import SwiftUI
 
 
 
-struct ToDoView: View {
+struct ToDoList: View {
     @ObservedObject var viewModel: ToDoViewModel
     
     var body: some View {
@@ -43,7 +43,7 @@ struct ToDoView: View {
                                         .foregroundColor(.gray)
                                     ScrollView(.horizontal, showsIndicators: false) {
                                         HStack {
-                                            ForEach(todo.tags, id: \.self) {tag in
+                                            ForEach(todo.tags, id: \.self) { tag in
                                                 Text(tag)
                                                     .font(.caption)
                                                     .padding(.vertical, 2)
@@ -63,13 +63,12 @@ struct ToDoView: View {
                         }
                     }
                 }
-                .frame(width: .infinity)
+                
                
                 Divider()
                
                 SheetPresenter("  추가하기", image: UIImage(systemName: "plus.circle.fill"), isUndimmed: true) {
-                    
-                    SetToDoView(viewModel: viewModel)
+                    SetToDoForm(viewModel: viewModel)
                     
                 }
                 .tint(.black)
