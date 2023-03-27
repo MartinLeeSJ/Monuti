@@ -1,5 +1,5 @@
 //
-//  GTTimer.swift
+//  GTtimer.swift
 //  GongdeunTop
 //
 //  Created by Martin on 2023/03/16.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct GTTimer: View {
+struct GTtimer: View {
     @Environment(\.dismiss) private var dismiss
     @ObservedObject var timerViewModel: TimerViewModel
     @ObservedObject var toDoViewModel: ToDoViewModel
@@ -73,8 +73,9 @@ struct GTTimer: View {
             handlePlayButton()
         } label: {
             Image(systemName: timerViewModel.isRunning ?  "pause.fill" : "play.fill")
+                .foregroundColor(.GTDenimNavy)
                 .font(.largeTitle)
-                .foregroundColor(.gray)
+                
         }
         .overlay {
             HStack {
@@ -83,7 +84,7 @@ struct GTTimer: View {
                 } label: {
                     Image(systemName: "clock.arrow.circlepath")
                         .font(.title)
-                        .foregroundColor(.gray)
+                        
                 }
                 Spacer()
                 Button {
@@ -91,9 +92,10 @@ struct GTTimer: View {
                 } label: {
                     Image(systemName: "chevron.right")
                         .font(.largeTitle)
-                        .foregroundColor(.gray)
+                        
                 }
             }
+            .foregroundColor(.GTDenimNavy)
             .frame(width: width * 0.45)
         }
         .frame(height: 30)
@@ -120,7 +122,7 @@ struct GTTimer: View {
             .frame(width: width * 0.8, height: width * 0.8)
             .overlay {
                 CircularSector(endDegree: timerViewModel.getEndDegree())
-                    .foregroundColor(.GTyellow)
+                    .foregroundColor(.GTPastelBlue)
             }
             .overlay {
                 Rectangle()

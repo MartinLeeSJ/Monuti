@@ -14,4 +14,10 @@ extension Color {
     
     static let GTGreen: Self = Color(red: 207, green: 234, blue: 179)
     
+    static let GTDenimBlue: Self = Color(hue: 0.558, saturation: 0.213, brightness: 0.914)
+    static let GTDenimNavy: Self = Color(hue: 0.648, saturation: 0.626, brightness: 0.594)
+    
+    static let GTPastelBlue: Self = Color(hue: 0.558, saturation: 0.208, brightness: 0.967)
+    
+    static let GTEnergeticOrange: Self = Color(hue: 0.05, saturation: 0.927, brightness: 0.987)
 }
