@@ -37,7 +37,7 @@ struct HAlignment<Content>: View where Content: View {
                 content()
                 Spacer()
                 
-            case.trailling:
+            case .trailling:
                 Spacer()
                 content()
                 

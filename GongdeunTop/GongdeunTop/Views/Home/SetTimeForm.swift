@@ -22,7 +22,7 @@ struct SetTimeForm: View {
         GeometryReader { geo in
             let width = geo.size.width
             let sessionWidth = width / CGFloat(viewModel.numOfSessions) - 15
-            Form {
+            VStack {
                 Text("총 \(viewModel.getTotalTime())분")
                     .font(.title)
                     .bold()

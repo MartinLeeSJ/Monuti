@@ -34,6 +34,13 @@ final class TimerViewModel: ObservableObject {
         self.remainSeconds = concentrationTime * 60
     }
     
+    func reset() {
+        currentSession = 1
+        isRunning = false
+        timer?.invalidate()
+        timer = nil
+    }
+    
     
     func setRemainSeconds(currentSession: Int = 1) {
         if currentSession % 2 == 0 && currentSession < numOfSessions * 2 {

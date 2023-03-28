@@ -22,7 +22,7 @@ struct Home: View {
                 .toolbar {
                     ToolbarItem(placement: .navigationBarTrailing) {
                         NavigationLink {
-                            GTTimer(timerViewModel: timerViewModel,
+                            GTtimer(timerViewModel: timerViewModel,
                                       toDoViewModel: toDoViewModel)
                         } label: {
                             Text("시작")
@@ -46,6 +46,7 @@ struct Home: View {
                     }
                 }
         }
+        .toolbar(.visible, for: .tabBar)
     }
 }
 

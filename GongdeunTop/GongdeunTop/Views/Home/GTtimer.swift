@@ -1,5 +1,5 @@
 //
-//  GTTimer.swift
+//  GTtimer.swift
 //  GongdeunTop
 //
 //  Created by Martin on 2023/03/16.
@@ -7,20 +7,18 @@
 
 import SwiftUI
 
-struct GTTimer: View {
+struct GTtimer: View {
     @Environment(\.dismiss) private var dismiss
     @ObservedObject var timerViewModel: TimerViewModel
     @ObservedObject var toDoViewModel: ToDoViewModel
-    
+
     var body: some View {
         GeometryReader { geo in
             let width = geo.size.width
             let height = geo.size.height
             VStack {
                 Spacer()
-                    .frame(height: height * 0.15)
-                
-                Text("\(toDoViewModel.todos.first?.timeSpent ?? 0)")
+                   
                 
                 getCircleBackground(width: width)
                     .overlay {
@@ -57,11 +55,25 @@ struct GTTimer: View {
         .toolbar {
             ToolbarItem {
                 Button {
+                    timerViewModel.reset()
                     dismiss()
                 } label: {
                     Text("끝내기")
                 }
                 
+            }
+        }
+        .toolbar(.hidden, for: .tabBar)
+        .overlay {
+            if timerViewModel.timer == nil {
+                FirstCountdown()
+            }
+        }
+        .onAppear {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 6) {
+                if timerViewModel.timer == nil {
+                    handlePlayButton()
+                }
             }
         }
     }
@@ -73,8 +85,9 @@ struct GTTimer: View {
             handlePlayButton()
         } label: {
             Image(systemName: timerViewModel.isRunning ?  "pause.fill" : "play.fill")
+                .foregroundColor(.GTDenimNavy)
                 .font(.largeTitle)
-                .foregroundColor(.gray)
+                
         }
         .overlay {
             HStack {
@@ -83,7 +96,7 @@ struct GTTimer: View {
                 } label: {
                     Image(systemName: "clock.arrow.circlepath")
                         .font(.title)
-                        .foregroundColor(.gray)
+                        
                 }
                 Spacer()
                 Button {
@@ -91,9 +104,10 @@ struct GTTimer: View {
                 } label: {
                     Image(systemName: "chevron.right")
                         .font(.largeTitle)
-                        .foregroundColor(.gray)
+                        
                 }
             }
+            .foregroundColor(.GTDenimNavy)
             .frame(width: width * 0.45)
         }
         .frame(height: 30)
@@ -120,7 +134,7 @@ struct GTTimer: View {
             .frame(width: width * 0.8, height: width * 0.8)
             .overlay {
                 CircularSector(endDegree: timerViewModel.getEndDegree())
-                    .foregroundColor(.GTyellow)
+                    .foregroundColor(.GTPastelBlue)
             }
             .overlay {
                 Rectangle()
