@@ -11,16 +11,14 @@ struct GTtimer: View {
     @Environment(\.dismiss) private var dismiss
     @ObservedObject var timerViewModel: TimerViewModel
     @ObservedObject var toDoViewModel: ToDoViewModel
-    
+
     var body: some View {
         GeometryReader { geo in
             let width = geo.size.width
             let height = geo.size.height
             VStack {
                 Spacer()
-                    .frame(height: height * 0.15)
-                
-                Text("\(toDoViewModel.todos.first?.timeSpent ?? 0)")
+                   
                 
                 getCircleBackground(width: width)
                     .overlay {
@@ -57,11 +55,25 @@ struct GTtimer: View {
         .toolbar {
             ToolbarItem {
                 Button {
+                    timerViewModel.reset()
                     dismiss()
                 } label: {
                     Text("끝내기")
                 }
                 
+            }
+        }
+        .toolbar(.hidden, for: .tabBar)
+        .overlay {
+            if timerViewModel.timer == nil {
+                FirstCountdown()
+            }
+        }
+        .onAppear {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 6) {
+                if timerViewModel.timer == nil {
+                    handlePlayButton()
+                }
             }
         }
     }

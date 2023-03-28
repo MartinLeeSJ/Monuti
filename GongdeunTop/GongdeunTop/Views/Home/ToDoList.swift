@@ -18,6 +18,7 @@ struct ToDoList: View {
                 ScrollView {
                     if viewModel.todos.isEmpty {
                         ToDoRow(todo: .placeholder)
+                            .disabled(true)
                     } else {
                         ForEach(viewModel.todos, id: \.self) { todo in
                             ToDoRow(todo: todo)
@@ -25,7 +26,6 @@ struct ToDoList: View {
                     }
                 }
                 
-               
                 Divider()
                
                 SheetPresenter("  추가하기", image: UIImage(systemName: "plus.circle.fill"), isUndimmed: true) {
@@ -40,7 +40,7 @@ struct ToDoList: View {
         }
         .navigationTitle("오늘 하루 할 일")
         .navigationBarTitleDisplayMode(.inline)
-        .padding()
+        .padding(.horizontal)
     }
 }
 

@@ -46,6 +46,7 @@ struct Home: View {
                     }
                 }
         }
+        .toolbar(.visible, for: .tabBar)
     }
 }
 

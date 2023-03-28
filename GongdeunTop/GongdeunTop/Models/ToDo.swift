@@ -8,7 +8,7 @@
 import Foundation
 
 struct ToDo: Hashable, Identifiable {
-    var id: UUID = UUID()
+    var id: String = UUID().uuidString
     var title: String = ""
     var content: String = ""
     var tags: [String] = []

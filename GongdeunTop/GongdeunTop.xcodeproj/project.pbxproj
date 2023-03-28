@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		14466EB9CEAC01CCB58F8FCE /* Pods_GongdeunTop.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CF8958AF0A027F8CB8C5297 /* Pods_GongdeunTop.framework */; };
 		5B63A59129C8931300AA4525 /* SheetPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B63A59029C8931300AA4525 /* SheetPresenter.swift */; };
 		5B63A59329C95AD500AA4525 /* SetToDoForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B63A59229C95AD500AA4525 /* SetToDoForm.swift */; };
 		5B76D0F429C74FE0008883A8 /* TimerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B76D0F329C74FE0008883A8 /* TimerViewModel.swift */; };
@@ -28,7 +29,9 @@
 		5BD3D1D529D1BACD008E8988 /* GongdeunTopUITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD3D1D429D1BACD008E8988 /* GongdeunTopUITest.swift */; };
 		5BD3D1D729D1C3BB008E8988 /* ToDoRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD3D1D629D1C3BB008E8988 /* ToDoRow.swift */; };
 		5BD3D1D929D1C45A008E8988 /* ToDo+PlaceHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD3D1D829D1C45A008E8988 /* ToDo+PlaceHolder.swift */; };
+		5BD3D1DB29D1D15A008E8988 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5BD3D1DA29D1D15A008E8988 /* GoogleService-Info.plist */; };
 		5BFFDB8529C5F299004C5376 /* SetTimeForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BFFDB8429C5F298004C5376 /* SetTimeForm.swift */; };
+		998D2CF557BAAE8AFAA27970 /* Pods_GongdeunTopTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7365EFD7F49AB671EB183D7A /* Pods_GongdeunTopTests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,6 +45,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		29754C12F1E19AC5C51052D1 /* Pods-GongdeunTopTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GongdeunTopTests.debug.xcconfig"; path = "Target Support Files/Pods-GongdeunTopTests/Pods-GongdeunTopTests.debug.xcconfig"; sourceTree = "<group>"; };
+		2996E8D86C778536ADD4BCF0 /* Pods-GongdeunTopTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GongdeunTopTests.release.xcconfig"; path = "Target Support Files/Pods-GongdeunTopTests/Pods-GongdeunTopTests.release.xcconfig"; sourceTree = "<group>"; };
+		3CF8958AF0A027F8CB8C5297 /* Pods_GongdeunTop.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GongdeunTop.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3E4F12A7BD2237BCB3C2F160 /* Pods-GongdeunTop.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GongdeunTop.debug.xcconfig"; path = "Target Support Files/Pods-GongdeunTop/Pods-GongdeunTop.debug.xcconfig"; sourceTree = "<group>"; };
 		5B63A59029C8931300AA4525 /* SheetPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetPresenter.swift; sourceTree = "<group>"; };
 		5B63A59229C95AD500AA4525 /* SetToDoForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetToDoForm.swift; sourceTree = "<group>"; };
 		5B76D0F329C74FE0008883A8 /* TimerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerViewModel.swift; sourceTree = "<group>"; };
@@ -65,7 +72,10 @@
 		5BD3D1D429D1BACD008E8988 /* GongdeunTopUITest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GongdeunTopUITest.swift; sourceTree = "<group>"; };
 		5BD3D1D629D1C3BB008E8988 /* ToDoRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoRow.swift; sourceTree = "<group>"; };
 		5BD3D1D829D1C45A008E8988 /* ToDo+PlaceHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ToDo+PlaceHolder.swift"; sourceTree = "<group>"; };
+		5BD3D1DA29D1D15A008E8988 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		5BFFDB8429C5F298004C5376 /* SetTimeForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetTimeForm.swift; sourceTree = "<group>"; };
+		6366D9A7814134E8A25F5AFA /* Pods-GongdeunTop.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GongdeunTop.release.xcconfig"; path = "Target Support Files/Pods-GongdeunTop/Pods-GongdeunTop.release.xcconfig"; sourceTree = "<group>"; };
+		7365EFD7F49AB671EB183D7A /* Pods_GongdeunTopTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GongdeunTopTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +83,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				998D2CF557BAAE8AFAA27970 /* Pods_GongdeunTopTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -80,12 +91,22 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				14466EB9CEAC01CCB58F8FCE /* Pods_GongdeunTop.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0F96194D213A2EED28A380B6 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3CF8958AF0A027F8CB8C5297 /* Pods_GongdeunTop.framework */,
+				7365EFD7F49AB671EB183D7A /* Pods_GongdeunTopTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		5B76D0F729C7755A008883A8 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
@@ -118,6 +139,8 @@
 				5BCF550229C2CB2500A19759 /* GongdeunTop */,
 				5BC3E06429C9EA4100863AD2 /* GongdeunTopTests */,
 				5BCF550129C2CB2500A19759 /* Products */,
+				A2CFBAC1FD0D2784B3E8588C /* Pods */,
+				0F96194D213A2EED28A380B6 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -133,6 +156,7 @@
 		5BCF550229C2CB2500A19759 /* GongdeunTop */ = {
 			isa = PBXGroup;
 			children = (
+				5BD3D1DA29D1D15A008E8988 /* GoogleService-Info.plist */,
 				5BCF550329C2CB2500A19759 /* GongdeunTopApp.swift */,
 				5BB4FECB29C83964009CCD43 /* HAlignment.swift */,
 				5B63A59029C8931300AA4525 /* SheetPresenter.swift */,
@@ -188,6 +212,17 @@
 			path = Record;
 			sourceTree = "<group>";
 		};
+		A2CFBAC1FD0D2784B3E8588C /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				3E4F12A7BD2237BCB3C2F160 /* Pods-GongdeunTop.debug.xcconfig */,
+				6366D9A7814134E8A25F5AFA /* Pods-GongdeunTop.release.xcconfig */,
+				29754C12F1E19AC5C51052D1 /* Pods-GongdeunTopTests.debug.xcconfig */,
+				2996E8D86C778536ADD4BCF0 /* Pods-GongdeunTopTests.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -195,6 +230,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5BC3E06929C9EA4100863AD2 /* Build configuration list for PBXNativeTarget "GongdeunTopTests" */;
 			buildPhases = (
+				0ACB0D7500201CDF898524A5 /* [CP] Check Pods Manifest.lock */,
 				5BC3E05F29C9EA4100863AD2 /* Sources */,
 				5BC3E06029C9EA4100863AD2 /* Frameworks */,
 				5BC3E06129C9EA4100863AD2 /* Resources */,
@@ -213,9 +249,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5BCF550E29C2CB2700A19759 /* Build configuration list for PBXNativeTarget "GongdeunTop" */;
 			buildPhases = (
+				B9C8151BB6E16F272D108699 /* [CP] Check Pods Manifest.lock */,
 				5BCF54FC29C2CB2500A19759 /* Sources */,
 				5BCF54FD29C2CB2500A19759 /* Frameworks */,
 				5BCF54FE29C2CB2500A19759 /* Resources */,
+				D29F3108ACCBF74091CFDBC4 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -278,10 +316,75 @@
 			files = (
 				5BCF550B29C2CB2700A19759 /* Preview Assets.xcassets in Resources */,
 				5BCF550829C2CB2700A19759 /* Assets.xcassets in Resources */,
+				5BD3D1DB29D1D15A008E8988 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		0ACB0D7500201CDF898524A5 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-GongdeunTopTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B9C8151BB6E16F272D108699 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-GongdeunTop-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D29F3108ACCBF74091CFDBC4 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-GongdeunTop/Pods-GongdeunTop-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-GongdeunTop/Pods-GongdeunTop-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-GongdeunTop/Pods-GongdeunTop-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		5BC3E05F29C9EA4100863AD2 /* Sources */ = {
@@ -331,6 +434,7 @@
 /* Begin XCBuildConfiguration section */
 		5BC3E06A29C9EA4100863AD2 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 29754C12F1E19AC5C51052D1 /* Pods-GongdeunTopTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -353,6 +457,7 @@
 		};
 		5BC3E06B29C9EA4100863AD2 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2996E8D86C778536ADD4BCF0 /* Pods-GongdeunTopTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -489,6 +594,7 @@
 		};
 		5BCF550F29C2CB2700A19759 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3E4F12A7BD2237BCB3C2F160 /* Pods-GongdeunTop.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -505,7 +611,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -524,6 +630,7 @@
 		};
 		5BCF551029C2CB2700A19759 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6366D9A7814134E8A25F5AFA /* Pods-GongdeunTop.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -540,7 +647,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
