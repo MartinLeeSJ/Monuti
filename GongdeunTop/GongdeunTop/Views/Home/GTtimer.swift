@@ -70,7 +70,7 @@ struct GTtimer: View {
             }
         }
         .onAppear {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 6) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 6.5) {
                 if timerViewModel.timer == nil {
                     handlePlayButton()
                 }

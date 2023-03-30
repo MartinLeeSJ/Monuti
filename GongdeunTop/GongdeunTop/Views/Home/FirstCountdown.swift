@@ -6,17 +6,28 @@
 //
 
 import SwiftUI
+import CoreHaptics
 
 struct FirstCountdown: View {
-    
-    
     @State private var timeCount: Int = 3
     @State private var timeRemain: Double = 8.0
     @State private var timer: Timer? = nil
     
+    @State private var engine: CHHapticEngine?
+
     
-    @State private var offset: Double = 0.0
-    @State private var opacity: Double = 0.0
+    private enum AnimationState {
+        case up, down, disappear
+        var physicalValue: (offset: Double, opacity: Double) {
+            switch self {
+            case .up: return (-40.0, 1.0)
+            case .down: return (0.0, 0.2)
+            case .disappear: return (0.0, 0.0)
+            }
+        }
+    }
+    
+    @State private var animation: AnimationState = .disappear
     
 
        var body: some View {
@@ -32,46 +43,80 @@ struct FirstCountdown: View {
                                .fill(Color.GTPastelBlue.opacity(0.3))
                                .frame(width: 150, height: 150)
                        }
-                       .offset(y: offset)
-                       .opacity(opacity)
+                       .offset(y: animation.physicalValue.offset)
+                       .opacity(animation.physicalValue.opacity)
                }
                .onAppear {
-                       timer = Timer.scheduledTimer(withTimeInterval: 0.15, repeats: true) { timer in
-                           if timeRemain > 0.0 {
-                               timeRemain -= 0.2
-                               
-                               timeCount = Int(timeRemain / 2)
-                               
-                               
-                               withAnimation(.linear){
-                                   switch timeRemain - floor(timeRemain) {
-                                   case 0.8..<1.0 where Int(timeRemain) % 2 == 1:
-                                       offset = 0.0
-                                       opacity = 0.5
-                                       
-                                       
-                                   case 0.0..<0.8 where Int(timeRemain) % 2 == 1 :
-                                       offset = -40.0
-                                       opacity = 1.0
-                                       
-                                   case 0.0..<1.0 where timeCount == 0 :
-                                       offset = -40.0
-                                       opacity = 1.0
-                                   default:
-                                       offset = 0.0
-                                       opacity = 0.0
-                                       
-                                   }
-                               }
-                               
-                               
-                           } else {
-                               timer.invalidate()
-                           }
-                       }
-                   
+                   complexAnimation()
+                   prepareHaptics()
+               }
+               .onChange(of: timeCount) { time in
+                   if time == 0 {
+                       complexStartHaptic()
+                   }
                }
        }
+    
+    private func complexAnimation() {
+        timer = Timer.scheduledTimer(withTimeInterval: 0.15, repeats: true) { timer in
+            if timeRemain > 0.0 {
+                timeRemain -= 0.2
+                timeCount = Int(timeRemain / 2)
+                
+                withAnimation(.linear){
+                    switch timeRemain - floor(timeRemain) {
+                    case 0.8..<1.0 where Int(timeRemain) % 2 == 1:
+                        animation = .down
+                    case 0.0..<0.8 where Int(timeRemain) % 2 == 1 :
+                        animation = .up
+                        
+                    case 0.0..<1.0 where timeCount == 0 :
+                        animation = .up
+                    default:
+                        animation = .disappear
+                    }
+                }
+
+            } else {
+                timer.invalidate()
+            }
+        }
+    }
+    
+    func prepareHaptics() {
+        guard CHHapticEngine.capabilitiesForHardware().supportsHaptics else { return }
+        
+        do {
+            engine = try CHHapticEngine()
+            try engine?.start()
+        } catch {
+            print("There was an error creating the engine: \(error.localizedDescription)")
+        }
+    }
+    
+    func complexStartHaptic() {
+        guard CHHapticEngine.capabilitiesForHardware().supportsHaptics else { return }
+        var events = [CHHapticEvent]()
+        
+        let intensity = CHHapticEventParameter(parameterID: .hapticIntensity, value: 1)
+        let sharpness = CHHapticEventParameter(parameterID: .hapticSharpness, value: 1)
+        
+        let firstEvent = CHHapticEvent(eventType: .hapticTransient, parameters: [intensity, sharpness], relativeTime: 0.6)
+        let secondEvent = CHHapticEvent(eventType: .hapticTransient, parameters: [intensity, sharpness], relativeTime: 0.7)
+        
+        events.append(firstEvent)
+        events.append(secondEvent)
+        
+        do {
+            let pattern = try CHHapticPattern(events: events, parameters: [])
+            let player = try engine?.makePlayer(with: pattern)
+            try player?.start(atTime: 0)
+        } catch {
+            print("Failed to play pattern: \(error.localizedDescription)")
+        }
+    }
+    
+    
 }
 
 struct Countdown_Previews: PreviewProvider {
