@@ -13,7 +13,7 @@ struct ToDoRow: View {
     var body: some View {
         
             NavigationLink {
-                Text(todo.title)
+                ToDoDetail()
             } label: {
                 HAlignment(alignment: .leading) {
                     VStack(alignment: .leading, spacing: 5) {

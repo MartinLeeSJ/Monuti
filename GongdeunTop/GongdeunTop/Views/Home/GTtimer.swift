@@ -11,6 +11,8 @@ struct GTtimer: View {
     @Environment(\.dismiss) private var dismiss
     @ObservedObject var timerViewModel: TimerViewModel
     @ObservedObject var toDoViewModel: ToDoViewModel
+    
+    @State private var isShowingReallyQuitAlert: Bool = false
 
     var body: some View {
         GeometryReader { geo in
@@ -18,8 +20,7 @@ struct GTtimer: View {
             let height = geo.size.height
             VStack {
                 Spacer()
-                   
-                
+
                 getCircleBackground(width: width)
                     .overlay {
                         VStack(alignment: .center) {
@@ -30,6 +31,9 @@ struct GTtimer: View {
                             
                         }
                     }
+                
+                SessionIndicator(viewModel: timerViewModel)
+                    .frame(width: width * 0.5)
                 
                 Spacer()
                 
@@ -55,22 +59,39 @@ struct GTtimer: View {
         .toolbar {
             ToolbarItem {
                 Button {
-                    timerViewModel.reset()
-                    dismiss()
+                    isShowingReallyQuitAlert = true
+                    handlePlayButton()
                 } label: {
                     Text("끝내기")
+                }
+                .alert("Will You Really Quit?",isPresented: $isShowingReallyQuitAlert) {
+                    Button {
+                        handlePlayButton()
+                        isShowingReallyQuitAlert = false
+                    } label: {
+                        Text("계속하기")
+                    }
+                    
+                    Button {
+                        timerViewModel.reset()
+                        dismiss()
+                        isShowingReallyQuitAlert = false
+                    } label: {
+                        Text("끝내기")
+                    }
+                } message: {
+                    Text("정말로 끝내시겠습니까?")
                 }
                 
             }
         }
-        .toolbar(.hidden, for: .tabBar)
         .overlay {
             if timerViewModel.timer == nil {
                 FirstCountdown()
             }
         }
         .onAppear {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 6) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 6.5) {
                 if timerViewModel.timer == nil {
                     handlePlayButton()
                 }
@@ -130,18 +151,13 @@ struct GTtimer: View {
     @ViewBuilder
     private func getCircleBackground(width: CGFloat) -> some View {
         Circle()
-            .foregroundColor(.GTyellowBright)
+            .foregroundColor(.GTPastelBlue)
             .frame(width: width * 0.8, height: width * 0.8)
             .overlay {
                 CircularSector(endDegree: timerViewModel.getEndDegree())
-                    .foregroundColor(.GTPastelBlue)
+                    .foregroundColor(.GTDenimBlue)
             }
-            .overlay {
-                Rectangle()
-                    .frame(width: 10, height: 20)
-                    .offset(y: -width * 0.4)
-                    .rotationEffect(Angle(degrees: -90))
-            }
+            
     }
     
     
@@ -176,18 +192,25 @@ struct GTtimer: View {
         timerViewModel.timer?.invalidate()
         timerViewModel.isRunning = false
         if timerViewModel.knowIsRefreshTime() {
-            timerViewModel.remainSeconds = timerViewModel.refreshTime * 60
+            if timerViewModel.currentSession == timerViewModel.numOfSessions * 2 {
+                timerViewModel.remainSeconds = 30 * 60
+            } else {
+                timerViewModel.remainSeconds = timerViewModel.refreshTime * 60
+            }
         } else {
             timerViewModel.remainSeconds = timerViewModel.concentrationTime * 60
         }
     }
     
     private func handleNextButton() {
-        timerViewModel.timer?.invalidate()
-        timerViewModel.isRunning = false
-        if timerViewModel.knowIsInSession() {
-            timerViewModel.currentSession += 1
+        withAnimation {
+            timerViewModel.timer?.invalidate()
+            timerViewModel.isRunning = false
+            if timerViewModel.knowIsInSession() {
+                timerViewModel.currentSession += 1
+            }
         }
+        
     }
     
     
