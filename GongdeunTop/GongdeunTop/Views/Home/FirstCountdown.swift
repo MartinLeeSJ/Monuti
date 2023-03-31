@@ -32,7 +32,7 @@ struct FirstCountdown: View {
 
        var body: some View {
            Color(.black)
-               .opacity(0.8)
+               .opacity(0.9)
                .ignoresSafeArea()
                .overlay {
                    Text(timeCount == 0 ? "START!" : String(timeCount))
@@ -50,8 +50,8 @@ struct FirstCountdown: View {
                    complexAnimation()
                    prepareHaptics()
                }
-               .onChange(of: timeCount) { time in
-                   if time == 0 {
+               .onChange(of: timeCount) { count in
+                   if count == 0 {
                        complexStartHaptic()
                    }
                }

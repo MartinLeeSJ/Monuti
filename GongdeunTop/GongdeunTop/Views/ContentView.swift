@@ -27,6 +27,7 @@ struct ContentView: View {
             }
             .tag(2)
         }
+        .tint(Color.black)
     }
 }
 
