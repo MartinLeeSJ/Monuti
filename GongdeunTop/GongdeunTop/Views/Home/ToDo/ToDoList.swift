@@ -13,30 +13,28 @@ struct ToDoList: View {
     @ObservedObject var viewModel: ToDoViewModel
     
     var body: some View {
-        GeometryReader { geo in
-            VStack {
-                ScrollView {
-                    if viewModel.todos.isEmpty {
-                        ToDoRow(todo: .placeholder)
-                            .disabled(true)
-                    } else {
-                        ForEach(viewModel.todos, id: \.self) { todo in
-                            ToDoRow(todo: todo)
-                        }
+        
+        VStack {
+            ScrollView {
+                if viewModel.todos.isEmpty {
+                    ToDoRow(todo: .placeholder)
+                        .disabled(true)
+                } else {
+                    ForEach(viewModel.todos, id: \.self) { todo in
+                        ToDoRow(todo: todo)
                     }
                 }
-                
-                Divider()
-               
-                SheetPresenter("  추가하기", image: UIImage(systemName: "plus.circle.fill"), isUndimmed: true) {
-                    SetToDoForm(viewModel: viewModel)
-                    
-                }
-                .tint(.GTEnergeticOrange)
-                .frame(height: 33)
-                .padding(.bottom, 9)
             }
             
+            Divider()
+            
+            SheetPresenter("  추가하기", image: UIImage(systemName: "plus.circle.fill"), isUndimmed: true) {
+                SetToDoForm(viewModel: viewModel)
+                
+            }
+            .tint(.GTEnergeticOrange)
+            .frame(height: 33)
+            .padding(.bottom, 9)
         }
         .navigationTitle("오늘 하루 할 일")
         .navigationBarTitleDisplayMode(.inline)

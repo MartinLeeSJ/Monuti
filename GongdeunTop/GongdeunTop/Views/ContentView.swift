@@ -12,6 +12,8 @@ struct ContentView: View {
     @StateObject var timerViewModel = TimerViewModel()
     @StateObject var toDoViewModel = ToDoViewModel()
     
+    @Environment(\.colorScheme) var scheme: ColorScheme
+    
     @State private var tabSelection: Int8 = 1
     
     var body: some View {
@@ -25,13 +27,13 @@ struct ContentView: View {
                 }
                 .tag(1)
                 
-                RecordView(toDoViewModel: toDoViewModel)
+                RecordView(toDoViewModel: toDoViewModel, authViewModel: authViewModel)
                 .tabItem {
                     Label("기록", systemImage: "text.redaction")
                 }
                 .tag(2)
             }
-            .tint(Color.black)
+            .tint(scheme == .dark ? Color.white : Color.black)
         }
     }
 }

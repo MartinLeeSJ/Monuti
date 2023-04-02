@@ -18,7 +18,7 @@ enum AuthState {
 }
 
 final class AuthViewModel: ObservableObject {
-    @Published var authState: AuthState = .unAuthenticated
+    @Published var authState: AuthState = .authenticating
     
     
     @Published var currentUser: User?
@@ -72,8 +72,7 @@ final class AuthViewModel: ObservableObject {
                         return
                     }
                     
-                    let memberData = Member(id: user.uid,
-                                            email: user.email ?? "",
+                    let memberData = Member(email: user.email ?? "",
                                             fullName: (credential.fullName?.givenName ?? "") + " " + (credential.fullName?.familyName ?? ""),
                                             createdAt: Timestamp(date: Date()))
                     do {
@@ -130,5 +129,10 @@ final class AuthViewModel: ObservableObject {
         }.reduce("", { x,y in x + y })
         
         return hashString
+    }
+    
+    
+    public func signOut() {
+        try? Auth.auth().signOut()
     }
 }

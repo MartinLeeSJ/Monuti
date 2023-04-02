@@ -9,6 +9,7 @@ import SwiftUI
 import AuthenticationServices
 
 struct SignUpView: View {
+    @Environment(\.colorScheme) var scheme: ColorScheme
     @ObservedObject var viewModel: AuthViewModel
     
     var body: some View {
@@ -20,6 +21,8 @@ struct SignUpView: View {
             } onCompletion: { result in
                 viewModel.completeAppleSignUp(result: result)
             }
+            .frame(width: 200, height: 50)
+            .signInWithAppleButtonStyle(scheme == .dark ? .white : .black)
 
         }
         
