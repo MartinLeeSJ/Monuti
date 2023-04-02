@@ -13,7 +13,7 @@ struct ToDoRow: View {
     var body: some View {
         
             NavigationLink {
-                ToDoDetail()
+//                ToDoDetail()
             } label: {
                 HAlignment(alignment: .leading) {
                     VStack(alignment: .leading, spacing: 5) {
@@ -45,7 +45,6 @@ struct ToDoRow: View {
                 .background {
                     RoundedRectangle(cornerRadius: 10)
                         .fill(Color.GTDenimBlue)
-                    
                 }
             }
         

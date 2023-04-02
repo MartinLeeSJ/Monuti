@@ -8,26 +8,33 @@
 import SwiftUI
 
 struct ContentView: View {
+    @StateObject var authViewModel = AuthViewModel()
     @StateObject var timerViewModel = TimerViewModel()
     @StateObject var toDoViewModel = ToDoViewModel()
+    
+    @Environment(\.colorScheme) var scheme: ColorScheme
     
     @State private var tabSelection: Int8 = 1
     
     var body: some View {
-        TabView(selection: $tabSelection) {
-            Home(timerViewModel: timerViewModel, toDoViewModel: toDoViewModel)
-            .tabItem {
-                Label("하루", systemImage: "deskclock")
+        switch authViewModel.authState {
+        case .unAuthenticated: SignUpView(viewModel: authViewModel)
+        case .authenticated, .authenticating:
+            TabView(selection: $tabSelection) {
+                Home(timerViewModel: timerViewModel, toDoViewModel: toDoViewModel)
+                .tabItem {
+                    Label("하루", systemImage: "deskclock")
+                }
+                .tag(1)
+                
+                RecordView(toDoViewModel: toDoViewModel, authViewModel: authViewModel)
+                .tabItem {
+                    Label("기록", systemImage: "text.redaction")
+                }
+                .tag(2)
             }
-            .tag(1)
-            
-            RecordView(toDoViewModel: toDoViewModel)
-            .tabItem {
-                Label("기록", systemImage: "text.redaction")
-            }
-            .tag(2)
+            .tint(scheme == .dark ? Color.white : Color.black)
         }
-        .tint(Color.black)
     }
 }
 

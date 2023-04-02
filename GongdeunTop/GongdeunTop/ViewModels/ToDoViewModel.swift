@@ -16,6 +16,7 @@ final class ToDoViewModel: ObservableObject {
             }
         }
     }
+    @Published var tag: String = ""
     
     @Published var currentTodo: ToDo? = nil
     
