@@ -10,20 +10,20 @@ import SwiftUI
 
 
 struct Home: View {
-    @ObservedObject var timerViewModel: TimerViewModel
-    @ObservedObject var toDoViewModel: ToDoViewModel
+    @StateObject var timerViewModel = TimerViewModel()
+    @StateObject var toDosViewModel = ToDosViewModel()
     
     @State private var isSetTimeViewOn: Bool = false
     
     
     var body: some View {
         NavigationView {
-            ToDoList(viewModel: toDoViewModel)
+            ToDoList(todos: toDosViewModel.todos)
                 .toolbar {
                     ToolbarItem(placement: .navigationBarTrailing) {
                         NavigationLink {
                             GTtimer(timerViewModel: timerViewModel,
-                                      toDoViewModel: toDoViewModel)
+                                    todos: toDosViewModel.todos)
                         } label: {
                             Text("시작")
                         }
@@ -47,11 +47,17 @@ struct Home: View {
                 }
         }
         .toolbar(.visible, for: .tabBar)
+        .onAppear {
+            toDosViewModel.subscribeTodos()
+        }
+        .onDisappear {
+            toDosViewModel.unsubscribeTodos()
+        }
     }
 }
 
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
-        Home(timerViewModel: TimerViewModel(), toDoViewModel: ToDoViewModel())
+        Home()
     }
 }

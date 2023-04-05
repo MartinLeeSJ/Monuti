@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct RecordView: View {
-    @ObservedObject var toDoViewModel: ToDoViewModel
     @ObservedObject var authViewModel: AuthViewModel
     var body: some View {
         NavigationView {
@@ -23,9 +22,7 @@ struct RecordView: View {
                 }
                 
 
-                ForEach(toDoViewModel.todos, id: \.self) { todo in
-                    
-                }
+              
             }
             .navigationTitle("보고서")
             .navigationBarTitleDisplayMode(.inline)
@@ -35,6 +32,6 @@ struct RecordView: View {
 
 struct RecordView_Previews: PreviewProvider {
     static var previews: some View {
-        RecordView(toDoViewModel: ToDoViewModel(todo: .placeholder), authViewModel: AuthViewModel())
+        RecordView(authViewModel: AuthViewModel())
     }
 }

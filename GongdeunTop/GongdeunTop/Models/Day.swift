@@ -1,17 +1,16 @@
 //
-//  Member.swift
+//  Day.swift
 //  GongdeunTop
 //
-//  Created by Martin on 2023/04/01.
+//  Created by Martin on 2023/04/03.
 //
 
 import Foundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
-struct Member: Codable, Identifiable {
+struct Day: Codable, Hashable, Identifiable {
     @DocumentID var id: String?
-    var email: String
-    var fullName: String
     var createdAt: Timestamp
+    var todos: [String]
 }

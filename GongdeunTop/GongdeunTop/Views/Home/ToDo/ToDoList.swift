@@ -10,17 +10,17 @@ import SwiftUI
 
 
 struct ToDoList: View {
-    @ObservedObject var viewModel: ToDoViewModel
+    var todos: [ToDo]
     
     var body: some View {
         
         VStack {
             ScrollView {
-                if viewModel.todos.isEmpty {
+                if todos.isEmpty {
                     ToDoRow(todo: .placeholder)
                         .disabled(true)
                 } else {
-                    ForEach(viewModel.todos, id: \.self) { todo in
+                    ForEach(todos, id: \.self) { todo in
                         ToDoRow(todo: todo)
                     }
                 }
@@ -29,7 +29,7 @@ struct ToDoList: View {
             Divider()
             
             SheetPresenter("  추가하기", image: UIImage(systemName: "plus.circle.fill"), isUndimmed: true) {
-                SetToDoForm(viewModel: viewModel)
+//                SetToDoForm(viewModel: viewModel)
                 
             }
             .tint(.GTEnergeticOrange)

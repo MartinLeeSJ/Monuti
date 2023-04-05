@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		14466EB9CEAC01CCB58F8FCE /* Pods_GongdeunTop.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CF8958AF0A027F8CB8C5297 /* Pods_GongdeunTop.framework */; };
+		5B2FEABC29D9CC000022F827 /* ToDosViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2FEABB29D9CC000022F827 /* ToDosViewModel.swift */; };
+		5B2FEABF29DA645E0022F827 /* Day.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2FEABE29DA645E0022F827 /* Day.swift */; };
 		5B63A59129C8931300AA4525 /* SheetPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B63A59029C8931300AA4525 /* SheetPresenter.swift */; };
 		5B63A59329C95AD500AA4525 /* SetToDoForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B63A59229C95AD500AA4525 /* SetToDoForm.swift */; };
 		5B76D0F429C74FE0008883A8 /* TimerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B76D0F329C74FE0008883A8 /* TimerViewModel.swift */; };
@@ -56,6 +58,8 @@
 		2996E8D86C778536ADD4BCF0 /* Pods-GongdeunTopTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GongdeunTopTests.release.xcconfig"; path = "Target Support Files/Pods-GongdeunTopTests/Pods-GongdeunTopTests.release.xcconfig"; sourceTree = "<group>"; };
 		3CF8958AF0A027F8CB8C5297 /* Pods_GongdeunTop.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GongdeunTop.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E4F12A7BD2237BCB3C2F160 /* Pods-GongdeunTop.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GongdeunTop.debug.xcconfig"; path = "Target Support Files/Pods-GongdeunTop/Pods-GongdeunTop.debug.xcconfig"; sourceTree = "<group>"; };
+		5B2FEABB29D9CC000022F827 /* ToDosViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDosViewModel.swift; sourceTree = "<group>"; };
+		5B2FEABE29DA645E0022F827 /* Day.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Day.swift; sourceTree = "<group>"; };
 		5B63A59029C8931300AA4525 /* SheetPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetPresenter.swift; sourceTree = "<group>"; };
 		5B63A59229C95AD500AA4525 /* SetToDoForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetToDoForm.swift; sourceTree = "<group>"; };
 		5B76D0F329C74FE0008883A8 /* TimerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerViewModel.swift; sourceTree = "<group>"; };
@@ -122,11 +126,20 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		5B2FEABD29D9CC0B0022F827 /* ToDo */ = {
+			isa = PBXGroup;
+			children = (
+				5BB4FEC729C83124009CCD43 /* ToDoViewModel.swift */,
+				5B2FEABB29D9CC000022F827 /* ToDosViewModel.swift */,
+			);
+			path = ToDo;
+			sourceTree = "<group>";
+		};
 		5B76D0F729C7755A008883A8 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
 				5B76D0F329C74FE0008883A8 /* TimerViewModel.swift */,
-				5BB4FEC729C83124009CCD43 /* ToDoViewModel.swift */,
+				5B2FEABD29D9CC0B0022F827 /* ToDo */,
 				5B95E13829D7FC9000E8CBA1 /* AuthViewModel.swift */,
 			);
 			path = ViewModels;
@@ -137,6 +150,7 @@
 			children = (
 				5BB4FEC929C832D9009CCD43 /* ToDo.swift */,
 				5B95E13F29D80B7D00E8CBA1 /* Member.swift */,
+				5B2FEABE29DA645E0022F827 /* Day.swift */,
 				5BD5131C29D58D060008E1C9 /* Tag.swift */,
 			);
 			path = Models;
@@ -444,6 +458,7 @@
 				5BCF551D29C30DA800A19759 /* GTtimer.swift in Sources */,
 				5BD5131D29D58D060008E1C9 /* Tag.swift in Sources */,
 				5B76D0F429C74FE0008883A8 /* TimerViewModel.swift in Sources */,
+				5B2FEABF29DA645E0022F827 /* Day.swift in Sources */,
 				5B95E13E29D805AC00E8CBA1 /* SignUpView.swift in Sources */,
 				5BCF551229C2E50100A19759 /* Color+Custom.swift in Sources */,
 				5B95E14029D80B7D00E8CBA1 /* Member.swift in Sources */,
@@ -451,6 +466,7 @@
 				5BCF551429C305D300A19759 /* Home.swift in Sources */,
 				5BCF550629C2CB2500A19759 /* ContentView.swift in Sources */,
 				5BD5131B29D583E80008E1C9 /* ToDoDetail.swift in Sources */,
+				5B2FEABC29D9CC000022F827 /* ToDosViewModel.swift in Sources */,
 				5BCF551629C3065E00A19759 /* RecordView.swift in Sources */,
 				5BCF551B29C30D1600A19759 /* ToDoList.swift in Sources */,
 				5BB4FEC829C83124009CCD43 /* ToDoViewModel.swift in Sources */,

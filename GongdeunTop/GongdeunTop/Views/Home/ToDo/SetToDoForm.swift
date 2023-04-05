@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import FirebaseFirestore
 
 enum ToDoField: Int, Hashable, CaseIterable {
     case title
@@ -14,7 +15,7 @@ enum ToDoField: Int, Hashable, CaseIterable {
 }
 struct SetToDoForm: View {
     
-    @ObservedObject var viewModel: ToDoViewModel
+    @StateObject var viewModel = ToDoViewModel()
     @State private var tag: String = ""
     @FocusState private var focusedField: ToDoField?
     
@@ -57,8 +58,7 @@ struct SetToDoForm: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
-                        viewModel.todos.append(viewModel.todo)
-                        viewModel.todo = ToDo(title: "", content: "")
+                      
                     } label: {
                         Text("추가하기")
                     }
@@ -200,7 +200,7 @@ struct ToDoFormRow: View {
 
 struct AddToDoSheetView_Previews: PreviewProvider {
     static var previews: some View {
-        SetToDoForm(viewModel: ToDoViewModel())
+        SetToDoForm()
     }
 }
 
