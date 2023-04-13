@@ -6,11 +6,15 @@
 //
 
 import Foundation
+import FirebaseFirestore
+import FirebaseFirestoreSwift
 
-struct ToDo: Hashable, Identifiable {
-    var id: String = UUID().uuidString
+struct ToDo: Codable, Hashable, Identifiable {
+    @DocumentID var id: String?
     var title: String = ""
     var content: String = ""
     var tags: [String] = []
     var timeSpent: Int = 0
+    var isCompleted: Bool = false
+    var createdAt: Timestamp
 }

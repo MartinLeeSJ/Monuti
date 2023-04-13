@@ -10,7 +10,7 @@ import SwiftUI
 struct GTtimer: View {
     @Environment(\.dismiss) private var dismiss
     @ObservedObject var timerViewModel: TimerViewModel
-    @ObservedObject var toDoViewModel: ToDoViewModel
+    @StateObject var todoStore = ToDoStore()
     
     @State private var isShowingReallyQuitAlert: Bool = false
 
@@ -37,17 +37,17 @@ struct GTtimer: View {
                 
                 Spacer()
                 
-                if !toDoViewModel.todos.isEmpty {
+                if !todoStore.todos.isEmpty {
                     Menu {
-                        ForEach(toDoViewModel.todos, id: \.self) { todo in
+                        ForEach(todoStore.todos, id: \.self) { todo in
                             Button {
-                                toDoViewModel.currentTodo = todo
+                                timerViewModel.currentTodo = todo
                             } label: {
                                 Text(todo.title)
                             }
                         }
                     } label: {
-                        Text(toDoViewModel.currentTodo?.title ?? "현재 할 일 없음")
+                        Text(timerViewModel.currentTodo?.title ?? "현재 할 일 없음")
                     }
                 }
 
@@ -96,6 +96,10 @@ struct GTtimer: View {
                     handlePlayButton()
                 }
             }
+            todoStore.subscribeTodos()
+        }
+        .onDisappear{
+            todoStore.unsubscribeTodos()
         }
     }
     
@@ -183,7 +187,7 @@ struct GTtimer: View {
     }
     
     private func updateToDoTimeSpent() {
-        if var updatingToDo = toDoViewModel.todos.first(where: { $0.id == toDoViewModel.currentTodo?.id }) {
+        if var updatingToDo = todoStore.todos.first(where: { $0.id == timerViewModel.currentTodo?.id }) {
             updatingToDo.timeSpent += 1
         }
     }
@@ -220,7 +224,7 @@ struct GTtimer: View {
 
 struct TimerView_Previews: PreviewProvider {
     static var previews: some View {
-        Home(timerViewModel: TimerViewModel(), toDoViewModel: ToDoViewModel())
+        GTtimer(timerViewModel: TimerViewModel())
         
     }
 }

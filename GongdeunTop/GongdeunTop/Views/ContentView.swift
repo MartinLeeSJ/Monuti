@@ -8,11 +8,9 @@
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject var authViewModel = AuthViewModel()
-    @StateObject var timerViewModel = TimerViewModel()
-    @StateObject var toDoViewModel = ToDoViewModel()
-    
     @Environment(\.colorScheme) var scheme: ColorScheme
+    
+    @StateObject var authViewModel = AuthViewModel()
     
     @State private var tabSelection: Int8 = 1
     
@@ -21,13 +19,15 @@ struct ContentView: View {
         case .unAuthenticated: SignUpView(viewModel: authViewModel)
         case .authenticated, .authenticating:
             TabView(selection: $tabSelection) {
-                Home(timerViewModel: timerViewModel, toDoViewModel: toDoViewModel)
+                NavigationView {
+                    ToDoList()
+                }
                 .tabItem {
                     Label("하루", systemImage: "deskclock")
                 }
                 .tag(1)
                 
-                RecordView(toDoViewModel: toDoViewModel, authViewModel: authViewModel)
+                RecordView(authViewModel: authViewModel)
                 .tabItem {
                     Label("기록", systemImage: "text.redaction")
                 }

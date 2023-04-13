@@ -7,8 +7,8 @@
 
 import Foundation
 
-struct Tag: Hashable, Identifiable {
-    var id: String = UUID().uuidString
-    var title: String = ""
-    var count: Int = 0
+struct Tag: Codable, Hashable, Identifiable {
+    var id: String { self.title }
+    var title: String
+    var count: Int
 }
