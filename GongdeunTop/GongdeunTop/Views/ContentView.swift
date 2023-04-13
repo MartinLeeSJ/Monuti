@@ -19,7 +19,9 @@ struct ContentView: View {
         case .unAuthenticated: SignUpView(viewModel: authViewModel)
         case .authenticated, .authenticating:
             TabView(selection: $tabSelection) {
-                Home()
+                NavigationView {
+                    ToDoList()
+                }
                 .tabItem {
                     Label("하루", systemImage: "deskclock")
                 }

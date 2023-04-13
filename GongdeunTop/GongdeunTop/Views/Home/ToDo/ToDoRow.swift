@@ -22,10 +22,10 @@ struct ToDoRow: View {
             HAlignment(alignment: .leading) {
                 VStack(alignment: .leading, spacing: 5) {
                     Text(todo.title)
-                        .font(.headline)
+                        .font(.title3.bold())
                         .foregroundColor(.black)
                     Text(todo.content)
-                        .font(.callout)
+                        .font(.caption)
                         .foregroundColor(.white)
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack {
