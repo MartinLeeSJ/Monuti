@@ -11,19 +11,18 @@ import SwiftUI
 
 struct Home: View {
     @StateObject var timerViewModel = TimerViewModel()
-    @StateObject var todoStore = ToDoStore()
+   
     
     @State private var isSetTimeViewOn: Bool = false
     
     
     var body: some View {
         NavigationView {
-            ToDoList(todos: todoStore.todos)
+            ToDoList()
                 .toolbar {
                     ToolbarItem(placement: .navigationBarTrailing) {
                         NavigationLink {
-                            GTtimer(timerViewModel: timerViewModel,
-                                    todos: todoStore.todos)
+                            GTtimer(timerViewModel: timerViewModel)
                         } label: {
                             Text("시작")
                         }
@@ -43,12 +42,7 @@ struct Home: View {
                 }
         }
         .toolbar(.visible, for: .tabBar)
-        .onAppear {
-            todoStore.subscribeTodos()
-        }
-        .onDisappear {
-            todoStore.unsubscribeTodos()
-        }
+        
     }
 }
 

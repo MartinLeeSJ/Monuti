@@ -9,18 +9,18 @@ import SwiftUI
 
 
 struct ToDoList: View {
-    var todos: [ToDo]
     
+    @StateObject var todoStore = ToDoStore()
     @State private var isAddSheetOn: Bool = false
     
     var body: some View {
         VStack {
             ScrollView {
-                if todos.isEmpty {
+                if todoStore.todos.isEmpty {
                     ToDoRow(todo: .placeholder)
                         .disabled(true)
                 } else {
-                    ForEach(todos, id: \.self) { todo in
+                    ForEach(todoStore.todos, id: \.self) { todo in
                         ToDoRow(todo: todo)
                     }
                 }
@@ -43,6 +43,12 @@ struct ToDoList: View {
         .navigationTitle("오늘 하루 할 일")
         .navigationBarTitleDisplayMode(.inline)
         .padding(.horizontal)
+        .onAppear {
+            todoStore.subscribeTodos()
+        }
+        .onDisappear {
+            todoStore.unsubscribeTodos()
+        }
     }
 }
 

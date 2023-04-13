@@ -10,8 +10,7 @@ import SwiftUI
 struct GTtimer: View {
     @Environment(\.dismiss) private var dismiss
     @ObservedObject var timerViewModel: TimerViewModel
-
-    var todos: [ToDo] = []
+    @StateObject var todoStore = ToDoStore()
     
     @State private var isShowingReallyQuitAlert: Bool = false
 
@@ -38,9 +37,9 @@ struct GTtimer: View {
                 
                 Spacer()
                 
-                if !todos.isEmpty {
+                if !todoStore.todos.isEmpty {
                     Menu {
-                        ForEach(todos, id: \.self) { todo in
+                        ForEach(todoStore.todos, id: \.self) { todo in
                             Button {
                                 timerViewModel.currentTodo = todo
                             } label: {
@@ -97,6 +96,10 @@ struct GTtimer: View {
                     handlePlayButton()
                 }
             }
+            todoStore.subscribeTodos()
+        }
+        .onDisappear{
+            todoStore.unsubscribeTodos()
         }
     }
     
@@ -184,7 +187,7 @@ struct GTtimer: View {
     }
     
     private func updateToDoTimeSpent() {
-        if var updatingToDo = todos.first(where: { $0.id == timerViewModel.currentTodo?.id }) {
+        if var updatingToDo = todoStore.todos.first(where: { $0.id == timerViewModel.currentTodo?.id }) {
             updatingToDo.timeSpent += 1
         }
     }
@@ -221,7 +224,7 @@ struct GTtimer: View {
 
 struct TimerView_Previews: PreviewProvider {
     static var previews: some View {
-        GTtimer(timerViewModel: TimerViewModel(), todos: [.placeholder])
+        GTtimer(timerViewModel: TimerViewModel())
         
     }
 }
