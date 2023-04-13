@@ -8,12 +8,12 @@
 import SwiftUI
 
 
-
 struct ToDoList: View {
     var todos: [ToDo]
     
+    @State private var isAddSheetOn: Bool = false
+    
     var body: some View {
-        
         VStack {
             ScrollView {
                 if todos.isEmpty {
@@ -28,9 +28,13 @@ struct ToDoList: View {
             
             Divider()
             
-            SheetPresenter("  추가하기", image: UIImage(systemName: "plus.circle.fill"), isUndimmed: true) {
-//                SetToDoForm(viewModel: viewModel)
-                
+            Button {
+                isAddSheetOn = true
+            } label: {
+                Label("추가하기", systemImage: "plus.circle.fill")
+            }
+            .sheet(isPresented: $isAddSheetOn) {
+                SetToDoForm()
             }
             .tint(.GTEnergeticOrange)
             .frame(height: 33)

@@ -35,8 +35,9 @@ final class ToDoViewModel: ObservableObject {
         
         if todo.id == nil {
             do {
-                try database.collection("Member").document(uid).collection("ToDo")
-                    .addDocument(from: self.todo)
+                try database.collection("Members").document(uid).collection("ToDo")
+                    .addDocument(from: todo)
+                self.todo = ToDo(createdAt: Timestamp(date: Date()))
             } catch {
                 print(error.localizedDescription)
             }
@@ -48,7 +49,7 @@ final class ToDoViewModel: ObservableObject {
         guard let id = todo.id else { return }
         
         do {
-            try database.collection("Member").document(uid).collection("ToDo").document(id)
+            try database.collection("Members").document(uid).collection("ToDo").document(id)
                 .setData(from: self.todo)
         } catch {
             print(error.localizedDescription)
@@ -60,7 +61,7 @@ final class ToDoViewModel: ObservableObject {
         guard let id = todo.id else { return }
         
         do {
-            try await database.collection("Member").document(uid).collection("ToDo").document(id).delete()
+            try await database.collection("Members").document(uid).collection("ToDo").document(id).delete()
             
         } catch {
             print(error.localizedDescription)

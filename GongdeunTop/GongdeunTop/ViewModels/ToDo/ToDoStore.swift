@@ -12,11 +12,9 @@ import Combine
 import FirebaseFirestore
 import FirebaseAuth
 
-final class ToDosViewModel: ObservableObject {
+final class ToDoStore: ObservableObject {
     private var listenerRegistration: ListenerRegistration?
-    
-    private var currentUser: User? = Auth.auth().currentUser
-    
+
     private let database = Firestore.firestore()
     
     @Published var todos: [ToDo] = []
@@ -29,7 +27,7 @@ final class ToDosViewModel: ObservableObject {
     }
     
     func subscribeTodos() {
-        guard let currentUser else {
+        guard let uid = Auth.auth().currentUser?.uid else {
             return
         }
         if listenerRegistration == nil {
@@ -39,15 +37,18 @@ final class ToDosViewModel: ObservableObject {
             let calendar = Calendar.current
             let dateComponents = calendar.dateComponents([.year, .month, .day], from: now)
             
-            let startTimestamp = Timestamp(date: calendar.date(from: dateComponents)!)
+            let startTimestamp = Timestamp(date: calendar.date(byAdding: .day, value: -1, to: calendar.date(from: dateComponents)!)!)
             let endTimestamp = Timestamp(date: calendar.date(byAdding: .day, value: 1, to: calendar.date(from: dateComponents)!)!)
             
             
-            let query = database.collection("Member")
-                .document(currentUser.uid)
+            let query = database.collection("Members")
+                .document(uid)
                 .collection("ToDo")
                 .whereField("createdAt", isGreaterThanOrEqualTo: startTimestamp)
                 .whereField("createdAt", isLessThan: endTimestamp)
+                .whereField("isCompleted", isEqualTo: false)
+                
+                
             
             
             listenerRegistration = query.addSnapshotListener { [weak self] (snapshot, error) in
@@ -56,7 +57,7 @@ final class ToDosViewModel: ObservableObject {
                     return
                 }
                 
-                self.todos = documents.compactMap{ queryDocumentSnapshot in
+                self.todos = documents.compactMap { queryDocumentSnapshot in
                     try? queryDocumentSnapshot.data(as: ToDo.self)
                 }
             }

@@ -6,10 +6,9 @@
 //
 
 import Foundation
-import FirebaseFirestoreSwift
 
 struct Tag: Codable, Hashable, Identifiable {
-    @DocumentID var id: String?
-    var title: String = ""
-    var count: Int = 0
+    var id: String { self.title }
+    var title: String
+    var count: Int
 }

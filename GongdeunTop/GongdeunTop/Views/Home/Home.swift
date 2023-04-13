@@ -11,19 +11,19 @@ import SwiftUI
 
 struct Home: View {
     @StateObject var timerViewModel = TimerViewModel()
-    @StateObject var toDosViewModel = ToDosViewModel()
+    @StateObject var todoStore = ToDoStore()
     
     @State private var isSetTimeViewOn: Bool = false
     
     
     var body: some View {
         NavigationView {
-            ToDoList(todos: toDosViewModel.todos)
+            ToDoList(todos: todoStore.todos)
                 .toolbar {
                     ToolbarItem(placement: .navigationBarTrailing) {
                         NavigationLink {
                             GTtimer(timerViewModel: timerViewModel,
-                                    todos: toDosViewModel.todos)
+                                    todos: todoStore.todos)
                         } label: {
                             Text("시작")
                         }
@@ -36,22 +36,18 @@ struct Home: View {
                             Text("시간설정")
                         }
                         .sheet(isPresented: $isSetTimeViewOn) {
-                            if #available(iOS 16.0, *) {
-                                SetTimeForm(viewModel: timerViewModel)
-                                    .presentationDetents([.medium])
-                            } else {
-                                SetTimeForm(viewModel: timerViewModel)
-                            }
+                            SetTimeForm(viewModel: timerViewModel)
+                                .presentationDetents([.medium])
                         }
                     }
                 }
         }
         .toolbar(.visible, for: .tabBar)
         .onAppear {
-            toDosViewModel.subscribeTodos()
+            todoStore.subscribeTodos()
         }
         .onDisappear {
-            toDosViewModel.unsubscribeTodos()
+            todoStore.unsubscribeTodos()
         }
     }
 }
