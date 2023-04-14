@@ -26,20 +26,20 @@ struct ToDoList: View {
         NavigationView{
             GeometryReader { geo in
                 VStack {
-                    List(todoStore.todos, selection: $multiSelection) { todo in
+                    List(todoStore.todos, selection: $todoStore.multiSelection) { todo in
                         ToDoRow(todo: todo)
                     }
-                    .frame(height: geo.size.height * (isEditing ? 0.89 : 0.84))
+                    .frame(height: geo.size.height * (todoStore.isEditing ? 0.89 : 0.84))
                     .listStyle(.plain)
-                    .environment(\.editMode, .constant(self.isEditing ? EditMode.active : EditMode.inactive))
+                    .environment(\.editMode, .constant(todoStore.isEditing ? EditMode.active : EditMode.inactive))
                     .toolbar {
                         ToolbarItem(placement: .navigationBarLeading) {
                             Button {
                                 withAnimation {
-                                    isEditing.toggle()     
+                                    todoStore.isEditing.toggle()
                                 }
                             } label: {
-                                Text(isEditing ? "완료" : "수정")
+                                Text(todoStore.isEditing ? "완료" : "수정")
                             }
                         }
                         
@@ -60,7 +60,7 @@ struct ToDoList: View {
                     
                     Divider()
                     
-                    if isEditing == false {
+                    if todoStore.isEditing == false {
                         VStack {
                             HAlignment(alignment: .center) {
                                 Text("\(todoStore.todos.count)개 할 일, \(timerViewModel.numOfSessions)개 세션, 총 \(timerViewModel.getTotalTime())분")
@@ -94,13 +94,13 @@ struct ToDoList: View {
                             }
                             .padding(6)
                         }
-                        .animation(.easeIn, value: isEditing)
+                        .animation(.easeIn, value: todoStore.isEditing)
                         
                     }
                     else {
                         HStack {
                             Button {
-                                
+                                todoStore.deleteTodos()
                             } label: {
                                 Text("삭제")
                             }
@@ -108,13 +108,14 @@ struct ToDoList: View {
                             Spacer()
                             
                             Button {
-                                
+                                todoStore.completeTodos()
                             } label: {
                                 Text("할 일 완료")
                             }
                             
                         }
                         .tint(.GTDenimNavy)
+                        .disabled(todoStore.multiSelection.isEmpty)
                         .padding(.horizontal, 24)
                         .padding(.vertical, 6)
                         
