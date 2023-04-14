@@ -19,19 +19,17 @@ struct ContentView: View {
         case .unAuthenticated: SignUpView(viewModel: authViewModel)
         case .authenticated, .authenticating:
             TabView(selection: $tabSelection) {
-                NavigationView {
-                    ToDoList()
-                }
-                .tabItem {
-                    Label("하루", systemImage: "deskclock")
-                }
-                .tag(1)
+                ToDoList()
+                    .tabItem {
+                        Label("하루", systemImage: "deskclock")
+                    }
+                    .tag(1)
                 
                 RecordView(authViewModel: authViewModel)
-                .tabItem {
-                    Label("기록", systemImage: "text.redaction")
-                }
-                .tag(2)
+                    .tabItem {
+                        Label("기록", systemImage: "text.redaction")
+                    }
+                    .tag(2)
             }
             .tint(scheme == .dark ? Color.white : Color.black)
         }
