@@ -14,10 +14,12 @@ import FirebaseAuth
 
 final class ToDoStore: ObservableObject {
     private var listenerRegistration: ListenerRegistration?
-
+    
     private let database = Firestore.firestore()
     
     @Published var todos: [ToDo] = []
+    @Published var isEditing: Bool = false
+    @Published var multiSelection = Set<String?>()
     
     func unsubscribeTodos() {
         if listenerRegistration != nil {
@@ -47,8 +49,8 @@ final class ToDoStore: ObservableObject {
                 .whereField("createdAt", isGreaterThanOrEqualTo: startTimestamp)
                 .whereField("createdAt", isLessThan: endTimestamp)
                 .whereField("isCompleted", isEqualTo: false)
-                
-                
+            
+            
             
             
             listenerRegistration = query.addSnapshotListener { [weak self] (snapshot, error) in
@@ -64,5 +66,69 @@ final class ToDoStore: ObservableObject {
         }
     }
     
+    
+    func deleteTodos() {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        guard !multiSelection.isEmpty else { return }
+        
+        let batch = database.batch()
+        
+        let filteredTodo: [ToDo] = self.todos.filter {
+            multiSelection.contains($0.id)
+        }
+        
+        for todo in filteredTodo {
+            for tag in todo.tags {
+                batch.updateData(["count": FieldValue.increment(Int64(-1))], forDocument: database
+                    .collection("Members")
+                    .document(uid)
+                    .collection("Tag")
+                    .document(tag)
+                )
+            }
+        }
+        
+        for id in multiSelection {
+            if let id {
+                batch.deleteDocument(
+                    database
+                        .collection("Members")
+                        .document(uid)
+                        .collection("ToDo")
+                        .document(id)
+                )
+            }
+        }
+        
+        batch.commit() { err in
+            if let err {
+                print(err.localizedDescription)
+            }
+        }
+    }
+    
+    func completeTodos() {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        guard !multiSelection.isEmpty else { return }
+        
+        let batch = database.batch()
+        
+        for id in multiSelection {
+            if let id {
+                batch.updateData(["isCompleted": true],
+                                 forDocument:  database
+                    .collection("Members")
+                    .document(uid)
+                    .collection("ToDo")
+                    .document(id))
+            }
+        }
+        
+        batch.commit() { err in
+            if let err {
+                print(err.localizedDescription)
+            }
+        }
+    }
     
 }
