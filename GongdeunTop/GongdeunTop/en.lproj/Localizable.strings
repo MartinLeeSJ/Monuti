@@ -5,3 +5,16 @@
   Created by Martin on 2023/04/15.
   
 */
+"Today's ToDos" = "Today's ToDos";
+
+"Done" = "Done";
+"Edit" = "Edit";
+"Add" = "Add";
+"Delete" = "Delete";
+"Cancel" = "Cancel";
+"Complete Todo" = "Comeplete ToDo";
+
+"sessions%lld" = " %lld Sessions,";
+"totalTime%lld" = " %lld minutes";
+"Set Time" = "Set Time";
+"Start" = "Start";

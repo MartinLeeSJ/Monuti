@@ -5,3 +5,17 @@
   Created by Martin on 2023/04/15.
   
 */
+
+"Today's ToDos" = "오늘의 할 일";
+
+"Done" = "완료";
+"Edit" = "수정";
+"Add" = "추가";
+"Delete" = "삭제";
+"Cancel" = "취소";
+"Complete Todo" = "일 끝내기";
+
+"sessions%lld" = " %lld개 세션,";
+"totalTime%lld" = " %lld분";
+"Set Time" = "시간 설정";
+"Start" = "시작";
