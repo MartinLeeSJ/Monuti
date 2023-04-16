@@ -19,3 +19,16 @@
 "totalTime%lld" = " %lld분";
 "Set Time" = "시간 설정";
 "Start" = "시작";
+
+
+"title" = "제목";
+"todo_title" = "할 일 제목";
+"todo_title_footer" = "제목은 반드시 포함되어야 하는 필수 항목입니다.";
+
+"content" = "내용";
+"todo_content" = "할 일의 구체적인 내용";
+"todo_content_footer" = "구체적이고 명확하게 기록하면 집중도가 높아집니다.";
+
+"tag" = "태그";
+"todo_tag" = "할 일의 태그";
+"todo_tag_footer" = "태그를 등록해 할 일을 관리하세요";

@@ -18,3 +18,16 @@
 "totalTime%lld" = " %lld minutes";
 "Set Time" = "Set Time";
 "Start" = "Start";
+
+
+"title" = "Title";
+"todo_title" = "Title of todo";
+"todo_title_footer" = "Title is required.";
+
+"content" = "Content";
+"todo_content" = "Content of todo";
+"todo_content_footer" = "If you write down specifically and clearly, your concentration will increase.";
+
+"tag" = "Tag";
+"todo_tag" = "Tag of todo";
+"todo_tag_footer" = "Manage your Todo with tags";

@@ -25,9 +25,15 @@ enum ToDoField: Int, Hashable, CaseIterable {
     
     var fieldString: (title: String, fieldTitle: String, footer: String) {
         switch self {
-        case .title: return ("제목", "할 일 제목", "제목은 반드시 포함되어야 하는 필수 항목입니다.")
-        case .content: return ("내용", "할 일 내용", "구체적이고 명확하게 기록하면 집중도가 높아집니다.")
-        case .tag: return ("태그", "태그 입력", "태그를 등록해 보세요")
+        case .title: return (String(localized: "title"),
+                             String(localized: "todo_title"),
+                             String(localized: "todo_title_footer"))
+        case .content: return (String(localized: "content"),
+                               String(localized: "todo_content"),
+                               String(localized: "todo_content_footer"))
+        case .tag: return (String(localized: "tag"),
+                           String(localized: "todo_tag"),
+                           String(localized: "todo_tag_footer"))
         }
     }
 }
@@ -80,7 +86,7 @@ struct SetToDoForm: View {
                     Button {
                         viewModel.handleDoneTapped()
                     } label: {
-                        Text(mode == .new ? "추가하기" : "수정하기")
+                        Text(mode == .new ? "Add" : "Edit")
                     }
                     .disabled(viewModel.todo.title.isEmpty)
                 }
