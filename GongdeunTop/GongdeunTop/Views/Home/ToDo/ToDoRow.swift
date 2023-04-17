@@ -45,7 +45,7 @@ struct ToDoRow: View {
                     Image(systemName: "chevron.right")
                 }
                 .sheet(isPresented: $isEditingSheetOn) {
-                    SetToDoForm(viewModel: ToDoViewModel(todo: todo), mode: .edit) { result in
+                    SetToDoForm(viewModel: ToDoManager(todo: todo), mode: .edit) { result in
                         if case .success(let action) = result, action == .delete {
                             self.presentationMode.wrappedValue.dismiss()
                         }

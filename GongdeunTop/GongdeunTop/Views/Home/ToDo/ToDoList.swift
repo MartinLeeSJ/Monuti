@@ -12,7 +12,7 @@ struct ToDoList: View {
     
     
     @StateObject var todoStore = ToDoStore()
-    @StateObject var timerViewModel = TimerViewModel()
+    @StateObject var timerViewModel = TimerManager()
     
     @State private var isDeleteAlertOn: Bool = false
     

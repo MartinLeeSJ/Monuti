@@ -10,7 +10,7 @@ import AuthenticationServices
 
 struct SignUpView: View {
     @Environment(\.colorScheme) var scheme: ColorScheme
-    @ObservedObject var viewModel: AuthViewModel
+    @ObservedObject var viewModel: AuthManager
     
     var body: some View {
         VStack {
@@ -31,6 +31,6 @@ struct SignUpView: View {
 
 struct SignUpView_Previews: PreviewProvider {
     static var previews: some View {
-        SignUpView(viewModel: AuthViewModel())
+        SignUpView(viewModel: AuthManager())
     }
 }

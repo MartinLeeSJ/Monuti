@@ -39,7 +39,7 @@ enum ToDoField: Int, Hashable, CaseIterable {
 }
 
 struct SetToDoForm: View {
-    @ObservedObject var viewModel = ToDoViewModel()
+    @ObservedObject var viewModel = ToDoManager()
     @FocusState private var focusedField: ToDoField?
     
     var mode: Mode = .new

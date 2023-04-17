@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct RecordView: View {
-    @ObservedObject var authViewModel: AuthViewModel
+    @ObservedObject var authViewModel: AuthManager
     var body: some View {
         NavigationView {
             
@@ -32,6 +32,6 @@ struct RecordView: View {
 
 struct RecordView_Previews: PreviewProvider {
     static var previews: some View {
-        RecordView(authViewModel: AuthViewModel())
+        RecordView(authViewModel: AuthManager())
     }
 }

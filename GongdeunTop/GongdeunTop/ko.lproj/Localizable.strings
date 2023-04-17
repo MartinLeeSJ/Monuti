@@ -38,3 +38,17 @@
 "setTime_session" = "세션 수";
 "setTime_session%lld" = "%lld개 세션";
 "setTime_session_range" = "3 ~ 6개";
+
+
+//CycleMemoir
+"concentration_evaluation_title" = "나의 집중도는...";
+"concentration_evaluation_subtitle" = "공든 탑에 쌓아 올려질 이번 세션 집중도 재료를 고르세요";
+"Weak" = "약했어요";
+"Good" = "좋았어요";
+"Solid" = "견고해요!";
+
+"concentration_todos_title" = "이 할 일들에 집중했어요";
+"concentration_todos_subtitle" = "완료한 할 일들을 체크하세요";
+
+"concentration_textEditor_title" = "돌아보기";
+"concentration_textEditor_subtitle" = "이번 집중시간은 어땠는지 적어보세요";

@@ -12,7 +12,7 @@ import FirebaseAuth
 
 struct ToDoFormRow: View {
     @StateObject var tagStore = TagStore()
-    @ObservedObject var viewModel: ToDoViewModel
+    @ObservedObject var viewModel: ToDoManager
     
     @Environment(\.colorScheme) var scheme: ColorScheme
     

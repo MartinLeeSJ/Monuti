@@ -45,3 +45,19 @@
 "setTime_rest_range" = "5 to 10, last 30min";
 
 "setTime_minute%lld" = "%lldmin";
+
+
+//CycleMemoir
+"concentration_evaluation_title" = "My Concentration Was...";
+"concentration_evaluation_subtitle" = "Choose your level of concentration to build the tower";
+"Weak" = "Weak";
+"Good" = "Good";
+"Solid" = "Solid";
+
+"concentration_todos_title" = "I Had Focused On These";
+"concentration_todos_subtitle" = "Check what you did";
+
+"concentration_textEditor_title" = "Memoir";
+"concentration_textEditor_subtitle" = "Write a memoir about this cycle";
+
+
