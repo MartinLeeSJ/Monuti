@@ -10,7 +10,7 @@ import SwiftUI
 struct ContentView: View {
     @Environment(\.colorScheme) var scheme: ColorScheme
     
-    @StateObject var authViewModel = AuthViewModel()
+    @StateObject var authViewModel = AuthManager()
     
     @State private var tabSelection: Int8 = 1
     
