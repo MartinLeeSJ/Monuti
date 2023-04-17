@@ -1,5 +1,5 @@
 //
-//  GTtimer.swift
+//  SessionsTimer.swift
 //  GongdeunTop
 //
 //  Created by Martin on 2023/03/16.
@@ -7,12 +7,14 @@
 
 import SwiftUI
 
-struct GTtimer: View {
+struct SessionsTimer: View {
     @Environment(\.dismiss) private var dismiss
     @ObservedObject var timerViewModel: TimerViewModel
     @StateObject var todoStore = ToDoStore()
     
+    
     @State private var isShowingReallyQuitAlert: Bool = false
+    @State private var isShowingCycleMemoir: Bool = false
 
     var body: some View {
         GeometryReader { geo in
@@ -74,8 +76,8 @@ struct GTtimer: View {
                     
                     Button {
                         timerViewModel.reset()
-                        dismiss()
                         isShowingReallyQuitAlert = false
+                        isShowingCycleMemoir = true
                     } label: {
                         Text("끝내기")
                     }
@@ -100,6 +102,9 @@ struct GTtimer: View {
         }
         .onDisappear{
             todoStore.unsubscribeTodos()
+        }
+        .sheet(isPresented: $isShowingCycleMemoir, onDismiss: { dismiss() }) {
+            Text("test")
         }
     }
     
@@ -187,6 +192,8 @@ struct GTtimer: View {
     }
     
     private func updateToDoTimeSpent() {
+        guard !timerViewModel.knowIsRefreshTime() else { return }
+        
         if var updatingToDo = todoStore.todos.first(where: { $0.id == timerViewModel.currentTodo?.id }) {
             updatingToDo.timeSpent += 1
         }
@@ -224,7 +231,7 @@ struct GTtimer: View {
 
 struct TimerView_Previews: PreviewProvider {
     static var previews: some View {
-        GTtimer(timerViewModel: TimerViewModel())
+        SessionsTimer(timerViewModel: TimerViewModel())
         
     }
 }

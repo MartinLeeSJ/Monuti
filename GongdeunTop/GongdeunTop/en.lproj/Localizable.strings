@@ -1,0 +1,47 @@
+/* 
+  Localizable.strings
+  GongdeunTop
+
+  Created by Martin on 2023/04/15.
+  
+*/
+"Today's ToDos" = "Today's ToDos";
+
+"Done" = "Done";
+"Edit" = "Edit";
+"Add" = "Add";
+"Delete" = "Delete";
+"Cancel" = "Cancel";
+"Complete Todo" = "Comeplete ToDo";
+
+"sessions%lld" = " %lld Sessions,";
+"totalTime%lld" = " %lld minutes";
+"Set Time" = "Set Time";
+"Start" = "Start";
+
+
+"title" = "Title";
+"todo_title" = "Title of todo";
+"todo_title_footer" = "Title is required.";
+
+"content" = "Content";
+"todo_content" = "Content of todo";
+"todo_content_footer" = "Writing down specifically and clearly will increase your concentration.";
+
+"tag" = "Tag";
+"todo_tag" = "Tag of todo";
+"todo_tag_footer" = "Manage your Todo with tags";
+
+
+//SetTimeForm
+"setTime_session" = "Sessions";
+"setTime_session%lld" = "%lld sessions";
+"setTime_session_range" = "3 to 6";
+
+"setTime_concentration" = "Concentration";
+"setTime_concentration_range" = "15 to 25";
+
+"setTime_rest" = "Rest";
+"setTime_rest_range" = "5 to 10, last 30min";
+
+"setTime_minute%lld" = "%lldmin";
