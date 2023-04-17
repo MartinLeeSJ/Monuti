@@ -94,7 +94,7 @@ extension ToDoList {
                 Spacer()
                 
                 NavigationLink {
-                    GTtimer(timerViewModel: timerViewModel)
+                    SessionsTimer(timerViewModel: timerViewModel)
                 } label: {
                     Text("Start")
                         .frame(width: geo.size.width / 2 - 33, height: 36)

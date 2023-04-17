@@ -28,81 +28,99 @@ struct SetTimeForm: View {
             let width = geo.size.width
             let sessionWidth = width / CGFloat(viewModel.numOfSessions + 1)
             VStack {
-                Text("총 \(viewModel.getTotalTime())분")
+                Text("totalTime\(viewModel.getTotalTime())")
                     .font(.title)
                     .bold()
                 
-                HStack(spacing: 5) {
-                    ForEach(0 ..< viewModel.numOfSessions, id: \.self) { session in
-                        let isLastSession: Bool = session == viewModel.numOfSessions - 1
-                        VStack(spacing: 5) {
-                            HStack(spacing: 1) {
-                                Rectangle()
-                                    .foregroundColor(.pink)
-                                    .frame(width: isLastSession ? sessionWidth * ( 1 - longRefreshRatio ): sessionWidth * concentrationRatio)
-                                Rectangle()
-                                    .foregroundColor(.orange)
-                                    .frame(width: isLastSession ? sessionWidth * longRefreshRatio : sessionWidth * refreshRatio)
-                            }
-                            Capsule()
-                                .frame(width: sessionWidth, height: 5)
-                                .foregroundColor(.gray)
-                                .opacity(0.5)
-                        }
-                      
-                    }
-                }
-                .frame(height: 48)
-                .padding(.bottom, 40)
+                graph(sessionWidth)
+               
+                sessionStepper
                 
-                HStack {
-                    Capsule().fill(.gray).frame(width: 20, height: 15)
-                    Text("세션 수")
-                        .font(.headline)
-                    Stepper(value: $viewModel.numOfSessions, in: 3...6, step: 1) {
-                        HStack {
-                            Text("\(viewModel.numOfSessions)개")
-                            Text("3~6개")
-                                .font(.caption2)
-                                .foregroundColor(.secondary)
-                        }
-                    }
-                }
+                concentrationTimeStepper
                 
-                HStack{
-                    Rectangle().fill(.pink).frame(width: 20, height: 15)
-                    Text("집중")
-                        .font(.headline)
-                    
-                    Stepper(value: $viewModel.concentrationTime, in: 15...50, step: 5) {
-                        HStack {
-                            Text("\(viewModel.concentrationTime)분")
-                            Text("15~25분")
-                                .font(.caption2)
-                                .foregroundColor(.secondary)
-                        }
-                    } onEditingChanged: { _ in
-                        viewModel.setRemainSeconds()
-                    }
-                }
-                
-                HStack {
-                    Rectangle().fill(.orange).frame(width: 20, height: 15)
-                    Text("휴식")
-                        .font(.headline)
-                    Stepper(value: $viewModel.refreshTime, in: 5...10, step: 1) {
-                        HStack {
-                            Text("\(viewModel.refreshTime)분")
-                            Text("5~10분, 마지막 휴식 30분")
-                                .font(.caption2)
-                                .foregroundColor(.secondary)
-                        }
-                    }
-                }
+                restTimeStepper
                 
             }
         }
         .padding()
+    }
+    
+    @ViewBuilder
+    func graph(_ sessionWidth: CGFloat) -> some View {
+        HStack(spacing: 5) {
+            ForEach(0 ..< viewModel.numOfSessions, id: \.self) { session in
+                let isLastSession: Bool = session == viewModel.numOfSessions - 1
+                VStack(spacing: 5) {
+                    HStack(spacing: 1) {
+                        Rectangle()
+                            .foregroundColor(.pink)
+                            .frame(width: isLastSession ? sessionWidth * ( 1 - longRefreshRatio ): sessionWidth * concentrationRatio)
+                        Rectangle()
+                            .foregroundColor(.orange)
+                            .frame(width: isLastSession ? sessionWidth * longRefreshRatio : sessionWidth * refreshRatio)
+                    }
+                    Capsule()
+                        .frame(width: sessionWidth, height: 5)
+                        .foregroundColor(.gray)
+                        .opacity(0.5)
+                }
+              
+            }
+        }
+        .frame(height: 48)
+        .padding(.bottom, 40)
+    }
+    
+    var sessionStepper: some View {
+        HStack {
+            Capsule().fill(.gray).frame(width: 20, height: 15)
+            Text("setTime_session")
+                .font(.headline)
+            Stepper(value: $viewModel.numOfSessions, in: 3...6, step: 1) {
+                HStack {
+                    Text("setTime_session\(viewModel.numOfSessions)")
+                        .font(.caption2)
+                    Text("setTime_session_range")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                }
+            }
+        }
+    }
+    var concentrationTimeStepper: some View {
+        HStack{
+            Rectangle().fill(.pink).frame(width: 20, height: 15)
+            Text("setTime_concentration")
+                .font(.headline)
+            
+            Stepper(value: $viewModel.concentrationTime, in: 15...50, step: 5) {
+                HStack {
+                    Text("setTime_minute\(viewModel.concentrationTime)")
+                        .font(.caption2)
+                    Text("setTime_concentration_range")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                }
+            } onEditingChanged: { _ in
+                viewModel.setRemainSeconds()
+            }
+        }
+    }
+    var restTimeStepper: some View {
+        HStack {
+            Rectangle().fill(.orange).frame(width: 20, height: 15)
+            Text("setTime_rest")
+                .font(.headline)
+            Stepper(value: $viewModel.refreshTime, in: 5...10, step: 1) {
+                HStack {
+                    Text("setTime_minute\(viewModel.refreshTime)")
+                        .font(.caption2)
+                    Text("setTime_rest_range")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                }
+            }
+        }
     }
 }
 

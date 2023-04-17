@@ -26,8 +26,22 @@
 
 "content" = "Content";
 "todo_content" = "Content of todo";
-"todo_content_footer" = "If you write down specifically and clearly, your concentration will increase.";
+"todo_content_footer" = "Writing down specifically and clearly will increase your concentration.";
 
 "tag" = "Tag";
 "todo_tag" = "Tag of todo";
 "todo_tag_footer" = "Manage your Todo with tags";
+
+
+//SetTimeForm
+"setTime_session" = "Sessions";
+"setTime_session%lld" = "%lld sessions";
+"setTime_session_range" = "3 to 6";
+
+"setTime_concentration" = "Concentration";
+"setTime_concentration_range" = "15 to 25";
+
+"setTime_rest" = "Rest";
+"setTime_rest_range" = "5 to 10, last 30min";
+
+"setTime_minute%lld" = "%lldmin";
