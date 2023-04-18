@@ -12,7 +12,7 @@ struct SessionsTimer: View {
     @ObservedObject var timerViewModel: TimerManager
     @StateObject var todoStore = ToDoStore()
     
-    
+    @State private var isFirstCountDownEnded: Bool = false
     @State private var isShowingReallyQuitAlert: Bool = false
     @State private var isShowingCycleMemoir: Bool = false
 
@@ -87,16 +87,16 @@ struct SessionsTimer: View {
             }
         }
         .overlay {
-            if timerViewModel.timer == nil {
-                FirstCountdown()
+            if !isFirstCountDownEnded {
+                FirstCountdown(isEnded: $isFirstCountDownEnded)
+            }
+        }
+        .onChange(of: isFirstCountDownEnded) { _ in
+            if timerViewModel.timer == nil && isFirstCountDownEnded {
+                handlePlayButton()
             }
         }
         .onAppear {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 6.5) {
-                if timerViewModel.timer == nil {
-                    handlePlayButton()
-                }
-            }
             todoStore.subscribeTodos()
         }
         .onDisappear{

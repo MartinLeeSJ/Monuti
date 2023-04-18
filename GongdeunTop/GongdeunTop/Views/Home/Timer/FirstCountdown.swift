@@ -9,6 +9,9 @@ import SwiftUI
 import CoreHaptics
 
 struct FirstCountdown: View {
+    @Binding var isEnded: Bool
+    
+    
     @State private var timeCount: Int = 3
     @State private var timeRemain: Double = 8.0
     @State private var timer: Timer? = nil
@@ -46,6 +49,15 @@ struct FirstCountdown: View {
                        .offset(y: animation.physicalValue.offset)
                        .opacity(animation.physicalValue.opacity)
                }
+               .overlay(alignment: .bottomTrailing) {
+                   Button {
+                       skipTime()
+                   } label: {
+                       Label("Skip", systemImage: "chevron.forward.2")
+                   }
+                   .tint(.white)
+                   .offset(x: -20, y: -20)
+               }
                .onAppear {
                    complexAnimation()
                    prepareHaptics()
@@ -63,7 +75,7 @@ struct FirstCountdown: View {
                 timeRemain -= 0.2
                 timeCount = Int(timeRemain / 2)
                 
-                withAnimation(.linear){
+                withAnimation(.linear) {
                     switch timeRemain - floor(timeRemain) {
                     case 0.8..<1.0 where Int(timeRemain) % 2 == 1:
                         animation = .down
@@ -79,11 +91,12 @@ struct FirstCountdown: View {
 
             } else {
                 timer.invalidate()
+                isEnded = true
             }
         }
     }
     
-    func prepareHaptics() {
+    private func prepareHaptics() {
         guard CHHapticEngine.capabilitiesForHardware().supportsHaptics else { return }
         
         do {
@@ -94,7 +107,7 @@ struct FirstCountdown: View {
         }
     }
     
-    func complexStartHaptic() {
+    private func complexStartHaptic() {
         guard CHHapticEngine.capabilitiesForHardware().supportsHaptics else { return }
         var events = [CHHapticEvent]()
         
@@ -116,11 +129,16 @@ struct FirstCountdown: View {
         }
     }
     
+    private func skipTime() {
+        timeCount = 0
+        timeRemain = 0.9
+    }
+    
     
 }
 
 struct Countdown_Previews: PreviewProvider {
     static var previews: some View {
-        FirstCountdown()
+        FirstCountdown(isEnded: .constant(false))
     }
 }
