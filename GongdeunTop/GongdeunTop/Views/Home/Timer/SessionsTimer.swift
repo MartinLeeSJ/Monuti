@@ -20,22 +20,23 @@ struct SessionsTimer: View {
         GeometryReader { geo in
             let width = geo.size.width
             let height = geo.size.height
+            let shorterSize = min(width, height)
             VStack {
                 Spacer()
 
-                getCircleBackground(width: width)
+                getTimerBackground(width: shorterSize)
                     .overlay {
                         VStack(alignment: .center) {
                             
-                            getDigitTimes(width: width)
+                            getDigitTimes(width: shorterSize)
                             
-                            getButtons(width: width)
+                            getButtons(width: shorterSize)
                             
                         }
                     }
                 
                 SessionIndicator(viewModel: timerViewModel)
-                    .frame(width: width * 0.5)
+                    .frame(width: shorterSize * 0.5)
                 
                 Spacer()
                 
@@ -163,13 +164,15 @@ struct SessionsTimer: View {
     }
     
     @ViewBuilder
-    private func getCircleBackground(width: CGFloat) -> some View {
-        Circle()
-            .foregroundColor(.GTPastelBlue)
-            .frame(width: width * 0.8, height: width * 0.8)
+    private func getTimerBackground(width: CGFloat) -> some View {
+        CircularSector(endDegree: timerViewModel.getEndDegree())
+            .frame(width: width * 0.85, height: width * 0.85)
+            .foregroundColor(.GTDenimBlue)
+            .clipShape(CubeHexagon(radius: width * 0.425))
             .overlay {
-                CircularSector(endDegree: timerViewModel.getEndDegree())
-                    .foregroundColor(.GTDenimBlue)
+                CubeHexagon(radius: width * 0.425)
+                    .stroke(lineWidth: 8)
+                    .foregroundColor(.white.opacity(0.2))
             }
             .overlay {
                 ForEach(0..<60, id: \.self) { index in
@@ -177,9 +180,13 @@ struct SessionsTimer: View {
                         .fill(Color.GTDenimNavy)
                         .opacity(0.6)
                         .frame(width: index % 5 == 0 ? 8 : 4)
-                        .offset(y: width * 0.385)
+                        .offset(y: width * 0.4)
                         .rotationEffect(Angle(degrees: Double(360 * index / 60)))
                 }
+            }
+            .background {
+                CubeHexagon(radius: width * 0.425)
+                    .fill(Color.GTPastelBlue)
             }
             
     }

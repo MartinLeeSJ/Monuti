@@ -52,15 +52,3 @@ struct CubeHexagon: Shape {
 }
 
 
-struct MyShape: View {
-    var body: some View {
-        CubeHexagon(radius: 100)
-            .stroke()
-    }
-}
-
-struct MyShape_Previews: PreviewProvider {
-    static var previews: some View {
-        MyShape()
-    }
-}
