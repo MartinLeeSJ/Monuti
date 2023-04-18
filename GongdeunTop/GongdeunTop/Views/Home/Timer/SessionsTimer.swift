@@ -198,8 +198,8 @@ struct SessionsTimer: View {
     private func updateToDoTimeSpent() {
         guard !timerViewModel.knowIsRefreshTime() else { return }
         
-        if var updatingToDo = todoStore.todos.first(where: { $0.id == timerViewModel.currentTodo?.id }) {
-            updatingToDo.timeSpent += 1
+        if let index = todoStore.todos.firstIndex(where: { $0.id == timerViewModel.currentTodo?.id }) {
+            todoStore.todos[index].timeSpent += 1
         }
     }
     
