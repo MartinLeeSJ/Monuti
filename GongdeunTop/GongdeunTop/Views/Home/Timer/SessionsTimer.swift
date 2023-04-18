@@ -158,6 +158,7 @@ struct SessionsTimer: View {
                 .offset(x: width * 0.1)
         }
         .font(.system(size: 54))
+        .foregroundColor(.white)
         .padding(.bottom, 25)
     }
     
@@ -169,6 +170,16 @@ struct SessionsTimer: View {
             .overlay {
                 CircularSector(endDegree: timerViewModel.getEndDegree())
                     .foregroundColor(.GTDenimBlue)
+            }
+            .overlay {
+                ForEach(0..<60, id: \.self) { index in
+                    Circle()
+                        .fill(Color.GTDenimNavy)
+                        .opacity(0.6)
+                        .frame(width: index % 5 == 0 ? 8 : 4)
+                        .offset(y: width * 0.385)
+                        .rotationEffect(Angle(degrees: Double(360 * index / 60)))
+                }
             }
             
     }
