@@ -19,6 +19,7 @@
 		5B63175A29E7F27700FF6876 /* RoundedCorners.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B63175929E7F27700FF6876 /* RoundedCorners.swift */; };
 		5B63A59129C8931300AA4525 /* SheetPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B63A59029C8931300AA4525 /* SheetPresenter.swift */; };
 		5B63A59329C95AD500AA4525 /* SetToDoForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B63A59229C95AD500AA4525 /* SetToDoForm.swift */; };
+		5B6585A629EEAE6200F9E758 /* CubeHexagon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6585A529EEAE6200F9E758 /* CubeHexagon.swift */; };
 		5B76D0F429C74FE0008883A8 /* TimerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B76D0F329C74FE0008883A8 /* TimerManager.swift */; };
 		5B76D0F629C76A2B008883A8 /* CircularSector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B76D0F529C76A2B008883A8 /* CircularSector.swift */; };
 		5B8B119529D07EE6009BB0E6 /* FirstCountdown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8B119429D07EE6009BB0E6 /* FirstCountdown.swift */; };
@@ -77,6 +78,7 @@
 		5B63175929E7F27700FF6876 /* RoundedCorners.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedCorners.swift; sourceTree = "<group>"; };
 		5B63A59029C8931300AA4525 /* SheetPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetPresenter.swift; sourceTree = "<group>"; };
 		5B63A59229C95AD500AA4525 /* SetToDoForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetToDoForm.swift; sourceTree = "<group>"; };
+		5B6585A529EEAE6200F9E758 /* CubeHexagon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CubeHexagon.swift; sourceTree = "<group>"; };
 		5B76D0F329C74FE0008883A8 /* TimerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerManager.swift; sourceTree = "<group>"; };
 		5B76D0F529C76A2B008883A8 /* CircularSector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularSector.swift; sourceTree = "<group>"; };
 		5B8B119429D07EE6009BB0E6 /* FirstCountdown.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstCountdown.swift; sourceTree = "<group>"; };
@@ -165,6 +167,7 @@
 			isa = PBXGroup;
 			children = (
 				5B95944C29D96277001F2B4B /* Turret.swift */,
+				5B6585A529EEAE6200F9E758 /* CubeHexagon.swift */,
 				5B63175929E7F27700FF6876 /* RoundedCorners.swift */,
 			);
 			path = Shape;
@@ -510,6 +513,7 @@
 				5B63175829E6C90300FF6876 /* ToDoFormRow.swift in Sources */,
 				5BD5131B29D583E80008E1C9 /* ToDoDetail.swift in Sources */,
 				5B2FEABC29D9CC000022F827 /* ToDoStore.swift in Sources */,
+				5B6585A629EEAE6200F9E758 /* CubeHexagon.swift in Sources */,
 				5BCF551629C3065E00A19759 /* RecordView.swift in Sources */,
 				5BCF551B29C30D1600A19759 /* ToDoList.swift in Sources */,
 				5BB4FEC829C83124009CCD43 /* ToDoManager.swift in Sources */,

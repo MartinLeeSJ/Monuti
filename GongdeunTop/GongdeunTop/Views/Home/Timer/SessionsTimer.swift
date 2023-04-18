@@ -12,7 +12,7 @@ struct SessionsTimer: View {
     @ObservedObject var timerViewModel: TimerManager
     @StateObject var todoStore = ToDoStore()
     
-    
+    @State private var isFirstCountDownEnded: Bool = false
     @State private var isShowingReallyQuitAlert: Bool = false
     @State private var isShowingCycleMemoir: Bool = false
 
@@ -20,22 +20,23 @@ struct SessionsTimer: View {
         GeometryReader { geo in
             let width = geo.size.width
             let height = geo.size.height
+            let shorterSize = min(width, height)
             VStack {
                 Spacer()
 
-                getCircleBackground(width: width)
+                getTimerBackground(width: shorterSize)
                     .overlay {
                         VStack(alignment: .center) {
                             
-                            getDigitTimes(width: width)
+                            getDigitTimes(width: shorterSize)
                             
-                            getButtons(width: width)
+                            getButtons(width: shorterSize)
                             
                         }
                     }
                 
                 SessionIndicator(viewModel: timerViewModel)
-                    .frame(width: width * 0.5)
+                    .frame(width: shorterSize * 0.5)
                 
                 Spacer()
                 
@@ -87,16 +88,16 @@ struct SessionsTimer: View {
             }
         }
         .overlay {
-            if timerViewModel.timer == nil {
-                FirstCountdown()
+            if !isFirstCountDownEnded {
+                FirstCountdown(isEnded: $isFirstCountDownEnded)
+            }
+        }
+        .onChange(of: isFirstCountDownEnded) { _ in
+            if timerViewModel.timer == nil && isFirstCountDownEnded {
+                handlePlayButton()
             }
         }
         .onAppear {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 6.5) {
-                if timerViewModel.timer == nil {
-                    handlePlayButton()
-                }
-            }
             todoStore.subscribeTodos()
         }
         .onDisappear{
@@ -158,17 +159,34 @@ struct SessionsTimer: View {
                 .offset(x: width * 0.1)
         }
         .font(.system(size: 54))
+        .foregroundColor(.white)
         .padding(.bottom, 25)
     }
     
     @ViewBuilder
-    private func getCircleBackground(width: CGFloat) -> some View {
-        Circle()
-            .foregroundColor(.GTPastelBlue)
-            .frame(width: width * 0.8, height: width * 0.8)
+    private func getTimerBackground(width: CGFloat) -> some View {
+        CircularSector(endDegree: timerViewModel.getEndDegree())
+            .frame(width: width * 0.85, height: width * 0.85)
+            .foregroundColor(.GTDenimBlue)
+            .clipShape(CubeHexagon(radius: width * 0.425))
             .overlay {
-                CircularSector(endDegree: timerViewModel.getEndDegree())
-                    .foregroundColor(.GTDenimBlue)
+                CubeHexagon(radius: width * 0.425)
+                    .stroke(lineWidth: 8)
+                    .foregroundColor(.white.opacity(0.2))
+            }
+            .overlay {
+                ForEach(0..<60, id: \.self) { index in
+                    Circle()
+                        .fill(Color.GTDenimNavy)
+                        .opacity(0.6)
+                        .frame(width: index % 5 == 0 ? 8 : 4)
+                        .offset(y: width * 0.4)
+                        .rotationEffect(Angle(degrees: Double(360 * index / 60)))
+                }
+            }
+            .background {
+                CubeHexagon(radius: width * 0.425)
+                    .fill(Color.GTPastelBlue)
             }
             
     }
@@ -198,8 +216,8 @@ struct SessionsTimer: View {
     private func updateToDoTimeSpent() {
         guard !timerViewModel.knowIsRefreshTime() else { return }
         
-        if var updatingToDo = todoStore.todos.first(where: { $0.id == timerViewModel.currentTodo?.id }) {
-            updatingToDo.timeSpent += 1
+        if let index = todoStore.todos.firstIndex(where: { $0.id == timerViewModel.currentTodo?.id }) {
+            todoStore.todos[index].timeSpent += 1
         }
     }
     
