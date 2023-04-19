@@ -63,7 +63,8 @@ final class TimerManager: ObservableObject {
     }
     
     func getMinute() -> String {
-        let result: Int = Int(self.remainSeconds / 60)
+        let seconds: Int = self.remainSeconds <= 0 ? 0 : self.remainSeconds
+        let result: Int = Int(seconds / 60)
         
         if result < 10 {
             return "0" + String(result)
@@ -73,7 +74,8 @@ final class TimerManager: ObservableObject {
     }
     
     func getSecond() -> String {
-        let result: Int = self.remainSeconds % 60
+        let seconds: Int = self.remainSeconds <= 0 ? 0 : self.remainSeconds
+        let result: Int = seconds % 60
         
         if result < 10 {
             return "0" + String(result)
