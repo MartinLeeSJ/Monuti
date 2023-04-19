@@ -171,7 +171,7 @@ struct SessionsTimer: View {
             .clipShape(CubeHexagon(radius: width * 0.425))
             .overlay {
                 CubeHexagon(radius: width * 0.425)
-                    .stroke(lineWidth: 8)
+                    .stroke(style: .init(lineWidth: 8, lineJoin: .round))
                     .foregroundColor(.white.opacity(0.2))
             }
             .overlay {
