@@ -103,25 +103,18 @@ struct SessionsTimer: View {
                 handlePlayButton()
             }
         }
-        .onChange(of: scenePhase) { [scenePhase] newPhase in
+        .onChange(of: scenePhase) { newPhase in
             guard timerManager.isRunning else { return }
-            
-            let backgroundToActive: Bool = (scenePhase == .background && newPhase == .active)
-            let activeToBackground: Bool = (scenePhase == .active && newPhase == .background)
-            let activeToInactive: Bool = (scenePhase == .active && newPhase == .inactive)
-            
-            if backgroundToActive {
+
+            if newPhase == .active {
                 // 저장되어있는 시점으로부터의 시간을 남아있는 시간에서 제한다.
                 let last: Double = Double(lastTimeObserved) ?? 0.0
                 let now: Double = Double(Date.now.timeIntervalSince1970)
                 let diff: Int = Int((now - last).rounded())
                 
-                timerManager.remainSeconds -= diff
-                
-            } else if activeToBackground || activeToInactive {
-                // 떠나는 시점의 시간을 기록한다
-                lastTimeObserved = String(Date.now.timeIntervalSince1970)
-                print("time observed \(lastTimeObserved)")
+                print("Time will be Subtracted \(diff)")
+
+                timerManager.remainSeconds = (timerManager.knowIsRefreshTime() ? timerManager.refreshTime : timerManager.concentrationTime) * 60 - diff
             }
             
         }
@@ -224,6 +217,8 @@ struct SessionsTimer: View {
         if timerManager.isRunning {
             timerManager.timer?.invalidate()
         } else {
+            recordStartingTime()
+            
             timerManager.timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
                 if timerManager.remainSeconds > 0 {
                     timerManager.remainSeconds -= 1
@@ -247,6 +242,20 @@ struct SessionsTimer: View {
         if let index = todoStore.todos.firstIndex(where: { $0.id == timerManager.currentTodo?.id }) {
             todoStore.todos[index].timeSpent += 1
         }
+    }
+    
+    private func recordStartingTime() {
+        // 초창기에만 기록하면 됨
+        let isConcentrationTimeStarted: Bool = !timerManager.knowIsRefreshTime() && timerManager.remainSeconds == timerManager.concentrationTime * 60
+        let isRefreshTimeStarted: Bool = timerManager.knowIsRefreshTime() && timerManager.remainSeconds == timerManager.refreshTime * 60
+        
+        guard isConcentrationTimeStarted || isRefreshTimeStarted else {
+            print("Failed To Record Time \(timerManager.remainSeconds)")
+            return
+        }
+        
+        lastTimeObserved = String(Date.now.timeIntervalSince1970)
+        print("Time is Recorded \(lastTimeObserved)")
     }
     
     private func handleResetButton() {
