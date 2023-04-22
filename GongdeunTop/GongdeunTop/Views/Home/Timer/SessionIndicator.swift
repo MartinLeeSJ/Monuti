@@ -12,38 +12,51 @@ struct SessionIndicator: View {
     
     var sessions: Int { manager.numOfSessions }
     // 1, 2, 3, 4
-    var cycle: Int { 2 * manager.numOfSessions }
+    var cycle: Int { 2 * sessions }
+    
     // 1, 2, 3, 4, 5, 6, 7, 8
     var currentTime: Int { manager.currentTime }
     
+    var currentSession: Int { Int(ceil(Double(currentTime) / 2)) }
+    
     var body: some View {
         
-        HStack(spacing: 5) {
-            Spacer()
-            ForEach(1...sessions, id: \.self) { session in
-                
-                HStack {
-                    ForEach((session * 2 - 1)...(session * 2), id: \.self) { time in
-                        if time == currentTime {
-                            Capsule().frame(width: 30, height: 10)
-                        } else {
-                            Circle().frame(width: 10 , height: 10)
-                                .foregroundColor(.secondary)
+        VStack(spacing: 0) {
+            Text("Session \(currentSession)")
+                .foregroundColor(.secondary)
+            
+            Text(manager.knowIsRefreshTime() ? "Refresh" : "Concentrate!")
+                .font(.headline)
+                .padding(.bottom, 8)
+            
+            HStack(spacing: 5) {
+                Spacer()
+                ForEach(1...sessions, id: \.self) { session in
+                    let firstTime: Int = session * 2 - 1
+                    let lastTime: Int = firstTime + 1
+                    HStack {
+                        ForEach(firstTime...lastTime, id: \.self) { time in
+                            if time == currentTime {
+                                Capsule().frame(width: 20, height: 10)
+                            } else {
+                                Circle().frame(width: 10 , height: 10)
+                                    .foregroundColor(.secondary)
+                            }
                         }
                     }
-                }
-                .padding(5)
-                .background {
-                    if currentTime <= session * 2 && session * 2 - 1 <= currentTime {
-                        Capsule()
-                            .fill(Color.gray)
-                            .opacity(0.3)
+                    .padding(7)
+                    .background {
+                        if currentTime <= lastTime && firstTime <= currentTime {
+                            Capsule()
+                                .fill(Color.gray)
+                                .opacity(0.3)
+                        }
                     }
+                    
                 }
-                
+                Spacer()
             }
-            
-            Spacer()
+
         }
         
     }

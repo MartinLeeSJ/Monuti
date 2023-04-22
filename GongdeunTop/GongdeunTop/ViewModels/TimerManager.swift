@@ -28,11 +28,11 @@ final class TimerManager: ObservableObject {
     @Published var currentTodo: ToDo? = nil
     
     
-    init(sessions: Int = 4, concentrationTime: Int = 25, refreshTime: Int = 5, currentSession: Int = 1) {
+    init(sessions: Int = 4, concentrationTime: Int = 25, refreshTime: Int = 5, currentTime: Int = 1) {
         self.numOfSessions = sessions
         self.concentrationTime = concentrationTime
         self.refreshTime = refreshTime
-        self.currentTime = currentSession
+        self.currentTime = currentTime
         self.remainSeconds = concentrationTime * 60
     }
     
