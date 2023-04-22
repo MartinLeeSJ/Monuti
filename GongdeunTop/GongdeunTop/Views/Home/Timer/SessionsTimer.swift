@@ -30,6 +30,8 @@ struct SessionsTimer: View {
             VStack {
                 Spacer()
                 
+                Text(timerManager.currentTodo?.title ?? "timer_currentTodo_nothing")
+                
                 getTimerBackground(width: shorterSize)
                     .overlay {
                         VStack(alignment: .center) {
@@ -40,26 +42,39 @@ struct SessionsTimer: View {
                             
                         }
                     }
+                    .padding(.bottom, 20)
                 
-                SessionIndicator(viewModel: timerManager)
+                SessionIndicator(manager: timerManager)
                     .frame(width: shorterSize * 0.5)
                 
                 Spacer()
                 
-                if !todoStore.todos.isEmpty {
-                    Menu {
-                        ForEach(todoStore.todos, id: \.self) { todo in
-                            Button {
-                                timerManager.currentTodo = todo
-                            } label: {
-                                Text(todo.title)
-                            }
+                
+                Menu {
+                    ForEach(todoStore.todos, id: \.self) { todo in
+                        Button {
+                            timerManager.currentTodo = todo
+                        } label: {
+                            Text(todo.title)
                         }
-                    } label: {
-                        Text(timerManager.currentTodo?.title ?? "현재 할 일 없음")
+                    }
+                } label: {
+                    Label {
+                        Text(!todoStore.todos.isEmpty ? "timer_todoMenu" : "timer_todoMenu_nothing")
+                    } icon: {
+                        Image(systemName: "chevron.down")
+                    }
+                    .foregroundColor(.white)
+                    .padding()
+                    .background {
+                        RoundedRectangle(cornerRadius: 5)
                     }
                 }
-
+                .menuStyle(.borderlessButton)
+                .tint(.GTDenimNavy)
+                .disabled(todoStore.todos.isEmpty)
+                
+                
                 Spacer()
             }
             .frame(width: width, height: height)
@@ -105,7 +120,7 @@ struct SessionsTimer: View {
         }
         .onChange(of: scenePhase) { newPhase in
             guard timerManager.isRunning else { return }
-
+            
             if newPhase == .active {
                 // 저장되어있는 시점으로부터의 시간을 남아있는 시간에서 제한다.
                 let last: Double = Double(lastTimeObserved) ?? 0.0
@@ -113,7 +128,7 @@ struct SessionsTimer: View {
                 let diff: Int = Int((now - last).rounded())
                 
                 print("Time will be Subtracted \(diff)")
-
+                
                 timerManager.remainSeconds = (timerManager.knowIsRefreshTime() ? timerManager.refreshTime : timerManager.concentrationTime) * 60 - diff
             }
             
@@ -143,7 +158,7 @@ struct SessionsTimer: View {
             Image(systemName: timerManager.isRunning ?  "pause.fill" : "play.fill")
                 .foregroundColor(.GTDenimNavy)
                 .font(.largeTitle)
-                
+            
         }
         .overlay {
             HStack {
@@ -152,7 +167,7 @@ struct SessionsTimer: View {
                 } label: {
                     Image(systemName: "clock.arrow.circlepath")
                         .font(.title)
-                        
+                    
                 }
                 Spacer()
                 Button {
@@ -160,7 +175,7 @@ struct SessionsTimer: View {
                 } label: {
                     Image(systemName: "chevron.right")
                         .font(.largeTitle)
-                        
+                    
                 }
             }
             .foregroundColor(.GTDenimNavy)
@@ -209,7 +224,7 @@ struct SessionsTimer: View {
                 CubeHexagon(radius: width * 0.425)
                     .fill(Color.GTPastelBlue)
             }
-            
+        
     }
     
     
@@ -228,7 +243,7 @@ struct SessionsTimer: View {
                     timerManager.timer?.invalidate()
                     timerManager.isRunning = false
                     if timerManager.knowIsInSession() {
-                        timerManager.currentSession += 1
+                        timerManager.currentTime += 1
                     }
                 }
             }
@@ -262,7 +277,7 @@ struct SessionsTimer: View {
         timerManager.timer?.invalidate()
         timerManager.isRunning = false
         if timerManager.knowIsRefreshTime() {
-            if timerManager.currentSession == timerManager.numOfSessions * 2 {
+            if timerManager.currentTime == timerManager.numOfSessions * 2 {
                 timerManager.remainSeconds = 30 * 60
             } else {
                 timerManager.remainSeconds = timerManager.refreshTime * 60
@@ -277,7 +292,7 @@ struct SessionsTimer: View {
             timerManager.timer?.invalidate()
             timerManager.isRunning = false
             if timerManager.knowIsInSession() {
-                timerManager.currentSession += 1
+                timerManager.currentTime += 1
             }
         }
         

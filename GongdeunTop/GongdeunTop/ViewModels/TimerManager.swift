@@ -14,9 +14,9 @@ final class TimerManager: ObservableObject {
     @Published var concentrationTime: Int 
     @Published var refreshTime: Int
     
-    @Published var currentSession: Int {
+    @Published var currentTime: Int {
         willSet(newValue) {
-            setRemainSeconds(currentSession: newValue)
+            setRemainSeconds(currentTime: newValue)
         }
     }
     
@@ -28,26 +28,26 @@ final class TimerManager: ObservableObject {
     @Published var currentTodo: ToDo? = nil
     
     
-    init(sessions: Int = 4, concentrationTime: Int = 25, refreshTime: Int = 5, currentSession: Int = 1) {
+    init(sessions: Int = 4, concentrationTime: Int = 25, refreshTime: Int = 5, currentTime: Int = 1) {
         self.numOfSessions = sessions
         self.concentrationTime = concentrationTime
         self.refreshTime = refreshTime
-        self.currentSession = currentSession
+        self.currentTime = currentTime
         self.remainSeconds = concentrationTime * 60
     }
     
     func reset() {
-        currentSession = 1
+        currentTime = 1
         isRunning = false
         timer?.invalidate()
         timer = nil
     }
     
     
-    func setRemainSeconds(currentSession: Int = 1) {
-        if currentSession % 2 == 0 && currentSession < numOfSessions * 2 {
+    func setRemainSeconds(currentTime: Int = 1) {
+        if currentTime % 2 == 0 && currentTime < numOfSessions * 2 {
             remainSeconds = refreshTime * 60
-        } else if currentSession == numOfSessions * 2 {
+        } else if currentTime == numOfSessions * 2 {
             remainSeconds = 30 * 60
         } else {
             remainSeconds = concentrationTime * 60
@@ -55,11 +55,11 @@ final class TimerManager: ObservableObject {
     }
     
     func knowIsRefreshTime() -> Bool {
-        self.currentSession % 2 == 0
+        self.currentTime % 2 == 0
     }
     
     func knowIsInSession() -> Bool {
-        self.currentSession < self.numOfSessions * 2
+        self.currentTime < self.numOfSessions * 2
     }
     
     func getMinute() -> String {
@@ -89,9 +89,9 @@ final class TimerManager: ObservableObject {
     }
     
     func getEndDegree() -> Double {
-        if currentSession % 2 == 0 && currentSession < numOfSessions * 2 {
+        if currentTime % 2 == 0 && currentTime < numOfSessions * 2 {
             return Double(self.remainSeconds) / Double(self.refreshTime * 60)  * 360.0
-        } else if currentSession == numOfSessions * 2 {
+        } else if currentTime == numOfSessions * 2 {
             return Double(self.remainSeconds) / Double(30 * 60)  * 360.0
         } else {
             return Double(self.remainSeconds) / Double(self.concentrationTime * 60)  * 360.0

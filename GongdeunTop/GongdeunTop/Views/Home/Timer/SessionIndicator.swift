@@ -8,33 +8,62 @@
 import SwiftUI
 
 struct SessionIndicator: View {
-    @ObservedObject var viewModel: TimerManager
+    @ObservedObject var manager: TimerManager
     
-    var numOfSession: Int { 2 * viewModel.numOfSessions }
-    var currentSession: Int { viewModel.currentSession }
+    var sessions: Int { manager.numOfSessions }
+    // 1, 2, 3, 4
+    var cycle: Int { 2 * sessions }
+    
+    // 1, 2, 3, 4, 5, 6, 7, 8
+    var currentTime: Int { manager.currentTime }
+    
+    var currentSession: Int { Int(ceil(Double(currentTime) / 2)) }
     
     var body: some View {
-
-        HStack(spacing: 5) {
-            Spacer()
-                ForEach(0..<numOfSession, id: \.self) { session in
-                    if session + 1 == currentSession {
-                        Capsule().frame(width: 30, height: 10)
-                    } else {
-                        Circle().frame(width: 10 , height: 10)
-                            .foregroundColor(.secondary)
+        
+        VStack(spacing: 0) {
+            Text("Session \(currentSession)")
+                .foregroundColor(.secondary)
+            
+            Text(manager.knowIsRefreshTime() ? "Refresh" : "Concentrate!")
+                .font(.headline)
+                .padding(.bottom, 8)
+            
+            HStack(spacing: 5) {
+                Spacer()
+                ForEach(1...sessions, id: \.self) { session in
+                    let firstTime: Int = session * 2 - 1
+                    let lastTime: Int = firstTime + 1
+                    HStack {
+                        ForEach(firstTime...lastTime, id: \.self) { time in
+                            if time == currentTime {
+                                Capsule().frame(width: 20, height: 10)
+                            } else {
+                                Circle().frame(width: 10 , height: 10)
+                                    .foregroundColor(.secondary)
+                            }
+                        }
                     }
-
+                    .padding(7)
+                    .background {
+                        if currentTime <= lastTime && firstTime <= currentTime {
+                            Capsule()
+                                .fill(Color.gray)
+                                .opacity(0.3)
+                        }
+                    }
+                    
                 }
-           
-            Spacer()
+                Spacer()
             }
+
+        }
         
     }
 }
 
 struct SessionIndicator_Previews: PreviewProvider {
     static var previews: some View {
-        SessionIndicator(viewModel: TimerManager())
+        SessionIndicator(manager: TimerManager())
     }
 }
