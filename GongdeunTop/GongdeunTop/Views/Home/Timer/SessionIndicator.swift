@@ -8,33 +8,49 @@
 import SwiftUI
 
 struct SessionIndicator: View {
-    @ObservedObject var viewModel: TimerManager
+    @ObservedObject var manager: TimerManager
     
-    var numOfSession: Int { 2 * viewModel.numOfSessions }
-    var currentSession: Int { viewModel.currentSession }
+    var sessions: Int { manager.numOfSessions }
+    // 1, 2, 3, 4
+    var cycle: Int { 2 * manager.numOfSessions }
+    // 1, 2, 3, 4, 5, 6, 7, 8
+    var currentTime: Int { manager.currentTime }
     
     var body: some View {
-
+        
         HStack(spacing: 5) {
             Spacer()
-                ForEach(0..<numOfSession, id: \.self) { session in
-                    if session + 1 == currentSession {
-                        Capsule().frame(width: 30, height: 10)
-                    } else {
-                        Circle().frame(width: 10 , height: 10)
-                            .foregroundColor(.secondary)
+            ForEach(1...sessions, id: \.self) { session in
+                
+                HStack {
+                    ForEach((session * 2 - 1)...(session * 2), id: \.self) { time in
+                        if time == currentTime {
+                            Capsule().frame(width: 30, height: 10)
+                        } else {
+                            Circle().frame(width: 10 , height: 10)
+                                .foregroundColor(.secondary)
+                        }
                     }
-
                 }
-           
-            Spacer()
+                .padding(5)
+                .background {
+                    if currentTime <= session * 2 && session * 2 - 1 <= currentTime {
+                        Capsule()
+                            .fill(Color.gray)
+                            .opacity(0.3)
+                    }
+                }
+                
             }
+            
+            Spacer()
+        }
         
     }
 }
 
 struct SessionIndicator_Previews: PreviewProvider {
     static var previews: some View {
-        SessionIndicator(viewModel: TimerManager())
+        SessionIndicator(manager: TimerManager())
     }
 }
