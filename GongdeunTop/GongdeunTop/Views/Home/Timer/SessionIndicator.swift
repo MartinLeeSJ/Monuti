@@ -25,7 +25,7 @@ struct SessionIndicator: View {
             Text("Session \(currentSession)")
                 .foregroundColor(.secondary)
             
-            Text(manager.knowIsRefreshTime() ? "Refresh" : "Concentrate!")
+            Text(String(localized: manager.knowIsRefreshTime() ? "Refresh" : "Concentrate"))
                 .font(.headline)
                 .padding(.bottom, 8)
             
@@ -34,17 +34,17 @@ struct SessionIndicator: View {
                 ForEach(1...sessions, id: \.self) { session in
                     let firstTime: Int = session * 2 - 1
                     let lastTime: Int = firstTime + 1
-                    HStack {
+                    HStack(spacing: 4) {
                         ForEach(firstTime...lastTime, id: \.self) { time in
                             if time == currentTime {
-                                Capsule().frame(width: 20, height: 10)
+                                Capsule().frame(width: 16, height: 8)
                             } else {
-                                Circle().frame(width: 10 , height: 10)
+                                Circle().frame(width: 8 , height: 8)
                                     .foregroundColor(.secondary)
                             }
                         }
                     }
-                    .padding(7)
+                    .padding(currentTime <= lastTime && firstTime <= currentTime ? 7 : 2)
                     .background {
                         if currentTime <= lastTime && firstTime <= currentTime {
                             Capsule()

@@ -14,6 +14,9 @@
 "Delete" = "삭제";
 "Cancel" = "취소";
 "Complete Todo" = "일 끝내기";
+"Quit" = "끝내기";
+"Continue" = "계속하기";
+"really exit" = "정말로 끝내겠습니까?";
 
 "sessions%lld" = " %lld개 세션,";
 "totalTime%lld" = " 총%lld분";
@@ -39,6 +42,14 @@
 "setTime_session%lld" = "%lld개 세션";
 "setTime_session_range" = "3 ~ 6개";
 
+//Session Timer
+"timer_currentTodo_nothing" = "현재 할 일 없음";
+"timer_todoMenu" = "할 일 선택";
+"timer_todoMenu_nothing" = "선택할 할 일 없음";
+
+//Session Timer _ Indicator
+"Refresh" = "쉬는시간";
+"Concentrate" = "집중!";
 
 //CycleMemoir
 "concentration_evaluation_title" = "나의 집중도는...";

@@ -30,7 +30,8 @@ struct SessionsTimer: View {
             VStack {
                 Spacer()
                 
-                Text(timerManager.currentTodo?.title ?? "timer_currentTodo_nothing")
+                Text(timerManager.currentTodo?.title ?? String(localized: "timer_currentTodo_nothing"))
+                    .font(.headline)
                 
                 getTimerBackground(width: shorterSize)
                     .overlay {
@@ -45,34 +46,12 @@ struct SessionsTimer: View {
                     .padding(.bottom, 20)
                 
                 SessionIndicator(manager: timerManager)
-                    .frame(width: shorterSize * 0.5)
+                    .frame(width: shorterSize * 0.45)
                 
                 Spacer()
                 
                 
-                Menu {
-                    ForEach(todoStore.todos, id: \.self) { todo in
-                        Button {
-                            timerManager.currentTodo = todo
-                        } label: {
-                            Text(todo.title)
-                        }
-                    }
-                } label: {
-                    Label {
-                        Text(!todoStore.todos.isEmpty ? "timer_todoMenu" : "timer_todoMenu_nothing")
-                    } icon: {
-                        Image(systemName: "chevron.down")
-                    }
-                    .foregroundColor(.white)
-                    .padding()
-                    .background {
-                        RoundedRectangle(cornerRadius: 5)
-                    }
-                }
-                .menuStyle(.borderlessButton)
-                .tint(.GTDenimNavy)
-                .disabled(todoStore.todos.isEmpty)
+                getTodoMenu()
                 
                 
                 Spacer()
@@ -81,32 +60,7 @@ struct SessionsTimer: View {
         }
         .navigationBarBackButtonHidden(true)
         .toolbar {
-            ToolbarItem {
-                Button {
-                    isShowingReallyQuitAlert = true
-                    handlePlayButton()
-                } label: {
-                    Text("끝내기")
-                }
-                .alert("Will You Really Quit?",isPresented: $isShowingReallyQuitAlert) {
-                    Button {
-                        handlePlayButton()
-                        isShowingReallyQuitAlert = false
-                    } label: {
-                        Text("계속하기")
-                    }
-                    
-                    Button {
-                        isShowingReallyQuitAlert = false
-                        isShowingCycleMemoir = true
-                    } label: {
-                        Text("끝내기")
-                    }
-                } message: {
-                    Text("정말로 끝내시겠습니까?")
-                }
-                
-            }
+            toolbarContents()
         }
         .overlay {
             if !isFirstCountDownEnded {
@@ -118,21 +72,7 @@ struct SessionsTimer: View {
                 handlePlayButton()
             }
         }
-        .onChange(of: scenePhase) { newPhase in
-            guard timerManager.isRunning else { return }
-            
-            if newPhase == .active {
-                // 저장되어있는 시점으로부터의 시간을 남아있는 시간에서 제한다.
-                let last: Double = Double(lastTimeObserved) ?? 0.0
-                let now: Double = Double(Date.now.timeIntervalSince1970)
-                let diff: Int = Int((now - last).rounded())
-                
-                print("Time will be Subtracted \(diff)")
-                
-                timerManager.remainSeconds = (timerManager.knowIsRefreshTime() ? timerManager.refreshTime : timerManager.concentrationTime) * 60 - diff
-            }
-            
-        }
+        .onChange(of: scenePhase, perform: {updateTimeElapsed(newPhase:$0)})
         .onAppear {
             todoStore.subscribeTodos()
         }
@@ -227,6 +167,35 @@ struct SessionsTimer: View {
         
     }
     
+    @ViewBuilder
+    private func getTodoMenu() -> some View {
+        Menu {
+            ForEach(todoStore.todos, id: \.self) { todo in
+                Button {
+                    timerManager.currentTodo = todo
+                } label: {
+                    Text(todo.title)
+                }
+            }
+        } label: {
+            Label {
+                Text(String(localized: !todoStore.todos.isEmpty ?
+                                "timer_todoMenu" :
+                                "timer_todoMenu_nothing"))
+            } icon: {
+                Image(systemName: "chevron.down")
+            }
+            .foregroundColor(.white)
+            .padding()
+            .background {
+                RoundedRectangle(cornerRadius: 5)
+            }
+        }
+        .menuStyle(.borderlessButton)
+        .tint(.GTDenimNavy)
+        .disabled(todoStore.todos.isEmpty)
+    }
+    
     
     private func handlePlayButton() {
         if timerManager.isRunning {
@@ -256,6 +225,21 @@ struct SessionsTimer: View {
         
         if let index = todoStore.todos.firstIndex(where: { $0.id == timerManager.currentTodo?.id }) {
             todoStore.todos[index].timeSpent += 1
+        }
+    }
+    
+    private func updateTimeElapsed(newPhase: ScenePhase) {
+        guard timerManager.isRunning else { return }
+        
+        if newPhase == .active {
+            
+            let last: Double = Double(lastTimeObserved) ?? 0.0
+            let now: Double = Double(Date.now.timeIntervalSince1970)
+            let diff: Int = Int((now - last).rounded())
+            
+            print("Time will be Subtracted \(diff)")
+            
+            timerManager.remainSeconds = (timerManager.knowIsRefreshTime() ? timerManager.refreshTime : timerManager.concentrationTime) * 60 - diff
         }
     }
     
@@ -297,15 +281,51 @@ struct SessionsTimer: View {
         }
         
     }
-    
-    
+}
+
+extension SessionsTimer {
+    @ToolbarContentBuilder
+    func toolbarContents() -> some ToolbarContent {
+        ToolbarItem {
+            Button {
+                isShowingReallyQuitAlert = true
+                handlePlayButton()
+            } label: {
+                Text(String(localized: "Quit"))
+            }
+            .alert(String(localized: "really exit") ,isPresented: $isShowingReallyQuitAlert) {
+                Button {
+                    handlePlayButton()
+                    isShowingReallyQuitAlert = false
+                } label: {
+                    Text(String(localized:"Continue"))
+                }
+                
+                Button {
+                    isShowingReallyQuitAlert = false
+                    isShowingCycleMemoir = true
+                } label: {
+                    Text(String(localized: "Quit"))
+                }
+            } message: {
+                Text(String(localized: "really exit"))
+            }
+            
+        }
+    }
 }
 
 
 
 struct TimerView_Previews: PreviewProvider {
     static var previews: some View {
-        SessionsTimer(timerManager: TimerManager())
+        Group {
+            SessionsTimer(timerManager: TimerManager())
+                .environment(\.locale, .init(identifier: "en"))
+            
+            SessionsTimer(timerManager: TimerManager())
+                .environment(\.locale, .init(identifier: "ko"))
+        }
         
     }
 }
