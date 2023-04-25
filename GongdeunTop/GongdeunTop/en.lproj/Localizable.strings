@@ -13,6 +13,9 @@
 "Delete" = "Delete";
 "Cancel" = "Cancel";
 "Complete Todo" = "Comeplete ToDo";
+"Quit" = "Quit";
+"Continue" = "Continue";
+"really exit" = "Are you sure you want to exit?";
 
 "sessions%lld" = " %lld Sessions,";
 "totalTime%lld" = " %lld minutes";
@@ -46,6 +49,16 @@
 
 "setTime_minute%lld" = "%lldmin";
 
+//Session Timer
+"timer_currentTodo_nothing" = "Nothing To Do";
+"timer_todoMenu" = "Select ToDo";
+"timer_todoMenu_nothing" = "Nothing To Select";
+
+//Session Timer _ Indicator
+
+"Refresh" = "Refresh";
+"Concentrate" = "Concentrate!";
+
 
 //CycleMemoir
 "concentration_evaluation_title" = "My Concentration Was...";
@@ -59,5 +72,7 @@
 
 "concentration_textEditor_title" = "Memoir";
 "concentration_textEditor_subtitle" = "Write a memoir about this cycle";
+
+
 
 
