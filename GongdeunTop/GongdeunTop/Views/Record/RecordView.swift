@@ -19,10 +19,8 @@ struct RecordView: View {
     @ObservedObject var authViewModel: AuthManager
     @StateObject var calendarManager = CalendarManager()
     
-    
-    @State private var currentMonthData: [Date] = []
-    @State private var selectedDate: Date = Date()
-    
+    @State private var showingSetMonth: Bool = false
+
     var firstWeekdayDigit: Int {
         if let startDate = calendarManager.currentMonthData.first {
             
@@ -36,6 +34,10 @@ struct RecordView: View {
         calendarManager.selectedDate.formatted(Date.FormatStyle().month(.abbreviated))
     }
     
+    var isCalendarInCurrentMonth: Bool {
+        currentMonth == Date.now.formatted(Date.FormatStyle().month(.abbreviated))
+    }
+    
     var currentYear: String {
         calendarManager.selectedDate.formatted(Date.FormatStyle().year(.defaultDigits))
     }
@@ -44,51 +46,7 @@ struct RecordView: View {
     var body: some View {
         NavigationView {
             VStack(spacing: 0) {
-                HStack(alignment: .bottom, spacing: 4) {
-                    Text(currentMonth)
-                        .font(.largeTitle.bold())
-                    
-                    Text(currentYear)
-                        .font(.callout)
-                        .foregroundColor(.secondary)
-                        .padding(.bottom, 5)
-                    
-                    Spacer()
-                    
-                    Button {
-                        calendarManager.handlePreviousButton()
-                    } label: {
-                        Image(systemName: "chevron.left")
-                            .font(.callout)
-                            .frame(height: 20)
-                    }
-                    
-                    .buttonStyle(.borderedProminent)
-                    
-                    Button {
-                        calendarManager.handleTodayButton()
-                    } label: {
-                        Text("오늘")
-                            .font(.callout)
-                            .frame(height: 20)
-                    }
-                    .buttonStyle(.borderedProminent)
-                    
-                    
-                    Button {
-                        calendarManager.handleNextButton()
-                    } label: {
-                        Image(systemName: "chevron.right")
-                            .font(.callout)
-                            .frame(height: 20)
-                    }
-                    .buttonStyle(.borderedProminent)
-                }
-                .padding(.horizontal, 16)
-                
-                
                 LazyVGrid(columns: Array(repeating: .init(.flexible(), spacing: 0), count: 7), spacing: 5) {
-                    
                     ForEach(WeekDays.allCases) { weekday in
                         HStack(alignment: .center) {
                             Text(String(localized: LocalizedStringResource(stringLiteral: weekday.rawValue))
@@ -96,8 +54,6 @@ struct RecordView: View {
                             .font(.headline)
                             .padding(5)
                         }
-                        
-                        
                     }
                     
                     ForEach(1..<firstWeekdayDigit, id: \.self) { _ in
@@ -108,18 +64,65 @@ struct RecordView: View {
                     
                     ForEach(calendarManager.currentMonthData, id: \.self) { date in
                         DateCell(date: date)
-                        
                     }
                 }
+                .gesture(DragGesture(minimumDistance: 2.0, coordinateSpace: .local)
+                    .onEnded { value in
+                        switch(value.translation.width, value.translation.height) {
+                        case (...0, -50...50):
+                            calendarManager.handleNextButton(.month)
+                        case (0..., -50...50):
+                            calendarManager.handlePreviousButton(.month)
+                        default:  print("no clue")
+                        }
+                    }
+                )
                 
                 Spacer()
             }
             .padding()
-            .navigationTitle("보고서")
-            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button {
+                        showingSetMonth.toggle()
+                    } label: {
+                        HStack(alignment: .firstTextBaseline, spacing: 4) {
+                            Text(currentMonth)
+                                .font(.title.bold())
+                            
+                            Text(currentYear)
+                                .font(.callout)
+                                .foregroundColor(.secondary)
+                                
+                            Image(systemName: "chevron.down.circle")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                        }
+                    }
+                    
+                }
+                
+                if !isCalendarInCurrentMonth {
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button {
+                            calendarManager.handleTodayButton()
+                        } label: {
+                            Text("오늘")
+                        }
+                    }
+                }
+            }
+            .blur(radius: showingSetMonth ? 10 : 0)
+        }
+        .overlay {
+            if showingSetMonth {
+                SetMonthView(manager: calendarManager, isShowing: $showingSetMonth)
+            }
         }
     }
 }
+
+
 
 struct DateCell: View {
     let date: Date
