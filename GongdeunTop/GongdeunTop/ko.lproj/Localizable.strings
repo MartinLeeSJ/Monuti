@@ -63,3 +63,12 @@
 
 "concentration_textEditor_title" = "돌아보기";
 "concentration_textEditor_subtitle" = "이번 집중시간은 어땠는지 적어보세요";
+
+//Weekday
+"Sun" = "일";
+"Mon" = "월";
+"Tue" = "화";
+"Wed" = "수";
+"Thu" = "목";
+"Fri" = "금";
+"Sat" = "토";

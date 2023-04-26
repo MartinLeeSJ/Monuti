@@ -12,6 +12,7 @@
 		5B05A61029EAAFD700C89417 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 5B05A61229EAAFD700C89417 /* Localizable.stringsdict */; };
 		5B05A61529ECE5CF00C89417 /* CycleManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B05A61429ECE5CF00C89417 /* CycleManager.swift */; };
 		5B05A61829ECFD5A00C89417 /* CycleMemoir.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B05A61729ECFD5A00C89417 /* CycleMemoir.swift */; };
+		5B2767C529F8F30D008398A3 /* CalendarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2767C429F8F30D008398A3 /* CalendarManager.swift */; };
 		5B2FEABC29D9CC000022F827 /* ToDoStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2FEABB29D9CC000022F827 /* ToDoStore.swift */; };
 		5B2FEABF29DA645E0022F827 /* Cycle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2FEABE29DA645E0022F827 /* Cycle.swift */; };
 		5B2FEAC129DD4EF30022F827 /* TagStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2FEAC029DD4EF30022F827 /* TagStore.swift */; };
@@ -71,6 +72,7 @@
 		5B05A61329EC0A4000C89417 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = ko; path = ko.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		5B05A61429ECE5CF00C89417 /* CycleManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CycleManager.swift; sourceTree = "<group>"; };
 		5B05A61729ECFD5A00C89417 /* CycleMemoir.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CycleMemoir.swift; sourceTree = "<group>"; };
+		5B2767C429F8F30D008398A3 /* CalendarManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarManager.swift; sourceTree = "<group>"; };
 		5B2FEABB29D9CC000022F827 /* ToDoStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoStore.swift; sourceTree = "<group>"; };
 		5B2FEABE29DA645E0022F827 /* Cycle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cycle.swift; sourceTree = "<group>"; };
 		5B2FEAC029DD4EF30022F827 /* TagStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagStore.swift; sourceTree = "<group>"; };
@@ -154,9 +156,19 @@
 			path = Timer;
 			sourceTree = "<group>";
 		};
+		5B2767C329F8F2E6008398A3 /* Timer */ = {
+			isa = PBXGroup;
+			children = (
+				5B76D0F329C74FE0008883A8 /* TimerManager.swift */,
+				5B05A61429ECE5CF00C89417 /* CycleManager.swift */,
+			);
+			path = Timer;
+			sourceTree = "<group>";
+		};
 		5B2FEABD29D9CC0B0022F827 /* ToDo */ = {
 			isa = PBXGroup;
 			children = (
+				5B2FEAC029DD4EF30022F827 /* TagStore.swift */,
 				5BB4FEC729C83124009CCD43 /* ToDoManager.swift */,
 				5B2FEABB29D9CC000022F827 /* ToDoStore.swift */,
 			);
@@ -176,11 +188,10 @@
 		5B76D0F729C7755A008883A8 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
-				5B76D0F329C74FE0008883A8 /* TimerManager.swift */,
-				5B2FEAC029DD4EF30022F827 /* TagStore.swift */,
-				5B05A61429ECE5CF00C89417 /* CycleManager.swift */,
+				5B2767C329F8F2E6008398A3 /* Timer */,
 				5B2FEABD29D9CC0B0022F827 /* ToDo */,
 				5B95E13829D7FC9000E8CBA1 /* AuthManager.swift */,
+				5B2767C429F8F30D008398A3 /* CalendarManager.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -522,6 +533,7 @@
 				5B76D0F629C76A2B008883A8 /* CircularSector.swift in Sources */,
 				5BD3D1D929D1C45A008E8988 /* ToDo+PlaceHolder.swift in Sources */,
 				5BD3D1D729D1C3BB008E8988 /* ToDoRow.swift in Sources */,
+				5B2767C529F8F30D008398A3 /* CalendarManager.swift in Sources */,
 				5B63A59329C95AD500AA4525 /* SetToDoForm.swift in Sources */,
 				5B95E13929D7FC9000E8CBA1 /* AuthManager.swift in Sources */,
 				5BD5131929D574900008E1C9 /* SessionIndicator.swift in Sources */,
