@@ -31,22 +31,23 @@ struct RecordView: View {
     }
     
     var currentMonth: String {
-        calendarManager.selectedDate.formatted(Date.FormatStyle().month(.abbreviated))
+        calendarManager.startingPointDate.formatted(Date.FormatStyle().month(.abbreviated))
     }
     
     var isCalendarInCurrentMonth: Bool {
-        currentMonth == Date.now.formatted(Date.FormatStyle().month(.abbreviated))
+        calendarManager.startingPointDate.formatted(Date.FormatStyle().year().month())
+        == Date().formatted(Date.FormatStyle().year().month())
     }
     
     var currentYear: String {
-        calendarManager.selectedDate.formatted(Date.FormatStyle().year(.defaultDigits))
+        calendarManager.startingPointDate.formatted(Date.FormatStyle().year(.defaultDigits))
     }
     
     
     var body: some View {
         NavigationView {
             VStack(spacing: 0) {
-                LazyVGrid(columns: Array(repeating: .init(.flexible(), spacing: 0), count: 7), spacing: 5) {
+                LazyVGrid(columns: Array(repeating: .init(.flexible(), spacing: 0), count: 7), spacing: 0) {
                     ForEach(WeekDays.allCases) { weekday in
                         HStack(alignment: .center) {
                             Text(String(localized: LocalizedStringResource(stringLiteral: weekday.rawValue))
@@ -63,7 +64,7 @@ struct RecordView: View {
                     }
                     
                     ForEach(calendarManager.currentMonthData, id: \.self) { date in
-                        DateCell(date: date)
+                        DateCell(manager: calendarManager, date: date)
                     }
                 }
                 .gesture(DragGesture(minimumDistance: 2.0, coordinateSpace: .local)
@@ -124,50 +125,7 @@ struct RecordView: View {
 
 
 
-struct DateCell: View {
-    let date: Date
-    
-    var day: String {
-        var str: String =
-        date.formatted(
-            Date.FormatStyle()
-                .day(.defaultDigits)
-        )
-        
-        if str.hasSuffix("일") {
-            str.removeAll { $0 == "일" }
-        }
-        
-        return str
-    }
-    
-    var weekday: String {
-        date.formatted(
-            Date.FormatStyle()
-                .weekday(.oneDigit)
-        )
-    }
-    
-    
-    var body: some View {
-        VStack(spacing: 0) {
-            HAlignment(alignment: .center) {
-                Text(day).foregroundColor(Color("basicFontColor"))
-                    .font(.callout)
-            }
-            
-            Button {
-                
-            } label: {
-                RoundedRectangle(cornerRadius: 5)
-                    .stroke(lineWidth: 1)
-                    .frame(width: 35, height: 35)
-                
-            }
-            
-        }
-    }
-}
+
 
 
 

@@ -11,12 +11,14 @@ import Foundation
 final class CalendarManager: ObservableObject {
     @Published var currentMonthData: [Date] = []
     @Published var currentYearData: [Date] = []
-    @Published var selectedDate: Date = Date() {
+    @Published var startingPointDate: Date = Date() {
         didSet {
             getCurrentMonthData()
             getCurrentYearDate()
         }
     }
+    @Published var selectedDate: Date = Date()
+    
     
     
     init() {
@@ -26,7 +28,7 @@ final class CalendarManager: ObservableObject {
     
     
     private func getCurrentMonthData() {
-        let dateInterval = Calendar.current.dateInterval(of: .month, for: selectedDate)!
+        let dateInterval = Calendar.current.dateInterval(of: .month, for: startingPointDate)!
         let startDate = dateInterval.start
         let endDate = dateInterval.end
         var currentDate = startDate
@@ -41,7 +43,7 @@ final class CalendarManager: ObservableObject {
     }
     
     private func getCurrentYearDate() {
-        let dateInterval = Calendar.current.dateInterval(of: .year, for: selectedDate)!
+        let dateInterval = Calendar.current.dateInterval(of: .year, for: startingPointDate)!
         let startDate = dateInterval.start
         let endDate = dateInterval.end
         var currentDate = startDate
@@ -58,19 +60,19 @@ final class CalendarManager: ObservableObject {
     
     
     
-   func selectDate(_ date: Date) {
-        selectedDate = date
+   func selectStartingPointDate(_ date: Date) {
+        startingPointDate = date
     }
     
     func handleNextButton(_ components: Calendar.Component) {
-        selectedDate = Calendar.current.date(byAdding: components, value: 1, to: selectedDate)!
+        startingPointDate = Calendar.current.date(byAdding: components, value: 1, to: startingPointDate)!
     }
     
     func handleTodayButton() {
-        selectedDate = Date()
+        startingPointDate = Date()
     }
     
     func handlePreviousButton(_ components: Calendar.Component) {
-        selectedDate = Calendar.current.date(byAdding: components, value: -1, to: selectedDate)!
+        startingPointDate = Calendar.current.date(byAdding: components, value: -1, to: startingPointDate)!
     }
 }

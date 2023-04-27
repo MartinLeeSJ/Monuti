@@ -53,7 +53,7 @@ struct SetMonthView: View {
                         
                         ForEach(manager.currentYearData, id: \.self) { month in
                             Button {
-                                manager.selectDate(month)
+                                manager.selectStartingPointDate(month)
                             } label: {
                                 Text(convertDateToMonthString(month))
                                     .font(.subheadline)
