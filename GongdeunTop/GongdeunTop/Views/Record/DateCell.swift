@@ -64,6 +64,10 @@ struct DateCell: View {
 
 struct DateCell_Previews: PreviewProvider {
     static var previews: some View {
-        DateCell(manager: CalendarManager(), date: Date.now)
+        Group {
+            VStack {
+                DateCell(manager: CalendarManager(), date: Date.now)
+            }.frame(width: 50)
+        }
     }
 }

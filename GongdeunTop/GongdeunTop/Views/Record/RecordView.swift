@@ -18,6 +18,7 @@ enum WeekDays: String, Identifiable, CaseIterable {
 struct RecordView: View {
     @ObservedObject var authViewModel: AuthManager
     @StateObject var calendarManager = CalendarManager()
+    @StateObject var cycleStore = CycleStore()
     
     @State private var showingSetMonth: Bool = false
 
@@ -78,8 +79,12 @@ struct RecordView: View {
                         }
                     }
                 )
+                Divider()
+                List(cycleStore.cyclesOrderedByDate[calendarManager.selectedDate] ?? []) { cycle in
+                    Text(cycle.id ?? "")
+                }
+                .listStyle(.plain)
                 
-                Spacer()
             }
             .padding()
             .toolbar {
