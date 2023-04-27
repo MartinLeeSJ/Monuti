@@ -33,24 +33,19 @@ final class ToDoStore: ObservableObject {
             return
         }
         if listenerRegistration == nil {
-            //Get the current date and time
-            let now = Date()
             
             let calendar = Calendar.current
-            let dateComponents = calendar.dateComponents([.year, .month, .day], from: now)
-            
-            let startTimestamp = Timestamp(date: calendar.date(byAdding: .day, value: -1, to: calendar.date(from: dateComponents)!)!)
-            let endTimestamp = Timestamp(date: calendar.date(byAdding: .day, value: 1, to: calendar.date(from: dateComponents)!)!)
+            let dateInterval = calendar.dateInterval(of: .day, for: Date())
+            let startTime = calendar.date(byAdding: .day, value: -1, to: dateInterval?.start ?? Date())!
+            let endTime = dateInterval?.end ?? Date()
             
             
             let query = database.collection("Members")
                 .document(uid)
                 .collection("ToDo")
-                .whereField("createdAt", isGreaterThanOrEqualTo: startTimestamp)
-                .whereField("createdAt", isLessThan: endTimestamp)
+                .whereField("createdAt", isGreaterThanOrEqualTo: Timestamp(date: startTime))
+                .whereField("createdAt", isLessThan: Timestamp(date: endTime))
                 .whereField("isCompleted", isEqualTo: false)
-            
-            
             
             
             listenerRegistration = query.addSnapshotListener { [weak self] (snapshot, error) in
