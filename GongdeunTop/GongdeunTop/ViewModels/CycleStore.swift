@@ -6,7 +6,7 @@
 //
 
 import Foundation
-
+import Combine
 
 import FirebaseAuth
 import FirebaseFirestore
@@ -20,40 +20,47 @@ final class CycleStore: ObservableObject {
     @Published var cyclesOrderedByDate = [Date : [Cycle]]()
     
     private let database = Firestore.firestore()
+    private var listenerRegistration: ListenerRegistration?
     
-    init() {
-        getCycleData(Date())
+    func resetAndSubscribe(_ date: Date) {
+        unsubscribeCycles()
+        subscribeCycles(date)
+    }
+   
+    
+    func unsubscribeCycles() {
+        if listenerRegistration != nil {
+            listenerRegistration?.remove()
+            listenerRegistration = nil
+        }
     }
     
     
-    func getCycleData(_ startingPoint: Date) {
+    func subscribeCycles(_ startingPoint: Date) {
         guard let uid = Auth.auth().currentUser?.uid else {
             return
         }
-     
-        let dateInterval = Calendar.current.dateInterval(of: .month, for: startingPoint)
         
-        let startDate: Date = dateInterval?.start ?? Date()
-        let endDate: Date = dateInterval?.end ?? Date()
-        
-        let startTimestamp = Timestamp(date: startDate)
-        let endTimestamp = Timestamp(date: endDate)
-        
-        let query = database.collection("Members")
-            .document(uid)
-            .collection("Cycle")
-            .whereField("createdAt", isGreaterThanOrEqualTo: startTimestamp)
-            .whereField("createdAt", isLessThan: endTimestamp)
-        
-        query.getDocuments { [weak self] (snapshot, error) in
-            guard let self = self, let documents = snapshot?.documents else {
-                print("Error fetching documents: \(error!.localizedDescription)")
-                return
+        if listenerRegistration == nil {
+            let dateInterval = Calendar.current.dateInterval(of: .month, for: startingPoint)
+            
+            let startDate: Date = dateInterval?.start ?? Date()
+            let endDate: Date = dateInterval?.end ?? Date()
+            
+            let query = database.collection("Members")
+                .document(uid)
+                .collection("Cycle")
+                .whereField("createdAt", isGreaterThanOrEqualTo: Timestamp(date: startDate))
+                .whereField("createdAt", isLessThan: Timestamp(date: endDate))
+            
+            listenerRegistration = query.addSnapshotListener { [weak self] (snapshot, error) in
+                guard let self = self, let documents = snapshot?.documents else {
+                    print("Error fetching documents: \(error!.localizedDescription)")
+                    return
+                }
+                
+                self.cycles = documents.compactMap { try? $0.data(as: Cycle.self) }
             }
-            
-            
-            
-            self.cycles = documents.compactMap { try? $0.data(as: Cycle.self) }
         }
     }
     
@@ -73,11 +80,7 @@ final class CycleStore: ObservableObject {
             }
                 
             cyclesOrderedByDate[dateStart]?.append(cycle)
-            
         }
-        
-        print(cyclesOrderedByDate)
-        
     }
     
     private func resetDict() {

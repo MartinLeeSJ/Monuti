@@ -119,4 +119,26 @@ final class CycleManager: ObservableObject {
         self.cycle.todos = todos.compactMap { $0.id }
     }
     
+    func fetchToDos() {
+        guard !cycle.todos.isEmpty else { return }
+        guard !cycle.todos.contains("") else { return }
+        guard cycle.id != nil else { return }
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        
+        let query = database.collection("Members")
+            .document(uid)
+            .collection("ToDo")
+            .whereField(FieldPath.documentID(), in: cycle.todos)
+        
+        query.getDocuments { [weak self] (snapshot, error) in
+            guard let self = self, let documents = snapshot?.documents else {
+                print("Error fetching documents: \(error!.localizedDescription)")
+                return
+            }
+            
+            self.todos = documents.compactMap { try? $0.data(as: ToDo.self) }
+        }
+        
+        print(todos)
+    }
 }
