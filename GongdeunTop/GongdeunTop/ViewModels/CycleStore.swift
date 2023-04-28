@@ -17,7 +17,12 @@ final class CycleStore: ObservableObject {
             orderCyclesByDate()
         }
     }
-    @Published var cyclesOrderedByDate = [Date : [Cycle]]()
+    @Published var cyclesOrderedByDate = [Date : [Cycle]]() {
+        didSet {
+            evaluateDate()
+        }
+    }
+    @Published var dateEvaluations = [Date : Int]()
     
     private let database = Firestore.firestore()
     private var listenerRegistration: ListenerRegistration?
@@ -55,7 +60,7 @@ final class CycleStore: ObservableObject {
             
             listenerRegistration = query.addSnapshotListener { [weak self] (snapshot, error) in
                 guard let self = self, let documents = snapshot?.documents else {
-                    print("Error fetching documents: \(error!.localizedDescription)")
+                    print("Error fetching documents: \(error?.localizedDescription ?? "unknown")")
                     return
                 }
                 
@@ -81,6 +86,27 @@ final class CycleStore: ObservableObject {
                 
             cyclesOrderedByDate[dateStart]?.append(cycle)
         }
+    }
+    
+    private func evaluateDate() {
+        for (date , cycles) in cyclesOrderedByDate {
+            var value: Int = 0
+            var todoCount: Int = 0
+            for cycle in cycles {
+                var cycleTodos: Int = (cycle.todos.count == 0 ? 1: cycle.todos.count)
+                value += cycle.evaluation * cycleTodos
+                todoCount += cycleTodos
+            }
+            
+            guard todoCount != 0 else { continue }
+            
+            
+            dateEvaluations[date] = averageAndRoundUp(total: value, count: todoCount)
+        }
+    }
+    
+    private func averageAndRoundUp(total: Int, count: Int) -> Int {
+        return Int(Double(total / count).rounded())
     }
     
     private func resetDict() {

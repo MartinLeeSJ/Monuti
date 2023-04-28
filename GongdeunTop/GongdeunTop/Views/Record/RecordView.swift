@@ -75,7 +75,7 @@ struct RecordView: View {
                     }
                     
                     ForEach(calendarManager.currentMonthData, id: \.self) { date in
-                        DateCell(manager: calendarManager, date: date)
+                        DateCell(manager: calendarManager, date: date, evaluation: cycleStore.dateEvaluations[date])
                     }
                     .gesture(DragGesture(minimumDistance: 2.0, coordinateSpace: .local)
                         .onEnded { value in
@@ -124,6 +124,7 @@ struct RecordView: View {
                     ToolbarItem(placement: .navigationBarTrailing) {
                         Button {
                             calendarManager.handleTodayButton()
+                            cycleStore.resetAndSubscribe(calendarManager.startingPointDate)
                         } label: {
                             Text("오늘")
                         }
@@ -134,7 +135,7 @@ struct RecordView: View {
         }
         .overlay {
             if showingSetMonth {
-                SetMonthView(manager: calendarManager, isShowing: $showingSetMonth)
+                SetMonthView(manager: calendarManager, cycleStore: cycleStore, isShowing: $showingSetMonth)
             }
         }
         .onAppear {

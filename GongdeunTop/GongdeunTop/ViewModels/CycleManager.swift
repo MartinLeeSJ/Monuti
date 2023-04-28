@@ -132,7 +132,7 @@ final class CycleManager: ObservableObject {
         
         query.getDocuments { [weak self] (snapshot, error) in
             guard let self = self, let documents = snapshot?.documents else {
-                print("Error fetching documents: \(error!.localizedDescription)")
+                print("Error fetching documents: \(error?.localizedDescription ?? "unknown")")
                 return
             }
             
