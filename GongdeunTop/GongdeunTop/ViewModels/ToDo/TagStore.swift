@@ -36,7 +36,7 @@ final class TagStore: ObservableObject {
       
             listenerRegistration = database.collection("Members").document(uid).collection("Tag").addSnapshotListener { [weak self] (snapshot, error) in
                 guard let self = self, let documents = snapshot?.documents else {
-                    print("Error fetching documents: \(error!.localizedDescription)")
+                    print("Error fetching documents: \(error?.localizedDescription ?? "unknown")")
                     return
                 }
                 

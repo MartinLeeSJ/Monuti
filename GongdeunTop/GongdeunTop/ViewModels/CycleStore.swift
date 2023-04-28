@@ -6,7 +6,7 @@
 //
 
 import Foundation
-
+import Combine
 
 import FirebaseAuth
 import FirebaseFirestore
@@ -17,43 +17,55 @@ final class CycleStore: ObservableObject {
             orderCyclesByDate()
         }
     }
-    @Published var cyclesOrderedByDate = [Date : [Cycle]]()
+    @Published var cyclesOrderedByDate = [Date : [Cycle]]() {
+        didSet {
+            evaluateDate()
+        }
+    }
+    @Published var dateEvaluations = [Date : Int]()
     
     private let database = Firestore.firestore()
+    private var listenerRegistration: ListenerRegistration?
     
-    init() {
-        getCycleData(Date())
+    func resetAndSubscribe(_ date: Date) {
+        unsubscribeCycles()
+        subscribeCycles(date)
+    }
+   
+    
+    func unsubscribeCycles() {
+        if listenerRegistration != nil {
+            listenerRegistration?.remove()
+            listenerRegistration = nil
+        }
     }
     
     
-    func getCycleData(_ startingPoint: Date) {
+    func subscribeCycles(_ startingPoint: Date) {
         guard let uid = Auth.auth().currentUser?.uid else {
             return
         }
-     
-        let dateInterval = Calendar.current.dateInterval(of: .month, for: startingPoint)
         
-        let startDate: Date = dateInterval?.start ?? Date()
-        let endDate: Date = dateInterval?.end ?? Date()
-        
-        let startTimestamp = Timestamp(date: startDate)
-        let endTimestamp = Timestamp(date: endDate)
-        
-        let query = database.collection("Members")
-            .document(uid)
-            .collection("Cycle")
-            .whereField("createdAt", isGreaterThanOrEqualTo: startTimestamp)
-            .whereField("createdAt", isLessThan: endTimestamp)
-        
-        query.getDocuments { [weak self] (snapshot, error) in
-            guard let self = self, let documents = snapshot?.documents else {
-                print("Error fetching documents: \(error!.localizedDescription)")
-                return
+        if listenerRegistration == nil {
+            let dateInterval = Calendar.current.dateInterval(of: .month, for: startingPoint)
+            
+            let startDate: Date = dateInterval?.start ?? Date()
+            let endDate: Date = dateInterval?.end ?? Date()
+            
+            let query = database.collection("Members")
+                .document(uid)
+                .collection("Cycle")
+                .whereField("createdAt", isGreaterThanOrEqualTo: Timestamp(date: startDate))
+                .whereField("createdAt", isLessThan: Timestamp(date: endDate))
+            
+            listenerRegistration = query.addSnapshotListener { [weak self] (snapshot, error) in
+                guard let self = self, let documents = snapshot?.documents else {
+                    print("Error fetching documents: \(error?.localizedDescription ?? "unknown")")
+                    return
+                }
+                
+                self.cycles = documents.compactMap { try? $0.data(as: Cycle.self) }
             }
-            
-            
-            
-            self.cycles = documents.compactMap { try? $0.data(as: Cycle.self) }
         }
     }
     
@@ -73,11 +85,28 @@ final class CycleStore: ObservableObject {
             }
                 
             cyclesOrderedByDate[dateStart]?.append(cycle)
-            
         }
-        
-        print(cyclesOrderedByDate)
-        
+    }
+    
+    private func evaluateDate() {
+        for (date , cycles) in cyclesOrderedByDate {
+            var value: Int = 0
+            var todoCount: Int = 0
+            for cycle in cycles {
+                var cycleTodos: Int = (cycle.todos.count == 0 ? 1: cycle.todos.count)
+                value += cycle.evaluation * cycleTodos
+                todoCount += cycleTodos
+            }
+            
+            guard todoCount != 0 else { continue }
+            
+            
+            dateEvaluations[date] = averageAndRoundUp(total: value, count: todoCount)
+        }
+    }
+    
+    private func averageAndRoundUp(total: Int, count: Int) -> Int {
+        return Int(Double(total / count).rounded())
     }
     
     private func resetDict() {

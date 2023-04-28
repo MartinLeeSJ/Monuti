@@ -9,6 +9,8 @@ import SwiftUI
 
 struct SetMonthView: View {
     @ObservedObject var manager: CalendarManager
+    @ObservedObject var cycleStore: CycleStore
+    
     @Binding var isShowing: Bool
     
     var currentYear: String {
@@ -38,12 +40,14 @@ struct SetMonthView: View {
                         
                         Button {
                             manager.handlePreviousButton(.year)
+                            cycleStore.resetAndSubscribe(manager.startingPointDate)
                         } label: {
                             Image(systemName: "chevron.left.circle")
                         }
                         
                         Button {
                             manager.handleNextButton(.year)
+                            cycleStore.resetAndSubscribe(manager.startingPointDate)
                         } label: {
                             Image(systemName: "chevron.right.circle")
                         }
@@ -54,6 +58,7 @@ struct SetMonthView: View {
                         ForEach(manager.currentYearData, id: \.self) { month in
                             Button {
                                 manager.selectStartingPointDate(month)
+                                cycleStore.resetAndSubscribe(manager.startingPointDate)
                             } label: {
                                 Text(convertDateToMonthString(month))
                                     .font(.subheadline)
@@ -77,6 +82,6 @@ struct SetMonthView: View {
 
 struct SetMonthView_Previews: PreviewProvider {
     static var previews: some View {
-        SetMonthView(manager: CalendarManager(), isShowing: .constant(true) )
+        SetMonthView(manager: CalendarManager(), cycleStore: CycleStore(), isShowing: .constant(true) )
     }
 }

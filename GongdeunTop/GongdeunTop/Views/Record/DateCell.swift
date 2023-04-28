@@ -7,14 +7,29 @@
 
 import SwiftUI
 
+enum DateEvaluations: Int {
+    case weak = 1
+    case good = 2
+    case solid = 3
+    
+    var image: Image {
+        switch self {
+        case .weak: return Image("sand.flat")
+        case .good: return Image("brick.flat")
+        case .solid: return Image("steel.flat")
+        }
+    }
+}
+
 struct DateCell: View {
     @Environment(\.colorScheme) var scheme
     @ObservedObject var manager: CalendarManager
     
     
     let date: Date
+    var evaluation: Int? = nil
     
-    var day: String {
+    private var day: String {
         var str: String =
         date.formatted(
             Date.FormatStyle()
@@ -28,12 +43,25 @@ struct DateCell: View {
         return str
     }
     
+    private var isToday: Bool {
+        Calendar.current.isDateInToday(date)
+    }
+    
     var body: some View {
         VStack(spacing: 5) {
             HAlignment(alignment: .center) {
-                Text(day).foregroundColor(Color("basicFontColor"))
+                Text(day)
                     .font(.caption)
+                    .foregroundColor(isToday ? .white : Color("basicFontColor"))
+                    .padding(.horizontal, 3)
+                    .background {
+                        if isToday {
+                            Capsule()
+                                .fill(Color.GTDenimNavy)
+                        }
+                    }
             }
+            
             
             Button {
                 manager.selectedDate = date
@@ -42,9 +70,15 @@ struct DateCell: View {
                     .stroke(lineWidth: 1)
                     .frame(width: 35, height: 35)
                     .background {
-                        if scheme == .light {
-                            RoundedRectangle(cornerRadius: 5)
-                                .fill(.white)
+                        if let evaluation, evaluation != 0 {
+                            DateEvaluations(rawValue: evaluation)?.image
+                                .resizable()
+                                .cornerRadius(5)
+                        } else {
+                            if scheme == .light {
+                                RoundedRectangle(cornerRadius: 5)
+                                    .fill(Color(uiColor: .systemGray6))
+                            }
                         }
                     }
                 

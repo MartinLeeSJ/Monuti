@@ -44,6 +44,16 @@ struct RecordView: View {
         calendarManager.startingPointDate.formatted(Date.FormatStyle().year(.defaultDigits))
     }
     
+    private func handleNextMonth() {
+        calendarManager.handleNextButton(.month)
+        cycleStore.resetAndSubscribe(calendarManager.startingPointDate)
+    }
+    
+    private func handlePreviousMonth() {
+        calendarManager.handlePreviousButton(.month)
+        cycleStore.resetAndSubscribe(calendarManager.startingPointDate)
+    }
+    
     
     var body: some View {
         NavigationView {
@@ -65,23 +75,25 @@ struct RecordView: View {
                     }
                     
                     ForEach(calendarManager.currentMonthData, id: \.self) { date in
-                        DateCell(manager: calendarManager, date: date)
+                        DateCell(manager: calendarManager, date: date, evaluation: cycleStore.dateEvaluations[date])
                     }
+                    .gesture(DragGesture(minimumDistance: 2.0, coordinateSpace: .local)
+                        .onEnded { value in
+                            switch(value.translation.width, value.translation.height) {
+                            case (...0, -50...50):
+                                handleNextMonth()
+                            case (0..., -50...50):
+                                handlePreviousMonth()
+                            default:  print("no clue")
+                            }
+                        })
                 }
-                .gesture(DragGesture(minimumDistance: 2.0, coordinateSpace: .local)
-                    .onEnded { value in
-                        switch(value.translation.width, value.translation.height) {
-                        case (...0, -50...50):
-                            calendarManager.handleNextButton(.month)
-                        case (0..., -50...50):
-                            calendarManager.handlePreviousButton(.month)
-                        default:  print("no clue")
-                        }
-                    }
-                )
+                
+                
                 Divider()
+                
                 List(cycleStore.cyclesOrderedByDate[calendarManager.selectedDate] ?? []) { cycle in
-                    Text(cycle.id ?? "")
+                    CycleListCell(cycleManager: CycleManager(cycle: cycle))
                 }
                 .listStyle(.plain)
                 
@@ -112,6 +124,7 @@ struct RecordView: View {
                     ToolbarItem(placement: .navigationBarTrailing) {
                         Button {
                             calendarManager.handleTodayButton()
+                            cycleStore.resetAndSubscribe(calendarManager.startingPointDate)
                         } label: {
                             Text("오늘")
                         }
@@ -122,8 +135,14 @@ struct RecordView: View {
         }
         .overlay {
             if showingSetMonth {
-                SetMonthView(manager: calendarManager, isShowing: $showingSetMonth)
+                SetMonthView(manager: calendarManager, cycleStore: cycleStore, isShowing: $showingSetMonth)
             }
+        }
+        .onAppear {
+            cycleStore.subscribeCycles(Date())
+        }
+        .onDisappear {
+            cycleStore.unsubscribeCycles()
         }
     }
 }
