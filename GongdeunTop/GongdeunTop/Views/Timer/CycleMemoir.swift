@@ -13,7 +13,11 @@ struct CycleMemoir: View {
     @Environment(\.dismiss) var dismiss
     @Environment(\.colorScheme) var scheme: ColorScheme
     
+    
     @StateObject var manager = CycleManager()
+    @StateObject var locationManager = LocationManager()
+    @ObservedObject var timerManager: TimerManager
+    
     @FocusState var editorIsFocused: Bool
     
     
@@ -22,6 +26,7 @@ struct CycleMemoir: View {
         GeometryReader { geo in
             ScrollView {
                 VStack(spacing: 20) {
+                    
                     getMemoirButtons(geo)
                     
                     Divider()
@@ -42,7 +47,7 @@ struct CycleMemoir: View {
         .toolbar {
             ToolbarItem {
                 Button {
-                    manager.handleAddButton()
+                    manager.handleFinishButton()
                     dismiss()
                 } label: {
                     Text("저장")
@@ -222,13 +227,23 @@ extension CycleMemoir {
     }
 }
 
+
+//MARK: - Handle Finish
+extension CycleMemoir {
+    func handleFinish() {
+        manager.cycle.sessions = timerManager.numOfSessions
+        manager.cycle.minutes = timerManager.getTotalTime()
+        
+    }
+}
+
 struct CycleMemoir_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            CycleMemoir()
+            CycleMemoir(timerManager: TimerManager())
                 .environment(\.locale, .init(identifier: "en"))
             
-            CycleMemoir()
+            CycleMemoir(timerManager: TimerManager())
                 .environment(\.locale, .init(identifier: "ko"))
         }
     }

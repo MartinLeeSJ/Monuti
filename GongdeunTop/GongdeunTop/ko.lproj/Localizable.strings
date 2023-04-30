@@ -42,6 +42,14 @@
 "setTime_session%lld" = "%lld개 세션";
 "setTime_session_range" = "3 ~ 6개";
 
+"setTime_concentration" = "집중시간";
+"setTime_concentration_range" = "15~50분";
+
+"setTime_rest" = "휴식";
+"setTime_rest_range" = "5~10분, 마지막 30분";
+
+"setTime_minute%lld" = "%lld분";
+
 //Session Timer
 "timer_currentTodo_nothing" = "현재 할 일 없음";
 "timer_todoMenu" = "할 일 선택";

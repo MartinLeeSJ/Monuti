@@ -42,7 +42,7 @@
 "setTime_session_range" = "3 to 6";
 
 "setTime_concentration" = "Concentration";
-"setTime_concentration_range" = "15 to 25";
+"setTime_concentration_range" = "15 to 50";
 
 "setTime_rest" = "Rest";
 "setTime_rest_range" = "5 to 10, last 30min";

@@ -20,4 +20,6 @@ extension Color {
     static let GTPastelBlue: Self = Color(hue: 0.558, saturation: 0.208, brightness: 0.967)
     
     static let GTEnergeticOrange: Self = Color(hue: 0.05, saturation: 0.927, brightness: 0.987)
+    
+    static let GTWarmGray: Self = Color(hue: 44/360, saturation: 0.03, brightness: 0.94)
 }

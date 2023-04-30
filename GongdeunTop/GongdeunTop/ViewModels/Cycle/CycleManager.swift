@@ -19,7 +19,7 @@ final class CycleManager: ObservableObject {
     private let database = Firestore.firestore()
     private var cancellables = Set<AnyCancellable>()
     
-    init(cycle: Cycle = Cycle(createdAt: Timestamp(date: Date()), todos: [], evaluation: 0, memoirs: ""),
+    init(cycle: Cycle = Cycle(createdAt: Timestamp(date: Date()), todos: [], evaluation: 0, memoirs: "", sessions: 0, minutes: 0),
          todos: [ToDo] = []) {
         self.cycle = cycle
         self.todos = todos
@@ -83,7 +83,7 @@ final class CycleManager: ObservableObject {
         
     }
     
-    func handleAddButton() {
+    func handleFinishButton() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         
         self.addToDoIdInCycle()

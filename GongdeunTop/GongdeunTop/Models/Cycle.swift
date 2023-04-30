@@ -15,4 +15,7 @@ struct Cycle: Codable, Hashable, Identifiable {
     var todos: [String]
     var evaluation: Int // 0: No data, 1: low, 2: medium, 3: high
     var memoirs: String // 회고
+    var location: GeoPoint?
+    var sessions: Int?
+    var minutes: Int?
 }
