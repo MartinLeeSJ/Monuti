@@ -14,9 +14,9 @@ enum DateEvaluations: Int {
     
     var image: Image {
         switch self {
-        case .weak: return Image("sand.flat")
-        case .good: return Image("brick.flat")
-        case .solid: return Image("steel.flat")
+        case .weak: return Image("sand.flat.blue")
+        case .good: return Image("brick.flat.blue")
+        case .solid: return Image("steel.flat.blue")
         }
     }
 }
@@ -47,12 +47,16 @@ struct DateCell: View {
         Calendar.current.isDateInToday(date)
     }
     
+    private var isSelected: Bool {
+        Calendar.current.isDate(date, inSameDayAs: manager.selectedDate)
+    }
+    
     var body: some View {
         VStack(spacing: 5) {
             HAlignment(alignment: .center) {
                 Text(day)
                     .font(.caption)
-                    .foregroundColor(isToday ? .white : Color("basicFontColor"))
+                    .foregroundColor(isToday || isSelected ? .white : Color("basicFontColor"))
                     .padding(.horizontal, 3)
                     .background {
                         if isToday {
@@ -66,30 +70,30 @@ struct DateCell: View {
             Button {
                 manager.selectedDate = date
             } label: {
-                RoundedRectangle(cornerRadius: 5)
-                    .stroke(lineWidth: 1)
+
+                Color.GTWarmGray
                     .frame(width: 35, height: 35)
-                    .background {
+                    .cornerRadius(5)
+                    .overlay {
                         if let evaluation, evaluation != 0 {
                             DateEvaluations(rawValue: evaluation)?.image
                                 .resizable()
                                 .cornerRadius(5)
-                        } else {
-                            if scheme == .light {
-                                RoundedRectangle(cornerRadius: 5)
-                                    .fill(Color(uiColor: .systemGray6))
-                            }
                         }
                     }
-                
+                    .overlay {
+                        RoundedRectangle(cornerRadius: 5)
+                            .stroke(.white, lineWidth: 1)
+                    }
             }
-            .tint(scheme == .light ? .GTDenimBlue : .white)
+            
         }
         .padding(5)
         .background {
-            if Calendar.current.isDate(date, inSameDayAs: manager.selectedDate) {
+            if isSelected {
                 RoundedRectangle(cornerRadius: 10)
-                    .fill(Color.GTPastelBlue)
+                    .fill(Color.GTDenimNavy)
+                    
             }
         }
     }

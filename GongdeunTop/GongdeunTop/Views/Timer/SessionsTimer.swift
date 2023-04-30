@@ -84,7 +84,7 @@ struct SessionsTimer: View {
             dismiss()
         } content: {
             NavigationView {
-                CycleMemoir(manager: CycleManager(todos: todoStore.todos))
+                CycleMemoir(manager: CycleManager(todos: todoStore.todos), timerManager: timerManager)
             }
         }
     }

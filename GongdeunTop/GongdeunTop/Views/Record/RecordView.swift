@@ -16,7 +16,7 @@ enum WeekDays: String, Identifiable, CaseIterable {
 }
 
 struct RecordView: View {
-    @ObservedObject var authViewModel: AuthManager
+    @ObservedObject var authManager: AuthManager
     @StateObject var calendarManager = CalendarManager()
     @StateObject var cycleStore = CycleStore()
     
@@ -130,6 +130,18 @@ struct RecordView: View {
                         }
                     }
                 }
+                
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    NavigationLink {
+                        Button("로그아웃") {
+                            authManager.signOut()
+                        }
+                    } label: {
+                        Circle()
+                            .fill(Color.GTPastelBlue)
+                            .frame(width: 30)
+                    }
+                }
             }
             .blur(radius: showingSetMonth ? 10 : 0)
         }
@@ -157,9 +169,9 @@ struct RecordView: View {
 struct RecordView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            RecordView(authViewModel: AuthManager())
+            RecordView(authManager: AuthManager())
                 .environment(\.locale, .init(identifier: "ko"))
-            RecordView(authViewModel: AuthManager())
+            RecordView(authManager: AuthManager())
                 .environment(\.locale, .init(identifier: "en"))
         }
     }

@@ -52,6 +52,10 @@ final class CycleStore: ObservableObject {
             let startDate: Date = dateInterval?.start ?? Date()
             let endDate: Date = dateInterval?.end ?? Date()
             
+            print("startDate : \(startDate)")
+            print("endDate : \(endDate)")
+            
+            
             let query = database.collection("Members")
                 .document(uid)
                 .collection("Cycle")
@@ -65,6 +69,7 @@ final class CycleStore: ObservableObject {
                 }
                 
                 self.cycles = documents.compactMap { try? $0.data(as: Cycle.self) }
+                
             }
         }
     }

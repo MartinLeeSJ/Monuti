@@ -23,7 +23,7 @@ struct ContentView: View {
                     }
                     .tag(1)
                 
-                RecordView(authViewModel: authViewModel)
+                RecordView(authManager: authViewModel)
                     .tabItem {
                         Label("기록", systemImage: "text.redaction")
                     }
