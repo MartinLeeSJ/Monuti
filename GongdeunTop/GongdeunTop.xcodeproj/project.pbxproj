@@ -52,6 +52,7 @@
 		5BD5131929D574900008E1C9 /* SessionIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD5131829D574900008E1C9 /* SessionIndicator.swift */; };
 		5BD5131B29D583E80008E1C9 /* ToDoDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD5131A29D583E80008E1C9 /* ToDoDetail.swift */; };
 		5BD5131D29D58D060008E1C9 /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD5131C29D58D060008E1C9 /* Tag.swift */; };
+		5BE9EEDC29FFFBA500233C49 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE9EEDB29FFFBA500233C49 /* SettingView.swift */; };
 		5BFFDB8529C5F299004C5376 /* SetTimeForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BFFDB8429C5F298004C5376 /* SetTimeForm.swift */; };
 		998D2CF557BAAE8AFAA27970 /* Pods_GongdeunTopTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7365EFD7F49AB671EB183D7A /* Pods_GongdeunTopTests.framework */; };
 /* End PBXBuildFile section */
@@ -120,6 +121,7 @@
 		5BD5131829D574900008E1C9 /* SessionIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionIndicator.swift; sourceTree = "<group>"; };
 		5BD5131A29D583E80008E1C9 /* ToDoDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoDetail.swift; sourceTree = "<group>"; };
 		5BD5131C29D58D060008E1C9 /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
+		5BE9EEDB29FFFBA500233C49 /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
 		5BFFDB8429C5F298004C5376 /* SetTimeForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetTimeForm.swift; sourceTree = "<group>"; };
 		6366D9A7814134E8A25F5AFA /* Pods-GongdeunTop.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GongdeunTop.release.xcconfig"; path = "Target Support Files/Pods-GongdeunTop/Pods-GongdeunTop.release.xcconfig"; sourceTree = "<group>"; };
 		7365EFD7F49AB671EB183D7A /* Pods_GongdeunTopTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GongdeunTopTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -157,8 +159,8 @@
 		5B05A61629ECFD3E00C89417 /* Timer */ = {
 			isa = PBXGroup;
 			children = (
-				5BFFDB8429C5F298004C5376 /* SetTimeForm.swift */,
 				5BCF551C29C30DA800A19759 /* SessionsTimer.swift */,
+				5BFFDB8429C5F298004C5376 /* SetTimeForm.swift */,
 				5BD5131829D574900008E1C9 /* SessionIndicator.swift */,
 				5B8B119429D07EE6009BB0E6 /* FirstCountdown.swift */,
 				5B05A61729ECFD5A00C89417 /* CycleMemoir.swift */,
@@ -288,6 +290,7 @@
 			isa = PBXGroup;
 			children = (
 				5BCF550529C2CB2500A19759 /* ContentView.swift */,
+				5BE9EEDB29FFFBA500233C49 /* SettingView.swift */,
 				5B95E13D29D805AC00E8CBA1 /* SignUpView.swift */,
 				5BD5131729D5743E0008E1C9 /* ToDo */,
 				5B05A61629ECFD3E00C89417 /* Timer */,
@@ -542,6 +545,7 @@
 				5BD5131B29D583E80008E1C9 /* ToDoDetail.swift in Sources */,
 				5B2FEABC29D9CC000022F827 /* ToDoStore.swift in Sources */,
 				5B6585A629EEAE6200F9E758 /* CubeHexagon.swift in Sources */,
+				5BE9EEDC29FFFBA500233C49 /* SettingView.swift in Sources */,
 				5B2767CD29FA8C1B008398A3 /* CycleListCell.swift in Sources */,
 				5BCF551629C3065E00A19759 /* RecordView.swift in Sources */,
 				5BCF551B29C30D1600A19759 /* ToDoList.swift in Sources */,
