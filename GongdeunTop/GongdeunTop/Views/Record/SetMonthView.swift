@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct SetMonthView: View {
+    @Environment(\.colorScheme) var scheme: ColorScheme
+    
     @ObservedObject var manager: CalendarManager
     @ObservedObject var cycleStore: CycleStore
     
@@ -42,7 +44,7 @@ struct SetMonthView: View {
                     HStack {
                         Text(currentYear)
                             .font(.title3.bold())
-                            .foregroundColor(.black)
+                            
                         Spacer()
                         
                         Button {
@@ -52,7 +54,7 @@ struct SetMonthView: View {
                             Image(systemName: "chevron.left.circle.fill")
                                 .font(.title3)
                         }
-                        .tint(.GTDenimNavy)
+                        .tint(scheme == .light ? .GTDenimNavy : .white)
                         
                         Button {
                             manager.handleNextButton(.year)
@@ -61,7 +63,7 @@ struct SetMonthView: View {
                             Image(systemName: "chevron.right.circle.fill")
                                 .font(.title3)
                         }
-                        .tint(.GTDenimNavy)
+                        .tint(scheme == .light ? .GTDenimNavy : .white)
                     }
                     LazyVGrid(columns: Array(repeating: .init(.flexible(), spacing: 10), count: 4), spacing: 15) {
                         
@@ -75,19 +77,20 @@ struct SetMonthView: View {
                                     HAlignment(alignment: .center) {
                                         Text(convertDateToMonthString(month))
                                             .font(.subheadline)
-                                            .foregroundColor(knowIsSelectedMonth(month) ? .white : .black)
+                                            .foregroundColor(knowIsSelectedMonth(month) || scheme == .dark ? .white : .black)
                                     }
                                     Spacer()
                                 }
                                 .frame(height: 50)
                                 .background {
-                                    if knowIsSelectedMonth(month) {
+                                    if scheme == .light {
                                         RoundedRectangle(cornerRadius: 10)
-                                            .fill(Color.GTDenimNavy)
+                                            .fill(knowIsSelectedMonth(month) ? Color.GTDenimNavy : Color.white.opacity(0.3))
                                     } else {
                                         RoundedRectangle(cornerRadius: 10)
-                                            .fill(Color.white.opacity(0.3))
+                                            .stroke(knowIsSelectedMonth(month) ? Color.GTDenimNavy : Color.white.opacity(0.3), lineWidth: 1.5)
                                     }
+                                   
                                 }
                             }
                             
@@ -97,7 +100,13 @@ struct SetMonthView: View {
                 .padding()
                 .background {
                     RoundedRectangle(cornerRadius: 10)
-                        .fill(Color.GTPastelBlue)
+                        .fill(scheme == .light ? Color.GTPastelBlue : Color.black)
+                }
+                .overlay {
+                    if scheme == .dark {
+                        RoundedRectangle(cornerRadius: 10)
+                            .stroke(Color.white.opacity(0.3), lineWidth: 1.5)
+                    }
                 }
                 .padding()
             }

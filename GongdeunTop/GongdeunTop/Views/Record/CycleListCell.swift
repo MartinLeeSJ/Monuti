@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct CycleListCell: View {
+    @Environment(\.colorScheme) var scheme: ColorScheme
+    
     @ObservedObject var cycleManager = CycleManager()
     @State private var showDetails: Bool = false
     var cycle: Cycle {
@@ -27,13 +29,19 @@ struct CycleListCell: View {
                     .opacity(0.5)
             }
             .padding(.horizontal)
-            .padding(.vertical, 8)
+            .padding(.vertical, 10)
             .background {
-                RoundedRectangle(cornerRadius: 10)
-                    .fill(Color.GTPastelBlue)
+                if scheme == .light {
+                    RoundedRectangle(cornerRadius: 10)
+                        .fill(Color.GTPastelBlue)
+                } else {
+                    RoundedRectangle(cornerRadius: 10)
+                        .stroke(Color.white, lineWidth: 0.5)
+                }
             }
         }
         .padding(.top, 6)
+        .padding(.horizontal, 5)
         .task {
             cycleManager.fetchToDos()
         }

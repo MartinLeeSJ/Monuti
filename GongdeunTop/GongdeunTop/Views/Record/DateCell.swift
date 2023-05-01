@@ -12,11 +12,11 @@ enum DateEvaluations: Int {
     case good = 2
     case solid = 3
     
-    var image: Image {
+    var color: Color {
         switch self {
-        case .weak: return Image("sand.flat.blue")
-        case .good: return Image("brick.flat.blue")
-        case .solid: return Image("steel.flat.blue")
+        case .weak: return .GTWeakBlue
+        case .good: return .GTGoodBlue
+        case .solid: return .GTSolidBlue
         }
     }
 }
@@ -54,14 +54,15 @@ struct DateCell: View {
     var body: some View {
         VStack(spacing: 2) {
             HAlignment(alignment: .center) {
+                
                 Text(day)
                     .font(.caption)
-                    .foregroundColor(isToday || isSelected ? .white : Color("basicFontColor"))
-                    .padding(.horizontal, 3)
+                    .foregroundColor(isToday ? .white : Color("basicFontColor"))
+                    .frame(minWidth: 20)
                     .background {
                         if isToday {
                             Capsule()
-                                .fill(Color.GTDenimNavy)
+                                .fill(Color.getThemeColor(5))
                         }
                     }
             }
@@ -70,33 +71,32 @@ struct DateCell: View {
             Button {
                 manager.selectedDate = date
             } label: {
-
-                Color.GTWarmGray
+                RoundedRectangle(cornerRadius: 5)
+                    .fill(scheme == .light ? Color.GTWarmGray : Color.black)
                     .frame(width: 33, height: 33)
-                    .cornerRadius(5)
                     .overlay {
                         if let evaluation, evaluation != 0 {
-                            DateEvaluations(rawValue: evaluation)?.image
-                                .resizable()
-                                .cornerRadius(5)
+                            RoundedRectangle(cornerRadius: 5)
+                                .foregroundColor(Color.getThemeColor(evaluation + 1))
                         }
                     }
                     .overlay {
-                        RoundedRectangle(cornerRadius: 5)
-                            .stroke(.white, lineWidth: 1)
+                        if scheme == .dark {
+                            RoundedRectangle(cornerRadius: 5)
+                                .stroke(.white.opacity(0.6), lineWidth: 1.5)
+                        }
+                    }
+                    .overlay {
+                        if isSelected {
+                                RoundedRectangle(cornerRadius: 5)
+                                .stroke(Color.getThemeColor(5), lineWidth: 2)
+                        }
                     }
             }
             
         }
         .padding(3)
-        .padding(.bottom, 2)
-        .background {
-            if isSelected {
-                RoundedRectangle(cornerRadius: 10)
-                    .fill(Color.GTDenimNavy)
-                    
-            }
-        }
+        
     }
 
 }

@@ -181,14 +181,13 @@ extension RecordView {
     func goToMypage() -> some ToolbarContent {
         ToolbarItem(placement: .navigationBarTrailing) {
             NavigationLink {
-                Button("로그아웃") {
-                    authManager.signOut()
-                }
+                SettingView()
             } label: {
                 Circle()
                     .fill(Color.GTPastelBlue)
                     .frame(width: 30)
             }
+            
         }
     }
 }
