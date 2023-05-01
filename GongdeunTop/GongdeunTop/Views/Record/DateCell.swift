@@ -52,7 +52,7 @@ struct DateCell: View {
     }
     
     var body: some View {
-        VStack(spacing: 5) {
+        VStack(spacing: 2) {
             HAlignment(alignment: .center) {
                 Text(day)
                     .font(.caption)
@@ -72,7 +72,7 @@ struct DateCell: View {
             } label: {
 
                 Color.GTWarmGray
-                    .frame(width: 35, height: 35)
+                    .frame(width: 33, height: 33)
                     .cornerRadius(5)
                     .overlay {
                         if let evaluation, evaluation != 0 {
@@ -88,7 +88,8 @@ struct DateCell: View {
             }
             
         }
-        .padding(5)
+        .padding(3)
+        .padding(.bottom, 2)
         .background {
             if isSelected {
                 RoundedRectangle(cornerRadius: 10)

@@ -21,6 +21,12 @@ struct SetMonthView: View {
         }
     }
     
+    private func knowIsSelectedMonth(_ date: Date) -> Bool {
+        Calendar.current.isDate(date, equalTo: manager.startingPointDate, toGranularity: .month)
+    }
+    
+
+    
     private func convertDateToMonthString(_ date: Date) -> String {
         date.formatted(Date.FormatStyle().month(.abbreviated))
     }
@@ -36,38 +42,56 @@ struct SetMonthView: View {
                     HStack {
                         Text(currentYear)
                             .font(.title3.bold())
+                            .foregroundColor(.black)
                         Spacer()
                         
                         Button {
                             manager.handlePreviousButton(.year)
                             cycleStore.resetAndSubscribe(manager.startingPointDate)
                         } label: {
-                            Image(systemName: "chevron.left.circle")
+                            Image(systemName: "chevron.left.circle.fill")
+                                .font(.title3)
                         }
+                        .tint(.GTDenimNavy)
                         
                         Button {
                             manager.handleNextButton(.year)
                             cycleStore.resetAndSubscribe(manager.startingPointDate)
                         } label: {
-                            Image(systemName: "chevron.right.circle")
+                            Image(systemName: "chevron.right.circle.fill")
+                                .font(.title3)
                         }
-                        
+                        .tint(.GTDenimNavy)
                     }
-                    LazyVGrid(columns: Array(repeating: .init(.flexible(), spacing: 0), count: 4), spacing: 10) {
+                    LazyVGrid(columns: Array(repeating: .init(.flexible(), spacing: 10), count: 4), spacing: 15) {
                         
                         ForEach(manager.currentYearData, id: \.self) { month in
                             Button {
                                 manager.selectStartingPointDate(month)
                                 cycleStore.resetAndSubscribe(manager.startingPointDate)
                             } label: {
-                                Text(convertDateToMonthString(month))
-                                    .font(.subheadline)
-                                    .padding(.vertical, 10)
-                                    .frame(width: 36)
+                                VStack {
+                                    Spacer()
+                                    HAlignment(alignment: .center) {
+                                        Text(convertDateToMonthString(month))
+                                            .font(.subheadline)
+                                            .foregroundColor(knowIsSelectedMonth(month) ? .white : .black)
+                                    }
+                                    Spacer()
+                                }
+                                .frame(height: 50)
+                                .background {
+                                    if knowIsSelectedMonth(month) {
+                                        RoundedRectangle(cornerRadius: 10)
+                                            .fill(Color.GTDenimNavy)
+                                    } else {
+                                        RoundedRectangle(cornerRadius: 10)
+                                            .fill(Color.white.opacity(0.3))
+                                    }
+                                }
                             }
-                            .buttonStyle(.bordered)
+                            
                         }
-                        
                     }
                 }
                 .padding()

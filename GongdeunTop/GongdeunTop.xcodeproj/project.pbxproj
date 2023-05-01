@@ -157,8 +157,8 @@
 		5B05A61629ECFD3E00C89417 /* Timer */ = {
 			isa = PBXGroup;
 			children = (
-				5BFFDB8429C5F298004C5376 /* SetTimeForm.swift */,
 				5BCF551C29C30DA800A19759 /* SessionsTimer.swift */,
+				5BFFDB8429C5F298004C5376 /* SetTimeForm.swift */,
 				5BD5131829D574900008E1C9 /* SessionIndicator.swift */,
 				5B8B119429D07EE6009BB0E6 /* FirstCountdown.swift */,
 				5B05A61729ECFD5A00C89417 /* CycleMemoir.swift */,
