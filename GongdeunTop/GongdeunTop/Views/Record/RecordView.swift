@@ -12,7 +12,14 @@ enum WeekDays: String, Identifiable, CaseIterable {
     case Mon, Tue, Wed, Thu, Fri, Sat
     
     var id: Self { self }
+}
+
+enum RecordSheetType: Identifiable {
+    case setting
+    case cycle
     
+    
+    var id: Self { self }
 }
 
 struct RecordView: View {
@@ -20,7 +27,8 @@ struct RecordView: View {
     @StateObject var calendarManager = CalendarManager()
     @StateObject var cycleStore = CycleStore()
     
-    @State private var showingSetMonth: Bool = false
+    @State private var sheetType: RecordSheetType?
+    @State private var showSetMonth: Bool = false
 
     var firstWeekdayDigit: Int {
         if let startDate = calendarManager.currentMonthData.first {
@@ -44,6 +52,7 @@ struct RecordView: View {
         calendarManager.startingPointDate.formatted(Date.FormatStyle().year(.defaultDigits))
     }
     
+    
     private func handleNextMonth() {
         calendarManager.handleNextButton(.month)
         cycleStore.resetAndSubscribe(calendarManager.startingPointDate)
@@ -57,32 +66,38 @@ struct RecordView: View {
     
     var body: some View {
         NavigationView {
-            VStack(spacing: 0) {
-                getCalendar()
+            ZStack {
+                Color.themes.getThemeColor(1)
+                    .ignoresSafeArea(.all)
                 
-                Divider()
-                
-                getCycleList()
-            }
-            .padding(.horizontal)
-            .toolbar {
-                setMonthToolbar()
-                
-                if !isCalendarInCurrentMonth {
-                    backToToday()
+                VStack(spacing: 0) {
+                    getCalendar()
+                    
+                    Divider()
+                    
+                    getCycleList()
                 }
-               
-                goToMypage()
+                .padding(.horizontal)
+                .toolbar {
+                    setMonthToolbar()
+                    
+                    if !isCalendarInCurrentMonth {
+                        backToToday()
+                    }
+                    
+                    goToMypage()
+                }
+                .blur(radius: showSetMonth ? 10 : 0)
             }
-            .blur(radius: showingSetMonth ? 10 : 0)
         }
         .overlay {
-            if showingSetMonth {
-                SetMonthView(manager: calendarManager, cycleStore: cycleStore, isShowing: $showingSetMonth)
+            if showSetMonth {
+                SetMonthView(manager: calendarManager, cycleStore: cycleStore, isShowing: $showSetMonth)
             }
         }
         .onAppear {
             cycleStore.subscribeCycles(Date())
+            
         }
         .onDisappear {
             cycleStore.unsubscribeCycles()
@@ -146,7 +161,7 @@ extension RecordView {
     func setMonthToolbar() -> some ToolbarContent {
         ToolbarItem(placement: .navigationBarLeading) {
             Button {
-                showingSetMonth.toggle()
+                showSetMonth.toggle()
             } label: {
                 HStack(alignment: .firstTextBaseline, spacing: 4) {
                     Text(currentMonth)
@@ -180,12 +195,17 @@ extension RecordView {
     @ToolbarContentBuilder
     func goToMypage() -> some ToolbarContent {
         ToolbarItem(placement: .navigationBarTrailing) {
-            NavigationLink {
-                SettingView()
+            Button {
+                sheetType = .setting
             } label: {
                 Circle()
                     .fill(Color.GTPastelBlue)
                     .frame(width: 30)
+            }
+            .fullScreenCover(item: $sheetType) { type in
+                if type == .setting {
+                    SettingView()
+                }
             }
             
         }

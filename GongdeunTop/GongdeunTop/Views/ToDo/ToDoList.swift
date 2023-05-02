@@ -21,35 +21,39 @@ struct ToDoList: View {
     
     var body: some View {
         NavigationView{
-            GeometryReader { geo in
-                VStack {
-                    List(todoStore.todos, selection: $todoStore.multiSelection) { todo in
-                        ToDoRow(todo: todo)
-                    }
-                    .frame(height: geo.size.height * (todoStore.isEditing ? 0.89 : 0.84))
-                    .listStyle(.plain)
-                    .environment(\.editMode, .constant(todoStore.isEditing ? EditMode.active : EditMode.inactive))
-                    .toolbar {
-                        toolbarContent()
-                    }
-                    
-                    Divider()
-                    
-                    if todoStore.isEditing == false {
-                        toDoListDashboard(geo: geo)
-                    }
-                    else {
-                        editToDosButtons()
+            ZStack {
+                Color.themes.getThemeColor(1)
+                    .ignoresSafeArea(.all)
+                GeometryReader { geo in
+                    VStack {
+                        List(todoStore.todos, selection: $todoStore.multiSelection) { todo in
+                            ToDoRow(todo: todo)
+                        }
+                        .frame(height: geo.size.height * (todoStore.isEditing ? 0.89 : 0.84))
+                        .listStyle(.plain)
+                        .environment(\.editMode, .constant(todoStore.isEditing ? EditMode.active : EditMode.inactive))
+                        .toolbar {
+                            toolbarContent()
+                        }
+                        
+                        Divider()
+                        
+                        if todoStore.isEditing == false {
+                            toDoListDashboard(geo: geo)
+                        }
+                        else {
+                            editToDosButtons()
+                        }
                     }
                 }
-            }
-            .navigationTitle("Today's ToDos")
-            .navigationBarTitleDisplayMode(.inline)
-            .onAppear {
-                todoStore.subscribeTodos()
-            }
-            .onDisappear {
-                todoStore.unsubscribeTodos()
+                .navigationTitle("Today's ToDos")
+                .navigationBarTitleDisplayMode(.inline)
+                .onAppear {
+                    todoStore.subscribeTodos()
+                }
+                .onDisappear {
+                    todoStore.unsubscribeTodos()
+                }
             }
         }
         

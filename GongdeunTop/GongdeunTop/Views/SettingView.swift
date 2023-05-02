@@ -7,34 +7,50 @@
 
 import SwiftUI
 
+
+
+enum SheetType: Identifiable {
+    case color
+    var id: Self { self }
+}
+
 struct SettingView: View {
+    @Environment(\.dismiss) var dismiss
     @AppStorage("theme") private var theme: String = "Blue"
+    @State private var modified: Bool = false
+    @State private var sheetType: SheetType?
+    
+    private func changeTheme(color: String) {
+        theme = color
+        NotificationCenter.default.post(name: Notification.Name(rawValue: "colorPreferenceChanged"), object: nil)
+    }
+    
     var body: some View {
-        VStack {
-            ForEach(1..<6) { priority in
-                Color.getThemeColor(priority)
-                    .frame(width: 30, height: 30)
-            }
-            
-            
-            LazyVGrid(columns: Array(repeating: .init(.flexible()), count: 3)) {
-                ForEach(ColorThemes.allCases) { color in
-                    Button {
-                        theme = color.rawValue
-                    } label: {
-                        Text(color.rawValue)
-                            .font(.title)
-                            .padding()
-                            .background {
-                                RoundedRectangle(cornerRadius: 10)
-                                    .stroke(lineWidth: 1)
-                            }
-                    }
-                    
-                    
+        NavigationView {
+            List {
+                Button {
+                    sheetType = .color
+                } label: {
+                    Text("ColorSetting")
                 }
             }
-            
+            .sheet(item: $sheetType) { type in
+                switch type {
+                case .color:
+                    ColorThemeSetting(modified: $modified)
+                        .presentationDetents([.medium])
+                }
+            }
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button {
+                        dismiss()
+                    } label: {
+                        Image(systemName: "chevron.left")
+                            .font(.title3)
+                    }
+                }
+            }
         }
     }
 }

@@ -37,7 +37,7 @@ struct SetMonthView: View {
         Color.black.opacity(0.7)
             .ignoresSafeArea()
             .onTapGesture {
-                isShowing.toggle()
+                isShowing = false
             }
             .overlay {
                 VStack {

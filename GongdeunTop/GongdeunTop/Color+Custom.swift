@@ -17,20 +17,7 @@ enum ColorThemes: String, Identifiable, CaseIterable {
 
 extension Color {
     
-    static func getThemeColor(_ priority: Int) -> Color {
-        guard (1...5).contains(priority) else {
-            print("Use priority in 1...5")
-            return Color.black
-        }
-        
-        if let stored = UserDefaults.standard.string(forKey: "theme"), let theme = ColorThemes(rawValue: stored)?.rawValue {
-            
-            return Color("GT\(theme)\(priority)")
-        } else {
-            return Color("GTBlue\(priority)")
-
-        }
-    }
+    static let themes = ColorTheme()
     
     static let GTyellow: Self = Color(hue: 0.143, saturation: 0.296, brightness: 0.978)
     static let GTyellowBright: Self = Color(hue: 0.141, saturation: 0.143, brightness: 0.984)
@@ -50,4 +37,22 @@ extension Color {
     static let GTEnergeticOrange: Self = Color(hue: 0.05, saturation: 0.927, brightness: 0.987)
     
     static let GTWarmGray: Self = Color(hue: 44/360, saturation: 0.03, brightness: 0.94)
+}
+
+
+struct ColorTheme {
+    func getThemeColor(_ priority: Int) -> Color {
+        guard (1...5).contains(priority) else {
+            print("Use priority in 1...5")
+            return Color.black
+        }
+        
+        if let stored = UserDefaults.standard.string(forKey: "theme"), let theme = ColorThemes(rawValue: stored)?.rawValue {
+            
+            return Color("GT\(theme)\(priority)")
+        } else {
+            return Color("GTBlue\(priority)")
+
+        }
+    }
 }
