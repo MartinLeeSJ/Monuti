@@ -62,7 +62,7 @@ struct DateCell: View {
                     .background {
                         if isToday {
                             Capsule()
-                                .fill(Color.getThemeColor(5))
+                                .fill(Color.themes.getThemeColor(5))
                         }
                     }
             }
@@ -77,7 +77,7 @@ struct DateCell: View {
                     .overlay {
                         if let evaluation, evaluation != 0 {
                             RoundedRectangle(cornerRadius: 5)
-                                .foregroundColor(Color.getThemeColor(evaluation + 1))
+                                .foregroundColor(Color.themes.getThemeColor(evaluation + 1))
                         }
                     }
                     .overlay {
@@ -89,7 +89,7 @@ struct DateCell: View {
                     .overlay {
                         if isSelected {
                                 RoundedRectangle(cornerRadius: 5)
-                                .stroke(Color.getThemeColor(5), lineWidth: 2)
+                                .stroke(Color.themes.getThemeColor(5), lineWidth: 2)
                         }
                     }
             }
