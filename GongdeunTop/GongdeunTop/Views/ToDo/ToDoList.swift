@@ -74,7 +74,7 @@ extension ToDoList {
     }
     
     var totalTime: Int {
-        timerViewModel.getTotalTime()
+        timerViewModel.getTotalMinute()
     }
     
     @ViewBuilder

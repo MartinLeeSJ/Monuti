@@ -232,7 +232,7 @@ extension CycleMemoir {
 extension CycleMemoir {
     func handleFinish() {
         manager.cycle.sessions = timerManager.numOfSessions
-        manager.cycle.minutes = timerManager.getTotalTime()
+        manager.cycle.minutes = timerManager.getTotalMinute()
         
     }
 }
