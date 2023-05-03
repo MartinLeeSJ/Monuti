@@ -36,34 +36,9 @@ struct ToDoFormRow: View {
         fieldType.fieldString
     }
     
-    func addOrUpdateTag() {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        guard !viewModel.todo.tags.contains(where: { $0 == tagText }) else { return }
-        
-        let tagRef = db.collection("Members").document(uid).collection("Tag").document(tagText)
-        
-        
-        if tagStore.tags.contains(where: { $0.title == tagText }) {
-            tagRef.updateData(["count" : FieldValue.increment(Int64(1))])
-        } else {
-            tagRef.setData([
-                "title" : tagText,
-                "count" : 1
-            ])
-        }
-        
-        viewModel.todo.tags.append(tagText)
-        tagText = ""
-        
-    }
     
-    func deleteTag(_ deletingTag: String) {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        let tagRef = db.collection("Members").document(uid).collection("Tag").document(deletingTag)
-        
-        tagRef.updateData(["count" : FieldValue.increment(Int64(-1))])
-        viewModel.todo.tags = viewModel.todo.tags.filter { $0 != deletingTag }
-    }
+    
+    
     
     
     
@@ -134,9 +109,70 @@ extension ToDoFormRow {
         .padding(.bottom , 5)
     }
     
+ 
+    
+    
+    var footer: some View {
+        HAlignment(alignment: .leading) {
+            Text(fieldString.footer)
+                .foregroundColor(.white)
+                .font(.caption2)
+        }
+        .frame(height: 5)
+    }
+    
+    
+}
+
+// MARK: - Tag
+extension ToDoFormRow {
+    private func handleAddTagButton() {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        guard !viewModel.todo.tags.contains(where: { $0 == tagText }) else { return }
+        
+        let tagRef = db.collection("Members").document(uid).collection("Tag").document(tagText)
+        
+        if tagStore.tags.contains(where: { $0.title == tagText }) {
+            updateTagCount(of: tagRef)
+        } else {
+            addTag(at: tagRef)
+        }
+        
+        viewModel.todo.tags.append(tagText)
+        tagText = ""
+        
+    }
+    
+    private func updateTagCount(of tagRef: DocumentReference) {
+        tagRef.updateData(["count" : FieldValue.increment(Int64(1))])
+    }
+    
+    private func addTag(at tagRef: DocumentReference) {
+        tagRef.setData([
+            "title" : tagText,
+            "count" : 1
+        ])
+    }
+    
+    private func deleteTag(title: String) {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        let tagRef = db.collection("Members").document(uid).collection("Tag").document(title)
+        
+        tagRef.updateData(["count" : FieldValue.increment(Int64(-1))])
+        viewModel.todo.tags = viewModel.todo.tags.filter { $0 != title }
+    }
+    
+    
+    private func handleTagListElementTapped(title: String) {
+        tagText = title
+        handleAddTagButton()
+        filteredTags = []
+    }
+    
+    
     var addTagButton: some View {
         Button {
-            addOrUpdateTag()
+            handleAddTagButton()
         } label: {
             Text("등록")
         }
@@ -152,9 +188,7 @@ extension ToDoFormRow {
                     
                     HAlignment(alignment: .leading) {
                         Button {
-                            tagText = tag.title
-                            addOrUpdateTag()
-                            filteredTags = []
+                            handleTagListElementTapped(title: tag.title)
                         } label: {
                             HStack {
                                 Image(systemName: "magnifyingglass.circle")
@@ -173,39 +207,32 @@ extension ToDoFormRow {
         
     }
     
-    
-    var footer: some View {
-        HAlignment(alignment: .leading) {
-            Text(fieldString.footer)
-                .foregroundColor(.white)
-                .font(.caption2)
-        }
-        .frame(height: 5)
-    }
-    
     var tagScroll: some View {
         ScrollView(.horizontal, showsIndicators: false) {
-            HStack {
-                ForEach(viewModel.todo.tags, id: \.self) { tag in
-                    Text(tag)
+            HStack(spacing: 18) {
+                ForEach(viewModel.todo.tags, id: \.self) { tagTitle in
+                    Text(tagTitle)
                         .font(.caption)
-                        .padding(.vertical, 4)
+                        .padding(.vertical, 2)
                         .padding(.horizontal, 6)
-                        .background(Capsule().fill(.orange))
-                        .overlay(alignment: .topTrailing) {
-                            Button {
-                                deleteTag(tag)
-                            } label: {
-                                Image(systemName: "xmark")
-                                    .foregroundColor(.white)
-                                    .font(.caption2)
-                                    .padding(2)
-                                    .background {
-                                        Circle()
-                                            .tint(.black)
-                                    }
+                        .background(Capsule().fill(Color.orange))
+                        .background {
+                            HAlignment(alignment: .trailling) {
+                                Button {
+                                    deleteTag(title: tagTitle)
+                                } label: {
+                                    Image(systemName: "trash.fill")
+                                        .foregroundColor(.white)
+                                        .font(.caption)
+                                        .padding(2)
+                                        .background {
+                                            Circle()
+                                                .fill(Color.black)
+                                        }
+                                }
                             }
-                            .offset(x: 8, y : -8)
+                            .background(Capsule().fill(Color.black))
+                            .offset(x: 15)
                         }
                 }
             }
