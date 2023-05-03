@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ToDoRow: View {
-    @Environment(\.presentationMode) var presentationMode
+    @Environment(\.dismiss) var dismiss
     
     @State private var isEditingSheetOn: Bool = false
     let todo: ToDo
@@ -47,7 +47,7 @@ struct ToDoRow: View {
                 .sheet(isPresented: $isEditingSheetOn) {
                     SetToDoForm(viewModel: ToDoManager(todo: todo), mode: .edit) { result in
                         if case .success(let action) = result, action == .delete {
-                            self.presentationMode.wrappedValue.dismiss()
+                            self.dismiss()
                         }
                     }
                 }

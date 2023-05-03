@@ -28,6 +28,7 @@ struct ToDoList: View {
                     VStack {
                         List(todoStore.todos, selection: $todoStore.multiSelection) { todo in
                             ToDoRow(todo: todo)
+                                .listRowBackground(Color.clear)
                         }
                         .frame(height: geo.size.height * (todoStore.isEditing ? 0.89 : 0.84))
                         .listStyle(.plain)

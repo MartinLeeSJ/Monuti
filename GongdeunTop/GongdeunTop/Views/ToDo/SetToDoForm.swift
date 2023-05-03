@@ -39,6 +39,7 @@ enum ToDoField: Int, Hashable, CaseIterable {
 }
 
 struct SetToDoForm: View {
+    @Environment(\.dismiss) var dismiss
     @ObservedObject var viewModel = ToDoManager()
     @FocusState private var focusedField: ToDoField?
     
@@ -72,6 +73,13 @@ struct SetToDoForm: View {
         return currentFocusedField.rawValue < ToDoField.allCases.count - 1
     }
     
+    private func handleDoneTapped() {
+        viewModel.handleDoneTapped()
+        if mode == .edit {
+            dismiss()
+        }
+    }
+    
     var body: some View {
         NavigationView {
             ScrollView {
@@ -84,7 +92,7 @@ struct SetToDoForm: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
-                        viewModel.handleDoneTapped()
+                        handleDoneTapped()
                     } label: {
                         Text(mode == .new ? "Add" : "Edit")
                     }
