@@ -19,7 +19,7 @@
 "really exit" = "정말로 끝내겠습니까?";
 
 "sessions%lld" = " %lld개 세션,";
-"totalTime%lld" = " 총%lld분";
+"totalTime%lld" = " 총 %lld분";
 "Set Time" = "시간 설정";
 "Start" = "시작";
 
@@ -40,7 +40,7 @@
 //SetTimeForm
 "setTime_session" = "세션 수";
 "setTime_session%lld" = "%lld개 세션";
-"setTime_session_range" = "3 ~ 6개";
+"setTime_session_range" = "2 ~ 5개";
 
 "setTime_concentration" = "집중시간";
 "setTime_concentration_range" = "15~50분";

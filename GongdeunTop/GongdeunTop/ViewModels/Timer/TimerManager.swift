@@ -84,8 +84,16 @@ final class TimerManager: ObservableObject {
         }
     }
     
-    func getTotalTime() -> Int {
-        (concentrationTime + refreshTime) * numOfSessions
+    func getTotalMinute() -> Int {
+        var result: Int = 0
+        
+        for _ in 1..<numOfSessions {
+            result += (concentrationTime + refreshTime)
+        }
+        
+        result += (concentrationTime + 30)
+        
+        return result
     }
     
     func getEndDegree() -> Double {

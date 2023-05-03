@@ -39,7 +39,7 @@
 //SetTimeForm
 "setTime_session" = "Sessions";
 "setTime_session%lld" = "%lld sessions";
-"setTime_session_range" = "3 to 6";
+"setTime_session_range" = "2 to 5";
 
 "setTime_concentration" = "Concentration";
 "setTime_concentration_range" = "15 to 50";
