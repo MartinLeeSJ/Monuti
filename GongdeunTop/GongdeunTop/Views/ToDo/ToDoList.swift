@@ -99,7 +99,9 @@ extension ToDoList {
                 Spacer()
                 
                 NavigationLink {
-                    SessionsTimer(timerManager: timerViewModel)
+                    SessionsTimer(timerManager: timerViewModel,
+                                  todos: todoStore.todos,
+                                  currentTodo: todoStore.todos.first)
                 } label: {
                     Text("Start")
                         .frame(width: geo.size.width / 2 - 33, height: 36)

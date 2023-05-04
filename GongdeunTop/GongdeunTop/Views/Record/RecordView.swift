@@ -29,6 +29,8 @@ struct RecordView: View {
     
     @State private var sheetType: RecordSheetType?
     @State private var showSetMonth: Bool = false
+    
+    @State private var offsetX: CGFloat = 0.0
 
     var firstWeekdayDigit: Int {
         if let startDate = calendarManager.currentMonthData.first {
@@ -116,7 +118,11 @@ extension RecordView {
             
             dates
         }
+//        .offset(x: offsetX)
         .gesture(DragGesture(minimumDistance: 2.0, coordinateSpace: .local)
+            .onChanged { value in
+//                offsetX = value.translation.width
+            }
             .onEnded { value in
                 switch(value.translation.width, value.translation.height) {
                 case (...0, -50...50):
@@ -125,6 +131,8 @@ extension RecordView {
                     handlePreviousMonth()
                 default:  print("no clue")
                 }
+                
+//                offsetX = 0
             })
         .padding(.bottom, 3)
     }
@@ -151,6 +159,7 @@ extension RecordView {
     var dates: some View {
         ForEach(calendarManager.currentMonthData, id: \.self) { date in
             DateCell(manager: calendarManager, date: date, evaluation: cycleStore.dateEvaluations[date])
+                .id(date)
         }
     }
 }

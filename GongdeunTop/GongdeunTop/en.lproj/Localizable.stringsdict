@@ -2,6 +2,42 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>%lld minute</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@minute@</string>
+		<key>minute</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>New NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>other</key>
+			<string>%d minutes</string>
+			<key>zero</key>
+			<string>0 minute</string>
+			<key>one</key>
+			<string>1 minute</string>
+		</dict>
+	</dict>
+	<key>%lld second</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@second@</string>
+		<key>second</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>other</key>
+			<string>%d seconds</string>
+			<key>zero</key>
+			<string>0 second</string>
+			<key>one</key>
+			<string>1 second</string>
+		</dict>
+	</dict>
 	<key>really_delete? %lld</key>
 	<dict>
 		<key>NSStringLocalizedFormatKey</key>

@@ -52,7 +52,7 @@ struct DateCell: View {
     }
     
     var body: some View {
-        VStack(spacing: 2) {
+        VStack(spacing: 5) {
             HAlignment(alignment: .center) {
                 
                 Text(day)
@@ -71,24 +71,28 @@ struct DateCell: View {
             Button {
                 manager.selectedDate = date
             } label: {
-                RoundedRectangle(cornerRadius: 5)
+                RoundedHexagon(radius: 20, cornerAngle: 5)
+//                RoundedRectangle(cornerRadius: 5)
                     .fill(scheme == .light ? Color.GTWarmGray : Color.black)
                     .frame(width: 33, height: 33)
                     .overlay {
                         if let evaluation, evaluation != 0 {
-                            RoundedRectangle(cornerRadius: 5)
+//                            RoundedRectangle(cornerRadius: 5)
+                            RoundedHexagon(radius: 20, cornerAngle: 5)
                                 .foregroundColor(Color.themes.getThemeColor(evaluation + 1))
                         }
                     }
                     .overlay {
                         if scheme == .dark {
-                            RoundedRectangle(cornerRadius: 5)
+//                            RoundedRectangle(cornerRadius: 5)
+                            RoundedHexagon(radius: 20, cornerAngle: 5)
                                 .stroke(.white.opacity(0.6), lineWidth: 1.5)
                         }
                     }
                     .overlay {
                         if isSelected {
-                                RoundedRectangle(cornerRadius: 5)
+//                                RoundedRectangle(cornerRadius: 5)
+                            RoundedHexagon(radius: 20, cornerAngle: 5)
                                 .stroke(Color.themes.getThemeColor(5), lineWidth: 2)
                         }
                     }
