@@ -14,9 +14,10 @@ struct SessionsTimer: View {
     @AppStorage("lastTime") private var lastTimeObserved: String = ""
     
     @ObservedObject var timerManager: TimerManager
-    @StateObject var todoStore = ToDoStore()
+ 
     
-    
+    @State var todos: [ToDo] = []
+    @State var currentTodo: ToDo? = nil
     
     @State private var isFirstCountDownEnded: Bool = false
     @State private var isShowingReallyQuitAlert: Bool = false
@@ -30,7 +31,7 @@ struct SessionsTimer: View {
             VStack {
                 Spacer()
                 
-                Text(timerManager.currentTodo?.title ?? String(localized: "timer_currentTodo_nothing"))
+                Text(currentTodo?.title ?? String(localized: "timer_currentTodo_nothing"))
                     .font(.headline)
                 
                 getTimerBackground(width: shorterSize)
@@ -73,18 +74,12 @@ struct SessionsTimer: View {
             }
         }
         .onChange(of: scenePhase, perform: {updateTimeElapsed(newPhase:$0)})
-        .onAppear {
-            todoStore.subscribeTodos()
-        }
-        .onDisappear{
-            todoStore.unsubscribeTodos()
-        }
         .sheet(isPresented: $isShowingCycleMemoir) {
             timerManager.reset()
             dismiss()
         } content: {
             NavigationView {
-                CycleMemoir(manager: CycleManager(todos: todoStore.todos), timerManager: timerManager)
+                CycleMemoir(manager: CycleManager(todos: todos), timerManager: timerManager)
             }
         }
     }
@@ -150,16 +145,6 @@ struct SessionsTimer: View {
                     .stroke(style: .init(lineWidth: 8, lineJoin: .round))
                     .foregroundColor(.white.opacity(0.2))
             }
-            .overlay {
-                ForEach(0..<60, id: \.self) { index in
-                    Circle()
-                        .fill(Color.GTDenimNavy)
-                        .opacity(0.6)
-                        .frame(width: index % 5 == 0 ? 8 : 4)
-                        .offset(y: width * 0.4)
-                        .rotationEffect(Angle(degrees: Double(360 * index / 60)))
-                }
-            }
             .background {
                 CubeHexagon(radius: width * 0.425)
                     .fill(Color.GTPastelBlue)
@@ -170,16 +155,16 @@ struct SessionsTimer: View {
     @ViewBuilder
     private func getTodoMenu() -> some View {
         Menu {
-            ForEach(todoStore.todos, id: \.self) { todo in
+            ForEach(todos, id: \.self) { todo in
                 Button {
-                    timerManager.currentTodo = todo
+                    currentTodo = todo
                 } label: {
                     Text(todo.title)
                 }
             }
         } label: {
             Label {
-                Text(String(localized: !todoStore.todos.isEmpty ?
+                Text(String(localized: !todos.isEmpty ?
                                 "timer_todoMenu" :
                                 "timer_todoMenu_nothing"))
             } icon: {
@@ -193,7 +178,7 @@ struct SessionsTimer: View {
         }
         .menuStyle(.borderlessButton)
         .tint(.GTDenimNavy)
-        .disabled(todoStore.todos.isEmpty)
+        .disabled(todos.isEmpty)
     }
     
     
@@ -223,8 +208,8 @@ struct SessionsTimer: View {
     private func updateToDoTimeSpent() {
         guard !timerManager.knowIsRefreshTime() else { return }
         
-        if let index = todoStore.todos.firstIndex(where: { $0.id == timerManager.currentTodo?.id }) {
-            todoStore.todos[index].timeSpent += 1
+        if let index = todos.firstIndex(where: { $0.id == currentTodo?.id }) {
+            todos[index].timeSpent += 1
         }
     }
     
@@ -320,10 +305,10 @@ extension SessionsTimer {
 struct TimerView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            SessionsTimer(timerManager: TimerManager())
+            SessionsTimer(timerManager: TimerManager(), todos: [])
                 .environment(\.locale, .init(identifier: "en"))
             
-            SessionsTimer(timerManager: TimerManager())
+            SessionsTimer(timerManager: TimerManager(), todos: [])
                 .environment(\.locale, .init(identifier: "ko"))
         }
         

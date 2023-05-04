@@ -14,23 +14,18 @@ struct CubeHexagon: Shape {
         self.radius = radius
     }
     
-    let points: [CGPoint] = [.init(x: sqrt(3 / 4), y: -0.5),
-                             .init(x: 0, y: -1),
-                             .init(x: -sqrt(3 / 4), y: -0.5),
-                             .init(x: -sqrt(3 / 4), y: 0.5),
-                             .init(x: 0, y: 1),
-                             .init(x: sqrt(3 / 4), y: 0.5)]
-     
+
     func path(in rect: CGRect) -> Path {
         let originX: CGFloat = rect.width / 2
         let originY: CGFloat = rect.height / 2
         
         var path = Path()
+        let degree: Double = 30.0
         
-        path.move(to: CGPoint(x: radius, y: 0))
-        for index in 0..<points.count {
-            let x = points[index].x * radius
-            let y = points[index].y * radius
+        
+        for index in 0..<6 {
+            let x = radius * cos(Angle(degrees: degree + 60.0 * Double(index)).radians)
+            let y = radius * sin(Angle(degrees: degree + 60.0 * Double(index)).radians)
             
             if index == 0 {
                 path.move(to: CGPoint(x: x, y: y))
@@ -38,7 +33,7 @@ struct CubeHexagon: Shape {
                 path.addLine(to: CGPoint(x: x, y: y))
             }
             
-            if index % 2 == 0 {
+            if index % 2 == 1 {
                 path.addLine(to: CGPoint(x: 0, y: 0))
                 path.addLine(to: CGPoint(x: x, y: y))
             }
@@ -50,5 +45,8 @@ struct CubeHexagon: Shape {
         return path.offsetBy(dx: originX, dy: originY)
     }
 }
+
+
+
 
 

@@ -12,6 +12,7 @@
 		5B05A61029EAAFD700C89417 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 5B05A61229EAAFD700C89417 /* Localizable.stringsdict */; };
 		5B05A61529ECE5CF00C89417 /* CycleManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B05A61429ECE5CF00C89417 /* CycleManager.swift */; };
 		5B05A61829ECFD5A00C89417 /* CycleMemoir.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B05A61729ECFD5A00C89417 /* CycleMemoir.swift */; };
+		5B174C272A03720600204C75 /* RoundedHexagon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B174C262A03720600204C75 /* RoundedHexagon.swift */; };
 		5B2767C529F8F30D008398A3 /* CalendarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2767C429F8F30D008398A3 /* CalendarManager.swift */; };
 		5B2767C729F90355008398A3 /* SetMonthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2767C629F90355008398A3 /* SetMonthView.swift */; };
 		5B2767C929FA2229008398A3 /* DateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2767C829FA2229008398A3 /* DateCell.swift */; };
@@ -54,6 +55,7 @@
 		5BD5131B29D583E80008E1C9 /* ToDoDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD5131A29D583E80008E1C9 /* ToDoDetail.swift */; };
 		5BD5131D29D58D060008E1C9 /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD5131C29D58D060008E1C9 /* Tag.swift */; };
 		5BE9EEDC29FFFBA500233C49 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE9EEDB29FFFBA500233C49 /* SettingView.swift */; };
+		5BF61E922A0296B1007592D6 /* ThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF61E912A0296B1007592D6 /* ThemeManager.swift */; };
 		5BFFDB8529C5F299004C5376 /* SetTimeForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BFFDB8429C5F298004C5376 /* SetTimeForm.swift */; };
 		998D2CF557BAAE8AFAA27970 /* Pods_GongdeunTopTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7365EFD7F49AB671EB183D7A /* Pods_GongdeunTopTests.framework */; };
 /* End PBXBuildFile section */
@@ -79,6 +81,7 @@
 		5B05A61329EC0A4000C89417 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = ko; path = ko.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		5B05A61429ECE5CF00C89417 /* CycleManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CycleManager.swift; sourceTree = "<group>"; };
 		5B05A61729ECFD5A00C89417 /* CycleMemoir.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CycleMemoir.swift; sourceTree = "<group>"; };
+		5B174C262A03720600204C75 /* RoundedHexagon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedHexagon.swift; sourceTree = "<group>"; };
 		5B2767C429F8F30D008398A3 /* CalendarManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarManager.swift; sourceTree = "<group>"; };
 		5B2767C629F90355008398A3 /* SetMonthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetMonthView.swift; sourceTree = "<group>"; };
 		5B2767C829FA2229008398A3 /* DateCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateCell.swift; sourceTree = "<group>"; };
@@ -124,6 +127,7 @@
 		5BD5131A29D583E80008E1C9 /* ToDoDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoDetail.swift; sourceTree = "<group>"; };
 		5BD5131C29D58D060008E1C9 /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
 		5BE9EEDB29FFFBA500233C49 /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
+		5BF61E912A0296B1007592D6 /* ThemeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeManager.swift; sourceTree = "<group>"; };
 		5BFFDB8429C5F298004C5376 /* SetTimeForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetTimeForm.swift; sourceTree = "<group>"; };
 		6366D9A7814134E8A25F5AFA /* Pods-GongdeunTop.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GongdeunTop.release.xcconfig"; path = "Target Support Files/Pods-GongdeunTop/Pods-GongdeunTop.release.xcconfig"; sourceTree = "<group>"; };
 		7365EFD7F49AB671EB183D7A /* Pods_GongdeunTopTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GongdeunTopTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -170,6 +174,15 @@
 			path = Timer;
 			sourceTree = "<group>";
 		};
+		5B174C252A035CCA00204C75 /* Setting */ = {
+			isa = PBXGroup;
+			children = (
+				5BE9EEDB29FFFBA500233C49 /* SettingView.swift */,
+				5BAC85EE2A00F1D500A34056 /* ColorThemeSetting.swift */,
+			);
+			path = Setting;
+			sourceTree = "<group>";
+		};
 		5B2767C329F8F2E6008398A3 /* Timer */ = {
 			isa = PBXGroup;
 			children = (
@@ -191,8 +204,10 @@
 		5B63175B29E7F28400FF6876 /* Shape */ = {
 			isa = PBXGroup;
 			children = (
+				5B76D0F529C76A2B008883A8 /* CircularSector.swift */,
 				5B95944C29D96277001F2B4B /* Turret.swift */,
 				5B6585A529EEAE6200F9E758 /* CubeHexagon.swift */,
+				5B174C262A03720600204C75 /* RoundedHexagon.swift */,
 				5B63175929E7F27700FF6876 /* RoundedCorners.swift */,
 			);
 			path = Shape;
@@ -263,16 +278,15 @@
 		5BCF550229C2CB2500A19759 /* GongdeunTop */ = {
 			isa = PBXGroup;
 			children = (
+				5BF61E902A02967D007592D6 /* Etc */,
 				5B95E13C29D804F000E8CBA1 /* GongdeunTop.entitlements */,
 				5BD3D1DA29D1D15A008E8988 /* GoogleService-Info.plist */,
 				5BCF550329C2CB2500A19759 /* GongdeunTopApp.swift */,
 				5BB4FECD29C892B0009CCD43 /* Models */,
 				5BCF551729C3066A00A19759 /* Views */,
 				5B76D0F729C7755A008883A8 /* ViewModels */,
-				5BCF551129C2E50100A19759 /* Color+Custom.swift */,
 				5BCF550729C2CB2700A19759 /* Assets.xcassets */,
 				5BCF550929C2CB2700A19759 /* Preview Content */,
-				5B76D0F529C76A2B008883A8 /* CircularSector.swift */,
 				5B05A60C29EA724E00C89417 /* Localizable.strings */,
 				5B05A61229EAAFD700C89417 /* Localizable.stringsdict */,
 			);
@@ -292,12 +306,10 @@
 			isa = PBXGroup;
 			children = (
 				5BCF550529C2CB2500A19759 /* ContentView.swift */,
-				5BE9EEDB29FFFBA500233C49 /* SettingView.swift */,
-				5BAC85EE2A00F1D500A34056 /* ColorThemeSetting.swift */,
+				5B174C252A035CCA00204C75 /* Setting */,
 				5B95E13D29D805AC00E8CBA1 /* SignUpView.swift */,
 				5BD5131729D5743E0008E1C9 /* ToDo */,
 				5B05A61629ECFD3E00C89417 /* Timer */,
-				5B63175B29E7F28400FF6876 /* Shape */,
 				5BCF551929C3067C00A19759 /* Record */,
 				5BD5131E29D682670008E1C9 /* CustomView */,
 			);
@@ -334,6 +346,16 @@
 				5B63A59029C8931300AA4525 /* SheetPresenter.swift */,
 			);
 			path = CustomView;
+			sourceTree = "<group>";
+		};
+		5BF61E902A02967D007592D6 /* Etc */ = {
+			isa = PBXGroup;
+			children = (
+				5BCF551129C2E50100A19759 /* Color+Custom.swift */,
+				5BF61E912A0296B1007592D6 /* ThemeManager.swift */,
+				5B63175B29E7F28400FF6876 /* Shape */,
+			);
+			path = Etc;
 			sourceTree = "<group>";
 		};
 		A2CFBAC1FD0D2784B3E8588C /* Pods */ = {
@@ -545,6 +567,7 @@
 				5BFFDB8529C5F299004C5376 /* SetTimeForm.swift in Sources */,
 				5BCF550629C2CB2500A19759 /* ContentView.swift in Sources */,
 				5B63175829E6C90300FF6876 /* ToDoFormRow.swift in Sources */,
+				5BF61E922A0296B1007592D6 /* ThemeManager.swift in Sources */,
 				5B2767C929FA2229008398A3 /* DateCell.swift in Sources */,
 				5BD5131B29D583E80008E1C9 /* ToDoDetail.swift in Sources */,
 				5B2FEABC29D9CC000022F827 /* ToDoStore.swift in Sources */,
@@ -558,6 +581,7 @@
 				5B8B119529D07EE6009BB0E6 /* FirstCountdown.swift in Sources */,
 				5B76D0F629C76A2B008883A8 /* CircularSector.swift in Sources */,
 				5BD3D1D929D1C45A008E8988 /* ToDo+PlaceHolder.swift in Sources */,
+				5B174C272A03720600204C75 /* RoundedHexagon.swift in Sources */,
 				5B2767C729F90355008398A3 /* SetMonthView.swift in Sources */,
 				5BD3D1D729D1C3BB008E8988 /* ToDoRow.swift in Sources */,
 				5B2767C529F8F30D008398A3 /* CalendarManager.swift in Sources */,
