@@ -116,7 +116,7 @@ struct SetTimeForm: View {
                         .foregroundColor(.secondary)
                 }
             } onEditingChanged: { _ in
-                viewModel.setRemainSeconds()
+                viewModel.setTimerRemainSeconds()
             }
         }
     }

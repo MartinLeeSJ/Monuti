@@ -16,7 +16,7 @@ final class TimerManager: ObservableObject {
     
     @Published var currentTime: Int {
         willSet(newValue) {
-            setRemainSeconds(currentTime: newValue)
+            setTimerRemainSeconds(currentTime: newValue)
         }
     }
     
@@ -33,15 +33,50 @@ final class TimerManager: ObservableObject {
         self.remainSeconds = concentrationTime * 60
     }
     
-    func reset() {
+    func resetToOrigin() {
+        pauseTime()
         currentTime = 1
-        isRunning = false
-        timer?.invalidate()
         timer = nil
     }
     
+    func resetTimes() {
+        pauseTime()
+        if knowIsRefreshTime() {
+            if currentTime == numOfSessions * 2 {
+                remainSeconds = 30 * 60
+            } else {
+                remainSeconds = refreshTime * 60
+            }
+        } else {
+            remainSeconds = concentrationTime * 60
+        }
+    }
     
-    func setRemainSeconds(currentTime: Int = 1) {
+    
+    
+    func moveToNextTimes() {
+        withAnimation {
+            pauseTime()
+            if knowIsInSession() {
+                currentTime += 1
+            }
+        }
+    }
+    
+    func pauseTime() {
+        timer?.invalidate()
+        isRunning = false
+    }
+    
+    func elapsesTime() {
+        remainSeconds -= 1
+    }
+    
+ 
+    
+    
+    
+    func setTimerRemainSeconds(currentTime: Int = 1) {
         if currentTime % 2 == 0 && currentTime < numOfSessions * 2 {
             remainSeconds = refreshTime * 60
         } else if currentTime == numOfSessions * 2 {
@@ -63,6 +98,8 @@ final class TimerManager: ObservableObject {
         self.currentTime == self.numOfSessions * 2
     }
     
+    
+
     func getMinute() -> String {
         let seconds: Int = self.remainSeconds <= 0 ? 0 : self.remainSeconds
         let result: Int = Int(seconds / 60)

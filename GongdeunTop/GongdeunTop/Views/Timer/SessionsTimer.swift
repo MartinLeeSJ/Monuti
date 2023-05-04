@@ -31,7 +31,7 @@ struct SessionsTimer: View {
             VStack {
                 Spacer()
    
-                getTimerBackground(width: shorterSize)
+                getTimerShape(width: shorterSize)
                     .overlay {
                         VStack {
                             getDigitTimes(width: shorterSize)
@@ -41,15 +41,11 @@ struct SessionsTimer: View {
                     }
                     .padding(.bottom, 20)
                 
-                SessionIndicator(manager: timerManager)
-                    .frame(width: shorterSize * 0.45)
+                getIndicator(width: shorterSize * 0.45)
                 
                 Spacer()
                 
                 if !todos.isEmpty {
-                    Text(currentTodo?.title ?? String(localized: "timer_currentTodo_nothing"))
-                        .font(.headline)
-                    
                     getTodoMenu()
                 }
                 
@@ -74,7 +70,7 @@ struct SessionsTimer: View {
         }
         .onChange(of: scenePhase, perform: { updateTimeElapsed(newPhase:$0) })
         .sheet(isPresented: $isShowingCycleMemoir) {
-            timerManager.reset()
+            timerManager.resetToOrigin()
             dismiss()
         } content: {
             NavigationView {
@@ -83,7 +79,11 @@ struct SessionsTimer: View {
         }
     }
     
-    
+}
+
+
+// MARK: - Timer UI
+extension SessionsTimer {
     @ViewBuilder
     private func getButtons(width: CGFloat) -> some View {
         Button {
@@ -134,7 +134,7 @@ struct SessionsTimer: View {
     }
     
     @ViewBuilder
-    private func getTimerBackground(width: CGFloat) -> some View {
+    private func getTimerShape(width: CGFloat) -> some View {
         CircularSector(endDegree: timerManager.getEndDegree())
             .frame(width: width * 0.85, height: width * 0.85)
             .foregroundColor(.GTDenimBlue)
@@ -150,66 +150,103 @@ struct SessionsTimer: View {
             }
         
     }
-    
+}
+
+// MARK: - Indicator UI
+extension SessionsTimer {
+    @ViewBuilder
+    func getIndicator(width: CGFloat) -> some View {
+        SessionIndicator(manager: timerManager)
+            .frame(width: width)
+            .gesture(DragGesture(minimumDistance: 2.0, coordinateSpace: .local)
+                .onEnded { value in
+                    switch(value.translation.width, value.translation.height) {
+                    case (...0, -50...50):
+                        handleNextButton()
+                    case (0..., -50...50):
+                        handleResetButton()
+                    default:  print("no clue")
+                    }
+            })
+    }
+}
+
+// MARK: - TodoMenu UI
+extension SessionsTimer {
     @ViewBuilder
     private func getTodoMenu() -> some View {
-        Menu {
-            ForEach(todos, id: \.self) { todo in
+        VStack {
+            Text(currentTodo?.title ?? String(localized: "timer_currentTodo_nothing"))
+                .font(.headline)
+            
+            Menu {
+                ForEach(todos, id: \.self) { todo in
+                    Button {
+                        currentTodo = todo
+                    } label: {
+                        Text(todo.title)
+                    }
+                }
+                
                 Button {
-                    currentTodo = todo
+                    currentTodo = nil
                 } label: {
-                    Text(todo.title)
+                    Text("timer_todoMenu_doNotSelect")
+                }
+            } label: {
+                Label {
+                    Text(String(localized: !todos.isEmpty ?
+                                "timer_todoMenu" :
+                                    "timer_todoMenu_nothing"))
+                } icon: {
+                    Image(systemName: "chevron.down")
+                }
+                .foregroundColor(.white)
+                .padding()
+                .background {
+                    RoundedRectangle(cornerRadius: 5)
                 }
             }
-            
-            Button {
-                currentTodo = nil
-            } label: {
-                Text("timer_todoMenu_doNotSelect")
-            }
-        } label: {
-            Label {
-                Text(String(localized: !todos.isEmpty ?
-                                "timer_todoMenu" :
-                                "timer_todoMenu_nothing"))
-            } icon: {
-                Image(systemName: "chevron.down")
-            }
-            .foregroundColor(.white)
-            .padding()
-            .background {
-                RoundedRectangle(cornerRadius: 5)
-            }
+            .menuStyle(.borderlessButton)
+            .tint(.GTDenimNavy)
+            .disabled(todos.isEmpty)
         }
-        .menuStyle(.borderlessButton)
-        .tint(.GTDenimNavy)
-        .disabled(todos.isEmpty)
     }
-    
-    
+}
+
+// MARK: - Button Methods
+extension SessionsTimer {
     private func handlePlayButton() {
         if timerManager.isRunning {
-            timerManager.timer?.invalidate()
+            timerManager.pauseTime()
         } else {
             recordStartingTime()
             
             timerManager.timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
                 if timerManager.remainSeconds > 0 {
-                    timerManager.remainSeconds -= 1
+                    timerManager.elapsesTime()
                     updateToDoTimeSpent()
-                    
                 } else {
-                    timerManager.timer?.invalidate()
-                    timerManager.isRunning = false
-                    if timerManager.knowIsInSession() {
-                        timerManager.currentTime += 1
-                    }
+                    timerManager.moveToNextTimes()
                 }
             }
+            
+            timerManager.isRunning = true
         }
-        timerManager.isRunning.toggle()
     }
     
+    
+    private func handleResetButton() {
+        timerManager.resetTimes()
+    }
+    
+    private func handleNextButton() {
+        timerManager.moveToNextTimes()
+    }
+}
+
+// MARK: - Record Times
+extension SessionsTimer {
     private func updateToDoTimeSpent() {
         guard !timerManager.knowIsRefreshTime() else { return }
         
@@ -246,33 +283,9 @@ struct SessionsTimer: View {
         lastTimeObserved = String(Date.now.timeIntervalSince1970)
         print("Time is Recorded \(lastTimeObserved)")
     }
-    
-    private func handleResetButton() {
-        timerManager.timer?.invalidate()
-        timerManager.isRunning = false
-        if timerManager.knowIsRefreshTime() {
-            if timerManager.currentTime == timerManager.numOfSessions * 2 {
-                timerManager.remainSeconds = 30 * 60
-            } else {
-                timerManager.remainSeconds = timerManager.refreshTime * 60
-            }
-        } else {
-            timerManager.remainSeconds = timerManager.concentrationTime * 60
-        }
-    }
-    
-    private func handleNextButton() {
-        withAnimation {
-            timerManager.timer?.invalidate()
-            timerManager.isRunning = false
-            if timerManager.knowIsInSession() {
-                timerManager.currentTime += 1
-            }
-        }
-        
-    }
 }
 
+// MARK: - Toolbars
 extension SessionsTimer {
     private func handleQuitButton() {
         if !timerManager.knowIsLastTime() {
@@ -313,8 +326,6 @@ extension SessionsTimer {
         }
     }
 }
-
-
 
 struct TimerView_Previews: PreviewProvider {
     static var previews: some View {

@@ -20,7 +20,6 @@ struct SessionIndicator: View {
     var currentSession: Int { Int(ceil(Double(currentTime) / 2)) }
     
     var body: some View {
-        
         VStack(spacing: 0) {
             Text("Session \(currentSession)")
                 .foregroundColor(.secondary)
@@ -56,7 +55,6 @@ struct SessionIndicator: View {
                 }
                 Spacer()
             }
-
         }
         
     }
