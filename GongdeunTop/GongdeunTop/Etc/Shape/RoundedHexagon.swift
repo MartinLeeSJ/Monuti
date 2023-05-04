@@ -9,11 +9,11 @@ import SwiftUI
 
 struct RoundedHexagon: Shape {
     var radius: Double
-    var cornerRadius: Double
+    var cornerAngle: Double
 
-    init(radius: Double, cornerRadius: Double) {
+    init(radius: Double, cornerAngle: Double) {
         self.radius = radius
-        self.cornerRadius = cornerRadius
+        self.cornerAngle = cornerAngle
     }
     
     func path(in rect: CGRect) -> Path {
@@ -28,11 +28,10 @@ struct RoundedHexagon: Shape {
         
         while degree <= 330 {
             /// 커브가 시작되는 지점과 중심사이 거리
-            let curveRadius: Double = radius * cos(Angle(degrees: 30).radians) / cos(Angle(degrees: 30 - cornerRadius).radians)
-            let startRadian: Double = Angle(degrees: degree - cornerRadius).radians
+            let curveRadius: Double = radius * cos(Angle(degrees: 30).radians) / cos(Angle(degrees: 30 - cornerAngle).radians)
+            let startRadian: Double = Angle(degrees: degree - cornerAngle).radians
             let controlPointRadian: Double = Angle(degrees: degree).radians
-            let endRadian: Double = Angle(degrees: degree + cornerRadius).radians
-            
+            let endRadian: Double = Angle(degrees: degree + cornerAngle).radians
             
             path.addLine(to: CGPoint(x: curveRadius * cos(startRadian),
                                      y: curveRadius * sin(startRadian)))

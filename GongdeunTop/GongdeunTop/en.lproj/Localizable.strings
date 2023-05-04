@@ -53,6 +53,8 @@
 "timer_currentTodo_nothing" = "Nothing To Do";
 "timer_todoMenu" = "Select ToDo";
 "timer_todoMenu_nothing" = "Nothing To Select";
+"timer_todoMenu_doNotSelect" = "Nothing";
+
 
 //Session Timer _ Indicator
 
@@ -61,6 +63,9 @@
 
 
 //CycleMemoir
+"cycleMemoir_Quit" = "Just Quit";
+"cycleMemoir_Add" = "Add";
+
 "concentration_evaluation_title" = "My Concentration Was...";
 "concentration_evaluation_subtitle" = "Choose your level of concentration to build the tower";
 "Weak" = "Weak";

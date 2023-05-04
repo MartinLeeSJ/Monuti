@@ -30,18 +30,13 @@ struct SessionsTimer: View {
             let shorterSize = min(width, height)
             VStack {
                 Spacer()
-                
-                Text(currentTodo?.title ?? String(localized: "timer_currentTodo_nothing"))
-                    .font(.headline)
-                
+   
                 getTimerBackground(width: shorterSize)
                     .overlay {
-                        VStack(alignment: .center) {
-                            
+                        VStack {
                             getDigitTimes(width: shorterSize)
                             
                             getButtons(width: shorterSize)
-                            
                         }
                     }
                     .padding(.bottom, 20)
@@ -51,8 +46,12 @@ struct SessionsTimer: View {
                 
                 Spacer()
                 
-                
-                getTodoMenu()
+                if !todos.isEmpty {
+                    Text(currentTodo?.title ?? String(localized: "timer_currentTodo_nothing"))
+                        .font(.headline)
+                    
+                    getTodoMenu()
+                }
                 
                 
                 Spacer()
@@ -73,7 +72,7 @@ struct SessionsTimer: View {
                 handlePlayButton()
             }
         }
-        .onChange(of: scenePhase, perform: {updateTimeElapsed(newPhase:$0)})
+        .onChange(of: scenePhase, perform: { updateTimeElapsed(newPhase:$0) })
         .sheet(isPresented: $isShowingCycleMemoir) {
             timerManager.reset()
             dismiss()
@@ -139,14 +138,14 @@ struct SessionsTimer: View {
         CircularSector(endDegree: timerManager.getEndDegree())
             .frame(width: width * 0.85, height: width * 0.85)
             .foregroundColor(.GTDenimBlue)
-            .clipShape(CubeHexagon(radius: width * 0.425))
+            .clipShape(RoundedHexagon(radius: width * 0.425, cornerAngle: 5))
             .overlay {
                 CubeHexagon(radius: width * 0.425)
                     .stroke(style: .init(lineWidth: 8, lineJoin: .round))
                     .foregroundColor(.white.opacity(0.2))
             }
             .background {
-                CubeHexagon(radius: width * 0.425)
+                RoundedHexagon(radius: width * 0.425, cornerAngle: 5)
                     .fill(Color.GTPastelBlue)
             }
         
@@ -161,6 +160,12 @@ struct SessionsTimer: View {
                 } label: {
                     Text(todo.title)
                 }
+            }
+            
+            Button {
+                currentTodo = nil
+            } label: {
+                Text("timer_todoMenu_doNotSelect")
             }
         } label: {
             Label {
@@ -269,16 +274,25 @@ struct SessionsTimer: View {
 }
 
 extension SessionsTimer {
+    private func handleQuitButton() {
+        if !timerManager.knowIsLastTime() {
+            isShowingReallyQuitAlert = true
+        } else {
+            isShowingCycleMemoir = true
+        }
+        
+        handlePlayButton()
+    }
+    
     @ToolbarContentBuilder
     func toolbarContents() -> some ToolbarContent {
         ToolbarItem {
             Button {
-                isShowingReallyQuitAlert = true
-                handlePlayButton()
+                handleQuitButton()
             } label: {
                 Text(String(localized: "Quit"))
             }
-            .alert(String(localized: "really exit") ,isPresented: $isShowingReallyQuitAlert) {
+            .alert(String(localized: "Quit") ,isPresented: $isShowingReallyQuitAlert) {
                 Button {
                     handlePlayButton()
                     isShowingReallyQuitAlert = false

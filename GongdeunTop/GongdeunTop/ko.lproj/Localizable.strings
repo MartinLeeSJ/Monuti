@@ -54,12 +54,16 @@
 "timer_currentTodo_nothing" = "현재 할 일 없음";
 "timer_todoMenu" = "할 일 선택";
 "timer_todoMenu_nothing" = "선택할 할 일 없음";
+"timer_todoMenu_doNotSelect" = "선택 안함";
 
 //Session Timer _ Indicator
 "Refresh" = "쉬는시간";
 "Concentrate" = "집중!";
 
 //CycleMemoir
+"cycleMemoir_Quit" = "바로 끝내기";
+"cycleMemoir_Add" = "저장";
+
 "concentration_evaluation_title" = "나의 집중도는...";
 "concentration_evaluation_subtitle" = "공든 탑에 쌓아 올려질 이번 세션 집중도 재료를 고르세요";
 "Weak" = "약했어요";

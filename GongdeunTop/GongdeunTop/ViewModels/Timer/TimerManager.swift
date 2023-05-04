@@ -59,6 +59,10 @@ final class TimerManager: ObservableObject {
         self.currentTime < self.numOfSessions * 2
     }
     
+    func knowIsLastTime() -> Bool {
+        self.currentTime == self.numOfSessions * 2
+    }
+    
     func getMinute() -> String {
         let seconds: Int = self.remainSeconds <= 0 ? 0 : self.remainSeconds
         let result: Int = Int(seconds / 60)

@@ -35,7 +35,9 @@ struct CycleMemoir: View {
                     
                     Divider()
                     
-                    toDoListForMemoir
+                    if !manager.todos.isEmpty {
+                        toDoListForMemoir
+                    }
                     
                     Spacer()
                         .frame(height: 35)
@@ -45,12 +47,20 @@ struct CycleMemoir: View {
         .padding()
         .interactiveDismissDisabled()
         .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button {
+                    dismiss()
+                } label: {
+                    Text("cycleMemoir_Quit")
+                }
+            }
+            
             ToolbarItem {
                 Button {
                     manager.handleFinishButton()
                     dismiss()
                 } label: {
-                    Text("저장")
+                    Text("cycleMemoir_Add")
                 }
                 .disabled(!manager.modified)
             }
@@ -170,7 +180,7 @@ extension CycleMemoir {
                         RoundedRectangle(cornerRadius: 10)
                             .stroke(lineWidth: 1)
                     }
-                    .padding()
+                    .padding(5)
                     .focused($editorIsFocused)
             }
             .frame(height: geo.size.height * 0.35)
@@ -180,12 +190,17 @@ extension CycleMemoir {
 
 //MARK: - ToDoList For Memoir
 extension CycleMemoir {
+    private func convertSecToMin(_ input: Int) -> (minute: Int, second: Int) {
+        return (minute: Int(input / 60), second: Int(input % 60))
+    }
+    
     @ViewBuilder
     var toDoListForMemoir: some View {
         Group {
             getTitleAndSubTitle("todos")
             
             ForEach(Array(manager.todos.enumerated()), id: \.offset) { (index, todo) in
+                let (minute, second) = convertSecToMin(todo.timeSpent)
                 HStack {
                     Button {
                         manager.todos[index].isCompleted.toggle()
@@ -215,7 +230,7 @@ extension CycleMemoir {
                         }
                     }
                     
-                    Text("\(todo.timeSpent)분")
+                    Text("\(minute) minute") + Text(" ") + Text("\(second) second")
                 }
                 .overlay(alignment: .bottom) {
                     Divider()
