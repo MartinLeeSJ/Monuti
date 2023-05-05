@@ -28,6 +28,8 @@ struct SessionsTimer: View {
             let width = geo.size.width
             let height = geo.size.height
             let shorterSize = min(width, height)
+            let indicatorWidth = shorterSize * 0.45
+            
             VStack {
                 Spacer()
    
@@ -41,7 +43,7 @@ struct SessionsTimer: View {
                     }
                     .padding(.bottom, 20)
                 
-                getIndicator(width: shorterSize * 0.45)
+                getIndicator(width: indicatorWidth)
                 
                 Spacer()
                 
@@ -68,7 +70,9 @@ struct SessionsTimer: View {
                 handlePlayButton()
             }
         }
-        .onChange(of: scenePhase, perform: { updateTimeElapsed(newPhase:$0) })
+        .onChange(of: scenePhase) { phase in
+            updateTimeElapsed(newPhase: phase)
+        }
         .sheet(isPresented: $isShowingCycleMemoir) {
             timerManager.resetToOrigin()
             dismiss()
@@ -160,10 +164,14 @@ extension SessionsTimer {
             .frame(width: width)
             .gesture(DragGesture(minimumDistance: 2.0, coordinateSpace: .local)
                 .onEnded { value in
+                    let swipeLeftRange: PartialRangeThrough<CGFloat> = ...0
+                    let swipeRightRange: PartialRangeFrom<CGFloat> = 0...
+                    let verticalSwipeConstraint: ClosedRange<CGFloat> = -50...50
+                    
                     switch(value.translation.width, value.translation.height) {
-                    case (...0, -50...50):
+                    case (swipeLeftRange, verticalSwipeConstraint):
                         handleNextButton()
-                    case (0..., -50...50):
+                    case (swipeRightRange, verticalSwipeConstraint):
                         handleResetButton()
                     default:  print("no clue")
                     }

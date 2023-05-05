@@ -9,14 +9,13 @@ import SwiftUI
 import CoreHaptics
 
 struct FirstCountdown: View {
+    @StateObject private var hapticManger = HapticManager()
     @Binding var isEnded: Bool
     
     
     @State private var timeCount: Int = 3
     @State private var timeRemain: Double = 8.0
     @State private var timer: Timer? = nil
-    
-    @State private var engine: CHHapticEngine?
 
     
     private enum AnimationState {
@@ -60,11 +59,10 @@ struct FirstCountdown: View {
                }
                .onAppear {
                    complexAnimation()
-                   prepareHaptics()
                }
                .onChange(of: timeCount) { count in
                    if count == 0 {
-                       complexStartHaptic()
+                       hapticManger.handleStartHaptic()
                    }
                }
        }
@@ -93,39 +91,6 @@ struct FirstCountdown: View {
                 timer.invalidate()
                 isEnded = true
             }
-        }
-    }
-    
-    private func prepareHaptics() {
-        guard CHHapticEngine.capabilitiesForHardware().supportsHaptics else { return }
-        
-        do {
-            engine = try CHHapticEngine()
-            try engine?.start()
-        } catch {
-            print("There was an error creating the engine: \(error.localizedDescription)")
-        }
-    }
-    
-    private func complexStartHaptic() {
-        guard CHHapticEngine.capabilitiesForHardware().supportsHaptics else { return }
-        var events = [CHHapticEvent]()
-        
-        let intensity = CHHapticEventParameter(parameterID: .hapticIntensity, value: 1)
-        let sharpness = CHHapticEventParameter(parameterID: .hapticSharpness, value: 1)
-        
-        let firstEvent = CHHapticEvent(eventType: .hapticTransient, parameters: [intensity, sharpness], relativeTime: 0.6)
-        let secondEvent = CHHapticEvent(eventType: .hapticTransient, parameters: [intensity, sharpness], relativeTime: 0.7)
-        
-        events.append(firstEvent)
-        events.append(secondEvent)
-        
-        do {
-            let pattern = try CHHapticPattern(events: events, parameters: [])
-            let player = try engine?.makePlayer(with: pattern)
-            try player?.start(atTime: 0)
-        } catch {
-            print("Failed to play pattern: \(error.localizedDescription)")
         }
     }
     
