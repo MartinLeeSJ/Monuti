@@ -15,19 +15,18 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 
     return true
   }
-    
-
-    
 }
 
 
 @main
 struct GongdeunTopApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+    @StateObject var themeManager = ThemeManager()
     
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(themeManager)
         }
     }
 }

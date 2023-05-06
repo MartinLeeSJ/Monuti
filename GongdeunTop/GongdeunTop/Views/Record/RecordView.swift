@@ -23,6 +23,7 @@ enum RecordSheetType: Identifiable {
 }
 
 struct RecordView: View {
+    @EnvironmentObject var themeManager: ThemeManager
     @ObservedObject var authManager: AuthManager
     @StateObject var calendarManager = CalendarManager()
     @StateObject var cycleStore = CycleStore()
@@ -69,7 +70,7 @@ struct RecordView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                Color.themes.getThemeColor(1)
+                themeManager.getColorInPriority(of: .background)
                     .ignoresSafeArea(.all)
                 
                 VStack(spacing: 0) {

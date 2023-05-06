@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ToDoRow: View {
+    @EnvironmentObject var themeManager: ThemeManager
     @Environment(\.dismiss) var dismiss
     
     @State private var isEditingSheetOn: Bool = false
@@ -31,7 +32,7 @@ struct ToDoRow: View {
                                 .foregroundColor(.white)
                                 .padding(.vertical, 2)
                                 .padding(.horizontal, 6)
-                                .background(Capsule().fill(Color.GTDenimNavy))
+                                .background(Capsule().fill(themeManager.getColorInPriority(of: .accent)))
                         }
                     }
                 }

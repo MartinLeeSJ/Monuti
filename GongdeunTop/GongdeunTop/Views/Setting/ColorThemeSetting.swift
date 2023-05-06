@@ -8,24 +8,22 @@
 import SwiftUI
 
 struct ColorThemeSetting: View {
-    @AppStorage("theme") private var theme: String = "Blue"
+    @EnvironmentObject var themeManager: ThemeManager
+    
     @Binding var modified: Bool
     var body: some View {
         VStack {
-            ForEach(1..<6) { priority in
-                Color.themes.getThemeColor(priority)
-                    .frame(width: 30, height: 30)
+            ForEach(ColorPriority.allCases) { priority in
+                themeManager.getColorInPriority(of: priority)
             }
             
             
             LazyVGrid(columns: Array(repeating: .init(.flexible()), count: 3)) {
-                ForEach(ColorThemes.allCases) { color in
+                ForEach(ColorThemes.allCases) { colorTheme in
                     Button {
-                        theme = color.rawValue
-                        modified = true
-                        
+                        themeManager.changeTheme(as: colorTheme)
                     } label: {
-                        Text(color.rawValue)
+                        Text(colorTheme.representativeName)
                             .font(.title)
                             .padding()
                             .background {
@@ -33,9 +31,9 @@ struct ColorThemeSetting: View {
                                     .stroke(lineWidth: 1)
                             }
                             .overlay {
-                                if theme == color.rawValue {
+                                if themeManager.theme == colorTheme {
                                     RoundedRectangle(cornerRadius: 10)
-                                        .stroke(Color.themes.getThemeColor(5), lineWidth: 2)
+                                        .stroke(themeManager.getColorInPriority(of: .accent), lineWidth: 2)
                                 }
                             }
                     }

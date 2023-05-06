@@ -22,6 +22,7 @@ enum DateEvaluations: Int {
 }
 
 struct DateCell: View {
+    @EnvironmentObject var themeManager: ThemeManager
     @Environment(\.colorScheme) var scheme
     @ObservedObject var manager: CalendarManager
     
@@ -62,7 +63,7 @@ struct DateCell: View {
                     .background {
                         if isToday {
                             Capsule()
-                                .fill(Color.themes.getThemeColor(5))
+                                .fill(themeManager.getColorInPriority(of: .accent))
                         }
                     }
             }
@@ -76,24 +77,21 @@ struct DateCell: View {
                     .fill(scheme == .light ? Color.GTWarmGray : Color.black)
                     .frame(width: 33, height: 33)
                     .overlay {
-                        if let evaluation, evaluation != 0 {
-//                            RoundedRectangle(cornerRadius: 5)
+                        if let evaluation, evaluation != 0, let priority = ColorPriority(rawValue: evaluation + 1) {
                             RoundedHexagon(radius: 20, cornerAngle: 5)
-                                .foregroundColor(Color.themes.getThemeColor(evaluation + 1))
+                                .foregroundColor(themeManager.getColorInPriority(of: priority))
                         }
                     }
                     .overlay {
                         if scheme == .dark {
-//                            RoundedRectangle(cornerRadius: 5)
                             RoundedHexagon(radius: 20, cornerAngle: 5)
                                 .stroke(.white.opacity(0.6), lineWidth: 1.5)
                         }
                     }
                     .overlay {
                         if isSelected {
-//                                RoundedRectangle(cornerRadius: 5)
                             RoundedHexagon(radius: 20, cornerAngle: 5)
-                                .stroke(Color.themes.getThemeColor(5), lineWidth: 2)
+                                .stroke(themeManager.getColorInPriority(of: .accent), lineWidth: 2)
                         }
                     }
             }

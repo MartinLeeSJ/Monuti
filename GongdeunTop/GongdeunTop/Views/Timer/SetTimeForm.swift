@@ -9,6 +9,7 @@ import SwiftUI
 
 
 struct SetTimeForm: View {
+    @EnvironmentObject var themeManager: ThemeManager
     @ObservedObject var viewModel: TimerManager
     
     private var concentrationTimeRatio: CGFloat {
@@ -58,12 +59,12 @@ struct SetTimeForm: View {
                     
                     HStack(spacing: 2) {
                         Rectangle()
-                            .foregroundColor(.pink)
+                            .foregroundColor(themeManager.getColorInPriority(of: .solid))
                             .frame(width: width * concentrationTimeRatio - 4,
                                    height: 48)
                         
                         Rectangle()
-                            .foregroundColor(.orange)
+                            .foregroundColor(themeManager.getColorInPriority(of: .medium))
                             .frame(width: width * (isLastSession ?  longRefreshTimeRatio : refreshTimeRatio) - 4,
                                    height: 48)
                     }

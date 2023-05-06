@@ -11,6 +11,7 @@ struct SessionsTimer: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.scenePhase) var scenePhase
     
+    @EnvironmentObject var themeManager: ThemeManager
     @AppStorage("lastTime") private var lastTimeObserved: String = ""
     
     @ObservedObject var timerManager: TimerManager
@@ -29,6 +30,7 @@ struct SessionsTimer: View {
             let height = geo.size.height
             let shorterSize = min(width, height)
             let indicatorWidth = shorterSize * 0.45
+            let digitTimeWidth = shorterSize * 0.5
             
             VStack {
                 Spacer()
@@ -36,7 +38,7 @@ struct SessionsTimer: View {
                 getTimerShape(width: shorterSize)
                     .overlay {
                         VStack {
-                            getDigitTimes(width: shorterSize)
+                            getDigitTimes(width: digitTimeWidth)
                             
                             getButtons(width: shorterSize)
                         }
@@ -94,7 +96,7 @@ extension SessionsTimer {
             handlePlayButton()
         } label: {
             Image(systemName: timerManager.isRunning ?  "pause.fill" : "play.fill")
-                .foregroundColor(.GTDenimNavy)
+                .foregroundColor(themeManager.getColorInPriority(of: .accent))
                 .font(.largeTitle)
             
         }
@@ -116,7 +118,7 @@ extension SessionsTimer {
                     
                 }
             }
-            .foregroundColor(.GTDenimNavy)
+            .foregroundColor(themeManager.getColorInPriority(of: .accent))
             .frame(width: width * 0.45)
         }
         .frame(height: 30)
@@ -124,16 +126,22 @@ extension SessionsTimer {
     
     @ViewBuilder
     private func getDigitTimes(width: CGFloat) -> some View {
-        ZStack {
+        let minuteWidth = width * 0.425
+        let secondWidth = width * 0.425
+        let colonWidth = width * 0.15
+        HStack(alignment: .center, spacing: 0) {
             Text(timerManager.getMinute())
-                .offset(x: -width * 0.1)
+                .frame(width: minuteWidth, alignment: .trailing)
+                .font(.system(size: 60, weight: .regular, design: .rounded))
             Text(":")
-                .offset(y: -8)
+                .frame(width: colonWidth, alignment: .center)
+                .font(.system(size: 54, weight: .regular))
             Text(timerManager.getSecond())
-                .offset(x: width * 0.1)
+                .frame(width: secondWidth, alignment: .leading)
+                .font(.system(size: 60, weight: .regular, design: .rounded))
         }
-        .font(.system(size: 54))
-        .foregroundColor(.white)
+        
+        .foregroundColor(themeManager.getColorInPriority(of: .accent))
         .padding(.bottom, 25)
     }
     
@@ -141,7 +149,7 @@ extension SessionsTimer {
     private func getTimerShape(width: CGFloat) -> some View {
         CircularSector(endDegree: timerManager.getEndDegree())
             .frame(width: width * 0.85, height: width * 0.85)
-            .foregroundColor(.GTDenimBlue)
+            .foregroundColor(themeManager.getColorInPriority(of: .medium))
             .clipShape(RoundedHexagon(radius: width * 0.425, cornerAngle: 5))
             .overlay {
                 CubeHexagon(radius: width * 0.425)
@@ -150,7 +158,7 @@ extension SessionsTimer {
             }
             .background {
                 RoundedHexagon(radius: width * 0.425, cornerAngle: 5)
-                    .fill(Color.GTPastelBlue)
+                    .foregroundColor(themeManager.getColorInPriority(of: .weak))
             }
         
     }
@@ -216,7 +224,7 @@ extension SessionsTimer {
                 }
             }
             .menuStyle(.borderlessButton)
-            .tint(.GTDenimNavy)
+            .foregroundColor(themeManager.getColorInPriority(of: .accent))
             .disabled(todos.isEmpty)
         }
     }

@@ -9,8 +9,7 @@ import SwiftUI
 
 
 struct ToDoList: View {
-    
-    
+    @EnvironmentObject var themeManager: ThemeManager
     @StateObject var todoStore = ToDoStore()
     @StateObject var timerViewModel = TimerManager()
     
@@ -22,7 +21,7 @@ struct ToDoList: View {
     var body: some View {
         NavigationView{
             ZStack {
-                Color.themes.getThemeColor(1)
+                themeManager.getColorInPriority(of: .background)
                     .ignoresSafeArea(.all)
                 GeometryReader { geo in
                     VStack {
@@ -80,7 +79,7 @@ extension ToDoList {
     @ViewBuilder
     func toDoListDashboard(geo: GeometryProxy) -> some View {
         VStack {
-            dashboardTexts
+            dashboardBanner
             
             HStack {
                 Button {
@@ -94,7 +93,8 @@ extension ToDoList {
                         .presentationDetents([.medium])
                 }
                 .buttonStyle(.borderedProminent)
-                .tint(.orange)
+                .tint(themeManager.getColorInPriority(of: .medium))
+
                 
                 Spacer()
                 
@@ -107,14 +107,14 @@ extension ToDoList {
                         .frame(width: geo.size.width / 2 - 33, height: 36)
                 }
                 .buttonStyle(.borderedProminent)
-                .tint(.pink)
+                .tint(themeManager.getColorInPriority(of: .medium))
             }
             .padding(6)
         }
         .animation(.easeIn, value: todoStore.isEditing)
     }
     
-    var dashboardTexts: some View {
+    var dashboardBanner: some View {
         HAlignment(alignment: .center) {
             Text("todo_counts \(todoCount)") + Text("sessions\(numOfSessions)") + Text("totalTime\(totalTime)")
         }
@@ -136,7 +136,7 @@ extension ToDoList {
             } label: {
                 Text("Delete")
             }
-            .alert("really_delete? \(multiSelecitonCount)", isPresented: $isDeleteAlertOn) {
+            .alert("Delete", isPresented: $isDeleteAlertOn) {
                 Button {
                     isDeleteAlertOn.toggle()
                 } label: {
@@ -162,7 +162,7 @@ extension ToDoList {
             }
             
         }
-        .tint(.GTDenimNavy)
+        .tint(themeManager.getColorInPriority(of: .accent))
         .disabled(todoStore.multiSelection.isEmpty)
         .padding(.horizontal, 24)
         .padding(.vertical, 6)
@@ -193,7 +193,7 @@ extension ToDoList {
             .sheet(isPresented: $isAddSheetOn) {
                 SetToDoForm()
             }
-            .tint(.GTEnergeticOrange)
+            .tint(themeManager.getColorInPriority(of: .accent))
         }
     }
 }
