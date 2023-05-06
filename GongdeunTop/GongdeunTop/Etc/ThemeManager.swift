@@ -14,15 +14,24 @@ enum ColorThemes: String, Identifiable, CaseIterable {
     
     var id: Self { self }
     
+    var representativeName: String {
+        switch self {
+        case .blue: return "Blue"
+        case .yellow: return "Yellow"
+        }
+    }
+    
     static var priorityRange = 0...5
 }
 
-enum ColorPriority: Int {
+enum ColorPriority: Int, Identifiable, CaseIterable {
     case background = 1
     case weak
     case medium
     case solid
     case accent
+    
+    var id: Self { self }
 }
 
 class ThemeManager: ObservableObject {
