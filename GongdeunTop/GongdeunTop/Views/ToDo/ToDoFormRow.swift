@@ -11,6 +11,7 @@ import FirebaseFirestore
 import FirebaseAuth
 
 struct ToDoFormRow: View {
+    @EnvironmentObject var themeManager: ThemeManager
     @StateObject var tagStore = TagStore()
     @ObservedObject var viewModel: ToDoManager
     
@@ -36,12 +37,6 @@ struct ToDoFormRow: View {
         fieldType.fieldString
     }
     
-    
-    
-    
-    
-    
-    
     var body: some View {
         
         VStack(spacing: 5) {
@@ -56,7 +51,7 @@ struct ToDoFormRow: View {
         .padding()
         .background {
             RoundedRectangle(cornerRadius: 15)
-                .foregroundColor(.GTDenimBlue)
+                .foregroundColor(themeManager.getColorInPriority(of: .accent))
         }
         .padding(.horizontal)
         .padding(.vertical, 8)
@@ -215,7 +210,7 @@ extension ToDoFormRow {
                         .font(.caption)
                         .padding(.vertical, 2)
                         .padding(.horizontal, 6)
-                        .background(Capsule().fill(Color.orange))
+                        .background(Capsule().fill(themeManager.getColorInPriority(of: .accent)))
                         .background {
                             HAlignment(alignment: .trailling) {
                                 Button {

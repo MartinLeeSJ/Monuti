@@ -70,7 +70,7 @@ struct RecordView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                themeManager.getThemeColorInPriority(of: .background)
+                themeManager.getColorInPriority(of: .background)
                     .ignoresSafeArea(.all)
                 
                 VStack(spacing: 0) {

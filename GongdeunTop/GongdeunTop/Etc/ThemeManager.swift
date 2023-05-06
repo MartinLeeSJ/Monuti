@@ -35,14 +35,26 @@ enum ColorPriority: Int, Identifiable, CaseIterable {
 }
 
 class ThemeManager: ObservableObject {
-    @Published var theme: ColorThemes = ColorThemes(rawValue: UserDefaults.standard.string(forKey: "colorTheme") ?? "Blue") ?? .blue
+    @Published var theme: ColorThemes = ColorThemes(rawValue: UserDefaults.standard.string(forKey: "colorTheme") ?? "GTBlue") ?? .blue
     
     func changeTheme(as newTheme: ColorThemes) {
         UserDefaults.standard.set(newTheme.rawValue, forKey: "colorTheme")
         theme = newTheme
     }
     
-    func getThemeColorInPriority(of priority: ColorPriority) -> Color {
+    func getColorInPriority(of priority: ColorPriority) -> Color {
         Color("\(theme.rawValue)\(priority.rawValue)")
     }
+    
+//    static func getColorTest(priority: ColorPriority) -> String {
+//        let detectedTheme: String = UserDefaults.standard.string(forKey: "colorTheme") ?? "GTBlue"
+//        return "\(detectedTheme)\(priority.rawValue)"
+//    }
 }
+
+
+//extension Color {
+//    init(priority: ColorPriority) {
+//        self.init(ThemeManager.getColorTest(priority: priority))
+//    }
+//}

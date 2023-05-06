@@ -21,7 +21,7 @@ struct ToDoList: View {
     var body: some View {
         NavigationView{
             ZStack {
-                themeManager.getThemeColorInPriority(of: .background)
+                themeManager.getColorInPriority(of: .background)
                     .ignoresSafeArea(.all)
                 GeometryReader { geo in
                     VStack {
@@ -93,7 +93,8 @@ extension ToDoList {
                         .presentationDetents([.medium])
                 }
                 .buttonStyle(.borderedProminent)
-                .tint(themeManager.getThemeColorInPriority(of: .solid))
+                .tint(themeManager.getColorInPriority(of: .medium))
+
                 
                 Spacer()
                 
@@ -106,7 +107,7 @@ extension ToDoList {
                         .frame(width: geo.size.width / 2 - 33, height: 36)
                 }
                 .buttonStyle(.borderedProminent)
-                .tint(themeManager.getThemeColorInPriority(of: .solid))
+                .tint(themeManager.getColorInPriority(of: .medium))
             }
             .padding(6)
         }
@@ -161,7 +162,7 @@ extension ToDoList {
             }
             
         }
-        .tint(themeManager.getThemeColorInPriority(of: .accent))
+        .tint(themeManager.getColorInPriority(of: .accent))
         .disabled(todoStore.multiSelection.isEmpty)
         .padding(.horizontal, 24)
         .padding(.vertical, 6)
@@ -192,7 +193,7 @@ extension ToDoList {
             .sheet(isPresented: $isAddSheetOn) {
                 SetToDoForm()
             }
-            .tint(themeManager.getThemeColorInPriority(of: .accent))
+            .tint(themeManager.getColorInPriority(of: .accent))
         }
     }
 }
