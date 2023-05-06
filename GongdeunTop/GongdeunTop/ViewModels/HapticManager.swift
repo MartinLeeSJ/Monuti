@@ -8,6 +8,9 @@
 import Foundation
 import CoreHaptics
 
+/// Manage Haptic
+///
+/// - ToDo:  Refactor가 필요해보임
 final class HapticManager: ObservableObject {
     @Published private var engine: CHHapticEngine?
     private var events = [CHHapticEvent]()
@@ -33,6 +36,7 @@ final class HapticManager: ObservableObject {
             let pattern = try CHHapticPattern(events: events, parameters: [])
             let player = try engine?.makePlayer(with: pattern)
             try player?.start(atTime: 0)
+            
             emptyEvents()
         } catch {
             print("Failed to play pattern: \(error.localizedDescription)")
@@ -40,7 +44,7 @@ final class HapticManager: ObservableObject {
     }
     
     private func emptyEvents() {
-        self.events = []
+        self.events.removeAll()
     }
     
     func handleStartHaptic() {

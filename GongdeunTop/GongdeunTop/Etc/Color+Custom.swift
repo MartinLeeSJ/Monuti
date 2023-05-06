@@ -8,16 +8,10 @@
 import Foundation
 import SwiftUI
 
-enum ColorThemes: String, Identifiable, CaseIterable {
-    case blue = "Blue"
-    case yellow = "Yellow"
-    
-    var id: Self { self }
-}
 
 extension Color {
     
-    static let themes = ColorTheme()
+    
     
     static let GTyellow: Self = Color(hue: 0.143, saturation: 0.296, brightness: 0.978)
     static let GTyellowBright: Self = Color(hue: 0.141, saturation: 0.143, brightness: 0.984)
@@ -40,19 +34,3 @@ extension Color {
 }
 
 
-struct ColorTheme {
-    func getThemeColor(_ priority: Int) -> Color {
-        guard (1...5).contains(priority) else {
-            print("Use priority in 1...5")
-            return Color.black
-        }
-        
-        if let stored = UserDefaults.standard.string(forKey: "theme"), let theme = ColorThemes(rawValue: stored)?.rawValue {
-            
-            return Color("GT\(theme)\(priority)")
-        } else {
-            return Color("GTBlue\(priority)")
-
-        }
-    }
-}
