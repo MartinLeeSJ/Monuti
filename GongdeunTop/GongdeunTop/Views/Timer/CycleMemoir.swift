@@ -57,8 +57,7 @@ struct CycleMemoir: View {
             
             ToolbarItem {
                 Button {
-                    manager.handleFinishButton()
-                    dismiss()
+                    handleFinish()
                 } label: {
                     Text("cycleMemoir_Add")
                 }
@@ -246,8 +245,10 @@ extension CycleMemoir {
 //MARK: - Handle Finish
 extension CycleMemoir {
     func handleFinish() {
-        manager.cycle.sessions = timerManager.numOfSessions
+        manager.cycle.sessions = timerManager.timeSetting.numOfSessions
         manager.cycle.minutes = timerManager.getTotalMinute()
+        manager.handleFinishedCycleButton()
+        dismiss()
         
     }
 }

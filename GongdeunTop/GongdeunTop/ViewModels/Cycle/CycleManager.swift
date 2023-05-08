@@ -83,7 +83,13 @@ final class CycleManager: ObservableObject {
         
     }
     
-    func handleFinishButton() {
+    
+    func handleUpdateButton(){
+        self.updateCycle()
+    }
+    
+    
+    func handleFinishedCycleButton() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         
         self.addToDoIdInCycle()

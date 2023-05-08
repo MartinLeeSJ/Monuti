@@ -11,7 +11,7 @@ import SwiftUI
 struct ToDoList: View {
     @EnvironmentObject var themeManager: ThemeManager
     @StateObject var todoStore = ToDoStore()
-    @StateObject var timerViewModel = TimerManager()
+    @StateObject var timerManager = TimerManager()
     
     @State private var isDeleteAlertOn: Bool = false
     
@@ -69,11 +69,11 @@ extension ToDoList {
     }
     
     var numOfSessions: Int {
-        timerViewModel.numOfSessions
+        timerManager.timeSetting.numOfSessions
     }
     
     var totalTime: Int {
-        timerViewModel.getTotalMinute()
+        timerManager.getTotalMinute()
     }
     
     @ViewBuilder
@@ -89,7 +89,7 @@ extension ToDoList {
                         .frame(width: geo.size.width / 2 - 33, height: 36)
                 }
                 .sheet(isPresented: $isSetTimeViewOn) {
-                    SetTimeForm(viewModel: timerViewModel)
+                    SetTimeForm(manager: timerManager)
                         .presentationDetents([.medium])
                 }
                 .buttonStyle(.borderedProminent)
@@ -99,7 +99,7 @@ extension ToDoList {
                 Spacer()
                 
                 NavigationLink {
-                    SessionsTimer(timerManager: timerViewModel,
+                    SessionsTimer(timerManager: timerManager,
                                   todos: todoStore.todos,
                                   currentTodo: todoStore.todos.first)
                 } label: {

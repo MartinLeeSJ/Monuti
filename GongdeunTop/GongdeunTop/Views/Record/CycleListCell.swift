@@ -9,6 +9,7 @@ import SwiftUI
 
 struct CycleListCell: View {
     @Environment(\.colorScheme) var scheme: ColorScheme
+    @EnvironmentObject var themeManager: ThemeManager
     
     @ObservedObject var cycleManager = CycleManager()
     @State private var showDetails: Bool = false
@@ -31,10 +32,11 @@ struct CycleListCell: View {
             .padding(.horizontal)
             .padding(.vertical, 10)
             .background {
-                if scheme == .light {
                     RoundedRectangle(cornerRadius: 10)
-                        .fill(Color.GTPastelBlue)
-                } else {
+                    .fill(themeManager.getColorInPriority(of: cycle.colorPriority))
+            }
+            .background {
+                if scheme == .dark {
                     RoundedRectangle(cornerRadius: 10)
                         .stroke(Color.white, lineWidth: 0.5)
                 }
@@ -46,6 +48,13 @@ struct CycleListCell: View {
             cycleManager.fetchToDos()
         }
         .sheet(isPresented: $showDetails) {
+            VStack {
+                TextEditor(text: $cycleManager.cycle.memoirs)
+                    .frame(width: 120, height: 100)
+                Button("저장") {
+                    cycleManager.handleUpdateButton()
+                }
+            }
             Text("디테일")
                 .presentationDetents([.medium])
         }

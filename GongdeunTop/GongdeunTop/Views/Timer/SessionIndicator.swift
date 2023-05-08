@@ -10,7 +10,7 @@ import SwiftUI
 struct SessionIndicator: View {
     @ObservedObject var manager: TimerManager
     
-    var sessions: Int { manager.numOfSessions }
+    var sessions: Int { manager.timeSetting.numOfSessions }
     // 1, 2, 3, 4
     var cycle: Int { 2 * sessions }
     

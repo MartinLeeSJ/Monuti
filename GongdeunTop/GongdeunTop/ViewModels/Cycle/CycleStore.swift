@@ -17,7 +17,7 @@ final class CycleStore: ObservableObject {
             orderCyclesByDate()
         }
     }
-    @Published var cyclesOrderedByDate = [Date : [Cycle]]() {
+    @Published var cyclesDictionary = [Date : [Cycle]]() {
         didSet {
             evaluateDate()
         }
@@ -85,16 +85,16 @@ final class CycleStore: ObservableObject {
                 continue
             }
             
-            if cyclesOrderedByDate[dateStart] == nil {
-                cyclesOrderedByDate[dateStart] = []
+            if cyclesDictionary[dateStart] == nil {
+                cyclesDictionary[dateStart] = []
             }
                 
-            cyclesOrderedByDate[dateStart]?.append(cycle)
+            cyclesDictionary[dateStart]?.append(cycle)
         }
     }
     
     private func evaluateDate() {
-        for (date , cycles) in cyclesOrderedByDate {
+        for (date , cycles) in cyclesDictionary {
             var value: Int = 0
             var todoCount: Int = 0
             for cycle in cycles {
@@ -115,6 +115,6 @@ final class CycleStore: ObservableObject {
     }
     
     private func resetDict() {
-        cyclesOrderedByDate = [Date : [Cycle]]()
+        cyclesDictionary = [Date : [Cycle]]()
     }
 }

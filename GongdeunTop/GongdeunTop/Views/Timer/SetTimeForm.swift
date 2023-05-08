@@ -10,23 +10,23 @@ import SwiftUI
 
 struct SetTimeForm: View {
     @EnvironmentObject var themeManager: ThemeManager
-    @ObservedObject var viewModel: TimerManager
+    @ObservedObject var manager: TimerManager
     
     private var concentrationTimeRatio: CGFloat {
-        CGFloat(viewModel.concentrationTime) / CGFloat(viewModel.getTotalMinute())
+        CGFloat(manager.timeSetting.concentrationTime) / CGFloat(manager.getTotalMinute())
     }
     
     private var refreshTimeRatio: CGFloat {
-        CGFloat(viewModel.refreshTime) / CGFloat(viewModel.getTotalMinute())
+        CGFloat(manager.timeSetting.refreshTime) / CGFloat(manager.getTotalMinute())
     }
     
     private var longRefreshTimeRatio: CGFloat {
-        CGFloat(30) / CGFloat(viewModel.getTotalMinute())
+        CGFloat(30) / CGFloat(manager.getTotalMinute())
     }
     
     var body: some View {
         VStack {
-            Text("totalTime\(viewModel.getTotalMinute())")
+            Text("totalTime\(manager.getTotalMinute())")
                 .font(.title)
                 .bold()
             
@@ -48,8 +48,8 @@ struct SetTimeForm: View {
         GeometryReader { geo in
             let width = geo.size.width
             HStack(spacing: 0) {
-                ForEach(0 ..< viewModel.numOfSessions, id: \.self) { session in
-                    let isLastSession: Bool = session == viewModel.numOfSessions - 1
+                ForEach(0 ..< manager.timeSetting.numOfSessions, id: \.self) { session in
+                    let isLastSession: Bool = session == manager.timeSetting.numOfSessions - 1
                     var sessionRatio: CGFloat {
                         concentrationTimeRatio + (isLastSession ? longRefreshTimeRatio : refreshTimeRatio)
                     }
@@ -91,9 +91,9 @@ struct SetTimeForm: View {
             Capsule().fill(.gray).frame(width: 20, height: 15)
             Text("setTime_session")
                 .font(.headline)
-            Stepper(value: $viewModel.numOfSessions, in: 2...5, step: 1) {
+            Stepper(value: $manager.timeSetting.numOfSessions, in: 2...5, step: 1) {
                 HStack {
-                    Text("setTime_session\(viewModel.numOfSessions)")
+                    Text("setTime_session\(manager.timeSetting.numOfSessions)")
                         .font(.caption2)
                     Text("setTime_session_range")
                         .font(.caption)
@@ -108,16 +108,16 @@ struct SetTimeForm: View {
             Text("setTime_concentration")
                 .font(.headline)
             
-            Stepper(value: $viewModel.concentrationTime, in: 15...50, step: 5) {
+            Stepper(value: $manager.timeSetting.concentrationTime, in: 15...50, step: 5) {
                 HStack {
-                    Text("setTime_minute\(viewModel.concentrationTime)")
+                    Text("setTime_minute\(manager.timeSetting.concentrationTime)")
                         .font(.caption2)
                     Text("setTime_concentration_range")
                         .font(.caption)
                         .foregroundColor(.secondary)
                 }
             } onEditingChanged: { _ in
-                viewModel.setTimerRemainSeconds()
+                manager.setTimerRemainSeconds()
             }
         }
     }
@@ -126,9 +126,9 @@ struct SetTimeForm: View {
             Rectangle().fill(.orange).frame(width: 20, height: 15)
             Text("setTime_rest")
                 .font(.headline)
-            Stepper(value: $viewModel.refreshTime, in: 5...10, step: 1) {
+            Stepper(value: $manager.timeSetting.refreshTime, in: 5...10, step: 1) {
                 HStack {
-                    Text("setTime_minute\(viewModel.refreshTime)")
+                    Text("setTime_minute\(manager.timeSetting.refreshTime)")
                         .font(.caption2)
                     Text("setTime_rest_range")
                         .font(.caption)
@@ -141,6 +141,6 @@ struct SetTimeForm: View {
 
 struct SetTimeView_Previews: PreviewProvider {
     static var previews: some View {
-        SetTimeForm(viewModel: TimerManager())
+        SetTimeForm(manager: TimerManager())
     }
 }
