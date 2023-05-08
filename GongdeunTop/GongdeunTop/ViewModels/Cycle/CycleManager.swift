@@ -97,27 +97,37 @@ final class CycleManager: ObservableObject {
         let batch = database.batch()
         
         for todo in todos {
-            if let id = todo.id {
-                let ref = database
-                    .collection("Members")
-                    .document(uid)
-                    .collection("ToDo")
-                    .document(id)
-                
-                
-                batch.updateData(["timeSpent": todo.timeSpent,
-                                  "isCompleted": todo.isCompleted
-                                 ], forDocument: ref)
-            }
+            guard let id = todo.id else { continue }
+            
+            let ref = database
+                .collection("Members")
+                .document(uid)
+                .collection("ToDo")
+                .document(id)
+            
+            
+            batch.updateData(["timeSpent": todo.timeSpent,
+                              "isCompleted": todo.isCompleted
+                             ], forDocument: ref)
+            
         }
         
+    
         batch.commit() { err in
             if let err {
                 print(err.localizedDescription)
-            } else {
-                self.addCycle()
+                return
             }
+            
+            self.addCycle()
         }
+    }
+    
+    func recordCycleTimeSetting(timeSetting: TimerManager.TimeSetting, minutes: Int) {
+        cycle.sessions = timeSetting.numOfSessions
+        cycle.refreshTime = timeSetting.refreshTime
+        cycle.concentrationTime = timeSetting.concentrationTime
+        cycle.minutes = minutes
         
     }
     

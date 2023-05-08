@@ -13,20 +13,43 @@ struct CycleListCell: View {
     
     @ObservedObject var cycleManager = CycleManager()
     @State private var showDetails: Bool = false
+    
     var cycle: Cycle {
         cycleManager.cycle
+    }
+    
+    var hourAndMinute: String {
+        cycle.createdAt.dateValue().formatted(
+            Date.FormatStyle()
+                .hour()
+                .minute()
+        )
+        
     }
     
     var body: some View {
         Button {
             showDetails.toggle()
         } label: {
-            let dateComponent = Calendar.current.dateComponents([.hour, .minute], from: cycle.createdAt.dateValue())
-            HStack {
-                Text("\(dateComponent.hour ?? 0)시 \(dateComponent.minute ?? 0)분")
+
+            HStack(spacing: 0) {
+                Group {
+                    Text("sessions\(cycle.sessions ?? 0)")
+                    Text("totalTime\(cycle.minutes ?? 0)")
+                }
+                .font(.callout)
+                
                 Spacer()
+                    
+                
+                Text("\(hourAndMinute)")
+                    .font(.footnote)
+                    .foregroundColor(.secondary)
+                    .padding(.trailing, 5)
+                
+                
                 Image(systemName: "chevron.right")
-                    .font(.callout)
+                    .font(.footnote)
                     .opacity(0.5)
             }
             .padding(.horizontal)
