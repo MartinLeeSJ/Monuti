@@ -275,21 +275,16 @@ extension SessionsTimer {
         guard timerManager.isRunning else { return }
         
         if newPhase == .active {
-            
             let last: Double = Double(lastTimeObserved) ?? 0.0
-            let now: Double = Double(Date.now.timeIntervalSince1970)
-            let diff: Int = Int((now - last).rounded())
             
-            print("Time will be Subtracted \(diff)")
-            
-            timerManager.remainSeconds = (timerManager.knowIsRefreshTime() ? timerManager.refreshTime : timerManager.concentrationTime) * 60 - diff
+            timerManager.subtractTimeElapsed(from: last)
         }
     }
     
     private func recordStartingTime() {
         // 초창기에만 기록하면 됨
-        let isConcentrationTimeStarted: Bool = !timerManager.knowIsRefreshTime() && timerManager.remainSeconds == timerManager.concentrationTime * 60
-        let isRefreshTimeStarted: Bool = timerManager.knowIsRefreshTime() && timerManager.remainSeconds == timerManager.refreshTime * 60
+        let isConcentrationTimeStarted: Bool = !timerManager.knowIsRefreshTime() && timerManager.remainSeconds == timerManager.timeSetting.concentrationTime * 60
+        let isRefreshTimeStarted: Bool = timerManager.knowIsRefreshTime() && timerManager.remainSeconds == timerManager.timeSetting.refreshTime * 60
         
         guard isConcentrationTimeStarted || isRefreshTimeStarted else {
             print("Failed To Record Time \(timerManager.remainSeconds)")

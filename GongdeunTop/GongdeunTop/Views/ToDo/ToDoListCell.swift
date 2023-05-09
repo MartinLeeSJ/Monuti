@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ToDoRow: View {
+struct ToDoListCell: View {
     @EnvironmentObject var themeManager: ThemeManager
     @Environment(\.dismiss) var dismiss
     

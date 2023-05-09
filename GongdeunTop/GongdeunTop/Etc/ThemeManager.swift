@@ -21,17 +21,27 @@ enum ColorThemes: String, Identifiable, CaseIterable {
         }
     }
     
-    static var priorityRange = 0...5
+    static var priorityRange = 0...4
 }
 
 enum ColorPriority: Int, Identifiable, CaseIterable {
-    case background = 1
+    case background = 0
     case weak
     case medium
     case solid
     case accent
     
     var id: Self { self }
+    
+    var description: String {
+        switch self {
+        case .background: return "background"
+        case .weak: return "weak"
+        case .medium: return "medium"
+        case .solid: return "solid"
+        case .accent: return "accent"
+        }
+    }
 }
 
 class ThemeManager: ObservableObject {

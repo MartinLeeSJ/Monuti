@@ -228,7 +228,7 @@ extension RecordView {
     func getCycleList() -> some View {
         ScrollView {
             VStack {
-                ForEach(cycleStore.cyclesOrderedByDate[calendarManager.selectedDate] ?? [], id: \.self) {
+                ForEach(cycleStore.cyclesDictionary[calendarManager.selectedDate] ?? [], id: \.self) {
                     cycle in
                     CycleListCell(cycleManager: CycleManager(cycle: cycle))
                 }

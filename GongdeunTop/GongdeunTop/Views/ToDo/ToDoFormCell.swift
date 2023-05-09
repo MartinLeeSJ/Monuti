@@ -10,7 +10,7 @@ import SwiftUI
 import FirebaseFirestore
 import FirebaseAuth
 
-struct ToDoFormRow: View {
+struct ToDoFormCell: View {
     @EnvironmentObject var themeManager: ThemeManager
     @StateObject var tagStore = TagStore()
     @ObservedObject var viewModel: ToDoManager
@@ -69,7 +69,7 @@ struct ToDoFormRow: View {
     }
 }
 
-extension ToDoFormRow {
+extension ToDoFormCell {
     var textInput: some View {
         VStack {
             HStack {
@@ -120,7 +120,7 @@ extension ToDoFormRow {
 }
 
 // MARK: - Tag
-extension ToDoFormRow {
+extension ToDoFormCell {
     private func handleAddTagButton() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         guard !viewModel.todo.tags.contains(where: { $0 == tagText }) else { return }

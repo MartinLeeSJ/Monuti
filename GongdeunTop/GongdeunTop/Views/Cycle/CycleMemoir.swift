@@ -57,8 +57,7 @@ struct CycleMemoir: View {
             
             ToolbarItem {
                 Button {
-                    manager.handleFinishButton()
-                    dismiss()
+                    handleFinish()
                 } label: {
                     Text("cycleMemoir_Add")
                 }
@@ -190,54 +189,14 @@ extension CycleMemoir {
 
 //MARK: - ToDoList For Memoir
 extension CycleMemoir {
-    private func convertSecToMin(_ input: Int) -> (minute: Int, second: Int) {
-        return (minute: Int(input / 60), second: Int(input % 60))
-    }
+    
     
     @ViewBuilder
     var toDoListForMemoir: some View {
         Group {
             getTitleAndSubTitle("todos")
             
-            ForEach(Array(manager.todos.enumerated()), id: \.offset) { (index, todo) in
-                let (minute, second) = convertSecToMin(todo.timeSpent)
-                HStack {
-                    Button {
-                        manager.todos[index].isCompleted.toggle()
-                    } label: {
-                        Image(systemName: todo.isCompleted ? "largecircle.fill.circle" : "circle")
-                    }
-                    .padding(.trailing, 10)
-                    
-                    VStack(alignment: .leading) {
-                        Text(todo.title)
-                            .font(.headline)
-                        Text(todo.content)
-                            .font(.caption)
-                        ScrollView(.horizontal) {
-                            HStack {
-                                ForEach(todo.tags, id: \.self) { tag in
-                                    Text(tag)
-                                        .font(.caption)
-                                        .foregroundColor(.white)
-                                        .padding(3)
-                                        .padding(.horizontal, 5)
-                                        .background {
-                                            Capsule().fill(Color.GTDenimNavy)
-                                        }
-                                }
-                            }
-                        }
-                    }
-                    
-                    Text("\(minute) minute") + Text(" ") + Text("\(second) second")
-                }
-                .overlay(alignment: .bottom) {
-                    Divider()
-                        .offset(y: 10)
-                }
-                .padding(.bottom, 10)
-            }
+            CycleToDoList(manager: manager, mode: .memoir)
         }
     }
 }
@@ -246,8 +205,10 @@ extension CycleMemoir {
 //MARK: - Handle Finish
 extension CycleMemoir {
     func handleFinish() {
-        manager.cycle.sessions = timerManager.numOfSessions
-        manager.cycle.minutes = timerManager.getTotalMinute()
+        manager.recordCycleTimeSetting(timeSetting: timerManager.timeSetting,
+                                       minutes: timerManager.getTotalMinute())
+        manager.handleFinishedCycleButton()
+        dismiss()
         
     }
 }
