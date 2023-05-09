@@ -77,7 +77,7 @@ struct DateCell: View {
                     .fill(scheme == .light ? Color.GTWarmGray : Color.black)
                     .frame(width: 33, height: 33)
                     .overlay {
-                        if let evaluation, evaluation != 0, let priority = ColorPriority(rawValue: evaluation + 1) {
+                        if let evaluation, evaluation != 0, let priority = ColorPriority(rawValue: evaluation) {
                             RoundedHexagon(radius: 20, cornerAngle: 5)
                                 .foregroundColor(themeManager.getColorInPriority(of: priority))
                         }

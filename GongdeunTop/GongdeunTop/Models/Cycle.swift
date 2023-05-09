@@ -24,6 +24,6 @@ struct Cycle: Codable, Hashable, Identifiable {
     
     
     var colorPriority: ColorPriority {
-        return ColorPriority(rawValue: evaluation + 1) ?? .weak
+        return ColorPriority(rawValue: evaluation) ?? .weak
     }
 }

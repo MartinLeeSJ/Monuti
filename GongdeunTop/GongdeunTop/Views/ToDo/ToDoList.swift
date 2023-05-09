@@ -26,7 +26,7 @@ struct ToDoList: View {
                 GeometryReader { geo in
                     VStack {
                         List(todoStore.todos, selection: $todoStore.multiSelection) { todo in
-                            ToDoRow(todo: todo)
+                            ToDoListCell(todo: todo)
                                 .listRowBackground(Color.clear)
                         }
                         .frame(height: geo.size.height * (todoStore.isEditing ? 0.89 : 0.84))

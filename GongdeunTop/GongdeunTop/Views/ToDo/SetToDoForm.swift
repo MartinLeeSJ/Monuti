@@ -85,7 +85,7 @@ struct SetToDoForm: View {
             ScrollView {
                 VStack {
                     ForEach(ToDoField.allCases, id: \.self) { fieldType in
-                        ToDoFormRow(viewModel: viewModel, focusedField: $focusedField, fieldType: fieldType)
+                        ToDoFormCell(viewModel: viewModel, focusedField: $focusedField, fieldType: fieldType)
                     }
                 }
             }

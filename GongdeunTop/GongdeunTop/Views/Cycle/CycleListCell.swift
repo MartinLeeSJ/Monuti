@@ -67,19 +67,9 @@ struct CycleListCell: View {
         }
         .padding(.top, 6)
         .padding(.horizontal, 5)
-        .task {
-            cycleManager.fetchToDos()
-        }
         .sheet(isPresented: $showDetails) {
-            VStack {
-                TextEditor(text: $cycleManager.cycle.memoirs)
-                    .frame(width: 120, height: 100)
-                Button("저장") {
-                    cycleManager.handleUpdateButton()
-                }
-            }
-            Text("디테일")
-                .presentationDetents([.medium])
+            CycleListCellDetail(cycleManager: cycleManager)
+                .presentationDetents([.medium, .large])
         }
     }
 }
