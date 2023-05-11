@@ -10,7 +10,7 @@ import AuthenticationServices
 
 struct SignUpView: View {
     @Environment(\.colorScheme) var scheme: ColorScheme
-    @ObservedObject var viewModel: AuthManager
+    @ObservedObject var manager: AuthManager
     
     var body: some View {
         VStack {
@@ -25,9 +25,9 @@ struct SignUpView: View {
             }
             
             SignInWithAppleButton { request in
-                viewModel.requestAppleSignUp(request: request)
+                manager.requestAppleSignUp(request: request)
             } onCompletion: { result in
-                viewModel.completeAppleSignUp(result: result)
+                manager.completeAppleSignUp(result: result)
             }
             .signInWithAppleButtonStyle(.whiteOutline)
             .frame(height: 50)
@@ -41,6 +41,6 @@ struct SignUpView: View {
 
 struct SignUpView_Previews: PreviewProvider {
     static var previews: some View {
-        SignUpView(viewModel: AuthManager())
+        SignUpView(manager: AuthManager())
     }
 }

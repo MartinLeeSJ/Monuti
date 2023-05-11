@@ -16,6 +16,7 @@ enum SheetType: Identifiable {
 
 struct SettingView: View {
     @Environment(\.dismiss) var dismiss
+    @EnvironmentObject var authManager: AuthManager
     @AppStorage("theme") private var theme: String = "Blue"
     @State private var modified: Bool = false
     @State private var sheetType: SheetType?
@@ -32,6 +33,12 @@ struct SettingView: View {
                     sheetType = .color
                 } label: {
                     Text("ColorSetting")
+                }
+                
+                Button {
+                    authManager.signOut()
+                } label: {
+                    Text("SignOut")
                 }
             }
             .sheet(item: $sheetType) { type in

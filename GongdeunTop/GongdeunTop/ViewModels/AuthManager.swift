@@ -14,14 +14,24 @@ import FirebaseFirestore
 
 
 
-
+@MainActor
 final class AuthManager: ObservableObject {
     enum AuthState {
         case unAuthenticated, authenticated, authenticating
     }
     
+    struct NickName {
+        var name: String
+        var isValidate: Bool {
+            name.count <= 8 && !name.isEmpty
+        }
+    }
+    
     @Published var authState: AuthState = .authenticating
     @Published var currentUser: User?
+    @Published var isNewUser: Bool = false
+    @Published var nickName: NickName = NickName(name: "")
+    
     
     private let database = Firestore.firestore()
     private var authStateHandle: AuthStateDidChangeListenerHandle?
@@ -70,27 +80,30 @@ final class AuthManager: ObservableObject {
         }
     }
     
+    
     private func signInFirebase(with authCredential: OAuthCredential) {
         Task {
             do {
+                isNewUser = true
                 let authResult = try await Auth.auth().signIn(with: authCredential)
                 let userReference = database.collection("Members").document(authResult.user.uid)
                 let documentSnapshot = try await userReference.getDocument()
                 
                 guard !documentSnapshot.exists else {
-                    print("User is already exists and signed in")
+                    isNewUser.toggle()
                     return
                 }
                 
-                let memberData = Member(email: authResult.user.email ?? "", createdAt: Timestamp(date: Date.now))
-                
-                try userReference.setData(from: memberData)
+                try await userReference.setData(["email" : authResult.user.email ?? "",
+                                               "createdAt" : Timestamp(date: Date.now)])
                 
             } catch {
                 print(error.localizedDescription)
             }
         }
     }
+    
+   
 
     
     private func randomNonceString(length: Int = 32) -> String {
@@ -138,5 +151,16 @@ final class AuthManager: ObservableObject {
     
     public func signOut() {
         try? Auth.auth().signOut()
+    }
+}
+
+// MARK: - NickNameLogic
+extension AuthManager {
+    func registerMemberNickName() {
+        guard let uid = currentUser?.uid else { return }
+        guard nickName.isValidate else { return }
+        let userReference = database.collection("Members").document(uid)
+        userReference.setData(["nickName" : nickName.name], merge: true)
+       isNewUser = false
     }
 }
