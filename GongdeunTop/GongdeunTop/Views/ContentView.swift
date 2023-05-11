@@ -17,16 +17,8 @@ struct ContentView: View {
         switch authManager.authState {
         case .unAuthenticated: SignUpView(manager: authManager)
         case .authenticating: Text("loading")
+        case .authenticated where authManager.nickNameRegisterState != .existingUser: SetNickNameView(manager: authManager)
         case .authenticated:
-            if authManager.isNewUser {
-                VStack {
-                    TextField("닉네임", text: $authManager.nickName.name)
-                    Button("welcome") {
-                        authManager.registerMemberNickName()
-                    }
-                }
-            } else {
-                
                 TabView {
                     ToDoList()
                         .tabItem {
@@ -42,7 +34,7 @@ struct ContentView: View {
                         .tag(2)
                 }
                 .tint(scheme == .dark ? Color.white : Color.black)
-            }
+            
             
         }
     }

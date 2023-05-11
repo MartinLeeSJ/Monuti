@@ -20,6 +20,10 @@ final class AuthManager: ObservableObject {
         case unAuthenticated, authenticated, authenticating
     }
     
+    enum NickNameRegisterState {
+        case newUser, registering, greeting, existingUser
+    }
+    
     struct NickName {
         var name: String
         var isValidate: Bool {
@@ -30,6 +34,7 @@ final class AuthManager: ObservableObject {
     @Published var authState: AuthState = .authenticating
     @Published var currentUser: User?
     @Published var isNewUser: Bool = false
+    @Published var nickNameRegisterState: NickNameRegisterState = .existingUser
     @Published var nickName: NickName = NickName(name: "")
     
     
@@ -84,12 +89,14 @@ final class AuthManager: ObservableObject {
     private func signInFirebase(with authCredential: OAuthCredential) {
         Task {
             do {
+                nickNameRegisterState = .newUser
                 isNewUser = true
                 let authResult = try await Auth.auth().signIn(with: authCredential)
                 let userReference = database.collection("Members").document(authResult.user.uid)
                 let documentSnapshot = try await userReference.getDocument()
                 
                 guard !documentSnapshot.exists else {
+                    nickNameRegisterState = .existingUser
                     isNewUser.toggle()
                     return
                 }
@@ -162,5 +169,22 @@ extension AuthManager {
         let userReference = database.collection("Members").document(uid)
         userReference.setData(["nickName" : nickName.name], merge: true)
        isNewUser = false
+//        forcedLoading()
+    }
+    
+    func forcedLoading() {
+        nickNameRegisterState = .registering
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            self.nickNameRegisterState = .greeting
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            self.nickNameRegisterState = .existingUser
+        }
+        
+    }
+    
+    func resetNickName() {
+        nickName.name.removeAll()
     }
 }

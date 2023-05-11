@@ -22,6 +22,7 @@
 		5B2FEABC29D9CC000022F827 /* ToDoStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2FEABB29D9CC000022F827 /* ToDoStore.swift */; };
 		5B2FEABF29DA645E0022F827 /* Cycle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2FEABE29DA645E0022F827 /* Cycle.swift */; };
 		5B2FEAC129DD4EF30022F827 /* TagStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2FEAC029DD4EF30022F827 /* TagStore.swift */; };
+		5B38FBFF2A0CDC72003F9B5C /* SetNickNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B38FBFE2A0CDC72003F9B5C /* SetNickNameView.swift */; };
 		5B63175829E6C90300FF6876 /* ToDoFormCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B63175729E6C90300FF6876 /* ToDoFormCell.swift */; };
 		5B63175A29E7F27700FF6876 /* RoundedCorners.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B63175929E7F27700FF6876 /* RoundedCorners.swift */; };
 		5B63A59129C8931300AA4525 /* SheetPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B63A59029C8931300AA4525 /* SheetPresenter.swift */; };
@@ -93,6 +94,7 @@
 		5B2FEABB29D9CC000022F827 /* ToDoStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoStore.swift; sourceTree = "<group>"; };
 		5B2FEABE29DA645E0022F827 /* Cycle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cycle.swift; sourceTree = "<group>"; };
 		5B2FEAC029DD4EF30022F827 /* TagStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagStore.swift; sourceTree = "<group>"; };
+		5B38FBFE2A0CDC72003F9B5C /* SetNickNameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetNickNameView.swift; sourceTree = "<group>"; };
 		5B63175729E6C90300FF6876 /* ToDoFormCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoFormCell.swift; sourceTree = "<group>"; };
 		5B63175929E7F27700FF6876 /* RoundedCorners.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedCorners.swift; sourceTree = "<group>"; };
 		5B63A59029C8931300AA4525 /* SheetPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetPresenter.swift; sourceTree = "<group>"; };
@@ -202,6 +204,15 @@
 				5B2FEABB29D9CC000022F827 /* ToDoStore.swift */,
 			);
 			path = ToDo;
+			sourceTree = "<group>";
+		};
+		5B38FBFD2A0CDC58003F9B5C /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				5B95E13D29D805AC00E8CBA1 /* SignUpView.swift */,
+				5B38FBFE2A0CDC72003F9B5C /* SetNickNameView.swift */,
+			);
+			path = Auth;
 			sourceTree = "<group>";
 		};
 		5B63175B29E7F28400FF6876 /* Shape */ = {
@@ -321,7 +332,7 @@
 			isa = PBXGroup;
 			children = (
 				5BCF550529C2CB2500A19759 /* ContentView.swift */,
-				5B95E13D29D805AC00E8CBA1 /* SignUpView.swift */,
+				5B38FBFD2A0CDC58003F9B5C /* Auth */,
 				5BA9A43A2A09307700453D65 /* Cycle */,
 				5B174C252A035CCA00204C75 /* Setting */,
 				5BD5131729D5743E0008E1C9 /* ToDo */,
@@ -602,6 +613,7 @@
 				5B2767C529F8F30D008398A3 /* CalendarManager.swift in Sources */,
 				5B63A59329C95AD500AA4525 /* SetToDoForm.swift in Sources */,
 				5B95E13929D7FC9000E8CBA1 /* AuthManager.swift in Sources */,
+				5B38FBFF2A0CDC72003F9B5C /* SetNickNameView.swift in Sources */,
 				5BD5131929D574900008E1C9 /* SessionIndicator.swift in Sources */,
 				5BA9A43C2A09310A00453D65 /* CycleToDoList.swift in Sources */,
 				5BCF550429C2CB2500A19759 /* GongdeunTopApp.swift in Sources */,
