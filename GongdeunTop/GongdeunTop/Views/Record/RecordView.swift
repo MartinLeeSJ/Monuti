@@ -24,7 +24,6 @@ enum RecordSheetType: Identifiable {
 
 struct RecordView: View {
     @EnvironmentObject var themeManager: ThemeManager
-    @ObservedObject var authManager: AuthManager
     @StateObject var calendarManager = CalendarManager()
     @StateObject var cycleStore = CycleStore()
     
@@ -244,9 +243,9 @@ extension RecordView {
 struct RecordView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            RecordView(authManager: AuthManager())
+            RecordView()
                 .environment(\.locale, .init(identifier: "ko"))
-            RecordView(authManager: AuthManager())
+            RecordView()
                 .environment(\.locale, .init(identifier: "en"))
         }
     }
