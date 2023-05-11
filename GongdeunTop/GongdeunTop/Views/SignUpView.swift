@@ -14,15 +14,25 @@ struct SignUpView: View {
     
     var body: some View {
         VStack {
+            Spacer()
+            
             Text("Hello, World!")
+            
+            Spacer()
+            
+            Button("개인정보 처리방침") {
+                
+            }
             
             SignInWithAppleButton { request in
                 viewModel.requestAppleSignUp(request: request)
             } onCompletion: { result in
                 viewModel.completeAppleSignUp(result: result)
             }
-            .frame(width: 200, height: 50)
-            .signInWithAppleButtonStyle(scheme == .dark ? .white : .black)
+            .signInWithAppleButtonStyle(.whiteOutline)
+            .frame(height: 50)
+            .padding()
+            .padding(.bottom)
 
         }
         

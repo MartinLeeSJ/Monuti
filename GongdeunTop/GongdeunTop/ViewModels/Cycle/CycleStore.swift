@@ -98,7 +98,7 @@ final class CycleStore: ObservableObject {
             var value: Int = 0
             var todoCount: Int = 0
             for cycle in cycles {
-                var cycleTodos: Int = (cycle.todos.count == 0 ? 1: cycle.todos.count)
+                let cycleTodos: Int = (cycle.todos.count == 0 ? 1: cycle.todos.count)
                 value += cycle.evaluation * cycleTodos
                 todoCount += cycleTodos
             }

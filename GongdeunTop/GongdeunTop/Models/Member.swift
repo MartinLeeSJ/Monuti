@@ -12,6 +12,6 @@ import FirebaseFirestoreSwift
 struct Member: Codable, Identifiable {
     @DocumentID var id: String?
     var email: String
-    var fullName: String
+    var fullName: String?
     var createdAt: Timestamp
 }
