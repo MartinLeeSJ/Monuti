@@ -21,7 +21,7 @@ final class AuthManager: ObservableObject {
     }
     
     enum NickNameRegisterState {
-        case newUser, registering, greeting, existingUser
+        case newUser, registering, existingUser
     }
     
     struct NickName {
@@ -33,7 +33,6 @@ final class AuthManager: ObservableObject {
     
     @Published var authState: AuthState = .authenticating
     @Published var currentUser: User?
-    @Published var isNewUser: Bool = false
     @Published var nickNameRegisterState: NickNameRegisterState = .existingUser
     @Published var nickName: NickName = NickName(name: "")
     
@@ -90,14 +89,12 @@ final class AuthManager: ObservableObject {
         Task {
             do {
                 nickNameRegisterState = .newUser
-                isNewUser = true
                 let authResult = try await Auth.auth().signIn(with: authCredential)
                 let userReference = database.collection("Members").document(authResult.user.uid)
                 let documentSnapshot = try await userReference.getDocument()
                 
                 guard !documentSnapshot.exists else {
                     nickNameRegisterState = .existingUser
-                    isNewUser.toggle()
                     return
                 }
                 
@@ -168,20 +165,14 @@ extension AuthManager {
         guard nickName.isValidate else { return }
         let userReference = database.collection("Members").document(uid)
         userReference.setData(["nickName" : nickName.name], merge: true)
-       isNewUser = false
-//        forcedLoading()
+        forcedLoading()
     }
     
     func forcedLoading() {
         nickNameRegisterState = .registering
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            self.nickNameRegisterState = .greeting
-        }
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
             self.nickNameRegisterState = .existingUser
         }
-        
     }
     
     func resetNickName() {
