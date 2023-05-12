@@ -10,14 +10,15 @@ import SwiftUI
 struct SetNickNameView: View {
     @EnvironmentObject var themeManager: ThemeManager
     @ObservedObject var manager: AuthManager
+    @State private var showGreet: Bool = false
+
     var body: some View {
         ZStack {
             themeManager.getColorInPriority(of: .background)
                 .ignoresSafeArea()
             VStack {
-                
                 Spacer()
-                    .frame(height: UIScreen.main.bounds.height * 0.6)
+                    .frame(maxHeight: UIScreen.main.bounds.height * 0.6)
                     .overlay {
                         Image("AppLogoWithText")
                             .resizable()
@@ -28,13 +29,8 @@ struct SetNickNameView: View {
                 switch manager.nickNameRegisterState {
                 case .newUser, .existingUser:
                     nickNameTextField
-                        .transition(.slide)
                 case .registering:
-                    ProgressView()
-                        .transition(.slide)
-                case .greeting:
-                    Text("환영합니다!")
-                        .transition(.opacity.animation(.easeInOut))
+                    registeringProgress
                 }
                 
                 Spacer()
@@ -52,7 +48,7 @@ extension SetNickNameView {
     var nickNameTextField: some View {
         Group {
             Text("당신을 어떻게 부르면 좋을까요?")
-                .font(.title3)
+                .font(.headline)
                 .fontWeight(.medium)
             
             
@@ -81,19 +77,6 @@ extension SetNickNameView {
                         .fill(.gray)
                         .frame(height: 1)
                 }
-                .overlay(alignment: .bottomLeading) {
-                    HStack {
-                        Text("닉네임은 1글자 이상 8글자 이하로 만들어 주세요.")
-                        if manager.nickName.isValidate {
-                            Image(systemName: "checkmark")
-                                .transition(.opacity.animation(.easeInOut))
-                        }
-                    }
-                    .font(.footnote)
-                    .foregroundColor(themeManager.getColorInPriority(of: .accent))
-                    .offset(y: 24)
-                    
-                }
                 
                 Button("확인") {
                     manager.registerMemberNickName()
@@ -103,7 +86,39 @@ extension SetNickNameView {
                 .tint(themeManager.getColorInPriority(of: .accent))
                 .disabled(!manager.nickName.isValidate)
             }
+            .overlay(alignment: .bottomLeading) {
+                HStack {
+                    Text("닉네임은 1글자 이상 8글자 이하로 만들어 주세요.")
+                    if manager.nickName.isValidate {
+                        Image(systemName: "checkmark")
+                            .transition(.opacity.animation(.easeInOut))
+                    }
+                }
+                .font(.footnote)
+                .foregroundColor(themeManager.getColorInPriority(of: .accent))
+                .offset(y: 24)
+                
+            }
             .padding()
+            .transition(.opacity.animation(.easeInOut))
+        }
+    }
+    
+    var registeringProgress: some View {
+        VStack {
+            if showGreet {
+                Text("환영합니다 \(manager.nickName.name)님!")
+                    .font(.headline)
+                    .fontWeight(.medium)
+            } else {
+                ProgressView()
+            }
+        }
+        .transition(.opacity.animation(.easeInOut))
+        .task {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                showGreet.toggle()
+            }
         }
     }
 }
