@@ -10,15 +10,15 @@ import SwiftUI
 struct ContentView: View {
     @Environment(\.colorScheme) var scheme: ColorScheme
     @StateObject var authManager = AuthManager()
+    @EnvironmentObject var launchScreenManager: LaunchScreenManager
     
     var body: some View {
-        
-        
-        switch authManager.authState {
-        case .unAuthenticated: SignUpView(manager: authManager)
-        case .authenticating: Text("loading")
-        case .authenticated where authManager.nickNameRegisterState != .existingUser: SetNickNameView(manager: authManager)
-        case .authenticated:
+        VStack {
+            switch authManager.authState {
+            case .unAuthenticated: SignUpView(manager: authManager)
+            case .authenticating: ProgressView()
+            case .authenticated where authManager.nickNameRegisterState != .existingUser: SetNickNameView(manager: authManager)
+            case .authenticated:
                 TabView {
                     ToDoList()
                         .tabItem {
@@ -34,8 +34,12 @@ struct ContentView: View {
                         .tag(2)
                 }
                 .tint(scheme == .dark ? Color.white : Color.black)
-            
-            
+                
+                
+            }
+        }
+        .task {
+            self.launchScreenManager.dismiss()
         }
     }
 }

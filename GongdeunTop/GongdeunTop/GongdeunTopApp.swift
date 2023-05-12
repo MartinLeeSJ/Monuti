@@ -22,11 +22,20 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 struct GongdeunTopApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     @StateObject var themeManager = ThemeManager()
+    @StateObject var launchScreenManager = LaunchScreenManager()
     
     var body: some Scene {
         WindowGroup {
-            ContentView()
-                .environmentObject(themeManager)
+            ZStack {
+                ContentView()
+                    
+                
+                if launchScreenManager.state != .finished {
+                    LauchScreen()
+                }
+            }
+            .environmentObject(themeManager)
+            .environmentObject(launchScreenManager)
         }
     }
 }

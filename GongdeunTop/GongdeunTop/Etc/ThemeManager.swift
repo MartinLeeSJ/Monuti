@@ -21,6 +21,10 @@ enum ColorThemes: String, Identifiable, CaseIterable {
         }
     }
     
+    var logoImage: Image {
+        return Image("AppLogo\(representativeName)")
+    }
+    
     static var priorityRange = 0...4
 }
 
@@ -54,6 +58,10 @@ class ThemeManager: ObservableObject {
     
     func getColorInPriority(of priority: ColorPriority) -> Color {
         Color("\(theme.rawValue)\(priority.rawValue)")
+    }
+    
+    func getAppLogoImage() -> Image {
+        theme.logoImage
     }
     
 //    static func getColorTest(priority: ColorPriority) -> String {
