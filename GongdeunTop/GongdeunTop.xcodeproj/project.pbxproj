@@ -23,6 +23,8 @@
 		5B2FEABF29DA645E0022F827 /* Cycle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2FEABE29DA645E0022F827 /* Cycle.swift */; };
 		5B2FEAC129DD4EF30022F827 /* TagStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2FEAC029DD4EF30022F827 /* TagStore.swift */; };
 		5B38FBFF2A0CDC72003F9B5C /* SetNickNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B38FBFE2A0CDC72003F9B5C /* SetNickNameView.swift */; };
+		5B38FC022A0E1695003F9B5C /* LaunchScreenManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B38FC012A0E1695003F9B5C /* LaunchScreenManager.swift */; };
+		5B38FC062A0E176F003F9B5C /* LauchScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B38FC052A0E176F003F9B5C /* LauchScreen.swift */; };
 		5B63175829E6C90300FF6876 /* ToDoFormCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B63175729E6C90300FF6876 /* ToDoFormCell.swift */; };
 		5B63175A29E7F27700FF6876 /* RoundedCorners.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B63175929E7F27700FF6876 /* RoundedCorners.swift */; };
 		5B63A59129C8931300AA4525 /* SheetPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B63A59029C8931300AA4525 /* SheetPresenter.swift */; };
@@ -95,6 +97,9 @@
 		5B2FEABE29DA645E0022F827 /* Cycle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cycle.swift; sourceTree = "<group>"; };
 		5B2FEAC029DD4EF30022F827 /* TagStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagStore.swift; sourceTree = "<group>"; };
 		5B38FBFE2A0CDC72003F9B5C /* SetNickNameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetNickNameView.swift; sourceTree = "<group>"; };
+		5B38FC002A0E1045003F9B5C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		5B38FC012A0E1695003F9B5C /* LaunchScreenManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreenManager.swift; sourceTree = "<group>"; };
+		5B38FC052A0E176F003F9B5C /* LauchScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LauchScreen.swift; sourceTree = "<group>"; };
 		5B63175729E6C90300FF6876 /* ToDoFormCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoFormCell.swift; sourceTree = "<group>"; };
 		5B63175929E7F27700FF6876 /* RoundedCorners.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedCorners.swift; sourceTree = "<group>"; };
 		5B63A59029C8931300AA4525 /* SheetPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetPresenter.swift; sourceTree = "<group>"; };
@@ -232,6 +237,7 @@
 			children = (
 				5B841E9E29FBC4D600F1675E /* LocationManager.swift */,
 				5B174C282A050F3B00204C75 /* HapticManager.swift */,
+				5B38FC012A0E1695003F9B5C /* LaunchScreenManager.swift */,
 				5B841EA029FBC73500F1675E /* Cycle */,
 				5B2767C329F8F2E6008398A3 /* Timer */,
 				5B2FEABD29D9CC0B0022F827 /* ToDo */,
@@ -304,6 +310,7 @@
 		5BCF550229C2CB2500A19759 /* GongdeunTop */ = {
 			isa = PBXGroup;
 			children = (
+				5B38FC002A0E1045003F9B5C /* Info.plist */,
 				5B95E13C29D804F000E8CBA1 /* GongdeunTop.entitlements */,
 				5BD3D1DA29D1D15A008E8988 /* GoogleService-Info.plist */,
 				5BCF550329C2CB2500A19759 /* GongdeunTopApp.swift */,
@@ -332,6 +339,7 @@
 			isa = PBXGroup;
 			children = (
 				5BCF550529C2CB2500A19759 /* ContentView.swift */,
+				5B38FC052A0E176F003F9B5C /* LauchScreen.swift */,
 				5B38FBFD2A0CDC58003F9B5C /* Auth */,
 				5BA9A43A2A09307700453D65 /* Cycle */,
 				5B174C252A035CCA00204C75 /* Setting */,
@@ -588,6 +596,7 @@
 				5BAC85EF2A00F1D500A34056 /* ColorThemeSetting.swift in Sources */,
 				5BCF551229C2E50100A19759 /* Color+Custom.swift in Sources */,
 				5B95E14029D80B7D00E8CBA1 /* Member.swift in Sources */,
+				5B38FC022A0E1695003F9B5C /* LaunchScreenManager.swift in Sources */,
 				5B2FEAC129DD4EF30022F827 /* TagStore.swift in Sources */,
 				5B63175A29E7F27700FF6876 /* RoundedCorners.swift in Sources */,
 				5BA9A4392A092E6A00453D65 /* CycleListCellDetail.swift in Sources */,
@@ -603,6 +612,7 @@
 				5BCF551629C3065E00A19759 /* RecordView.swift in Sources */,
 				5BCF551B29C30D1600A19759 /* ToDoList.swift in Sources */,
 				5BB4FEC829C83124009CCD43 /* ToDoManager.swift in Sources */,
+				5B38FC062A0E176F003F9B5C /* LauchScreen.swift in Sources */,
 				5B95944D29D96277001F2B4B /* Turret.swift in Sources */,
 				5B8B119529D07EE6009BB0E6 /* FirstCountdown.swift in Sources */,
 				5B76D0F629C76A2B008883A8 /* CircularSector.swift in Sources */,
@@ -829,11 +839,11 @@
 				DEVELOPMENT_TEAM = SUDPP9C593;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = GongdeunTop/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Monuti;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
@@ -867,11 +877,11 @@
 				DEVELOPMENT_TEAM = SUDPP9C593;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = GongdeunTop/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Monuti;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
