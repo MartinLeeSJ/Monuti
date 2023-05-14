@@ -25,6 +25,8 @@
 		5B38FBFF2A0CDC72003F9B5C /* SetNickNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B38FBFE2A0CDC72003F9B5C /* SetNickNameView.swift */; };
 		5B38FC022A0E1695003F9B5C /* LaunchScreenManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B38FC012A0E1695003F9B5C /* LaunchScreenManager.swift */; };
 		5B38FC062A0E176F003F9B5C /* LauchScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B38FC052A0E176F003F9B5C /* LauchScreen.swift */; };
+		5B38FC082A0F8268003F9B5C /* Target.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B38FC072A0F8268003F9B5C /* Target.swift */; };
+		5B38FC0A2A0F87BC003F9B5C /* TargetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B38FC092A0F87BC003F9B5C /* TargetView.swift */; };
 		5B63175829E6C90300FF6876 /* ToDoFormCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B63175729E6C90300FF6876 /* ToDoFormCell.swift */; };
 		5B63175A29E7F27700FF6876 /* RoundedCorners.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B63175929E7F27700FF6876 /* RoundedCorners.swift */; };
 		5B63A59129C8931300AA4525 /* SheetPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B63A59029C8931300AA4525 /* SheetPresenter.swift */; };
@@ -100,6 +102,8 @@
 		5B38FC002A0E1045003F9B5C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		5B38FC012A0E1695003F9B5C /* LaunchScreenManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreenManager.swift; sourceTree = "<group>"; };
 		5B38FC052A0E176F003F9B5C /* LauchScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LauchScreen.swift; sourceTree = "<group>"; };
+		5B38FC072A0F8268003F9B5C /* Target.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Target.swift; sourceTree = "<group>"; };
+		5B38FC092A0F87BC003F9B5C /* TargetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetView.swift; sourceTree = "<group>"; };
 		5B63175729E6C90300FF6876 /* ToDoFormCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoFormCell.swift; sourceTree = "<group>"; };
 		5B63175929E7F27700FF6876 /* RoundedCorners.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedCorners.swift; sourceTree = "<group>"; };
 		5B63A59029C8931300AA4525 /* SheetPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetPresenter.swift; sourceTree = "<group>"; };
@@ -273,6 +277,7 @@
 				5BB4FEC929C832D9009CCD43 /* ToDo.swift */,
 				5B95E13F29D80B7D00E8CBA1 /* Member.swift */,
 				5B2FEABE29DA645E0022F827 /* Cycle.swift */,
+				5B38FC072A0F8268003F9B5C /* Target.swift */,
 				5BD5131C29D58D060008E1C9 /* Tag.swift */,
 			);
 			path = Models;
@@ -339,6 +344,7 @@
 			isa = PBXGroup;
 			children = (
 				5BCF550529C2CB2500A19759 /* ContentView.swift */,
+				5B38FC092A0F87BC003F9B5C /* TargetView.swift */,
 				5B38FC052A0E176F003F9B5C /* LauchScreen.swift */,
 				5B38FBFD2A0CDC58003F9B5C /* Auth */,
 				5BA9A43A2A09307700453D65 /* Cycle */,
@@ -612,6 +618,7 @@
 				5BCF551629C3065E00A19759 /* RecordView.swift in Sources */,
 				5BCF551B29C30D1600A19759 /* ToDoList.swift in Sources */,
 				5BB4FEC829C83124009CCD43 /* ToDoManager.swift in Sources */,
+				5B38FC082A0F8268003F9B5C /* Target.swift in Sources */,
 				5B38FC062A0E176F003F9B5C /* LauchScreen.swift in Sources */,
 				5B95944D29D96277001F2B4B /* Turret.swift in Sources */,
 				5B8B119529D07EE6009BB0E6 /* FirstCountdown.swift in Sources */,
@@ -622,6 +629,7 @@
 				5BD3D1D729D1C3BB008E8988 /* ToDoListCell.swift in Sources */,
 				5B2767C529F8F30D008398A3 /* CalendarManager.swift in Sources */,
 				5B63A59329C95AD500AA4525 /* SetToDoForm.swift in Sources */,
+				5B38FC0A2A0F87BC003F9B5C /* TargetView.swift in Sources */,
 				5B95E13929D7FC9000E8CBA1 /* AuthManager.swift in Sources */,
 				5B38FBFF2A0CDC72003F9B5C /* SetNickNameView.swift in Sources */,
 				5BD5131929D574900008E1C9 /* SessionIndicator.swift in Sources */,
