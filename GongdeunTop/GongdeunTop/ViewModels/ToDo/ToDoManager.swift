@@ -35,9 +35,11 @@ final class ToDoManager: ObservableObject {
         
         if todo.id == nil {
             do {
-                try database.collection("Members").document(uid).collection("ToDo")
+                try database.collection("Members")
+                    .document(uid)
+                    .collection("ToDo")
                     .addDocument(from: todo)
-                self.todo = ToDo(createdAt: Timestamp(date: Date()))
+//                self.todo = ToDo(createdAt: Timestamp(date: Date()))
             } catch {
                 print(error.localizedDescription)
             }

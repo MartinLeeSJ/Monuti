@@ -15,6 +15,8 @@
 		5B174C272A03720600204C75 /* RoundedHexagon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B174C262A03720600204C75 /* RoundedHexagon.swift */; };
 		5B174C292A050F3B00204C75 /* HapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B174C282A050F3B00204C75 /* HapticManager.swift */; };
 		5B1C711A2A11FCB700A5D3EB /* TargetStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1C71192A11FCB700A5D3EB /* TargetStore.swift */; };
+		5B1C711C2A1200A800A5D3EB /* TargetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1C711B2A1200A800A5D3EB /* TargetManager.swift */; };
+		5B1C711F2A12012C00A5D3EB /* Target+PlaceHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1C711E2A12012C00A5D3EB /* Target+PlaceHolder.swift */; };
 		5B2767C529F8F30D008398A3 /* CalendarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2767C429F8F30D008398A3 /* CalendarManager.swift */; };
 		5B2767C729F90355008398A3 /* SetMonthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2767C629F90355008398A3 /* SetMonthView.swift */; };
 		5B2767C929FA2229008398A3 /* DateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2767C829FA2229008398A3 /* DateCell.swift */; };
@@ -92,6 +94,8 @@
 		5B174C262A03720600204C75 /* RoundedHexagon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedHexagon.swift; sourceTree = "<group>"; };
 		5B174C282A050F3B00204C75 /* HapticManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticManager.swift; sourceTree = "<group>"; };
 		5B1C71192A11FCB700A5D3EB /* TargetStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetStore.swift; sourceTree = "<group>"; };
+		5B1C711B2A1200A800A5D3EB /* TargetManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetManager.swift; sourceTree = "<group>"; };
+		5B1C711E2A12012C00A5D3EB /* Target+PlaceHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Target+PlaceHolder.swift"; sourceTree = "<group>"; };
 		5B2767C429F8F30D008398A3 /* CalendarManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarManager.swift; sourceTree = "<group>"; };
 		5B2767C629F90355008398A3 /* SetMonthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetMonthView.swift; sourceTree = "<group>"; };
 		5B2767C829FA2229008398A3 /* DateCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateCell.swift; sourceTree = "<group>"; };
@@ -199,6 +203,15 @@
 			path = Setting;
 			sourceTree = "<group>";
 		};
+		5B1C711D2A1200AE00A5D3EB /* Target */ = {
+			isa = PBXGroup;
+			children = (
+				5B1C71192A11FCB700A5D3EB /* TargetStore.swift */,
+				5B1C711B2A1200A800A5D3EB /* TargetManager.swift */,
+			);
+			path = Target;
+			sourceTree = "<group>";
+		};
 		5B2767C329F8F2E6008398A3 /* Timer */ = {
 			isa = PBXGroup;
 			children = (
@@ -245,7 +258,7 @@
 				5B841E9E29FBC4D600F1675E /* LocationManager.swift */,
 				5B174C282A050F3B00204C75 /* HapticManager.swift */,
 				5B38FC012A0E1695003F9B5C /* LaunchScreenManager.swift */,
-				5B1C71192A11FCB700A5D3EB /* TargetStore.swift */,
+				5B1C711D2A1200AE00A5D3EB /* Target */,
 				5B841EA029FBC73500F1675E /* Cycle */,
 				5B2767C329F8F2E6008398A3 /* Timer */,
 				5B2FEABD29D9CC0B0022F827 /* ToDo */,
@@ -340,6 +353,7 @@
 			children = (
 				5BCF550A29C2CB2700A19759 /* Preview Assets.xcassets */,
 				5BD3D1D829D1C45A008E8988 /* ToDo+PlaceHolder.swift */,
+				5B1C711E2A12012C00A5D3EB /* Target+PlaceHolder.swift */,
 			);
 			path = "Preview Content";
 			sourceTree = "<group>";
@@ -595,6 +609,7 @@
 				5B05A61829ECFD5A00C89417 /* CycleMemoir.swift in Sources */,
 				5BB4FECA29C832D9009CCD43 /* ToDo.swift in Sources */,
 				5B174C292A050F3B00204C75 /* HapticManager.swift in Sources */,
+				5B1C711F2A12012C00A5D3EB /* Target+PlaceHolder.swift in Sources */,
 				5BCF551D29C30DA800A19759 /* SessionsTimer.swift in Sources */,
 				5B2767CB29FA4633008398A3 /* CycleStore.swift in Sources */,
 				5BD5131D29D58D060008E1C9 /* Tag.swift in Sources */,
@@ -605,6 +620,7 @@
 				5BAC85EF2A00F1D500A34056 /* ColorThemeSetting.swift in Sources */,
 				5BCF551229C2E50100A19759 /* Color+Custom.swift in Sources */,
 				5B95E14029D80B7D00E8CBA1 /* Member.swift in Sources */,
+				5B1C711C2A1200A800A5D3EB /* TargetManager.swift in Sources */,
 				5B38FC022A0E1695003F9B5C /* LaunchScreenManager.swift in Sources */,
 				5B2FEAC129DD4EF30022F827 /* TagStore.swift in Sources */,
 				5B63175A29E7F27700FF6876 /* RoundedCorners.swift in Sources */,
