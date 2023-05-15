@@ -17,6 +17,9 @@
 		5B1C711A2A11FCB700A5D3EB /* TargetStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1C71192A11FCB700A5D3EB /* TargetStore.swift */; };
 		5B1C711C2A1200A800A5D3EB /* TargetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1C711B2A1200A800A5D3EB /* TargetManager.swift */; };
 		5B1C711F2A12012C00A5D3EB /* Target+PlaceHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1C711E2A12012C00A5D3EB /* Target+PlaceHolder.swift */; };
+		5B1C71212A120A2A00A5D3EB /* SetTargetForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1C71202A120A2A00A5D3EB /* SetTargetForm.swift */; };
+		5B1C71232A120A7100A5D3EB /* TargetListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1C71222A120A7100A5D3EB /* TargetListCell.swift */; };
+		5B1C71262A121C3C00A5D3EB /* RangeDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1C71252A121C3C00A5D3EB /* RangeDatePicker.swift */; };
 		5B2767C529F8F30D008398A3 /* CalendarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2767C429F8F30D008398A3 /* CalendarManager.swift */; };
 		5B2767C729F90355008398A3 /* SetMonthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2767C629F90355008398A3 /* SetMonthView.swift */; };
 		5B2767C929FA2229008398A3 /* DateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2767C829FA2229008398A3 /* DateCell.swift */; };
@@ -29,7 +32,7 @@
 		5B38FC022A0E1695003F9B5C /* LaunchScreenManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B38FC012A0E1695003F9B5C /* LaunchScreenManager.swift */; };
 		5B38FC062A0E176F003F9B5C /* LauchScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B38FC052A0E176F003F9B5C /* LauchScreen.swift */; };
 		5B38FC082A0F8268003F9B5C /* Target.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B38FC072A0F8268003F9B5C /* Target.swift */; };
-		5B38FC0A2A0F87BC003F9B5C /* TargetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B38FC092A0F87BC003F9B5C /* TargetView.swift */; };
+		5B38FC0A2A0F87BC003F9B5C /* TargetList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B38FC092A0F87BC003F9B5C /* TargetList.swift */; };
 		5B63175829E6C90300FF6876 /* ToDoFormCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B63175729E6C90300FF6876 /* ToDoFormCell.swift */; };
 		5B63175A29E7F27700FF6876 /* RoundedCorners.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B63175929E7F27700FF6876 /* RoundedCorners.swift */; };
 		5B63A59129C8931300AA4525 /* SheetPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B63A59029C8931300AA4525 /* SheetPresenter.swift */; };
@@ -96,6 +99,9 @@
 		5B1C71192A11FCB700A5D3EB /* TargetStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetStore.swift; sourceTree = "<group>"; };
 		5B1C711B2A1200A800A5D3EB /* TargetManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetManager.swift; sourceTree = "<group>"; };
 		5B1C711E2A12012C00A5D3EB /* Target+PlaceHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Target+PlaceHolder.swift"; sourceTree = "<group>"; };
+		5B1C71202A120A2A00A5D3EB /* SetTargetForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetTargetForm.swift; sourceTree = "<group>"; };
+		5B1C71222A120A7100A5D3EB /* TargetListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetListCell.swift; sourceTree = "<group>"; };
+		5B1C71252A121C3C00A5D3EB /* RangeDatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RangeDatePicker.swift; sourceTree = "<group>"; };
 		5B2767C429F8F30D008398A3 /* CalendarManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarManager.swift; sourceTree = "<group>"; };
 		5B2767C629F90355008398A3 /* SetMonthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetMonthView.swift; sourceTree = "<group>"; };
 		5B2767C829FA2229008398A3 /* DateCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateCell.swift; sourceTree = "<group>"; };
@@ -109,7 +115,7 @@
 		5B38FC012A0E1695003F9B5C /* LaunchScreenManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreenManager.swift; sourceTree = "<group>"; };
 		5B38FC052A0E176F003F9B5C /* LauchScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LauchScreen.swift; sourceTree = "<group>"; };
 		5B38FC072A0F8268003F9B5C /* Target.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Target.swift; sourceTree = "<group>"; };
-		5B38FC092A0F87BC003F9B5C /* TargetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetView.swift; sourceTree = "<group>"; };
+		5B38FC092A0F87BC003F9B5C /* TargetList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetList.swift; sourceTree = "<group>"; };
 		5B63175729E6C90300FF6876 /* ToDoFormCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoFormCell.swift; sourceTree = "<group>"; };
 		5B63175929E7F27700FF6876 /* RoundedCorners.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedCorners.swift; sourceTree = "<group>"; };
 		5B63A59029C8931300AA4525 /* SheetPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetPresenter.swift; sourceTree = "<group>"; };
@@ -212,6 +218,16 @@
 			path = Target;
 			sourceTree = "<group>";
 		};
+		5B1C71242A120A9200A5D3EB /* Target */ = {
+			isa = PBXGroup;
+			children = (
+				5B38FC092A0F87BC003F9B5C /* TargetList.swift */,
+				5B1C71222A120A7100A5D3EB /* TargetListCell.swift */,
+				5B1C71202A120A2A00A5D3EB /* SetTargetForm.swift */,
+			);
+			path = Target;
+			sourceTree = "<group>";
+		};
 		5B2767C329F8F2E6008398A3 /* Timer */ = {
 			isa = PBXGroup;
 			children = (
@@ -257,13 +273,13 @@
 				5BF61E912A0296B1007592D6 /* ThemeManager.swift */,
 				5B841E9E29FBC4D600F1675E /* LocationManager.swift */,
 				5B174C282A050F3B00204C75 /* HapticManager.swift */,
+				5B2767C429F8F30D008398A3 /* CalendarManager.swift */,
+				5B95E13829D7FC9000E8CBA1 /* AuthManager.swift */,
 				5B38FC012A0E1695003F9B5C /* LaunchScreenManager.swift */,
 				5B1C711D2A1200AE00A5D3EB /* Target */,
 				5B841EA029FBC73500F1675E /* Cycle */,
 				5B2767C329F8F2E6008398A3 /* Timer */,
 				5B2FEABD29D9CC0B0022F827 /* ToDo */,
-				5B95E13829D7FC9000E8CBA1 /* AuthManager.swift */,
-				5B2767C429F8F30D008398A3 /* CalendarManager.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -362,8 +378,8 @@
 			isa = PBXGroup;
 			children = (
 				5BCF550529C2CB2500A19759 /* ContentView.swift */,
-				5B38FC092A0F87BC003F9B5C /* TargetView.swift */,
 				5B38FC052A0E176F003F9B5C /* LauchScreen.swift */,
+				5B1C71242A120A9200A5D3EB /* Target */,
 				5B38FBFD2A0CDC58003F9B5C /* Auth */,
 				5BA9A43A2A09307700453D65 /* Cycle */,
 				5B174C252A035CCA00204C75 /* Setting */,
@@ -401,6 +417,7 @@
 			children = (
 				5BB4FECB29C83964009CCD43 /* HAlignment.swift */,
 				5B63A59029C8931300AA4525 /* SheetPresenter.swift */,
+				5B1C71252A121C3C00A5D3EB /* RangeDatePicker.swift */,
 			);
 			path = CustomView;
 			sourceTree = "<group>";
@@ -619,6 +636,7 @@
 				5B95E13E29D805AC00E8CBA1 /* SignUpView.swift in Sources */,
 				5BAC85EF2A00F1D500A34056 /* ColorThemeSetting.swift in Sources */,
 				5BCF551229C2E50100A19759 /* Color+Custom.swift in Sources */,
+				5B1C71232A120A7100A5D3EB /* TargetListCell.swift in Sources */,
 				5B95E14029D80B7D00E8CBA1 /* Member.swift in Sources */,
 				5B1C711C2A1200A800A5D3EB /* TargetManager.swift in Sources */,
 				5B38FC022A0E1695003F9B5C /* LaunchScreenManager.swift in Sources */,
@@ -642,6 +660,7 @@
 				5B38FC062A0E176F003F9B5C /* LauchScreen.swift in Sources */,
 				5B95944D29D96277001F2B4B /* Turret.swift in Sources */,
 				5B8B119529D07EE6009BB0E6 /* FirstCountdown.swift in Sources */,
+				5B1C71262A121C3C00A5D3EB /* RangeDatePicker.swift in Sources */,
 				5B76D0F629C76A2B008883A8 /* CircularSector.swift in Sources */,
 				5BD3D1D929D1C45A008E8988 /* ToDo+PlaceHolder.swift in Sources */,
 				5B174C272A03720600204C75 /* RoundedHexagon.swift in Sources */,
@@ -649,10 +668,11 @@
 				5BD3D1D729D1C3BB008E8988 /* ToDoListCell.swift in Sources */,
 				5B2767C529F8F30D008398A3 /* CalendarManager.swift in Sources */,
 				5B63A59329C95AD500AA4525 /* SetToDoForm.swift in Sources */,
-				5B38FC0A2A0F87BC003F9B5C /* TargetView.swift in Sources */,
+				5B38FC0A2A0F87BC003F9B5C /* TargetList.swift in Sources */,
 				5B95E13929D7FC9000E8CBA1 /* AuthManager.swift in Sources */,
 				5B38FBFF2A0CDC72003F9B5C /* SetNickNameView.swift in Sources */,
 				5BD5131929D574900008E1C9 /* SessionIndicator.swift in Sources */,
+				5B1C71212A120A2A00A5D3EB /* SetTargetForm.swift in Sources */,
 				5BA9A43C2A09310A00453D65 /* CycleToDoList.swift in Sources */,
 				5BCF550429C2CB2500A19759 /* GongdeunTopApp.swift in Sources */,
 				5B841E9F29FBC4D600F1675E /* LocationManager.swift in Sources */,

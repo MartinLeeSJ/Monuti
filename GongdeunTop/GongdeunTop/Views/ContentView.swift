@@ -26,7 +26,7 @@ struct ContentView: View {
                         }
                         .tag(1)
                     
-                    TargetView()
+                    TargetList()
                         .tabItem {
                             Label("단기목표", systemImage: "target")
                         }

@@ -46,7 +46,7 @@ struct ToDoListCell: View {
                     Image(systemName: "chevron.right")
                 }
                 .sheet(isPresented: $isEditingSheetOn) {
-                    SetToDoForm(viewModel: ToDoManager(todo: todo), mode: .edit) { result in
+                    SetToDoForm(manager: ToDoManager(todo: todo), mode: .edit) { result in
                         if case .success(let action) = result, action == .delete {
                             self.dismiss()
                         }

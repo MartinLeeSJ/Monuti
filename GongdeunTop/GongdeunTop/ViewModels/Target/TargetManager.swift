@@ -93,6 +93,4 @@ final class TargetManager: ObservableObject {
             await removeTarget()
         }
     }
-    
-    
 }

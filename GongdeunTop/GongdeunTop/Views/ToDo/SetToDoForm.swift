@@ -40,7 +40,7 @@ enum ToDoField: Int, Hashable, CaseIterable {
 
 struct SetToDoForm: View {
     @Environment(\.dismiss) var dismiss
-    @ObservedObject var viewModel = ToDoManager()
+    @ObservedObject var manager = ToDoManager()
     @FocusState private var focusedField: ToDoField?
     
     var mode: Mode = .new
@@ -74,7 +74,7 @@ struct SetToDoForm: View {
     }
     
     private func handleDoneTapped() {
-        viewModel.handleDoneTapped()
+        manager.handleDoneTapped()
         if mode == .edit {
             dismiss()
         }
@@ -85,7 +85,7 @@ struct SetToDoForm: View {
             ScrollView {
                 VStack {
                     ForEach(ToDoField.allCases, id: \.self) { fieldType in
-                        ToDoFormCell(viewModel: viewModel, focusedField: $focusedField, fieldType: fieldType)
+                        ToDoFormCell(viewModel: manager, focusedField: $focusedField, fieldType: fieldType)
                     }
                 }
             }
@@ -96,7 +96,7 @@ struct SetToDoForm: View {
                     } label: {
                         Text(mode == .new ? "Add" : "Edit")
                     }
-                    .disabled(viewModel.todo.title.isEmpty)
+                    .disabled(manager.todo.title.isEmpty)
                 }
                 
                 

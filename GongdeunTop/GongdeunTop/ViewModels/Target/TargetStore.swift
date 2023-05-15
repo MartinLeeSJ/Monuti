@@ -31,7 +31,6 @@ final class TargetStore: ObservableObject {
             let query = database.collection("Members")
                 .document(uid)
                 .collection("Target")
-                .whereField("startDate", isLessThanOrEqualTo: Timestamp(date: Date.now))
                 .whereField("dueDate", isGreaterThanOrEqualTo: Timestamp(date: Date.now))
             
             listenerRegistration = query.addSnapshotListener{ [weak self] (snapshot, error) in
