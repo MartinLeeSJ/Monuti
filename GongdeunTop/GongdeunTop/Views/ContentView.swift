@@ -26,12 +26,18 @@ struct ContentView: View {
                         }
                         .tag(1)
                     
+                    TargetList()
+                        .tabItem {
+                            Label("단기목표", systemImage: "target")
+                        }
+                        .tag(2)
+                    
                     RecordView()
                         .tabItem {
                             Label("기록", systemImage: "text.redaction")
                         }
                         .environmentObject(authManager)
-                        .tag(2)
+                        .tag(3)
                 }
                 .tint(scheme == .dark ? Color.white : Color.black)
                 
@@ -47,5 +53,6 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+            .environmentObject(LaunchScreenManager())
     }
 }
