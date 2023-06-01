@@ -36,6 +36,7 @@ struct TargetList: View {
                     }
                     .sheet(isPresented: $isAddTargetSheetOn) {
                         SetTargetForm()
+                            .presentationDetents([.medium])
                     }
                 }
             }

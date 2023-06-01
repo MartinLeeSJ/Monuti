@@ -13,9 +13,9 @@ struct Target: Codable, Hashable, Identifiable {
     @DocumentID var id: String?
     var title: String
     var subtitle: String
-    var createdAt: Timestamp
-    var startDate: Timestamp
-    var dueDate: Timestamp
+    var createdAt: Date
+    var startDate: Date
+    var dueDate: Date
     var todos: [String]
     var achievement: Int
     var memoirs: String // 회고
@@ -28,13 +28,12 @@ struct Target: Codable, Hashable, Identifiable {
         return formatter
     }
     
-    
     var startDateString: String {
-        return self.targetDateFormatter.string(from:  startDate.dateValue())
+        return self.targetDateFormatter.string(from:  startDate)
     }
     
     var dueDateString: String {
-        return self.targetDateFormatter.string(from:  dueDate.dateValue())
+        return self.targetDateFormatter.string(from:  dueDate)
     }
 }
 

@@ -12,9 +12,9 @@ extension Target {
     static var placeholder: Target {
         Target(title: "",
                subtitle: "",
-               createdAt: Timestamp(date: Date.now)
-               , startDate: Timestamp(date: Date.now),
-               dueDate: Timestamp(date: Date.now),
+               createdAt: Date.now,
+               startDate: Date.now,
+               dueDate: Date.now,
                todos: [],
                achievement: 0,
                memoirs: "")

@@ -8,68 +8,95 @@
 import SwiftUI
 
 struct SetTargetForm: View {
+    @EnvironmentObject var themeManager: ThemeManager
     @ObservedObject var targetManager = TargetManager()
-    @State private var startDate: Date = Date()
-    @State private var endDate: Date = Date()
-    @State private var dates: Set<DateComponents> = .init()
     
-    let dateRange: ClosedRange<Date> = {
+    let startDateRange: ClosedRange<Date> = {
         let calendar = Calendar.current
         let dateInterval = calendar.dateInterval(of: .day, for: Date())
         let startTime: Date = dateInterval?.start ?? Date()
         let endTime: Date = calendar.date(byAdding: .month, value: 6, to: startTime) ?? Date()
-        
         return startTime...endTime
     }()
     
-    let dateRange2: Range<Date> = {
+    var endDateRange: ClosedRange<Date> {
         let calendar = Calendar.current
-        let dateInterval = calendar.dateInterval(of: .day, for: Date())
+        let dateInterval = calendar.dateInterval(of: .day, for: targetManager.target.startDate)
         let startTime: Date = dateInterval?.start ?? Date()
-        let endTime: Date = calendar.date(byAdding: .month, value: 6, to: startTime) ?? Date()
-        return startTime..<endTime
-    } ()
+        let endTime = calendar.date(byAdding: .month, value: 6, to: startTime) ?? Date()
+        return startTime...endTime
+    }
     
     var body: some View {
         NavigationView {
-            VStack {
-                TextField(text: $targetManager.target.title) {
-                    Text("targetTitle")
+                VStack {
+                    VStack {
+                        HStack {
+                            Text("타겟 이름")
+                            TextField(text: $targetManager.target.title) {
+                                Text("targetTitle")
+                                    .font(.body)
+                            }
+                        }
+                        
+                        Divider()
+                        
+                        HStack {
+                            Text("타겟 설명")
+                            TextField(text: $targetManager.target.subtitle) {
+                                Text("targetSubTitle")
+                                    .font(.body)
+                            }
+                        }
+                    }
+                    .padding([.vertical, .leading])
+                    .background(themeManager.getColorInPriority(of: .weak), in: RoundedRectangle(cornerRadius: 10))
+                    .textFieldStyle(.plain)
+                    .autocorrectionDisabled(true)
+                    .textInputAutocapitalization(.never)
+                    .padding(.top, 16)
+                    
+                    VStack {
+                        DatePicker(
+                            "Start Date",
+                            selection: $targetManager.target.startDate,
+                            in: startDateRange,
+                            displayedComponents: [.date]
+                        )
+                        
+                        DatePicker(
+                            "End Date",
+                            selection: $targetManager.target.dueDate,
+                            in: endDateRange,
+                            displayedComponents: [.date]
+                        )
+                    }
+                    .padding()
+                    .background(themeManager.getColorInPriority(of: .weak), in: RoundedRectangle(cornerRadius: 10))
+                    
+                    Spacer()
                 }
-                
-                TextField(text: $targetManager.target.subtitle) {
-                    Text("targetSubTitle")
+                .foregroundColor(.black)
+                .font(.headline)
+                .padding()
+                .toolbar {
+                    ToolbarItem {
+                        Button {
+                            targetManager.handleDoneTapped()
+                        } label: {
+                            Text("Add")
+                                
+                        }
+                    }
                 }
-                
-                DatePicker(
-                        "Start Date",
-                         selection: $startDate,
-                         in: dateRange,
-                         displayedComponents: [.date]
-                    )
             
-                
-                DatePicker(
-                        "End Date",
-                         selection: $endDate,
-                         in: dateRange,
-                         displayedComponents: [.date]
-                    )
-                
-                
-             
-            }
-            .textFieldStyle(.roundedBorder)
-            .autocorrectionDisabled(true)
-            .textInputAutocapitalization(.never)
-            .padding()
         }
-        
     }
 }
 
 struct SetTargetForm_Previews: PreviewProvider {
     static var previews: some View {
         SetTargetForm(targetManager: TargetManager())
+            .environmentObject(ThemeManager())
     }
 }
