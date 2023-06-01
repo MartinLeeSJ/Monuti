@@ -29,54 +29,74 @@ struct SetTargetForm: View {
     
     var body: some View {
         NavigationView {
-                VStack {
+            VStack(spacing: 16) {
                     VStack {
                         HStack {
-                            Text("타겟 이름")
+                            Text("targetTitle")
                             TextField(text: $targetManager.target.title) {
-                                Text("targetTitle")
-                                    .font(.body)
+                                Text("targetTitle_placeholder")
                             }
+                            .font(.body)
                         }
                         
                         Divider()
                         
                         HStack {
-                            Text("타겟 설명")
+                            Text("targetSubTitle")
                             TextField(text: $targetManager.target.subtitle) {
-                                Text("targetSubTitle")
-                                    .font(.body)
+                                Text("targetSubTitle_placeHolder")
                             }
+                            .font(.body)
                         }
                     }
                     .padding([.vertical, .leading])
-                    .background(themeManager.getColorInPriority(of: .weak), in: RoundedRectangle(cornerRadius: 10))
+                    .background(themeManager.getComponentColor(), in: RoundedRectangle(cornerRadius: 10))
                     .textFieldStyle(.plain)
                     .autocorrectionDisabled(true)
                     .textInputAutocapitalization(.never)
                     .padding(.top, 16)
+                    .overlay(alignment: .topLeading) {
+                        Text("Target")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                            .offset(y: -2)
+                    }
                     
                     VStack {
                         DatePicker(
-                            "Start Date",
+                            String(localized: "Start Date"),
                             selection: $targetManager.target.startDate,
                             in: startDateRange,
                             displayedComponents: [.date]
                         )
                         
                         DatePicker(
-                            "End Date",
+                            String(localized: "End Date"),
                             selection: $targetManager.target.dueDate,
                             in: endDateRange,
                             displayedComponents: [.date]
                         )
                     }
                     .padding()
-                    .background(themeManager.getColorInPriority(of: .weak), in: RoundedRectangle(cornerRadius: 10))
+                    .background(themeManager.getComponentColor(), in: RoundedRectangle(cornerRadius: 10))
+                    .padding(.top, 16)
+                    .overlay(alignment: .topLeading) {
+                        Text("Date")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                            .offset(y: -2)
+                    }
+                    
+                    HAlignment(alignment: .center) {
+                        Text("Total \(targetManager.target.daysFromStartToDueDate)days")
+                        Text(targetManager.target.dateTerms)
+                            .background(.thinMaterial, in: Rectangle())
+                    }
+                    .padding()
+                    .background(themeManager.getComponentColor(), in: RoundedRectangle(cornerRadius: 10))
                     
                     Spacer()
                 }
-                .foregroundColor(.black)
                 .font(.headline)
                 .padding()
                 .toolbar {

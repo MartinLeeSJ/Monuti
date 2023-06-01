@@ -60,6 +60,10 @@ class ThemeManager: ObservableObject {
         Color("\(theme.rawValue)\(priority.rawValue)")
     }
     
+    func getComponentColor() -> Color {
+        Color("\(theme.rawValue)Components")
+    }
+    
     func getAppLogoImage() -> Image {
         theme.logoImage
     }
