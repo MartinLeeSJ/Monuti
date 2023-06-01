@@ -45,15 +45,54 @@ struct Target: Codable, Hashable, Identifiable {
         return day < 0 ? 0 : (day + 1)
     }
     
+    var dayDifferenceFromToday: Int {
+        let calendar = Calendar.current
+        let start = calendar.startOfDay(for: startDate)
+        let today = calendar.startOfDay(for: Date.now)
+        let numberOfDays = calendar.dateComponents([.day], from: start, to: today)
+        let day = numberOfDays.day ?? 0
+        return abs(day)
+    }
+    
+    
+}
+
+// MARK: - Terms
+extension Target {
     var dateTerms: String {
-        switch daysFromStartToDueDate {
-        case 0...3: return String(localized: "ShortTerm")
-        case 4...15: return String(localized: "MidTerm")
-        case 16...30: return String(localized: "LongTerm")
-        case 31...: return String(localized: "VeryLongTerm")
-        default: return String("")
+        let termString = Terms.getTermsString(of: daysFromStartToDueDate)
+        return String(localized: String.LocalizationValue(termString))
+    }
+    
+    var termColorPriority: ColorPriority {
+        Terms.getTermColorPriority(of: daysFromStartToDueDate)
+    }
+    
+    private enum Terms: String {
+        case short = "ShortTerm"
+        case mid = "MidTerm"
+        case long = "LongTerm"
+        case verylong = "VeryLongTerm"
+        
+        static func getTermsString(of days: Int) -> String {
+            switch days {
+            case 0...3: return self.short.rawValue
+            case 4...15: return self.mid.rawValue
+            case 16...30: return self.long.rawValue
+            case 31...: return self.verylong.rawValue
+            default: return String("")
+            }
+        }
+        
+        static func getTermColorPriority(of days: Int) -> ColorPriority {
+            switch days {
+            case 0...3: return .weak
+            case 4...15: return .medium
+            case 16...30: return .solid
+            case 31...: return .accent
+            default: return .weak
+            }
         }
     }
 }
-
 

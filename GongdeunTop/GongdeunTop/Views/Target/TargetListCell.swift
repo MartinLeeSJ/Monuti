@@ -12,94 +12,125 @@ struct TargetListCell: View {
     let target: Target
     var body: some View {
         VStack(spacing: 10) {
-            HStack(spacing: 5) {
-                Text("단기")
-                    .font(.caption)
-                    .padding(3)
-                    .background(themeManager.getColorInPriority(of: .weak))
-                Spacer()
-                Text("23/05/14")
-                    .font(.caption)
-                    .fixedSize()
-                    .padding(4)
-                    .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 8))
-                
-                Text("23/05/16")
-                    .font(.caption)
-                    .fixedSize()
-                    .padding(4)
-                    .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 8))
-            }
-            
-            HAlignment(alignment: .leading) {
-                VStack(alignment: .leading) {
-                    Text("TargetTitle")
-                        .font(.headline)
-                    Text("TargetSubTitle")
-                        .font(.subheadline)
-                }
-            }
-            Divider()
-            
-            Grid(verticalSpacing: 10) {
-                GridRow {
-                    Text("성취도")
-                        .font(.caption)
-                        .foregroundColor(.secondary)
-                        .fixedSize()
-                    
-                    Color.clear
-                        .gridCellUnsizedAxes([.horizontal, .vertical])
-                    
-                    Text("해낸 일들")
-                        .font(.caption)
-                        .foregroundColor(.secondary)
-                        .fixedSize()
-                    
-                    Color.clear
-                        .gridCellUnsizedAxes([.horizontal, .vertical])
-                    
-                    Text("남은 일수")
-                        .font(.caption)
-                        .foregroundColor(.secondary)
-                        .fixedSize()
-                    
-                }
-                
-                GridRow {
-                    
-                    RoundedHexagon(radius: 16, cornerAngle: 5)
-                        .frame(width: 35)
-                    
-                    Divider()
-                        .frame(width: 25)
-                        .rotationEffect(Angle(degrees: 90))
-                    
-                    Text("0")
-                        .font(.title)
-                        .fontWeight(.semibold)
-                        .foregroundColor(.gray.opacity(0.5))
-                    
-                    
-                    Divider()
-                        .frame(width: 25)
-                        .rotationEffect(Angle(degrees: 90))
-                    
-                    Text("D-3")
-                        .font(.title)
-                        .fontWeight(.semibold)
-                        .foregroundColor(.gray.opacity(0.5))
-                        .fixedSize()
-                    
-                    
-                }
-                .frame(height: 35)
-            }
-            
+            targetDatesHeader
+            targetTitles
+            targetInfoBadges
         }
         .padding()
-        .background(.white, in: RoundedRectangle(cornerRadius: 10))
+        .background(themeManager.getComponentColor(), in: RoundedRectangle(cornerRadius: 10))
+    }
+}
+// MARK: - Header
+extension TargetListCell {
+    @ViewBuilder
+    var targetDatesHeader: some View {
+        HStack(spacing: 5) {
+            Text(target.dateTerms)
+                .font(.caption)
+                .padding(3)
+                .background(themeManager.getColorInPriority(of: target.termColorPriority))
+            Spacer()
+            Text(target.startDateString)
+                .font(.caption)
+                .fixedSize()
+                .padding(4)
+                .background(.thickMaterial, in: RoundedRectangle(cornerRadius: 8))
+            
+            Text(target.dueDateString)
+                .font(.caption)
+                .fixedSize()
+                .padding(4)
+                .background(.thickMaterial, in: RoundedRectangle(cornerRadius: 8))
+        }
+    }
+}
+
+// MARK: - Titles
+extension TargetListCell {
+    @ViewBuilder
+    var targetTitles: some View {
+        HAlignment(alignment: .leading) {
+            VStack(alignment: .leading) {
+                Text(target.title)
+                    .font(.headline)
+                Text(target.subtitle)
+                    .font(.subheadline)
+            }
+        }
+    }
+}
+
+// MARK: - Badges
+extension TargetListCell {
+    var isDateYetToCome: Bool {
+        Date.now < target.startDate
+    }
+    
+    var todoCountString: AttributedString {
+        let todoCount = target.todos.count
+        let todoString = todoCount > 1 ? "Todos" : "Todo"
+        var attributedString = AttributedString("\(target.todos.count) \(todoString)")
         
+        if let todoStringRange = attributedString.range(of: "\(todoString)"),
+           let todoCountRange = attributedString.range(of: "\(target.todos.count)")
+        {
+            attributedString[todoCountRange].font = .title.weight(.semibold)
+            attributedString[todoCountRange].foregroundColor = .secondary
+            attributedString[todoStringRange].font = .caption
+            attributedString[todoStringRange].foregroundColor = .secondary
+        }
+        return attributedString
+    }
+    
+    @ViewBuilder
+    var targetInfoBadges: some View {
+        Divider()
+        HStack(spacing: 16) {
+            achievementBadges
+            completionBadges
+            dayLeftBadges
+        }
+    }
+    
+    var achievementBadges: some View {
+        VStack {
+            Text("Achievement")
+                .font(.caption)
+                .foregroundColor(.secondary)
+                .fixedSize()
+            Spacer()
+            RoundedHexagon(radius: 16, cornerAngle: 5)
+                .frame(width: 35)
+        }
+        .padding()
+    }
+    
+    var completionBadges: some View {
+        VStack {
+            Text("Completed")
+                .font(.caption)
+                .fixedSize()
+            Spacer()
+            Text(todoCountString)
+        }
+        .foregroundColor(.secondary)
+        .padding()
+    }
+    
+    var dayLeftBadges: some View {
+        VStack {
+            Text(isDateYetToCome ? "Target Begins" : "Due date")
+                .font(.caption)
+                .foregroundColor(.secondary)
+                .fixedSize()
+            Spacer()
+            Text("D-\(target.dayDifferenceFromToday)")
+                .font(.title)
+                .fontWeight(.semibold)
+                .foregroundColor(.secondary)
+                .fixedSize()
+        }
+        .padding()
     }
 }
 
