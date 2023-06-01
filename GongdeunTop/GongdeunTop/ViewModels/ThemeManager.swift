@@ -60,19 +60,13 @@ class ThemeManager: ObservableObject {
         Color("\(theme.rawValue)\(priority.rawValue)")
     }
     
+    func getComponentColor() -> Color {
+        Color("\(theme.rawValue)Components")
+    }
+    
     func getAppLogoImage() -> Image {
         theme.logoImage
     }
     
-//    static func getColorTest(priority: ColorPriority) -> String {
-//        let detectedTheme: String = UserDefaults.standard.string(forKey: "colorTheme") ?? "GTBlue"
-//        return "\(detectedTheme)\(priority.rawValue)"
-//    }
+
 }
-
-
-//extension Color {
-//    init(priority: ColorPriority) {
-//        self.init(ThemeManager.getColorTest(priority: priority))
-//    }
-//}

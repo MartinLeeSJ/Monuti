@@ -8,68 +8,115 @@
 import SwiftUI
 
 struct SetTargetForm: View {
+    @EnvironmentObject var themeManager: ThemeManager
     @ObservedObject var targetManager = TargetManager()
-    @State private var startDate: Date = Date()
-    @State private var endDate: Date = Date()
-    @State private var dates: Set<DateComponents> = .init()
     
-    let dateRange: ClosedRange<Date> = {
+    let startDateRange: ClosedRange<Date> = {
         let calendar = Calendar.current
         let dateInterval = calendar.dateInterval(of: .day, for: Date())
         let startTime: Date = dateInterval?.start ?? Date()
         let endTime: Date = calendar.date(byAdding: .month, value: 6, to: startTime) ?? Date()
-        
         return startTime...endTime
     }()
     
-    let dateRange2: Range<Date> = {
+    var endDateRange: ClosedRange<Date> {
         let calendar = Calendar.current
-        let dateInterval = calendar.dateInterval(of: .day, for: Date())
+        let dateInterval = calendar.dateInterval(of: .day, for: targetManager.target.startDate)
         let startTime: Date = dateInterval?.start ?? Date()
-        let endTime: Date = calendar.date(byAdding: .month, value: 6, to: startTime) ?? Date()
-        return startTime..<endTime
-    } ()
+        let endTime = calendar.date(byAdding: .month, value: 6, to: startTime) ?? Date()
+        return startTime...endTime
+    }
     
     var body: some View {
         NavigationView {
-            VStack {
-                TextField(text: $targetManager.target.title) {
-                    Text("targetTitle")
+            VStack(spacing: 16) {
+                    VStack {
+                        HStack {
+                            Text("targetTitle")
+                            TextField(text: $targetManager.target.title) {
+                                Text("targetTitle_placeholder")
+                            }
+                            .font(.body)
+                        }
+                        
+                        Divider()
+                        
+                        HStack {
+                            Text("targetSubTitle")
+                            TextField(text: $targetManager.target.subtitle) {
+                                Text("targetSubTitle_placeHolder")
+                            }
+                            .font(.body)
+                        }
+                    }
+                    .padding([.vertical, .leading])
+                    .background(themeManager.getComponentColor(), in: RoundedRectangle(cornerRadius: 10))
+                    .textFieldStyle(.plain)
+                    .autocorrectionDisabled(true)
+                    .textInputAutocapitalization(.never)
+                    .padding(.top, 16)
+                    .overlay(alignment: .topLeading) {
+                        Text("Target")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                            .offset(y: -2)
+                    }
+                    
+                    VStack {
+                        DatePicker(
+                            String(localized: "Start Date"),
+                            selection: $targetManager.target.startDate,
+                            in: startDateRange,
+                            displayedComponents: [.date]
+                        )
+                        
+                        DatePicker(
+                            String(localized: "End Date"),
+                            selection: $targetManager.target.dueDate,
+                            in: endDateRange,
+                            displayedComponents: [.date]
+                        )
+                    }
+                    .padding()
+                    .background(themeManager.getComponentColor(), in: RoundedRectangle(cornerRadius: 10))
+                    .padding(.top, 16)
+                    .overlay(alignment: .topLeading) {
+                        Text("Date")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                            .offset(y: -2)
+                    }
+                    
+                    HAlignment(alignment: .center) {
+                        Text("Total \(targetManager.target.daysFromStartToDueDate)days")
+                        Text(targetManager.target.dateTerms)
+                            .background(.thinMaterial, in: Rectangle())
+                    }
+                    .padding()
+                    .background(themeManager.getComponentColor(), in: RoundedRectangle(cornerRadius: 10))
+                    
+                    Spacer()
                 }
-                
-                TextField(text: $targetManager.target.subtitle) {
-                    Text("targetSubTitle")
+                .font(.headline)
+                .padding()
+                .toolbar {
+                    ToolbarItem {
+                        Button {
+                            targetManager.handleDoneTapped()
+                        } label: {
+                            Text("Add")
+                                
+                        }
+                    }
                 }
-                
-                DatePicker(
-                        "Start Date",
-                         selection: $startDate,
-                         in: dateRange,
-                         displayedComponents: [.date]
-                    )
             
-                
-                DatePicker(
-                        "End Date",
-                         selection: $endDate,
-                         in: dateRange,
-                         displayedComponents: [.date]
-                    )
-                
-                
-             
-            }
-            .textFieldStyle(.roundedBorder)
-            .autocorrectionDisabled(true)
-            .textInputAutocapitalization(.never)
-            .padding()
         }
-        
     }
 }
 
 struct SetTargetForm_Previews: PreviewProvider {
     static var previews: some View {
         SetTargetForm(targetManager: TargetManager())
+            .environmentObject(ThemeManager())
     }
 }

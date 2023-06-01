@@ -9,12 +9,13 @@ import Foundation
 import Combine
 
 import FirebaseFirestore
+import FirebaseFirestoreSwift
 import FirebaseAuth
 
 final class TargetManager: ObservableObject {
     @Published var target: Target
     @Published var modified: Bool = false
-    
+
     private let database = Firestore.firestore()
     private var cancellables = Set<AnyCancellable>()
     
