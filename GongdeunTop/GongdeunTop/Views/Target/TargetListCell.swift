@@ -62,45 +62,75 @@ extension TargetListCell {
 
 // MARK: - Badges
 extension TargetListCell {
+    var isDateYetToCome: Bool {
+        Date.now < target.startDate
+    }
+    
+    var todoCountString: AttributedString {
+        let todoCount = target.todos.count
+        let todoString = todoCount > 1 ? "Todos" : "Todo"
+        var attributedString = AttributedString("\(target.todos.count) \(todoString)")
+        
+        if let todoStringRange = attributedString.range(of: "\(todoString)"),
+           let todoCountRange = attributedString.range(of: "\(target.todos.count)")
+        {
+            attributedString[todoCountRange].font = .title.weight(.semibold)
+            attributedString[todoCountRange].foregroundColor = .secondary
+            attributedString[todoStringRange].font = .caption
+            attributedString[todoStringRange].foregroundColor = .secondary
+        }
+        return attributedString
+    }
+    
     @ViewBuilder
     var targetInfoBadges: some View {
         Divider()
         HStack(spacing: 16) {
-            VStack {
-                Text("성취도")
-                    .font(.caption)
-                    .foregroundColor(.secondary)
-                    .fixedSize()
-                RoundedHexagon(radius: 16, cornerAngle: 5)
-                    .frame(width: 35)
-            }
-            .padding()
-            
-            VStack {
-                Text("해낸 일들")
-                    .font(.caption)
-                    .foregroundColor(.secondary)
-                    .fixedSize()
-                Text("0")
-                    .font(.title)
-                    .fontWeight(.semibold)
-                    .foregroundColor(.gray.opacity(0.5))
-            }
-            .padding()
-            
-            VStack {
-                Text("남은 일수")
-                    .font(.caption)
-                    .foregroundColor(.secondary)
-                    .fixedSize()
-                Text("D-3")
-                    .font(.title)
-                    .fontWeight(.semibold)
-                    .foregroundColor(.gray.opacity(0.5))
-                    .fixedSize()
-            }
-            .padding()
+            achievementBadges
+            completionBadges
+            dayLeftBadges
         }
+    }
+    
+    var achievementBadges: some View {
+        VStack {
+            Text("Achievement")
+                .font(.caption)
+                .foregroundColor(.secondary)
+                .fixedSize()
+            Spacer()
+            RoundedHexagon(radius: 16, cornerAngle: 5)
+                .frame(width: 35)
+        }
+        .padding()
+    }
+    
+    var completionBadges: some View {
+        VStack {
+            Text("Completed")
+                .font(.caption)
+                .fixedSize()
+            Spacer()
+            Text(todoCountString)
+        }
+        .foregroundColor(.secondary)
+        .padding()
+    }
+    
+    var dayLeftBadges: some View {
+        VStack {
+            Text(isDateYetToCome ? "Target Begins" : "Due date")
+                .font(.caption)
+                .foregroundColor(.secondary)
+                .fixedSize()
+            Spacer()
+            Text("D-\(target.dayDifferenceFromToday)")
+                .font(.title)
+                .fontWeight(.semibold)
+                .foregroundColor(.secondary)
+                .fixedSize()
+        }
+        .padding()
     }
 }
 

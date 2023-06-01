@@ -44,6 +44,17 @@ struct Target: Codable, Hashable, Identifiable {
         let day = numberOfDays.day ?? 0
         return day < 0 ? 0 : (day + 1)
     }
+    
+    var dayDifferenceFromToday: Int {
+        let calendar = Calendar.current
+        let start = calendar.startOfDay(for: startDate)
+        let today = calendar.startOfDay(for: Date.now)
+        let numberOfDays = calendar.dateComponents([.day], from: start, to: today)
+        let day = numberOfDays.day ?? 0
+        return abs(day)
+    }
+    
+    
 }
 
 // MARK: - Terms
