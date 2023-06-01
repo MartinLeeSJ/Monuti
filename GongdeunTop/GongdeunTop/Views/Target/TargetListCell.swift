@@ -67,17 +67,18 @@ extension TargetListCell {
     }
     
     var todoCountString: AttributedString {
-        let todoCount = target.todos.count
-        let todoString = todoCount > 1 ? "Todos" : "Todo"
-        var attributedString = AttributedString("\(target.todos.count) \(todoString)")
-        
-        if let todoStringRange = attributedString.range(of: "\(todoString)"),
+        var attributedString = AttributedString(localized: "\(target.todos.count) target_todo_counts")
+
+        if let todoStringRange = attributedString.range(of: "target_todo_counts"),
            let todoCountRange = attributedString.range(of: "\(target.todos.count)")
         {
             attributedString[todoCountRange].font = .title.weight(.semibold)
             attributedString[todoCountRange].foregroundColor = .secondary
             attributedString[todoStringRange].font = .caption
             attributedString[todoStringRange].foregroundColor = .secondary
+            for run in attributedString.runs {
+                print(run)
+            }
         }
         return attributedString
     }
