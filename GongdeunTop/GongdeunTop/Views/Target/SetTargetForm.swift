@@ -105,8 +105,8 @@ struct SetTargetForm: View {
                             targetManager.handleDoneTapped()
                         } label: {
                             Text("Add")
-                                
                         }
+                        .disabled(!targetManager.modified)
                     }
                 }
             
