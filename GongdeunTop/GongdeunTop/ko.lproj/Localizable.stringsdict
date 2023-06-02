@@ -2,22 +2,32 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>%lld target_todo_counts </key>
+	<key>%lld target_dayLeft_count</key>
 	<dict>
 		<key>NSStringLocalizedFormatKey</key>
-		<string>%#@todos@</string>
-		<key>todos</key>
+		<string>%#@days@</string>
+		<key>days</key>
 		<dict>
 			<key>NSStringFormatSpecTypeKey</key>
 			<string>NSStringPluralRuleType</string>
 			<key>NSStringFormatValueTypeKey</key>
 			<string>lld</string>
 			<key>other</key>
-			<string>%d개 Todos</string>
-			<key>zero</key>
-			<string>%d개 Todo</string>
-			<key>one</key>
-			<string>%d개 Todo</string>
+			<string>%d일 후</string>
+		</dict>
+	</dict>
+	<key>%lld todo_in_target</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@todoInTarget@</string>
+		<key>todoInTarget</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>other</key>
+			<string>%d개 완료</string>
 		</dict>
 	</dict>
 	<key>%lld second</key>

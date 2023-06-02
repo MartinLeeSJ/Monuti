@@ -11,7 +11,7 @@ struct TargetListCell: View {
     @EnvironmentObject var themeManager: ThemeManager
     let target: Target
     var body: some View {
-        VStack(spacing: 10) {
+        VStack(spacing: 8) {
             targetDatesHeader
             targetTitles
             targetInfoBadges
@@ -27,21 +27,25 @@ extension TargetListCell {
         HStack(spacing: 5) {
             Text(target.dateTerms)
                 .font(.caption)
+                .fontWeight(.bold)
                 .padding(3)
                 .background(themeManager.getColorInPriority(of: target.termColorPriority))
             Spacer()
             Text(target.startDateString)
                 .font(.caption)
+                .fontWeight(.semibold)
                 .fixedSize()
                 .padding(4)
                 .background(.thickMaterial, in: RoundedRectangle(cornerRadius: 8))
             
             Text(target.dueDateString)
                 .font(.caption)
+                .fontWeight(.semibold)
                 .fixedSize()
                 .padding(4)
                 .background(.thickMaterial, in: RoundedRectangle(cornerRadius: 8))
         }
+        
     }
 }
 
@@ -62,42 +66,69 @@ extension TargetListCell {
 
 // MARK: - Badges
 extension TargetListCell {
+    @ViewBuilder
+    var targetInfoBadges: some View {
+        Divider()
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 16) {
+                daysBadges
+                badgeDivider
+                achievementBadges
+                badgeDivider
+                completionBadges
+                badgeDivider
+                dayLeftBadges
+            }
+        }
+    }
+    
     var isDateYetToCome: Bool {
         Date.now < target.startDate
     }
     
     var todoCountString: AttributedString {
-        var attributedString = AttributedString(localized: "\(target.todos.count) target_todo_counts")
-
-        if let todoStringRange = attributedString.range(of: "target_todo_counts"),
-           let todoCountRange = attributedString.range(of: "\(target.todos.count)")
-        {
-            attributedString[todoCountRange].font = .title.weight(.semibold)
-            attributedString[todoCountRange].foregroundColor = .secondary
-            attributedString[todoStringRange].font = .caption
-            attributedString[todoStringRange].foregroundColor = .secondary
-            for run in attributedString.runs {
-                print(run)
-            }
+        getTargetBadgeString(localized: "\(target.todos.count) todo_in_target", number: target.todos.count)
+    }
+    
+    
+    var targetDayLeftCountString: AttributedString {
+        getTargetBadgeString(localized: "\(target.dayDifferenceFromToday) target_dayLeft_count", number: target.dayDifferenceFromToday)
+    }
+    
+    private func getTargetBadgeString(localized string: LocalizedStringResource, number: Int) -> AttributedString {
+        var attributedString = AttributedString(localized: string)
+        attributedString.font = .systemFont(ofSize: 10)
+        attributedString.foregroundColor = .secondary
+        
+        if let numberRange = attributedString.range(of: String(number)) {
+            attributedString[numberRange].font = .title.weight(.semibold)
         }
+        
         return attributedString
     }
     
-    @ViewBuilder
-    var targetInfoBadges: some View {
-        Divider()
-        HStack(spacing: 16) {
-            achievementBadges
-            completionBadges
-            dayLeftBadges
+    // MARK: - Badge SubViews
+    var daysBadges: some View {
+        VStack {
+            Text("target_days")
+                .font(.caption)
+                .fixedSize()
+            Spacer()
+            Text("\(target.daysFromStartToDueDate)")
+                .font(.title)
+                .fixedSize()
         }
+        .fontWeight(.semibold)
+        .foregroundColor(.secondary)
+        .padding()
     }
     
     var achievementBadges: some View {
         VStack {
-            Text("Achievement")
+            Text("target_achievement")
                 .font(.caption)
                 .foregroundColor(.secondary)
+                .fontWeight(.semibold)
                 .fixedSize()
             Spacer()
             RoundedHexagon(radius: 16, cornerAngle: 5)
@@ -108,30 +139,38 @@ extension TargetListCell {
     
     var completionBadges: some View {
         VStack {
-            Text("Completed")
+            Text("target_completed")
                 .font(.caption)
+                .foregroundColor(.secondary)
+                .fontWeight(.semibold)
                 .fixedSize()
             Spacer()
             Text(todoCountString)
+                .fixedSize()
         }
-        .foregroundColor(.secondary)
         .padding()
     }
     
     var dayLeftBadges: some View {
         VStack {
-            Text(isDateYetToCome ? "Target Begins" : "Due date")
+            Text(isDateYetToCome ?
+                 String(localized: "target_begins") :
+                 String(localized: "target_due_date")
+            )
                 .font(.caption)
                 .foregroundColor(.secondary)
+                .fontWeight(.semibold)
                 .fixedSize()
             Spacer()
-            Text("D-\(target.dayDifferenceFromToday)")
-                .font(.title)
-                .fontWeight(.semibold)
-                .foregroundColor(.secondary)
+            Text(targetDayLeftCountString)
                 .fixedSize()
         }
         .padding()
+    }
+    
+    var badgeDivider: some View {
+        Divider()
+            .frame(height: 30)
     }
 }
 

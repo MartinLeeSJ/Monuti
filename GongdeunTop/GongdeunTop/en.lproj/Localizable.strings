@@ -78,6 +78,18 @@
 "concentration_textEditor_title" = "Memoir";
 "concentration_textEditor_subtitle" = "Write a memoir about this cycle";
 
+// MARK: - Target List Cell
+"target_days" = "DAYS";
+"target_achievement" = "ACHIEVEMENT";
+"target_completed" = "COMPLETED";
+"target_begins" = "TARGET BEGINS";
+"target_due_date" = "DUE DATE";
+
+"ShortTerm" = "Short";
+"MidTerm" = "Mideum";
+"LongTerm" = "Long";
+"VeryLongTerm" = "VeryLong";
+
 
 //Weekday
 "Sun" = "Sun";
