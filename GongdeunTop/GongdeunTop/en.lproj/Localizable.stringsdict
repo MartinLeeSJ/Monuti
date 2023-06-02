@@ -2,6 +2,42 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>%lld target_dayLeft_count</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@days@</string>
+		<key>days</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>other</key>
+			<string>in %d days</string>
+			<key>zero</key>
+			<string>today</string>
+			<key>one</key>
+			<string>tomorrow</string>
+		</dict>
+	</dict>
+	<key>%lld todo_in_target</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@todoInTarget@</string>
+		<key>todoInTarget</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>many</key>
+			<string>%d Todos</string>
+			<key>other</key>
+			<string>%d Todo</string>
+			<key>zero</key>
+			<string>%d Todo</string>
+		</dict>
+	</dict>
 	<key>%lld minute</key>
 	<dict>
 		<key>NSStringLocalizedFormatKey</key>
@@ -10,7 +46,7 @@
 		<dict>
 			<key>NSStringFormatSpecTypeKey</key>
 			<string>NSStringPluralRuleType</string>
-			<key>New NSStringFormatValueTypeKey</key>
+			<key>NSStringFormatValueTypeKey</key>
 			<string>lld</string>
 			<key>other</key>
 			<string>%d minutes</string>

@@ -76,6 +76,18 @@
 "concentration_textEditor_title" = "돌아보기";
 "concentration_textEditor_subtitle" = "이번 집중시간은 어땠는지 적어보세요";
 
+// MARK: - Target List Cell
+"target_days" = "목표 기간";
+"target_achievement" = "성취도";
+"target_completed" = "관련된 할 일";
+"target_begins" = "타겟 시작";
+"target_due_date" = "타겟 종료";
+
+"ShortTerm" = "단기";
+"MidTerm" = "중기";
+"LongTerm" = "중장기";
+"VeryLongTerm" = "장기";
+
 //Weekday
 "Sun" = "일";
 "Mon" = "월";
