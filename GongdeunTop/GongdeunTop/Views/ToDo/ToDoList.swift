@@ -83,33 +83,51 @@ extension ToDoList {
             
             HStack {
                 Button {
+                    
+                } label: {
+                    Image(systemName: "clock.arrow.circlepath")
+                        .font(.title2)
+                        .padding()
+                }
+                
+                Spacer()
+                
+                Button {
                     isSetTimeViewOn.toggle()
                 } label: {
-                    Text("Set Time")
-                        .frame(width: geo.size.width / 2 - 33, height: 36)
+                    HStack(spacing: 4) {
+                        Text("Set Time")
+                        Image(systemName: "clock")
+                    }
+                    .font(.headline)
+                    .shadow(color: .black.opacity(0.2), radius: 10)
+                    .frame(width: .getScreenWidthDivided(with: 4), height: 36)
                 }
                 .sheet(isPresented: $isSetTimeViewOn) {
                     SetTimeForm(manager: timerManager)
                         .presentationDetents([.medium])
                 }
-                .buttonStyle(.borderedProminent)
-                .tint(themeManager.getColorInPriority(of: .medium))
-
-                
-                Spacer()
+                .buttonStyle(.bordered)
+                .tint(themeManager.getColorInPriority(of: .accent))
                 
                 NavigationLink {
                     SessionsTimer(timerManager: timerManager,
                                   todos: todoStore.todos,
                                   currentTodo: todoStore.todos.first)
                 } label: {
-                    Text("Start")
-                        .frame(width: geo.size.width / 2 - 33, height: 36)
+                    HStack(spacing: 4) {
+                        Text("Start")
+                        Image(systemName: "play.fill")
+                    }
+                    .font(.headline)
+                    .shadow(color: .black.opacity(0.2), radius: 10)
+                    .frame(width: .getScreenWidthDivided(with: 3), height: 36)
                 }
                 .buttonStyle(.borderedProminent)
-                .tint(themeManager.getColorInPriority(of: .medium))
+                .tint(themeManager.getColorInPriority(of: .accent))
             }
-            .padding(6)
+            .padding(.vertical, 6)
+            .padding(.horizontal)
         }
         .animation(.easeIn, value: todoStore.isEditing)
     }

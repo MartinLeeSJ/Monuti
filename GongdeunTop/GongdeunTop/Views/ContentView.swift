@@ -19,27 +19,47 @@ struct ContentView: View {
             case .authenticating: ProgressView()
             case .authenticated where authManager.nickNameRegisterState != .existingUser: SetNickNameView(manager: authManager)
             case .authenticated:
-                TabView {
-                    ToDoList()
-                        .tabItem {
+                NavigationView {
+                    LazyVGrid(columns: .init(repeating: .init(.flexible(), spacing: 10), count: 2)) {
+                        NavigationLink {
+                            ToDoList()
+                        } label: {
                             Label("하루", systemImage: "deskclock")
                         }
-                        .tag(1)
-                    
-                    TargetList()
-                        .tabItem {
+                        NavigationLink {
+                            TargetList()
+                        } label: {
                             Label("단기목표", systemImage: "target")
                         }
-                        .tag(2)
-                    
-                    RecordView()
-                        .tabItem {
+                        NavigationLink {
+                            RecordView()
+                                .environmentObject(authManager)
+                        } label: {
                             Label("기록", systemImage: "text.redaction")
                         }
-                        .environmentObject(authManager)
-                        .tag(3)
+                    }
                 }
-                .tint(scheme == .dark ? Color.white : Color.black)
+//                TabView {
+//                    ToDoList()
+//                        .tabItem {
+//                            Label("하루", systemImage: "deskclock")
+//                        }
+//                        .tag(1)
+//
+//                    TargetList()
+//                        .tabItem {
+//                            Label("단기목표", systemImage: "target")
+//                        }
+//                        .tag(2)
+//
+//                    RecordView()
+//                        .tabItem {
+//                            Label("기록", systemImage: "text.redaction")
+//                        }
+//                        .environmentObject(authManager)
+//                        .tag(3)
+//                }
+//                .tint(scheme == .dark ? Color.white : Color.black)
                 
                 
             }
