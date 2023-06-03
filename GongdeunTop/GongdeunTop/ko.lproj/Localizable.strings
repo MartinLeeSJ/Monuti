@@ -21,7 +21,7 @@
 "sessions%lld" = " %lld개 세션,";
 "totalTime%lld" = " 총 %lld분";
 "Set Time" = "시간 설정";
-"Start" = "시작";
+"Start" = "집중 시작";
 
 
 "title" = "제목";

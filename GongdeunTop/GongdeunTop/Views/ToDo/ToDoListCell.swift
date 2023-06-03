@@ -19,10 +19,10 @@ struct ToDoListCell: View {
         HStack {
             VStack(alignment: .leading, spacing: 5) {
                 Text(todo.title)
-                    .font(.title3.bold())
+                    .font(.headline)
                 
                 Text(todo.content)
-                    .font(.caption)
+                    .font(.footnote)
                 
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack {

@@ -20,7 +20,7 @@
 "sessions%lld" = " %lld Sessions,";
 "totalTime%lld" = " %lld minutes";
 "Set Time" = "Set Time";
-"Start" = "Start";
+"Start" = "Timer Start";
 
 
 "title" = "Title";
