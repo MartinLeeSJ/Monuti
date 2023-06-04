@@ -11,6 +11,7 @@ struct ContentView: View {
     @Environment(\.colorScheme) var scheme: ColorScheme
     @StateObject var authManager = AuthManager()
     @EnvironmentObject var launchScreenManager: LaunchScreenManager
+    @EnvironmentObject var themeManager: ThemeManager
     
     var body: some View {
         VStack {
@@ -20,48 +21,72 @@ struct ContentView: View {
             case .authenticated where authManager.nickNameRegisterState != .existingUser: SetNickNameView(manager: authManager)
             case .authenticated:
                 NavigationView {
-                    LazyVGrid(columns: .init(repeating: .init(.flexible(), spacing: 10), count: 2)) {
-                        NavigationLink {
-                            ToDoList()
-                        } label: {
-                            Label("하루", systemImage: "deskclock")
+                    ZStack {
+                        themeManager.getColorInPriority(of: .background)
+                            .ignoresSafeArea()
+                        ScrollView {
+                            LazyVGrid(columns: .init(repeating: .init(.flexible(), spacing: 10), count: 2), spacing: 10) {
+                                NavigationLink {
+                                    ToDoList()
+                                } label: {
+                                    VStack(alignment: .trailing) {
+                                        HAlignment(alignment: .leading) {
+                                            Text("오늘 할 일")
+                                            Image(systemName: "checklist")
+                                                .foregroundStyle(themeManager.getColorInPriority(of: .accent), .gray)
+                                        }
+                                        Spacer()
+                                        Text("0")
+                                            .font(.title)
+                                            .fontWeight(.bold)
+                                    }
+                                    .padding()
+                                    .background(themeManager.getComponentColor(), in: RoundedRectangle(cornerRadius: 8))
+                                }
+                                
+                                NavigationLink {
+                                    TargetList()
+                                } label: {
+                                    VStack(alignment: .trailing) {
+                                        HAlignment(alignment: .leading) {
+                                            Text("목표")
+                                            Image(systemName: "target")
+                                                .foregroundStyle(themeManager.getColorInPriority(of: .accent), .gray)
+                                        }
+                                        Spacer()
+                                        Text("0")
+                                            .font(.title)
+                                            .fontWeight(.bold)
+                                    }
+                                }
+                                .padding()
+                                .background(themeManager.getComponentColor(), in: RoundedRectangle(cornerRadius: 8))
+                                
+                                NavigationLink {
+                                    RecordView()
+                                        .environmentObject(authManager)
+                                } label: {
+                                    VStack(alignment: .trailing) {
+                                        HAlignment(alignment: .leading) {
+                                            Text("달력")
+                                            Image(systemName: "calendar")
+                                                .foregroundStyle(themeManager.getColorInPriority(of: .accent))
+                                        }
+                                        Spacer()
+                                        Text("0")
+                                            .font(.title)
+                                            .fontWeight(.bold)
+                                    }
+                                }
+                                .padding()
+                                .background(themeManager.getComponentColor(), in: RoundedRectangle(cornerRadius: 8))
+                            }
+                            .font(.title3.weight(.semibold))
+                            .tint(Color("basicFontColor"))
                         }
-                        NavigationLink {
-                            TargetList()
-                        } label: {
-                            Label("단기목표", systemImage: "target")
-                        }
-                        NavigationLink {
-                            RecordView()
-                                .environmentObject(authManager)
-                        } label: {
-                            Label("기록", systemImage: "text.redaction")
-                        }
+                        .padding()
                     }
                 }
-//                TabView {
-//                    ToDoList()
-//                        .tabItem {
-//                            Label("하루", systemImage: "deskclock")
-//                        }
-//                        .tag(1)
-//
-//                    TargetList()
-//                        .tabItem {
-//                            Label("단기목표", systemImage: "target")
-//                        }
-//                        .tag(2)
-//
-//                    RecordView()
-//                        .tabItem {
-//                            Label("기록", systemImage: "text.redaction")
-//                        }
-//                        .environmentObject(authManager)
-//                        .tag(3)
-//                }
-//                .tint(scheme == .dark ? Color.white : Color.black)
-                
-                
             }
         }
         .task {

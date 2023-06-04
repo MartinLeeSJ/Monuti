@@ -14,7 +14,6 @@ struct TargetList: View {
     @State private var isAddTargetSheetOn: Bool = false
     
     var body: some View {
-        NavigationView {
             ZStack {
                 themeManager.getColorInPriority(of: .background)
                     .ignoresSafeArea(.all)
@@ -40,7 +39,7 @@ struct TargetList: View {
                     }
                 }
             }
-        }
+        
         .onAppear {
             targetStore.subscribeTargets()
         }
