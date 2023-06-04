@@ -19,7 +19,6 @@ struct ToDoList: View {
     @State private var isSetTimeViewOn: Bool = false
     
     var body: some View {
-        NavigationView{
             ZStack {
                 themeManager.getColorInPriority(of: .background)
                     .ignoresSafeArea(.all)
@@ -55,7 +54,7 @@ struct ToDoList: View {
                     todoStore.unsubscribeTodos()
                 }
             }
-        }
+        
         
         
     }

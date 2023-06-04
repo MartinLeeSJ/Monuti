@@ -31,7 +31,7 @@ struct RecordView: View {
     @State private var showSetMonth: Bool = false
     
     @State private var offsetX: CGFloat = 0.0
-
+    
     var firstWeekdayDigit: Int {
         if let startDate = calendarManager.currentMonthData.first {
             
@@ -67,30 +67,26 @@ struct RecordView: View {
     
     
     var body: some View {
-        NavigationView {
-            ZStack {
-                themeManager.getColorInPriority(of: .background)
-                    .ignoresSafeArea(.all)
+        ZStack {
+            themeManager.getColorInPriority(of: .background)
+                .ignoresSafeArea(.all)
+            
+            VStack(spacing: 0) {
+                getCalendar()
                 
-                VStack(spacing: 0) {
-                    getCalendar()
-                    
-                    Divider()
-                    
-                    getCycleList()
-                }
-                .padding(.horizontal)
-                .toolbar {
-                    setMonthToolbar()
-                    
-                    if !isCalendarInCurrentMonth {
-                        backToToday()
-                    }
-                    
-                    goToMypage()
-                }
-                .blur(radius: showSetMonth ? 10 : 0)
+                Divider()
+                
+                getCycleList()
             }
+            .padding(.horizontal)
+            .toolbar {
+                setMonthToolbar()
+                if !isCalendarInCurrentMonth {
+                    backToToday()
+                }
+                goToMypage()
+            }
+            .blur(radius: showSetMonth ? 10 : 0)
         }
         .overlay {
             if showSetMonth {
@@ -118,10 +114,10 @@ extension RecordView {
             
             dates
         }
-//        .offset(x: offsetX)
+        //        .offset(x: offsetX)
         .gesture(DragGesture(minimumDistance: 2.0, coordinateSpace: .local)
             .onChanged { value in
-//                offsetX = value.translation.width
+                //                offsetX = value.translation.width
             }
             .onEnded { value in
                 switch(value.translation.width, value.translation.height) {
@@ -132,7 +128,7 @@ extension RecordView {
                 default:  print("no clue")
                 }
                 
-//                offsetX = 0
+                //                offsetX = 0
             })
         .padding(.bottom, 3)
     }
@@ -179,7 +175,7 @@ extension RecordView {
                     Text(currentYear)
                         .font(.callout)
                         .foregroundColor(.secondary)
-                        
+                    
                     Image(systemName: "chevron.down.circle")
                         .font(.caption)
                         .foregroundColor(.secondary)
