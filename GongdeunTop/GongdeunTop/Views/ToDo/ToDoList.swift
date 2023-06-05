@@ -10,8 +10,8 @@ import SwiftUI
 
 struct ToDoList: View {
     @EnvironmentObject var themeManager: ThemeManager
-    @StateObject var todoStore = ToDoStore()
-    @StateObject var timerManager = TimerManager()
+    @EnvironmentObject var todoStore: ToDoStore
+    @EnvironmentObject var timerManager: TimerManager
     
     @State private var isDeleteAlertOn: Bool = false
     
@@ -38,7 +38,7 @@ struct ToDoList: View {
                         Divider()
                         
                         if todoStore.isEditing == false {
-                            toDoListDashboard(geo: geo)
+                            toDoListDashboard()
                         }
                         else {
                             editToDosButtons()
@@ -76,7 +76,7 @@ extension ToDoList {
     }
     
     @ViewBuilder
-    func toDoListDashboard(geo: GeometryProxy) -> some View {
+    func toDoListDashboard() -> some View {
         VStack {
             dashboardBanner
             
@@ -216,9 +216,4 @@ extension ToDoList {
 }
 
 
-struct ToDoView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-            .environment(\.locale, .init(identifier: "en"))
-    }
-}
+

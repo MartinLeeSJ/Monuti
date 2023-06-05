@@ -84,7 +84,6 @@ struct RecordView: View {
                 if !isCalendarInCurrentMonth {
                     backToToday()
                 }
-                goToMypage()
             }
             .blur(radius: showSetMonth ? 10 : 0)
         }
@@ -197,24 +196,24 @@ extension RecordView {
         }
     }
     
-    @ToolbarContentBuilder
-    func goToMypage() -> some ToolbarContent {
-        ToolbarItem(placement: .navigationBarTrailing) {
-            Button {
-                sheetType = .setting
-            } label: {
-                Circle()
-                    .fill(Color.GTPastelBlue)
-                    .frame(width: 30)
-            }
-            .fullScreenCover(item: $sheetType) { type in
-                if type == .setting {
-                    SettingView()
-                }
-            }
-            
-        }
-    }
+//    @ToolbarContentBuilder
+//    func goToMypage() -> some ToolbarContent {
+//        ToolbarItem(placement: .navigationBarTrailing) {
+//            Button {
+//                sheetType = .setting
+//            } label: {
+//                Circle()
+//                    .fill(Color.GTPastelBlue)
+//                    .frame(width: 30)
+//            }
+//            .fullScreenCover(item: $sheetType) { type in
+//                if type == .setting {
+//                    SettingView()
+//                }
+//            }
+//
+//        }
+//    }
 }
 
 // MARK: - Cycle List
