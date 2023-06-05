@@ -19,7 +19,7 @@ struct ContentView: View {
             case .unAuthenticated: SignUpView(manager: authManager)
             case .authenticating: ProgressView()
             case .authenticated where authManager.nickNameRegisterState != .existingUser: SetNickNameView(manager: authManager)
-            case .authenticated: MainSummaryView()
+            case .authenticated: MainSummaryView().environmentObject(authManager)
             }
         }
         .task {
