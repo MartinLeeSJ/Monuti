@@ -12,9 +12,10 @@ struct SessionsTimer: View {
     @Environment(\.scenePhase) var scenePhase
     
     @EnvironmentObject var themeManager: ThemeManager
+    @EnvironmentObject var timerManager: TimerManager
+    
     @AppStorage("lastTime") private var lastTimeObserved: String = ""
     
-    @ObservedObject var timerManager: TimerManager
  
     
     @State var todos: [ToDo] = []
@@ -338,15 +339,3 @@ extension SessionsTimer {
     }
 }
 
-struct TimerView_Previews: PreviewProvider {
-    static var previews: some View {
-        Group {
-            SessionsTimer(timerManager: TimerManager(), todos: [])
-                .environment(\.locale, .init(identifier: "en"))
-            
-            SessionsTimer(timerManager: TimerManager(), todos: [])
-                .environment(\.locale, .init(identifier: "ko"))
-        }
-        
-    }
-}

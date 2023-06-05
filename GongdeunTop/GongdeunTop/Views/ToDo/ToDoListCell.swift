@@ -10,12 +10,11 @@ import SwiftUI
 struct ToDoListCell: View {
     @EnvironmentObject var themeManager: ThemeManager
     @Environment(\.dismiss) var dismiss
-    
     @State private var isEditingSheetOn: Bool = false
+    
     let todo: ToDo
     
     var body: some View {
-        
         HStack {
             VStack(alignment: .leading, spacing: 5) {
                 Text(todo.title)
@@ -36,26 +35,23 @@ struct ToDoListCell: View {
                         }
                     }
                 }
-                
-                
             }
-            if todo != .placeholder {
-                Button {
-                    isEditingSheetOn = true
-                } label: {
-                    Image(systemName: "chevron.right")
-                }
-                .sheet(isPresented: $isEditingSheetOn) {
-                    SetToDoForm(manager: ToDoManager(todo: todo), mode: .edit) { result in
-                        if case .success(let action) = result, action == .delete {
-                            self.dismiss()
-                        }
+            
+            Button {
+                isEditingSheetOn = true
+            } label: {
+                Image(systemName: "chevron.right")
+            }
+            .sheet(isPresented: $isEditingSheetOn) {
+                SetToDoForm(manager: ToDoManager(todo: todo), mode: .edit) { result in
+                    if case .success(let action) = result, action == .delete {
+                        self.dismiss()
                     }
                 }
             }
         }
-        
-        
-        
+        .padding(.horizontal)
+        .padding(.vertical, 8)
+        .background(themeManager.getComponentColor(), in: RoundedRectangle(cornerRadius: 8))
     }
 }
