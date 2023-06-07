@@ -87,6 +87,15 @@
 "MidTerm" = "중기";
 "LongTerm" = "중장기";
 "VeryLongTerm" = "장기";
+// MARK: - Set Target Form
+"target_titleAndSubtitle" = "제목, 내용";
+"targetTitle" = "제목";
+"targetTitle_placeholder" = "목표를 입력하세요.";
+"targetSubTitle" = "내용";
+"targetSubTitle_placeHolder" = "목표의 내용을 입력하세요.";
+"target_start_and_due_date" = "시작일, 종료일";
+"target_start_date" = "시작";
+"target_due_date" = "종료";
 
 //Weekday
 "Sun" = "일";

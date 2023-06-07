@@ -64,6 +64,10 @@ class ThemeManager: ObservableObject {
         Color("\(theme.rawValue)Components")
     }
     
+    func getSheetBackgroundColor() -> Color {
+        Color("\(theme.rawValue)SheetBackground")
+    }
+    
     func getAppLogoImage() -> Image {
         theme.logoImage
     }

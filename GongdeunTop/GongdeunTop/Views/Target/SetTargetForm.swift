@@ -28,77 +28,18 @@ struct SetTargetForm: View {
     }
     
     var body: some View {
-        NavigationView {
-            VStack(spacing: 16) {
-                    VStack {
-                        HStack {
-                            Text("targetTitle")
-                            TextField(text: $targetManager.target.title) {
-                                Text("targetTitle_placeholder")
-                            }
-                            .font(.body)
-                        }
-                        
-                        Divider()
-                        
-                        HStack {
-                            Text("targetSubTitle")
-                            TextField(text: $targetManager.target.subtitle) {
-                                Text("targetSubTitle_placeHolder")
-                            }
-                            .font(.body)
-                        }
-                    }
-                    .padding([.vertical, .leading])
-                    .background(themeManager.getComponentColor(), in: RoundedRectangle(cornerRadius: 10))
-                    .textFieldStyle(.plain)
-                    .autocorrectionDisabled(true)
-                    .textInputAutocapitalization(.never)
-                    .padding(.top, 16)
-                    .overlay(alignment: .topLeading) {
-                        Text("Target")
-                            .font(.caption)
-                            .foregroundColor(.secondary)
-                            .offset(y: -2)
-                    }
+        NavigationStack {
+            ZStack {
+                themeManager.getSheetBackgroundColor()
+                    .ignoresSafeArea(.all)
+                VStack(spacing: 16) {
+                    titleAndSubtitleTextField
+                    startAndDuteDatePicker
+                    termsInfos
                     
-                    VStack {
-                        DatePicker(
-                            String(localized: "Start Date"),
-                            selection: $targetManager.target.startDate,
-                            in: startDateRange,
-                            displayedComponents: [.date]
-                        )
-                        
-                        DatePicker(
-                            String(localized: "End Date"),
-                            selection: $targetManager.target.dueDate,
-                            in: endDateRange,
-                            displayedComponents: [.date]
-                        )
-                    }
-                    .padding()
-                    .background(themeManager.getComponentColor(), in: RoundedRectangle(cornerRadius: 10))
-                    .padding(.top, 16)
-                    .overlay(alignment: .topLeading) {
-                        Text("Date")
-                            .font(.caption)
-                            .foregroundColor(.secondary)
-                            .offset(y: -2)
-                    }
-                    
-                    HAlignment(alignment: .center) {
-                        Text("Total \(targetManager.target.daysFromStartToDueDate)days")
-                        Text(targetManager.target.dateTerms)
-                            .background(.thinMaterial, in: Rectangle())
-                    }
-                    .padding()
-                    .background(themeManager.getComponentColor(), in: RoundedRectangle(cornerRadius: 10))
                     
                     Spacer()
                 }
-                .font(.headline)
-                .padding()
                 .toolbar {
                     ToolbarItem {
                         Button {
@@ -109,8 +50,88 @@ struct SetTargetForm: View {
                         .disabled(!targetManager.modified)
                     }
                 }
-            
+                .navigationBarTitleDisplayMode(.inline)
+                .navigationTitle(Text("새 목표"))
+                .font(.headline)
+                .padding()
+            }
         }
+    }
+    
+    @ViewBuilder
+    var titleAndSubtitleTextField: some View {
+        VStack {
+            HStack {
+                Text("targetTitle")
+                TextField(text: $targetManager.target.title) {
+                    Text("targetTitle_placeholder")
+                }
+                .font(.body)
+            }
+            
+            Divider()
+            
+            HStack {
+                Text("targetSubTitle")
+                TextField(text: $targetManager.target.subtitle) {
+                    Text("targetSubTitle_placeHolder")
+                }
+                .font(.body)
+            }
+        }
+        .padding([.vertical, .leading])
+        .background(themeManager.getComponentColor(), in: RoundedRectangle(cornerRadius: 10))
+        .textFieldStyle(.plain)
+        .autocorrectionDisabled(true)
+        .textInputAutocapitalization(.never)
+        .padding(.top, 16)
+        .overlay(alignment: .topLeading) {
+            Text("target_titleAndSubtitle")
+                .font(.caption)
+                .foregroundColor(.secondary)
+                .offset(y: -2)
+        }
+    }
+    
+    @ViewBuilder
+    var startAndDuteDatePicker: some View {
+        VStack {
+            DatePicker(
+                String(localized: "target_start_date"),
+                selection: $targetManager.target.startDate,
+                in: startDateRange,
+                displayedComponents: [.date]
+            )
+            
+            DatePicker(
+                String(localized: "target_due_date"),
+                selection: $targetManager.target.dueDate,
+                in: endDateRange,
+                displayedComponents: [.date]
+            )
+        }
+        .padding()
+        .background(themeManager.getComponentColor(), in: RoundedRectangle(cornerRadius: 10))
+        .padding(.top, 16)
+        .overlay(alignment: .topLeading) {
+            Text("target_start_and_due_date")
+                .font(.caption)
+                .foregroundColor(.secondary)
+                .offset(y: -2)
+        }
+    }
+    
+    @ViewBuilder
+    var termsInfos: some View {
+        HStack {
+            Text("\(targetManager.target.daysFromStartToDueDate) target_total_days")
+            Spacer()
+            TargetTermGauge(termIndex: targetManager.target.termIndex)
+            Text(targetManager.target.dateTerms)
+        }
+        .padding()
+        .background(themeManager.getComponentColor(), in: RoundedRectangle(cornerRadius: 10))
+
     }
 }
 

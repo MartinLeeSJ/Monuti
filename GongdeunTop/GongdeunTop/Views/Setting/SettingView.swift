@@ -26,7 +26,7 @@ struct SettingView: View {
     }
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             List {
                 Button {
                     sheetType = .color

@@ -80,7 +80,7 @@ struct SessionsTimer: View {
             timerManager.resetToOrigin()
             dismiss()
         } content: {
-            NavigationView {
+            NavigationStack {
                 CycleMemoir(manager: CycleManager(todos: todos), timerManager: timerManager)
             }
         }

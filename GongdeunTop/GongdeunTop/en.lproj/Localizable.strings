@@ -90,6 +90,16 @@
 "LongTerm" = "Long";
 "VeryLongTerm" = "VeryLong";
 
+// MARK: - Set Target Form
+"target_titleAndSubtitle" = "Title and subtitle";
+"targetTitle" = "Title";
+"targetTitle_placeholder" = "Title of target";
+"targetSubTitle" = "Subtitle";
+"targetSubTitle_placeHolder" = "Subtitle of target";
+"target_start_and_due_date" = "Start and due date";
+"target_start_date" = "Start";
+"target_due_date" = "Due in";
+
 
 //Weekday
 "Sun" = "Sun";

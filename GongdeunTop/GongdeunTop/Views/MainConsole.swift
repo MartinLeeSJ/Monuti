@@ -101,7 +101,7 @@ extension MainConsole{
         }
         .sheet(isPresented: $isAddToDoSheetOn) {
             SetToDoForm()
-                .presentationDetents([.medium])
+                .presentationDetents([.medium, .large])
         }
     }
     
@@ -113,7 +113,7 @@ extension MainConsole{
         }
         .sheet(isPresented: $isAddTargetSheetOn) {
             SetTargetForm()
-                .presentationDetents([.medium])
+                .presentationDetents([.medium, .large])
         }
     }
     
