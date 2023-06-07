@@ -45,7 +45,7 @@ struct Target: Codable, Hashable, Identifiable {
         return day < 0 ? 0 : (day + 1)
     }
     
-    var dayDifferenceFromToday: Int {
+    var dayLeftUntilStartDate: Int {
         let calendar = Calendar.current
         let start = calendar.startOfDay(for: startDate)
         let today = calendar.startOfDay(for: Date.now)
@@ -54,11 +54,22 @@ struct Target: Codable, Hashable, Identifiable {
         return abs(day)
     }
     
-    
+    var dayLeftUntilDueDate: Int {
+        let calendar = Calendar.current
+        let today = calendar.startOfDay(for: Date.now)
+        let dueDate = calendar.startOfDay(for: dueDate)
+        let numberOfDays = calendar.dateComponents([.day], from: today, to: dueDate)
+        let day = numberOfDays.day ?? 0
+        return abs(day)
+    }
 }
 
 // MARK: - Terms
 extension Target {
+    var termIndex: Int {
+        Terms.getTermIndex(of: daysFromStartToDueDate)
+    }
+    
     var dateTerms: String {
         let termString = Terms.getTermsString(of: daysFromStartToDueDate)
         return String(localized: String.LocalizationValue(termString))
@@ -91,6 +102,16 @@ extension Target {
             case 16...30: return .solid
             case 31...: return .accent
             default: return .weak
+            }
+        }
+        
+        static func getTermIndex(of days: Int) -> Int {
+            switch days {
+            case 0...3: return 1
+            case 4...15: return 2
+            case 16...30: return 3
+            case 31...: return 4
+            default: return 0
             }
         }
     }

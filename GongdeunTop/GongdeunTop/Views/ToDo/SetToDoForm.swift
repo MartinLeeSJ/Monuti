@@ -39,6 +39,7 @@ enum ToDoField: Int, Hashable, CaseIterable {
 }
 
 struct SetToDoForm: View {
+    @EnvironmentObject var themeManager: ThemeManager
     @Environment(\.dismiss) var dismiss
     @ObservedObject var manager = ToDoManager()
     @FocusState private var focusedField: ToDoField?
@@ -81,37 +82,41 @@ struct SetToDoForm: View {
     }
     
     var body: some View {
-        NavigationView {
-            ScrollView {
-                VStack {
-                    ForEach(ToDoField.allCases, id: \.self) { fieldType in
-                        ToDoFormCell(viewModel: manager, focusedField: $focusedField, fieldType: fieldType)
+        NavigationStack {
+            ZStack {
+                themeManager.getSheetBackgroundColor()
+                    .ignoresSafeArea(.all)
+                ScrollView {
+                    VStack {
+                        ForEach(ToDoField.allCases, id: \.self) { fieldType in
+                            ToDoFormCell(viewModel: manager, focusedField: $focusedField, fieldType: fieldType)
+                        }
                     }
                 }
-            }
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button {
-                        handleDoneTapped()
-                    } label: {
-                        Text(mode == .new ? "Add" : "Edit")
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button {
+                            handleDoneTapped()
+                        } label: {
+                            Text(mode == .new ? "Add" : "Edit")
+                        }
+                        .disabled(manager.todo.title.isEmpty)
                     }
-                    .disabled(manager.todo.title.isEmpty)
-                }
-                
-                
-                ToolbarItem(placement: .keyboard) {
-                    Button(action: focusPreviousField) {
-                        Image(systemName: "chevron.up")
+                    
+                    
+                    ToolbarItem(placement: .keyboard) {
+                        Button(action: focusPreviousField) {
+                            Image(systemName: "chevron.up")
+                        }
+                        .disabled(!canFocusPreviousField())
                     }
-                    .disabled(!canFocusPreviousField())
-                }
-                
-                ToolbarItem(placement: .keyboard) {
-                    Button(action: focusNextField) {
-                        Image(systemName: "chevron.down")
+                    
+                    ToolbarItem(placement: .keyboard) {
+                        Button(action: focusNextField) {
+                            Image(systemName: "chevron.down")
+                        }
+                        .disabled(!canFocusNextField())
                     }
-                    .disabled(!canFocusNextField())
                 }
             }
         }

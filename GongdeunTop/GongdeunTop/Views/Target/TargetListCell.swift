@@ -12,8 +12,7 @@ struct TargetListCell: View {
  
     let target: Target
     var body: some View {
-
-        VStack(spacing: 4) {
+        VStack(spacing: 8) {
             targetDatesHeader
             targetTitles
             targetInfoBadges
@@ -21,6 +20,8 @@ struct TargetListCell: View {
         .padding(.horizontal)
         .padding(.vertical, 8)
         .background(themeManager.getComponentColor(), in: RoundedRectangle(cornerRadius: 10))
+        .id(target.id)
+        
     }
 }
 // MARK: - Header
@@ -28,11 +29,7 @@ extension TargetListCell {
     @ViewBuilder
     var targetDatesHeader: some View {
         HStack(spacing: 5) {
-            Text(target.dateTerms)
-                .font(.caption)
-                .fontWeight(.bold)
-                .padding(3)
-                .background(themeManager.getColorInPriority(of: target.termColorPriority))
+            TargetTermGauge(termIndex: target.termIndex)
             Spacer()
             Text(target.startDateString)
                 .font(.caption)
@@ -62,6 +59,7 @@ extension TargetListCell {
                     .font(.headline)
                 Text(target.subtitle)
                     .font(.subheadline)
+                    .foregroundColor(.secondary)
             }
         }
     }
@@ -71,16 +69,12 @@ extension TargetListCell {
 extension TargetListCell {
     @ViewBuilder
     var targetInfoBadges: some View {
-        Divider()
-        ScrollView(.horizontal, showsIndicators: false) {
+        ScrollView(.horizontal, showsIndicators: true) {
             HStack(spacing: 16) {
                 daysBadges
-                badgeDivider
-                achievementBadges
-                badgeDivider
-                completionBadges
-                badgeDivider
                 dayLeftBadges
+                completionBadges
+                achievementBadges
             }
         }
     }
@@ -94,8 +88,12 @@ extension TargetListCell {
     }
     
     
-    var targetDayLeftCountString: AttributedString {
-        getTargetBadgeString(localized: "\(target.dayDifferenceFromToday) target_dayLeft_count", number: target.dayDifferenceFromToday)
+    var dayLeftUntilStartDateCountString: AttributedString {
+        getTargetBadgeString(localized: "\(target.dayLeftUntilStartDate) target_dayLeft_count", number: target.dayLeftUntilStartDate)
+    }
+    
+    var dayLeftUntilDueDateCountString: AttributedString {
+        getTargetBadgeString(localized: "\(target.dayLeftUntilDueDate) target_dayLeft_count", number: target.dayLeftUntilDueDate)
     }
     
     private func getTargetBadgeString(localized string: LocalizedStringResource, number: Int) -> AttributedString {
@@ -123,7 +121,9 @@ extension TargetListCell {
         }
         .fontWeight(.semibold)
         .foregroundColor(.secondary)
-        .padding()
+        .padding(8)
+        .background(in: RoundedRectangle(cornerRadius: 10))
+        .backgroundStyle(.thickMaterial)
     }
     
     var achievementBadges: some View {
@@ -137,7 +137,9 @@ extension TargetListCell {
             RoundedHexagon(radius: 16, cornerAngle: 5)
                 .frame(width: 35)
         }
-        .padding()
+        .padding(8)
+        .background(in: RoundedRectangle(cornerRadius: 10))
+        .backgroundStyle(.thickMaterial)
     }
     
     var completionBadges: some View {
@@ -151,24 +153,31 @@ extension TargetListCell {
             Text(todoCountString)
                 .fixedSize()
         }
-        .padding()
+        .padding(8)
+        .background(in: RoundedRectangle(cornerRadius: 10))
+        .backgroundStyle(.thickMaterial)
     }
     
     var dayLeftBadges: some View {
         VStack {
             Text(isDateYetToCome ?
                  String(localized: "target_begins") :
-                 String(localized: "target_due_date")
+                    String(localized: "target_due_date")
             )
-                .font(.caption)
-                .foregroundColor(.secondary)
-                .fontWeight(.semibold)
-                .fixedSize()
+            .font(.caption)
+            .foregroundColor(.secondary)
+            .fontWeight(.semibold)
+            .fixedSize()
             Spacer()
-            Text(targetDayLeftCountString)
-                .fixedSize()
+            Text(isDateYetToCome ?
+                 dayLeftUntilStartDateCountString :
+                    dayLeftUntilDueDateCountString
+            )
+            .fixedSize()
         }
-        .padding()
+        .padding(8)
+        .background(in: RoundedRectangle(cornerRadius: 10))
+        .backgroundStyle(.thickMaterial)
     }
     
     var badgeDivider: some View {
@@ -180,5 +189,6 @@ extension TargetListCell {
 struct TargetListCell_Previews: PreviewProvider {
     static var previews: some View {
         TargetListCell(target: .placeholder)
+            .environmentObject(ThemeManager())
     }
 }
