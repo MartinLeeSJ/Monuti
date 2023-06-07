@@ -45,7 +45,7 @@ struct Target: Codable, Hashable, Identifiable {
         return day < 0 ? 0 : (day + 1)
     }
     
-    var dayDifferenceFromToday: Int {
+    var dayLeftUntilStartDate: Int {
         let calendar = Calendar.current
         let start = calendar.startOfDay(for: startDate)
         let today = calendar.startOfDay(for: Date.now)
@@ -54,7 +54,14 @@ struct Target: Codable, Hashable, Identifiable {
         return abs(day)
     }
     
-    
+    var dayLeftUntilDueDate: Int {
+        let calendar = Calendar.current
+        let today = calendar.startOfDay(for: Date.now)
+        let dueDate = calendar.startOfDay(for: dueDate)
+        let numberOfDays = calendar.dateComponents([.day], from: today, to: dueDate)
+        let day = numberOfDays.day ?? 0
+        return abs(day)
+    }
 }
 
 // MARK: - Terms

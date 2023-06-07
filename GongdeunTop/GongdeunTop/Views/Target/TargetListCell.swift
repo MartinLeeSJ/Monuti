@@ -72,9 +72,9 @@ extension TargetListCell {
         ScrollView(.horizontal, showsIndicators: true) {
             HStack(spacing: 16) {
                 daysBadges
-                achievementBadges
-                completionBadges
                 dayLeftBadges
+                completionBadges
+                achievementBadges
             }
         }
     }
@@ -88,8 +88,12 @@ extension TargetListCell {
     }
     
     
-    var targetDayLeftCountString: AttributedString {
-        getTargetBadgeString(localized: "\(target.dayDifferenceFromToday) target_dayLeft_count", number: target.dayDifferenceFromToday)
+    var dayLeftUntilStartDateCountString: AttributedString {
+        getTargetBadgeString(localized: "\(target.dayLeftUntilStartDate) target_dayLeft_count", number: target.dayLeftUntilStartDate)
+    }
+    
+    var dayLeftUntilDueDateCountString: AttributedString {
+        getTargetBadgeString(localized: "\(target.dayLeftUntilDueDate) target_dayLeft_count", number: target.dayLeftUntilDueDate)
     }
     
     private func getTargetBadgeString(localized string: LocalizedStringResource, number: Int) -> AttributedString {
@@ -158,15 +162,18 @@ extension TargetListCell {
         VStack {
             Text(isDateYetToCome ?
                  String(localized: "target_begins") :
-                 String(localized: "target_due_date")
+                    String(localized: "target_due_date")
             )
-                .font(.caption)
-                .foregroundColor(.secondary)
-                .fontWeight(.semibold)
-                .fixedSize()
+            .font(.caption)
+            .foregroundColor(.secondary)
+            .fontWeight(.semibold)
+            .fixedSize()
             Spacer()
-            Text(targetDayLeftCountString)
-                .fixedSize()
+            Text(isDateYetToCome ?
+                 dayLeftUntilStartDateCountString :
+                    dayLeftUntilDueDateCountString
+            )
+            .fixedSize()
         }
         .padding(8)
         .background(in: RoundedRectangle(cornerRadius: 10))
