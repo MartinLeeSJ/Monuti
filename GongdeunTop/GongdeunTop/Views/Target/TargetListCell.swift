@@ -162,7 +162,7 @@ extension TargetListCell {
         VStack {
             Text(isDateYetToCome ?
                  String(localized: "target_begins") :
-                    String(localized: "target_due_date")
+                    String(localized: "target_dues")
             )
             .font(.caption)
             .foregroundColor(.secondary)

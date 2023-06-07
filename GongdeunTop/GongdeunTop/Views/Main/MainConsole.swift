@@ -15,23 +15,12 @@ struct MainConsole: View {
     @State private var isSetTimeViewOn: Bool = false
     @State private var isAddTargetSheetOn: Bool = false
     @State private var isAddToDoSheetOn: Bool = false
-    @Binding var displayingView: MainSummaryView.DisplayingViews
+    @Binding var displayingView: MainRouterView.DisplayingViews
     
-    var todoCount: Int {
-        todoStore.todos.count
-    }
-    
-    var numOfSessions: Int {
-        timerManager.timeSetting.numOfSessions
-    }
-    
-    var totalTime: Int {
-        timerManager.getTotalMinute()
-    }
+
     
     var body: some View {
         VStack {
-            dashboardBanner
             HStack {
                 addButton
                     .tint(themeManager.getColorInPriority(of: .accent))
@@ -74,14 +63,9 @@ struct MainConsole: View {
             .padding(.horizontal)
         }
         .animation(.easeIn, value: todoStore.isEditing)
+        .background(.clear)
     }
     
-    var dashboardBanner: some View {
-        HAlignment(alignment: .center) {
-            Text("todo_counts \(todoCount)") + Text("sessions\(numOfSessions)") + Text("totalTime\(totalTime)")
-        }
-        .font(.caption)
-    }
 }
 
 extension MainConsole{

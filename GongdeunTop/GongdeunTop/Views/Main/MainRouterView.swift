@@ -1,5 +1,5 @@
 //
-//  MainSummaryView.swift
+//  MainRouterView.swift
 //  GongdeunTop
 //
 //  Created by Martin on 2023/06/05.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct MainSummaryView: View {
+struct MainRouterView: View {
     enum DisplayingViews: Int, Equatable {
         case todo = 0
         case target
@@ -66,17 +66,22 @@ struct MainSummaryView: View {
                     }
                     
                     Spacer()
+                    
                     MainConsole(displayingView: $currentDisplayingView)
                         .environmentObject(todoStore)
                         .environmentObject(timerManager)
                 }
+                .overlay(alignment: .bottom) {
+                    MainSettingBanner(todoCount: todoStore.todos.count,
+                                      numOfSessions: timerManager.timeSetting.numOfSessions,
+                                      totalTime: timerManager.getTotalMinute())
+                    .offset(y: -90)
+                }
             }
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    themeManager.getAppLogoImage()
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 36)
+                    AppLogoView(radius: 16)
+                        .offset(x: 16)
                 }
                 
                 ToolbarItem(placement: .navigationBarTrailing) {
@@ -119,7 +124,7 @@ struct MainSummaryView: View {
     }
 }
 
-extension MainSummaryView {
+extension MainRouterView {
     @ViewBuilder
     var viewSwitch: some View {
         HStack(spacing: 8) {
@@ -216,9 +221,9 @@ extension MainSummaryView {
     }
 }
 
-struct MainSummaryView_Previews: PreviewProvider {
+struct MainRouterView_Previews: PreviewProvider {
     static var previews: some View {
-        MainSummaryView()
+        MainRouterView()
             .environmentObject(ThemeManager())
     }
 }

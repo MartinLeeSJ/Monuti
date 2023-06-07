@@ -33,7 +33,7 @@
 		5B38FC062A0E176F003F9B5C /* LauchScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B38FC052A0E176F003F9B5C /* LauchScreen.swift */; };
 		5B38FC082A0F8268003F9B5C /* Target.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B38FC072A0F8268003F9B5C /* Target.swift */; };
 		5B38FC0A2A0F87BC003F9B5C /* TargetList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B38FC092A0F87BC003F9B5C /* TargetList.swift */; };
-		5B4214F52A2D57D1004362E5 /* MainSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4214F42A2D57D1004362E5 /* MainSummaryView.swift */; };
+		5B4214F52A2D57D1004362E5 /* MainRouterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4214F42A2D57D1004362E5 /* MainRouterView.swift */; };
 		5B4214F72A2D5F5F004362E5 /* MainConsole.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4214F62A2D5F5F004362E5 /* MainConsole.swift */; };
 		5B54FE432A2B5917000D29ED /* CGFloat+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B54FE422A2B5917000D29ED /* CGFloat+Utils.swift */; };
 		5B63175829E6C90300FF6876 /* ToDoFormCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B63175729E6C90300FF6876 /* ToDoFormCell.swift */; };
@@ -42,6 +42,8 @@
 		5B63A59329C95AD500AA4525 /* SetToDoForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B63A59229C95AD500AA4525 /* SetToDoForm.swift */; };
 		5B6585A629EEAE6200F9E758 /* CubeHexagon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6585A529EEAE6200F9E758 /* CubeHexagon.swift */; };
 		5B6AB24B2A306281008D09B6 /* TargetTermGauge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6AB24A2A306281008D09B6 /* TargetTermGauge.swift */; };
+		5B6AB24D2A30959C008D09B6 /* AppLogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6AB24C2A30959C008D09B6 /* AppLogoView.swift */; };
+		5B6AB2502A30AB0A008D09B6 /* MainSettingBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6AB24F2A30AB0A008D09B6 /* MainSettingBanner.swift */; };
 		5B76D0F429C74FE0008883A8 /* TimerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B76D0F329C74FE0008883A8 /* TimerManager.swift */; };
 		5B76D0F629C76A2B008883A8 /* CircularSector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B76D0F529C76A2B008883A8 /* CircularSector.swift */; };
 		5B841E9F29FBC4D600F1675E /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B841E9E29FBC4D600F1675E /* LocationManager.swift */; };
@@ -120,7 +122,7 @@
 		5B38FC052A0E176F003F9B5C /* LauchScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LauchScreen.swift; sourceTree = "<group>"; };
 		5B38FC072A0F8268003F9B5C /* Target.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Target.swift; sourceTree = "<group>"; };
 		5B38FC092A0F87BC003F9B5C /* TargetList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetList.swift; sourceTree = "<group>"; };
-		5B4214F42A2D57D1004362E5 /* MainSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSummaryView.swift; sourceTree = "<group>"; };
+		5B4214F42A2D57D1004362E5 /* MainRouterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainRouterView.swift; sourceTree = "<group>"; };
 		5B4214F62A2D5F5F004362E5 /* MainConsole.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainConsole.swift; sourceTree = "<group>"; };
 		5B54FE422A2B5917000D29ED /* CGFloat+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGFloat+Utils.swift"; sourceTree = "<group>"; };
 		5B63175729E6C90300FF6876 /* ToDoFormCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoFormCell.swift; sourceTree = "<group>"; };
@@ -129,6 +131,8 @@
 		5B63A59229C95AD500AA4525 /* SetToDoForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetToDoForm.swift; sourceTree = "<group>"; };
 		5B6585A529EEAE6200F9E758 /* CubeHexagon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CubeHexagon.swift; sourceTree = "<group>"; };
 		5B6AB24A2A306281008D09B6 /* TargetTermGauge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetTermGauge.swift; sourceTree = "<group>"; };
+		5B6AB24C2A30959C008D09B6 /* AppLogoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLogoView.swift; sourceTree = "<group>"; };
+		5B6AB24F2A30AB0A008D09B6 /* MainSettingBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSettingBanner.swift; sourceTree = "<group>"; };
 		5B76D0F329C74FE0008883A8 /* TimerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerManager.swift; sourceTree = "<group>"; };
 		5B76D0F529C76A2B008883A8 /* CircularSector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularSector.swift; sourceTree = "<group>"; };
 		5B841E9E29FBC4D600F1675E /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
@@ -268,12 +272,23 @@
 			isa = PBXGroup;
 			children = (
 				5B76D0F529C76A2B008883A8 /* CircularSector.swift */,
+				5B6AB24C2A30959C008D09B6 /* AppLogoView.swift */,
 				5B95944C29D96277001F2B4B /* Turret.swift */,
 				5B6585A529EEAE6200F9E758 /* CubeHexagon.swift */,
 				5B174C262A03720600204C75 /* RoundedHexagon.swift */,
 				5B63175929E7F27700FF6876 /* RoundedCorners.swift */,
 			);
 			path = Shape;
+			sourceTree = "<group>";
+		};
+		5B6AB24E2A30AAB0008D09B6 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				5B4214F42A2D57D1004362E5 /* MainRouterView.swift */,
+				5B4214F62A2D5F5F004362E5 /* MainConsole.swift */,
+				5B6AB24F2A30AB0A008D09B6 /* MainSettingBanner.swift */,
+			);
+			path = Main;
 			sourceTree = "<group>";
 		};
 		5B76D0F729C7755A008883A8 /* ViewModels */ = {
@@ -386,10 +401,9 @@
 		5BCF551729C3066A00A19759 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				5BCF550529C2CB2500A19759 /* ContentView.swift */,
-				5B4214F42A2D57D1004362E5 /* MainSummaryView.swift */,
-				5B4214F62A2D5F5F004362E5 /* MainConsole.swift */,
 				5B38FC052A0E176F003F9B5C /* LauchScreen.swift */,
+				5BCF550529C2CB2500A19759 /* ContentView.swift */,
+				5B6AB24E2A30AAB0008D09B6 /* Main */,
 				5B1C71242A120A9200A5D3EB /* Target */,
 				5B38FBFD2A0CDC58003F9B5C /* Auth */,
 				5BA9A43A2A09307700453D65 /* Cycle */,
@@ -635,7 +649,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5B63A59129C8931300AA4525 /* SheetPresenter.swift in Sources */,
-				5B4214F52A2D57D1004362E5 /* MainSummaryView.swift in Sources */,
+				5B4214F52A2D57D1004362E5 /* MainRouterView.swift in Sources */,
 				5B05A61829ECFD5A00C89417 /* CycleMemoir.swift in Sources */,
 				5BB4FECA29C832D9009CCD43 /* ToDo.swift in Sources */,
 				5B174C292A050F3B00204C75 /* HapticManager.swift in Sources */,
@@ -667,6 +681,7 @@
 				5B1C711A2A11FCB700A5D3EB /* TargetStore.swift in Sources */,
 				5B6585A629EEAE6200F9E758 /* CubeHexagon.swift in Sources */,
 				5BE9EEDC29FFFBA500233C49 /* SettingView.swift in Sources */,
+				5B6AB2502A30AB0A008D09B6 /* MainSettingBanner.swift in Sources */,
 				5B2767CD29FA8C1B008398A3 /* CycleListCell.swift in Sources */,
 				5BCF551629C3065E00A19759 /* RecordView.swift in Sources */,
 				5BCF551B29C30D1600A19759 /* ToDoList.swift in Sources */,
@@ -675,6 +690,7 @@
 				5B38FC062A0E176F003F9B5C /* LauchScreen.swift in Sources */,
 				5B95944D29D96277001F2B4B /* Turret.swift in Sources */,
 				5B8B119529D07EE6009BB0E6 /* FirstCountdown.swift in Sources */,
+				5B6AB24D2A30959C008D09B6 /* AppLogoView.swift in Sources */,
 				5B1C71262A121C3C00A5D3EB /* RangeDatePicker.swift in Sources */,
 				5B76D0F629C76A2B008883A8 /* CircularSector.swift in Sources */,
 				5B4214F72A2D5F5F004362E5 /* MainConsole.swift in Sources */,
