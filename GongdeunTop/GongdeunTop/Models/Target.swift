@@ -59,6 +59,10 @@ struct Target: Codable, Hashable, Identifiable {
 
 // MARK: - Terms
 extension Target {
+    var termIndex: Int {
+        Terms.getTermIndex(of: daysFromStartToDueDate)
+    }
+    
     var dateTerms: String {
         let termString = Terms.getTermsString(of: daysFromStartToDueDate)
         return String(localized: String.LocalizationValue(termString))
@@ -91,6 +95,16 @@ extension Target {
             case 16...30: return .solid
             case 31...: return .accent
             default: return .weak
+            }
+        }
+        
+        static func getTermIndex(of days: Int) -> Int {
+            switch days {
+            case 0...3: return 1
+            case 4...15: return 2
+            case 16...30: return 3
+            case 31...: return 4
+            default: return 0
             }
         }
     }
