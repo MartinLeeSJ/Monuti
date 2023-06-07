@@ -27,6 +27,7 @@ struct MainSummaryView: View {
     }
     @EnvironmentObject var themeManager: ThemeManager
     @StateObject var todoStore = ToDoStore()
+    @StateObject var targetStore = TargetStore()
     @StateObject var timerManager = TimerManager()
     
     @State private var isSettingViewOn: Bool = false
@@ -59,7 +60,7 @@ struct MainSummaryView: View {
                                 .transition(.move(edge: edge).animation(.linear(duration: 0.3)))
                                 
                     case .calendar: Text("Test")
-                    case .target: TargetList()
+                    case .target: TargetList(targetStore: targetStore)
                             .transition(.move(edge: edge).animation(.linear(duration: 0.3)))
                                     
                     }
@@ -91,22 +92,28 @@ struct MainSummaryView: View {
                     .tint(themeManager.getColorInPriority(of: .accent))
                 }
                 
+                
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button {
-                        withAnimation {
-                            todoStore.isEditing.toggle()
+                    if currentDisplayingView == .todo {
+                        Button {
+                            withAnimation {
+                                todoStore.isEditing.toggle()
+                            }
+                        } label: {
+                            Text(todoStore.isEditing ? "Done" : "Edit")
                         }
-                    } label: {
-                        Text(todoStore.isEditing ? "Done" : "Edit")
+                        .tint(Color("basicFontColor"))
+                        .transition(.opacity)
                     }
-                    .tint(Color("basicFontColor"))
                 }
             }
             .onAppear {
                 todoStore.subscribeTodos()
+                targetStore.subscribeTargets()
             }
             .onDisappear {
                 todoStore.unsubscribeTodos()
+                targetStore.unsubscribeTargets()
             }
         }
     }
@@ -171,7 +178,7 @@ extension MainSummaryView {
                         .foregroundStyle(themeManager.getColorInPriority(of: .accent), .gray)
                 }
                 Spacer()
-                Text("0")
+                Text("\(targetStore.targets.count)")
                     .font(.title)
                     .fontWeight(.bold)
             }
