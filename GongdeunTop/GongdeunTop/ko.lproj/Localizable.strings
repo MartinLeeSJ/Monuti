@@ -81,7 +81,7 @@
 "target_achievement" = "성취도";
 "target_completed" = "관련된 할 일";
 "target_begins" = "타겟 시작";
-"target_due_date" = "타겟 종료";
+"target_dues" = "타겟 종료";
 
 "ShortTerm" = "단기";
 "MidTerm" = "중기";

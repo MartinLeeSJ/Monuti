@@ -83,7 +83,7 @@
 "target_achievement" = "ACHIEVEMENT";
 "target_completed" = "COMPLETED";
 "target_begins" = "TARGET BEGINS";
-"target_due_date" = "DUE DATE";
+"target_dues" = "DUE DATE";
 
 "ShortTerm" = "Short";
 "MidTerm" = "Mideum";
