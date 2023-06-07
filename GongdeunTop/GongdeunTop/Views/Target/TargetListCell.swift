@@ -9,14 +9,17 @@ import SwiftUI
 
 struct TargetListCell: View {
     @EnvironmentObject var themeManager: ThemeManager
+ 
     let target: Target
     var body: some View {
-        VStack(spacing: 8) {
+
+        VStack(spacing: 4) {
             targetDatesHeader
             targetTitles
             targetInfoBadges
         }
-        .padding()
+        .padding(.horizontal)
+        .padding(.vertical, 8)
         .background(themeManager.getComponentColor(), in: RoundedRectangle(cornerRadius: 10))
     }
 }

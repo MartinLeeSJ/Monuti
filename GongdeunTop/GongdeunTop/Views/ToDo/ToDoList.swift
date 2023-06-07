@@ -21,6 +21,7 @@ struct ToDoList: View {
                 ToDoListCell(todo: todo)
                     .listRowBackground(Color.clear)
                     .listRowSeparator(.hidden)
+                    .listRowInsets(.init(top: 8, leading: 16, bottom: 0, trailing: 16))
             }
             .listStyle(.plain)
             .environment(\.editMode, .constant(todoStore.isEditing ? EditMode.active : EditMode.inactive))
@@ -32,9 +33,6 @@ struct ToDoList: View {
             if todoStore.isEditing {
                 editToDosButtons()
             }
-        }
-        .toolbar {
-            
         }
     }
 }

@@ -10,27 +10,20 @@ import SwiftUI
 
 struct TargetList: View {
     @EnvironmentObject var themeManager: ThemeManager
-    @StateObject private var targetStore = TargetStore()
+    @ObservedObject var targetStore: TargetStore
     
     
     var body: some View {
         ZStack {
             themeManager.getColorInPriority(of: .background)
                 .ignoresSafeArea(.all)
-            VStack {
-                ScrollView {
-                    ForEach(targetStore.targets, id: \.self) { target in
-                        TargetListCell(target: target)
-                    }
-                }
+            List(targetStore.targets) { target in
+                TargetListCell(target: target)
+                    .listRowBackground(Color.clear)
+                    .listRowSeparator(.hidden)
+                    .listRowInsets(.init(top: 8, leading: 16, bottom: 4, trailing: 16))
             }
-            .padding(.horizontal)
-        }
-        .onAppear {
-            targetStore.subscribeTargets()
-        }
-        .onDisappear {
-            targetStore.unsubscribeTargets()
+            .listStyle(.plain)
         }
     }
 }
@@ -39,7 +32,7 @@ struct TargetList: View {
 
 struct TargetView_Previews: PreviewProvider {
     static var previews: some View {
-        TargetList()
+        TargetList(targetStore: TargetStore())
             .environmentObject(ThemeManager())
     }
 }
