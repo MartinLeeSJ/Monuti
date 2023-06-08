@@ -83,6 +83,19 @@ final class ToDoManager: ObservableObject {
         }
     }
     
+    // MARK: - TextField Limit
+    func setTitleCharacterCountBelow(limit: Int) {
+        if limit < todo.title.count {
+            todo.title = String(todo.title.prefix(limit))
+        }
+    }
+    
+    func setContentCharacterCountBelow(limit: Int) {
+        if limit < todo.content.count {
+            todo.content = String(todo.content.prefix(limit))
+        }
+    }
+    
     //MARK: - UI Handler
     
     func handleDoneTapped() {

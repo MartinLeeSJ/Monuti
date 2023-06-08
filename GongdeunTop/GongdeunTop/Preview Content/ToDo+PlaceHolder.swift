@@ -11,7 +11,6 @@ import FirebaseFirestore
 
 
 extension ToDo {
-    
     static var placeholder: Self {
         let title: String = "할 일을 추가해 보세요"
         let content: String = "이곳에는 세부내용이 표시됩니다"

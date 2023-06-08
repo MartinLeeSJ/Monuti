@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Combine
 
 import FirebaseFirestore
 import FirebaseAuth
@@ -101,27 +102,51 @@ struct SetToDoForm: View {
 
 // MARK: - Title And Content
 extension SetToDoForm {
+    private var titleCharacterLimit: Int {
+        return 35
+    }
+    
+    private var contentCharacterLimit: Int {
+        return 50
+    }
+    
     @ViewBuilder
     var titleAndContentTextField: some View {
         TextFieldFormContainer {
-            HStack {
+            HStack(spacing: 8) {
                 Text("title")
                     .font(.headline)
                     .fontWeight(.medium)
                 
                 TextField(String(localized: "todo_title"), text: $manager.todo.title)
                     .focused($focusedField, equals: .title)
+                    .onReceive(Just(manager.todo.title)) { _ in
+                        manager.setTitleCharacterCountBelow(limit: titleCharacterLimit)
+                    }
+                
+                Text("\(manager.todo.title.count)/\(titleCharacterLimit)")
+                    .font(.caption)
+                    .fixedSize()
+                    .padding(.trailing, 8)
             }
             
             Divider()
             
-            HStack {
+            HStack(spacing: 8) {
                 Text("content")
                     .font(.headline)
                     .fontWeight(.medium)
 
                 TextField(String(localized: "todo_content"), text: $manager.todo.content)
                     .focused($focusedField, equals: .content)
+                    .onReceive(Just(manager.todo.content)) { _ in
+                        manager.setContentCharacterCountBelow(limit: contentCharacterLimit)
+                    }
+                
+                Text("\(manager.todo.content.count)/\(contentCharacterLimit)")
+                    .font(.caption)
+                    .fixedSize()
+                    .padding(.trailing, 8)
             }
         } footer: {
             Text("todo_content_footer")
