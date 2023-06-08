@@ -10,7 +10,7 @@ import SwiftUI
 struct TextFieldFormContainer<Content>: View where Content: View {
     @EnvironmentObject var themeManager: ThemeManager
     @ViewBuilder let content: () -> Content
-    let header: () -> Text
+    var header: (() -> Text)? = nil
 
     var body: some View {
         VStack {
@@ -23,10 +23,12 @@ struct TextFieldFormContainer<Content>: View where Content: View {
         .textInputAutocapitalization(.never)
         .padding(.top, 16)
         .overlay(alignment: .topLeading) {
-              header()
-                .font(.caption)
-                .foregroundColor(.secondary)
-                .offset(y: -2)
+            if let header = header {
+                header()
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+                    .offset(y: -2)
+            }
         }
     }
 }

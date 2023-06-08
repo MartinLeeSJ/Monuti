@@ -7,6 +7,9 @@
 
 import SwiftUI
 
+import FirebaseFirestore
+import FirebaseAuth
+
 enum Mode {
     case new
     case edit
@@ -22,58 +25,25 @@ enum ToDoField: Int, Hashable, CaseIterable {
     case title
     case content
     case tag
-    
-    var fieldString: (title: String, fieldTitle: String, footer: String) {
-        switch self {
-        case .title: return (String(localized: "title"),
-                             String(localized: "todo_title"),
-                             String(localized: "todo_title_footer"))
-        case .content: return (String(localized: "content"),
-                               String(localized: "todo_content"),
-                               String(localized: "todo_content_footer"))
-        case .tag: return (String(localized: "tag"),
-                           String(localized: "todo_tag"),
-                           String(localized: "todo_tag_footer"))
-        }
-    }
 }
 
 struct SetToDoForm: View {
-    @EnvironmentObject var themeManager: ThemeManager
     @Environment(\.dismiss) var dismiss
+    @EnvironmentObject var themeManager: ThemeManager
+    @StateObject var tagStore = TagStore()
     @ObservedObject var manager = ToDoManager()
+    
+    @State private var tagText: String = ""
+    @State private var filteredTags: [Tag] = []
+    
     @FocusState private var focusedField: ToDoField?
     
     var mode: Mode = .new
     var completionHandler: ((Result<Action, Error>) -> Void)?
+    private let db = Firestore.firestore()
     
     
-    private func focusPreviousField() {
-        focusedField = focusedField.map {
-            ToDoField(rawValue: $0.rawValue - 1) ?? .tag
-        }
-    }
-    
-    private func focusNextField() {
-        focusedField = focusedField.map {
-            ToDoField(rawValue: $0.rawValue + 1) ?? .title
-        }
-    }
-    
-    private func canFocusPreviousField() -> Bool {
-        guard let currentFocusedField = focusedField else {
-            return false
-        }
-        return currentFocusedField.rawValue > 0
-    }
-    
-    private func canFocusNextField() -> Bool {
-        guard let currentFocusedField = focusedField else {
-            return false
-        }
-        return currentFocusedField.rawValue < ToDoField.allCases.count - 1
-    }
-    
+
     private func handleDoneTapped() {
         manager.handleDoneTapped()
         if mode == .edit {
@@ -88,10 +58,13 @@ struct SetToDoForm: View {
                     .ignoresSafeArea(.all)
                 ScrollView {
                     VStack {
-                        ForEach(ToDoField.allCases, id: \.self) { fieldType in
-                            ToDoFormCell(viewModel: manager, focusedField: $focusedField, fieldType: fieldType)
+                       titleAndContentTextField
+                       tagForm
+                        if !manager.todo.tags.isEmpty {
+                            tagScroll
                         }
                     }
+                    .padding()
                 }
                 .toolbar {
                     ToolbarItem(placement: .navigationBarTrailing) {
@@ -122,10 +95,211 @@ struct SetToDoForm: View {
         }
         
     }
-    
-    
 }
 
+// MARK: - Title And Content
+extension SetToDoForm {
+    @ViewBuilder
+    var titleAndContentTextField: some View {
+        TextFieldFormContainer {
+            HStack {
+                Text("title")
+                    .font(.headline)
+                    .fontWeight(.medium)
+                
+                TextField(String(localized: "todo_title"), text: $manager.todo.title)
+                    .focused($focusedField, equals: .title)
+            }
+            
+            Divider()
+            
+            HStack {
+                Text("content")
+                    .font(.headline)
+                    .fontWeight(.medium)
+
+                TextField(String(localized: "todo_content"), text: $manager.todo.content)
+                    .focused($focusedField, equals: .content)
+            }
+        }
+    }
+}
+
+// MARK: - Tag
+extension SetToDoForm {
+    @ViewBuilder
+    var tagForm: some View {
+        FormContainer {
+            HStack {
+                Text("tag")
+                    .font(.headline)
+                    .fontWeight(.medium)
+                
+                TextField(String(localized: "todo_tag"), text: $tagText)
+                    .focused($focusedField, equals: .tag)
+                    .onChange(of: tagText) { string in
+                        filteredTags = tagStore.tags.filter { $0.title.localizedCaseInsensitiveContains(string) }
+                    }
+                
+                addTagButton
+            }
+            
+            if !filteredTags.isEmpty {
+                tagSearchList
+            }
+            
+        }
+        .onAppear {
+            tagStore.subscribeTags()
+        }
+        .onDisappear {
+            tagStore.unsubscribeTags()
+        }
+    }
+    
+    var addTagButton: some View {
+        Button {
+            handleAddTagButton()
+        } label: {
+            Text("등록")
+        }
+        .disabled(tagText.isEmpty)
+    }
+    
+    @ViewBuilder
+    var tagSearchList: some View {
+            Divider()
+            ScrollView {
+                ForEach(filteredTags, id: \.self) { tag in
+                    HAlignment(alignment: .leading) {
+                        Button {
+                            handleTagListElementTapped(title: tag.title)
+                        } label: {
+                            HStack {
+                                Image(systemName: "magnifyingglass.circle")
+                                    .opacity(0.5)
+                                Text(tag.title)
+                            }
+                        }
+                        .tint(Color("basicFontColor"))
+                    }
+                    .padding(.vertical, 4)
+                }
+            }
+            .frame(minHeight: 30)
+    }
+    
+    var tagScroll: some View {
+        FormContainer {
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 18) {
+                    ForEach(manager.todo.tags, id: \.self) { tagTitle in
+                        Text(tagTitle)
+                            .font(.caption)
+                            .padding(.vertical, 2)
+                            .padding(.horizontal, 6)
+                            .background(Capsule().fill(themeManager.getColorInPriority(of: .accent)))
+                            .background {
+                                HAlignment(alignment: .trailling) {
+                                    Button {
+                                        deleteTag(title: tagTitle)
+                                    } label: {
+                                        Image(systemName: "trash.fill")
+                                            .foregroundColor(.white)
+                                            .font(.caption)
+                                            .padding(2)
+                                            .background {
+                                                Circle()
+                                                    .fill(Color.black)
+                                            }
+                                    }
+                                }
+                                .background(Capsule().fill(Color.black))
+                                .offset(x: 15)
+                            }
+                    }
+                }
+                .padding(.trailing, 60)
+            }
+        }
+        
+    }
+}
+
+// MARK: - Tag Actions
+extension SetToDoForm {
+    private func handleAddTagButton() {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        guard !manager.todo.tags.contains(where: { $0 == tagText }) else { return }
+        
+        let tagRef = db.collection("Members").document(uid).collection("Tag").document(tagText)
+        
+        if tagStore.tags.contains(where: { $0.title == tagText }) {
+            updateTagCount(of: tagRef)
+        } else {
+            addTag(at: tagRef)
+        }
+        
+        manager.todo.tags.append(tagText)
+        tagText = ""
+        
+    }
+    
+    private func updateTagCount(of tagRef: DocumentReference) {
+        tagRef.updateData(["count" : FieldValue.increment(Int64(1))])
+    }
+    
+    private func addTag(at tagRef: DocumentReference) {
+        tagRef.setData([
+            "title" : tagText,
+            "count" : 1
+        ])
+    }
+    
+    private func deleteTag(title: String) {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        let tagRef = db.collection("Members").document(uid).collection("Tag").document(title)
+        
+        tagRef.updateData(["count" : FieldValue.increment(Int64(-1))])
+        manager.todo.tags = manager.todo.tags.filter { $0 != title }
+    }
+    
+    
+    private func handleTagListElementTapped(title: String) {
+        tagText = title
+        handleAddTagButton()
+        filteredTags = []
+    }
+}
+
+// MARK: - Keyboard Focus Actions
+extension SetToDoForm {
+    private func focusPreviousField() {
+        focusedField = focusedField.map {
+            ToDoField(rawValue: $0.rawValue - 1) ?? .tag
+        }
+    }
+    
+    private func focusNextField() {
+        focusedField = focusedField.map {
+            ToDoField(rawValue: $0.rawValue + 1) ?? .title
+        }
+    }
+    
+    private func canFocusPreviousField() -> Bool {
+        guard let currentFocusedField = focusedField else {
+            return false
+        }
+        return currentFocusedField.rawValue > 0
+    }
+    
+    private func canFocusNextField() -> Bool {
+        guard let currentFocusedField = focusedField else {
+            return false
+        }
+        return currentFocusedField.rawValue < ToDoField.allCases.count - 1
+    }
+}
 
 
 
