@@ -13,14 +13,13 @@ import FirebaseAuth
 
 final class ToDoManager: ObservableObject {
     @Published var todo: ToDo
-    @Published var tag: String = ""
     @Published var modified: Bool = false
 
     
     private let database = Firestore.firestore()
     private var cancellables = Set<AnyCancellable>()
     
-    init(todo: ToDo = .init(title: "", content: "", tags: [], timeSpent: 0, isCompleted: false, createdAt: Timestamp(date: Date()) )) {
+    init(todo: ToDo = .init(title: "", content: "", tags: [], timeSpent: 0, isCompleted: false, createdAt: Date.now )) {
         self.todo = todo
         self.$todo
             .dropFirst()
@@ -30,16 +29,20 @@ final class ToDoManager: ObservableObject {
             .store(in: &self.cancellables)
     }
     
+    private func reset() {
+        self.todo = ToDo(createdAt: Date.now)
+        self.modified = false
+    }
+    
     private func addToDo(_ todo: ToDo) {
         guard let uid = Auth.auth().currentUser?.uid else { return }
-        
         if todo.id == nil {
             do {
                 try database.collection("Members")
                     .document(uid)
                     .collection("ToDo")
                     .addDocument(from: todo)
-//                self.todo = ToDo(createdAt: Timestamp(date: Date()))
+                reset()
             } catch {
                 print(error.localizedDescription)
             }
@@ -75,7 +78,21 @@ final class ToDoManager: ObservableObject {
         if let _ = self.todo.id {
             updateToDo(self.todo)
         } else {
+            self.todo.createdAt = Date.now
             addToDo(self.todo)
+        }
+    }
+    
+    // MARK: - TextField Limit
+    func setTitleCharacterCountBelow(limit: Int) {
+        if limit < todo.title.count {
+            todo.title = String(todo.title.prefix(limit))
+        }
+    }
+    
+    func setContentCharacterCountBelow(limit: Int) {
+        if limit < todo.content.count {
+            todo.content = String(todo.content.prefix(limit))
         }
     }
     

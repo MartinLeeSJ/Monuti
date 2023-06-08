@@ -36,7 +36,6 @@
 		5B4214F52A2D57D1004362E5 /* MainRouterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4214F42A2D57D1004362E5 /* MainRouterView.swift */; };
 		5B4214F72A2D5F5F004362E5 /* MainConsole.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4214F62A2D5F5F004362E5 /* MainConsole.swift */; };
 		5B54FE432A2B5917000D29ED /* CGFloat+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B54FE422A2B5917000D29ED /* CGFloat+Utils.swift */; };
-		5B63175829E6C90300FF6876 /* ToDoFormCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B63175729E6C90300FF6876 /* ToDoFormCell.swift */; };
 		5B63175A29E7F27700FF6876 /* RoundedCorners.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B63175929E7F27700FF6876 /* RoundedCorners.swift */; };
 		5B63A59129C8931300AA4525 /* SheetPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B63A59029C8931300AA4525 /* SheetPresenter.swift */; };
 		5B63A59329C95AD500AA4525 /* SetToDoForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B63A59229C95AD500AA4525 /* SetToDoForm.swift */; };
@@ -44,6 +43,8 @@
 		5B6AB24B2A306281008D09B6 /* TargetTermGauge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6AB24A2A306281008D09B6 /* TargetTermGauge.swift */; };
 		5B6AB24D2A30959C008D09B6 /* AppLogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6AB24C2A30959C008D09B6 /* AppLogoView.swift */; };
 		5B6AB2502A30AB0A008D09B6 /* MainSettingBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6AB24F2A30AB0A008D09B6 /* MainSettingBanner.swift */; };
+		5B6AB2542A316752008D09B6 /* TextFieldFormContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6AB2532A316752008D09B6 /* TextFieldFormContainer.swift */; };
+		5B6AB2562A316A75008D09B6 /* FormContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6AB2552A316A75008D09B6 /* FormContainer.swift */; };
 		5B76D0F429C74FE0008883A8 /* TimerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B76D0F329C74FE0008883A8 /* TimerManager.swift */; };
 		5B76D0F629C76A2B008883A8 /* CircularSector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B76D0F529C76A2B008883A8 /* CircularSector.swift */; };
 		5B841E9F29FBC4D600F1675E /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B841E9E29FBC4D600F1675E /* LocationManager.swift */; };
@@ -125,7 +126,6 @@
 		5B4214F42A2D57D1004362E5 /* MainRouterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainRouterView.swift; sourceTree = "<group>"; };
 		5B4214F62A2D5F5F004362E5 /* MainConsole.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainConsole.swift; sourceTree = "<group>"; };
 		5B54FE422A2B5917000D29ED /* CGFloat+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGFloat+Utils.swift"; sourceTree = "<group>"; };
-		5B63175729E6C90300FF6876 /* ToDoFormCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoFormCell.swift; sourceTree = "<group>"; };
 		5B63175929E7F27700FF6876 /* RoundedCorners.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedCorners.swift; sourceTree = "<group>"; };
 		5B63A59029C8931300AA4525 /* SheetPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetPresenter.swift; sourceTree = "<group>"; };
 		5B63A59229C95AD500AA4525 /* SetToDoForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetToDoForm.swift; sourceTree = "<group>"; };
@@ -133,6 +133,8 @@
 		5B6AB24A2A306281008D09B6 /* TargetTermGauge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetTermGauge.swift; sourceTree = "<group>"; };
 		5B6AB24C2A30959C008D09B6 /* AppLogoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLogoView.swift; sourceTree = "<group>"; };
 		5B6AB24F2A30AB0A008D09B6 /* MainSettingBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSettingBanner.swift; sourceTree = "<group>"; };
+		5B6AB2532A316752008D09B6 /* TextFieldFormContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldFormContainer.swift; sourceTree = "<group>"; };
+		5B6AB2552A316A75008D09B6 /* FormContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormContainer.swift; sourceTree = "<group>"; };
 		5B76D0F329C74FE0008883A8 /* TimerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerManager.swift; sourceTree = "<group>"; };
 		5B76D0F529C76A2B008883A8 /* CircularSector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularSector.swift; sourceTree = "<group>"; };
 		5B841E9E29FBC4D600F1675E /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
@@ -235,7 +237,6 @@
 			children = (
 				5B38FC092A0F87BC003F9B5C /* TargetList.swift */,
 				5B1C71222A120A7100A5D3EB /* TargetListCell.swift */,
-				5B6AB24A2A306281008D09B6 /* TargetTermGauge.swift */,
 				5B1C71202A120A2A00A5D3EB /* SetTargetForm.swift */,
 			);
 			path = Target;
@@ -289,6 +290,32 @@
 				5B6AB24F2A30AB0A008D09B6 /* MainSettingBanner.swift */,
 			);
 			path = Main;
+			sourceTree = "<group>";
+		};
+		5B6AB2512A316698008D09B6 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				5B6AB2522A3166B5008D09B6 /* Target */,
+				5B6AB2572A316B28008D09B6 /* Form */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		5B6AB2522A3166B5008D09B6 /* Target */ = {
+			isa = PBXGroup;
+			children = (
+				5B6AB24A2A306281008D09B6 /* TargetTermGauge.swift */,
+			);
+			path = Target;
+			sourceTree = "<group>";
+		};
+		5B6AB2572A316B28008D09B6 /* Form */ = {
+			isa = PBXGroup;
+			children = (
+				5B6AB2532A316752008D09B6 /* TextFieldFormContainer.swift */,
+				5B6AB2552A316A75008D09B6 /* FormContainer.swift */,
+			);
+			path = Form;
 			sourceTree = "<group>";
 		};
 		5B76D0F729C7755A008883A8 /* ViewModels */ = {
@@ -378,6 +405,7 @@
 				5BCF550329C2CB2500A19759 /* GongdeunTopApp.swift */,
 				5BF61E902A02967D007592D6 /* Etc */,
 				5BB4FECD29C892B0009CCD43 /* Models */,
+				5B6AB2512A316698008D09B6 /* Components */,
 				5BCF551729C3066A00A19759 /* Views */,
 				5B76D0F729C7755A008883A8 /* ViewModels */,
 				5BCF550729C2CB2700A19759 /* Assets.xcassets */,
@@ -432,7 +460,6 @@
 				5BCF551A29C30D1600A19759 /* ToDoList.swift */,
 				5BD3D1D629D1C3BB008E8988 /* ToDoListCell.swift */,
 				5B63A59229C95AD500AA4525 /* SetToDoForm.swift */,
-				5B63175729E6C90300FF6876 /* ToDoFormCell.swift */,
 			);
 			path = ToDo;
 			sourceTree = "<group>";
@@ -673,7 +700,6 @@
 				5BA9A4392A092E6A00453D65 /* CycleListCellDetail.swift in Sources */,
 				5BFFDB8529C5F299004C5376 /* SetTimeForm.swift in Sources */,
 				5BCF550629C2CB2500A19759 /* ContentView.swift in Sources */,
-				5B63175829E6C90300FF6876 /* ToDoFormCell.swift in Sources */,
 				5BF61E922A0296B1007592D6 /* ThemeManager.swift in Sources */,
 				5B2767C929FA2229008398A3 /* DateCell.swift in Sources */,
 				5B54FE432A2B5917000D29ED /* CGFloat+Utils.swift in Sources */,
@@ -693,6 +719,7 @@
 				5B6AB24D2A30959C008D09B6 /* AppLogoView.swift in Sources */,
 				5B1C71262A121C3C00A5D3EB /* RangeDatePicker.swift in Sources */,
 				5B76D0F629C76A2B008883A8 /* CircularSector.swift in Sources */,
+				5B6AB2542A316752008D09B6 /* TextFieldFormContainer.swift in Sources */,
 				5B4214F72A2D5F5F004362E5 /* MainConsole.swift in Sources */,
 				5BD3D1D929D1C45A008E8988 /* ToDo+PlaceHolder.swift in Sources */,
 				5B174C272A03720600204C75 /* RoundedHexagon.swift in Sources */,
@@ -704,6 +731,7 @@
 				5B95E13929D7FC9000E8CBA1 /* AuthManager.swift in Sources */,
 				5B38FBFF2A0CDC72003F9B5C /* SetNickNameView.swift in Sources */,
 				5BD5131929D574900008E1C9 /* SessionIndicator.swift in Sources */,
+				5B6AB2562A316A75008D09B6 /* FormContainer.swift in Sources */,
 				5B1C71212A120A2A00A5D3EB /* SetTargetForm.swift in Sources */,
 				5BA9A43C2A09310A00453D65 /* CycleToDoList.swift in Sources */,
 				5BCF550429C2CB2500A19759 /* GongdeunTopApp.swift in Sources */,
