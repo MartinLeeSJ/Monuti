@@ -15,19 +15,27 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 
     return true
   }
-    
-
-    
 }
 
 
 @main
 struct GongdeunTopApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+    @StateObject var themeManager = ThemeManager()
+    @StateObject var launchScreenManager = LaunchScreenManager()
     
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ZStack {
+                ContentView()
+                    
+                
+                if launchScreenManager.state != .finished {
+                    LauchScreen()
+                }
+            }
+            .environmentObject(themeManager)
+            .environmentObject(launchScreenManager)
         }
     }
 }

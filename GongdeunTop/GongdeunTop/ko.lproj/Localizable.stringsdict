@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>%lld target_total_days</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@days@</string>
+		<key>days</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>other</key>
+			<string>총 %d일</string>
+		</dict>
+	</dict>
+	<key>%lld target_dayLeft_count</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@days@</string>
+		<key>days</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>other</key>
+			<string>%d일 후</string>
+		</dict>
+	</dict>
+	<key>%lld todo_in_target</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@todoInTarget@</string>
+		<key>todoInTarget</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>other</key>
+			<string>%d개 완료</string>
+		</dict>
+	</dict>
+	<key>%lld second</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@second@</string>
+		<key>second</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>other</key>
+			<string>%d초</string>
+			<key>zero</key>
+			<string>0초</string>
+			<key>one</key>
+			<string>1초</string>
+		</dict>
+	</dict>
+	<key>%lld minute</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@minute@</string>
+		<key>minute</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>other</key>
+			<string>%d분</string>
+			<key>zero</key>
+			<string>0분</string>
+			<key>one</key>
+			<string>1분</string>
+		</dict>
+	</dict>
+	<key>really_delete? %lld</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@multiSelecitonCount@</string>
+		<key>multiSelecitonCount</key>
+		<dict>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>one</key>
+			<string>이 할 일을 삭제하시겠습니까?</string>
+			<key>other</key>
+			<string>%d개의 할 일을 삭제하시겠습니까 ?</string>
+		</dict>
+	</dict>
+	<key>todo_counts %lld</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@todoCount@</string>
+		<key>todoCount</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>zero</key>
+			<string>할 일 없음,</string>
+			<key>one</key>
+			<string>한 개의 할 일,</string>
+			<key>other</key>
+			<string>%d개 의 할 일,</string>
+		</dict>
+	</dict>
+</dict>
+</plist>

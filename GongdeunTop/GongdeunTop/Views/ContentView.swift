@@ -9,31 +9,29 @@ import SwiftUI
 
 struct ContentView: View {
     @Environment(\.colorScheme) var scheme: ColorScheme
-    
-    @StateObject var authViewModel = AuthViewModel()
-    
-    @State private var tabSelection: Int8 = 1
+    @StateObject var authManager = AuthManager()
+    @StateObject var todoStore = ToDoStore()
+    @StateObject var targetStore = TargetStore()
+    @StateObject var timerManager = TimerManager()
+    @EnvironmentObject var launchScreenManager: LaunchScreenManager
+    @EnvironmentObject var themeManager: ThemeManager
     
     var body: some View {
-        switch authViewModel.authState {
-        case .unAuthenticated: SignUpView(viewModel: authViewModel)
-        case .authenticated, .authenticating:
-            TabView(selection: $tabSelection) {
-                NavigationView {
-                    ToDoList()
-                }
-                .tabItem {
-                    Label("하루", systemImage: "deskclock")
-                }
-                .tag(1)
-                
-                RecordView(authViewModel: authViewModel)
-                .tabItem {
-                    Label("기록", systemImage: "text.redaction")
-                }
-                .tag(2)
+        VStack {
+            switch authManager.authState {
+            case .unAuthenticated: SignUpView(manager: authManager)
+            case .authenticating: ProgressView()
+            case .authenticated where authManager.nickNameRegisterState != .existingUser: SetNickNameView(manager: authManager)
+            case .authenticated:
+                MainRouterView()
+                    .environmentObject(authManager)
+                    .environmentObject(todoStore)
+                    .environmentObject(targetStore)
+                    .environmentObject(timerManager)
             }
-            .tint(scheme == .dark ? Color.white : Color.black)
+        }
+        .task {
+            self.launchScreenManager.dismiss()
         }
     }
 }
@@ -41,5 +39,6 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+            .environmentObject(LaunchScreenManager())
     }
 }

@@ -1,0 +1,111 @@
+/* 
+  Localizable.strings
+  GongdeunTop
+
+  Created by Martin on 2023/04/15.
+  
+*/
+"Today's ToDos" = "Today's ToDos";
+
+"Done" = "Done";
+"Edit" = "Edit";
+"Add" = "Add";
+"Delete" = "Delete";
+"Cancel" = "Cancel";
+"Complete Todo" = "Comeplete ToDo";
+"Quit" = "Quit";
+"Continue" = "Continue";
+"really exit" = "Are you sure you want to exit?";
+
+"sessions%lld" = " %lld Sessions,";
+"totalTime%lld" = " %lld minutes";
+"Set Time" = "Set Time";
+"Start" = "Timer Start";
+
+
+"title" = "Title";
+"todo_title" = "Title of todo";
+"todo_title_footer" = "Title is required.";
+
+"content" = "Content";
+"todo_content" = "Content of todo";
+"todo_content_footer" = "Writing down specifically and clearly will increase your concentration.";
+
+"tag" = "Tag";
+"todo_tag" = "Tag of todo";
+"todo_tag_footer" = "Manage your Todo with tags";
+
+
+//SetTimeForm
+"setTime_session" = "Sessions";
+"setTime_session%lld" = "%lld sessions";
+"setTime_session_range" = "2 to 5";
+
+"setTime_concentration" = "Concentration";
+"setTime_concentration_range" = "15 to 50";
+
+"setTime_rest" = "Rest";
+"setTime_rest_range" = "5 to 10, last 30min";
+
+"setTime_minute%lld" = "%lldmin";
+
+//Session Timer
+"timer_currentTodo_nothing" = "Nothing To Do";
+"timer_todoMenu" = "Select ToDo";
+"timer_todoMenu_nothing" = "Nothing To Select";
+"timer_todoMenu_doNotSelect" = "Nothing";
+
+
+//Session Timer _ Indicator
+
+"Refresh" = "Refresh";
+"Concentrate" = "Concentrate!";
+
+
+//CycleMemoir
+"cycleMemoir_Quit" = "Just Quit";
+"cycleMemoir_Add" = "Add";
+
+"concentration_evaluation_title" = "My Concentration Was...";
+"concentration_evaluation_subtitle" = "Choose your level of concentration to build the tower";
+"Weak" = "Weak";
+"Good" = "Good";
+"Solid" = "Solid";
+
+"concentration_todos_title" = "I Had Focused On These";
+"concentration_todos_subtitle" = "Check what you did";
+
+"concentration_textEditor_title" = "Memoir";
+"concentration_textEditor_subtitle" = "Write a memoir about this cycle";
+
+// MARK: - Target List Cell
+"target_days" = "DAYS";
+"target_achievement" = "ACHIEVEMENT";
+"target_completed" = "COMPLETED";
+"target_begins" = "TARGET BEGINS";
+"target_dues" = "DUE DATE";
+
+"ShortTerm" = "Short";
+"MidTerm" = "Mideum";
+"LongTerm" = "Long";
+"VeryLongTerm" = "VeryLong";
+
+// MARK: - Set Target Form
+"target_titleAndSubtitle" = "Title and subtitle";
+"targetTitle" = "Title";
+"targetTitle_placeholder" = "Title of target";
+"targetSubTitle" = "Subtitle";
+"targetSubTitle_placeHolder" = "Subtitle of target";
+"target_start_and_due_date" = "Start and due date";
+"target_start_date" = "Start";
+"target_due_date" = "Due in";
+
+
+//Weekday
+"Sun" = "Sun";
+"Mon" = "Mon";
+"Tue" = "Tue";
+"Wed" = "Wed";
+"Thu" = "Thu";
+"Fri" = "Fri";
+"Sat" = "Sat";

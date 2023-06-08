@@ -1,0 +1,107 @@
+/* 
+  Localizable.strings
+  GongdeunTop
+
+  Created by Martin on 2023/04/15.
+  
+*/
+
+"Today's ToDos" = "오늘의 할 일";
+
+"Done" = "완료";
+"Edit" = "수정";
+"Add" = "추가";
+"Delete" = "삭제";
+"Cancel" = "취소";
+"Complete Todo" = "일 끝내기";
+"Quit" = "끝내기";
+"Continue" = "계속하기";
+"really exit" = "정말로 끝내겠습니까?";
+
+"sessions%lld" = " %lld개 세션,";
+"totalTime%lld" = " 총 %lld분";
+"Set Time" = "시간 설정";
+"Start" = "집중 시작";
+
+
+"title" = "제목";
+"todo_title" = "할 일 제목";
+"todo_title_footer" = "제목은 반드시 포함되어야 하는 필수 항목입니다.";
+
+"content" = "내용";
+"todo_content" = "할 일의 구체적인 내용";
+"todo_content_footer" = "구체적이고 명확하게 기록하면 집중도가 높아집니다.";
+
+"tag" = "태그";
+"todo_tag" = "할 일의 태그";
+"todo_tag_footer" = "태그를 등록해 할 일을 관리하세요";
+
+
+//SetTimeForm
+"setTime_session" = "세션 수";
+"setTime_session%lld" = "%lld개 세션";
+"setTime_session_range" = "2 ~ 5개";
+
+"setTime_concentration" = "집중시간";
+"setTime_concentration_range" = "15~50분";
+
+"setTime_rest" = "휴식";
+"setTime_rest_range" = "5~10분, 마지막 30분";
+
+"setTime_minute%lld" = "%lld분";
+
+//Session Timer
+"timer_currentTodo_nothing" = "현재 할 일 없음";
+"timer_todoMenu" = "할 일 선택";
+"timer_todoMenu_nothing" = "선택할 할 일 없음";
+"timer_todoMenu_doNotSelect" = "선택 안함";
+
+//Session Timer _ Indicator
+"Refresh" = "쉬는시간";
+"Concentrate" = "집중!";
+
+//CycleMemoir
+"cycleMemoir_Quit" = "바로 끝내기";
+"cycleMemoir_Add" = "저장";
+
+"concentration_evaluation_title" = "나의 집중도는...";
+"concentration_evaluation_subtitle" = "공든 탑에 쌓아 올려질 이번 세션 집중도 재료를 고르세요";
+"Weak" = "약했어요";
+"Good" = "좋았어요";
+"Solid" = "견고해요!";
+
+"concentration_todos_title" = "이 할 일들에 집중했어요";
+"concentration_todos_subtitle" = "완료한 할 일들을 체크하세요";
+
+"concentration_textEditor_title" = "돌아보기";
+"concentration_textEditor_subtitle" = "이번 집중시간은 어땠는지 적어보세요";
+
+// MARK: - Target List Cell
+"target_days" = "목표 기간";
+"target_achievement" = "성취도";
+"target_completed" = "관련된 할 일";
+"target_begins" = "타겟 시작";
+"target_dues" = "타겟 종료";
+
+"ShortTerm" = "단기";
+"MidTerm" = "중기";
+"LongTerm" = "중장기";
+"VeryLongTerm" = "장기";
+// MARK: - Set Target Form
+"target_titleAndSubtitle" = "제목, 내용";
+"targetTitle" = "제목";
+"targetTitle_placeholder" = "목표를 입력하세요.";
+"targetSubTitle" = "내용";
+"targetSubTitle_placeHolder" = "목표의 내용을 입력하세요.";
+"target_start_and_due_date" = "시작일, 종료일";
+"target_start_date" = "시작";
+"target_due_date" = "종료";
+
+//Weekday
+"Sun" = "일";
+"Mon" = "월";
+"Tue" = "화";
+"Wed" = "수";
+"Thu" = "목";
+"Fri" = "금";
+"Sat" = "토";
