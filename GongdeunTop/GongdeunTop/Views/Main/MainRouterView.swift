@@ -26,9 +26,9 @@ struct MainRouterView: View {
         }
     }
     @EnvironmentObject var themeManager: ThemeManager
-    @StateObject var todoStore = ToDoStore()
-    @StateObject var targetStore = TargetStore()
-    @StateObject var timerManager = TimerManager()
+    @EnvironmentObject var todoStore: ToDoStore
+    @EnvironmentObject var targetStore: TargetStore
+    @EnvironmentObject var timerManager: TimerManager
     
     @State private var isSettingViewOn: Bool = false
     @State private var currentDisplayingView: DisplayingViews = .todo {
@@ -55,12 +55,10 @@ struct MainRouterView: View {
                     
                     switch currentDisplayingView {
                     case .todo: ToDoList()
-                                .environmentObject(todoStore)
-                                .environmentObject(timerManager)
                                 .transition(.move(edge: edge).animation(.linear(duration: 0.3)))
                                 
                     case .calendar: Text("Test")
-                    case .target: TargetList(targetStore: targetStore)
+                    case .target: TargetList()
                             .transition(.move(edge: edge).animation(.linear(duration: 0.3)))
                                     
                     }
@@ -201,7 +199,7 @@ extension MainRouterView {
     
     var calendarViewButton: some View {
         NavigationLink {
-            RecordView()
+            CalendarView()
         } label: {
             VStack(alignment: .trailing) {
                 HAlignment(alignment: .leading) {
