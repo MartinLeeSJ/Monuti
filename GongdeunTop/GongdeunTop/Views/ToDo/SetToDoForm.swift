@@ -156,6 +156,14 @@ extension SetToDoForm {
 
 // MARK: - Tag
 extension SetToDoForm {
+    var tagLimit: Int {
+        5
+    }
+    
+    var canAddMoreTag: Bool {
+        manager.todo.tags.count < tagLimit
+    }
+    
     @ViewBuilder
     var tagForm: some View {
         FormContainer {
@@ -173,7 +181,7 @@ extension SetToDoForm {
                 addTagButton
             }
             
-            if !filteredTags.isEmpty {
+            if !filteredTags.isEmpty && canAddMoreTag {
                 tagSearchList
             }
         } footer: {
@@ -194,6 +202,7 @@ extension SetToDoForm {
             Text("등록")
         }
         .disabled(tagText.isEmpty)
+        .disabled(!canAddMoreTag)
     }
     
     @ViewBuilder
@@ -228,7 +237,7 @@ extension SetToDoForm {
                             .font(.caption)
                             .padding(.vertical, 2)
                             .padding(.horizontal, 6)
-                            .background(Capsule().fill(themeManager.getColorInPriority(of: .accent)))
+                            .background(.thinMaterial, in: Capsule())
                             .background {
                                 HAlignment(alignment: .trailling) {
                                     Button {
