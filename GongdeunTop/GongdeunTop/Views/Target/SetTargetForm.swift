@@ -36,8 +36,6 @@ struct SetTargetForm: View {
                     titleAndSubtitleTextField
                     startAndDuteDatePicker
                     termsInfos
-                    
-                    
                     Spacer()
                 }
                 .toolbar {
@@ -60,7 +58,7 @@ struct SetTargetForm: View {
     
     @ViewBuilder
     var titleAndSubtitleTextField: some View {
-        VStack {
+        TextFieldFormContainer {
             HStack {
                 Text("targetTitle")
                 TextField(text: $targetManager.target.title) {
@@ -78,24 +76,14 @@ struct SetTargetForm: View {
                 }
                 .font(.body)
             }
-        }
-        .padding([.vertical, .leading])
-        .background(themeManager.getComponentColor(), in: RoundedRectangle(cornerRadius: 10))
-        .textFieldStyle(.plain)
-        .autocorrectionDisabled(true)
-        .textInputAutocapitalization(.never)
-        .padding(.top, 16)
-        .overlay(alignment: .topLeading) {
+        } header: {
             Text("target_titleAndSubtitle")
-                .font(.caption)
-                .foregroundColor(.secondary)
-                .offset(y: -2)
         }
     }
     
     @ViewBuilder
     var startAndDuteDatePicker: some View {
-        VStack {
+        FormContainer {
             DatePicker(
                 String(localized: "target_start_date"),
                 selection: $targetManager.target.startDate,
@@ -109,15 +97,8 @@ struct SetTargetForm: View {
                 in: endDateRange,
                 displayedComponents: [.date]
             )
-        }
-        .padding()
-        .background(themeManager.getComponentColor(), in: RoundedRectangle(cornerRadius: 10))
-        .padding(.top, 16)
-        .overlay(alignment: .topLeading) {
+        } header: {
             Text("target_start_and_due_date")
-                .font(.caption)
-                .foregroundColor(.secondary)
-                .offset(y: -2)
         }
     }
     
