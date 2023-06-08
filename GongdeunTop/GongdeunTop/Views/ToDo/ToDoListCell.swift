@@ -22,16 +22,16 @@ struct ToDoListCell: View {
                 
                 Text(todo.content)
                     .font(.footnote)
+                    .foregroundStyle(.secondary)
                 
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack {
                         ForEach(todo.tags, id: \.self) { tag in
                             Text(tag)
                                 .font(.caption)
-                                .foregroundColor(.white)
                                 .padding(.vertical, 2)
                                 .padding(.horizontal, 6)
-                                .background(Capsule().fill(themeManager.getColorInPriority(of: .accent)))
+                                .background(Capsule().fill(.thinMaterial))
                         }
                     }
                 }

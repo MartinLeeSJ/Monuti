@@ -10,7 +10,7 @@ import SwiftUI
 
 struct TargetList: View {
     @EnvironmentObject var themeManager: ThemeManager
-    @ObservedObject var targetStore: TargetStore
+    @EnvironmentObject var targetStore: TargetStore
     
     
     var body: some View {
@@ -42,10 +42,3 @@ struct TargetList: View {
 }
 
 
-
-struct TargetView_Previews: PreviewProvider {
-    static var previews: some View {
-        TargetList(targetStore: TargetStore())
-            .environmentObject(ThemeManager())
-    }
-}

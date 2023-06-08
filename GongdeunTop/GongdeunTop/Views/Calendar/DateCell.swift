@@ -73,8 +73,7 @@ struct DateCell: View {
                 manager.selectedDate = date
             } label: {
                 RoundedHexagon(radius: 20, cornerAngle: 5)
-//                RoundedRectangle(cornerRadius: 5)
-                    .fill(scheme == .light ? Color.GTWarmGray : Color.black)
+                    .fill(.thinMaterial)
                     .frame(width: 33, height: 33)
                     .overlay {
                         if let evaluation, evaluation != 0, let priority = ColorPriority(rawValue: evaluation) {

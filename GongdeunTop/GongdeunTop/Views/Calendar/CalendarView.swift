@@ -1,5 +1,5 @@
 //
-//  RecordView.swift
+//  CalendarView.swift
 //  GongdeunTop
 //
 //  Created by Martin on 2023/03/16.
@@ -22,7 +22,7 @@ enum RecordSheetType: Identifiable {
     var id: Self { self }
 }
 
-struct RecordView: View {
+struct CalendarView: View {
     @EnvironmentObject var themeManager: ThemeManager
     @StateObject var calendarManager = CalendarManager()
     @StateObject var cycleStore = CycleStore()
@@ -103,7 +103,7 @@ struct RecordView: View {
 }
 
 // MARK: - 캘린더
-extension RecordView {
+extension CalendarView {
     @ViewBuilder
     func getCalendar() -> some View {
         LazyVGrid(columns: Array(repeating: .init(.flexible(), spacing: 0), count: 7), spacing: 0) {
@@ -160,7 +160,7 @@ extension RecordView {
 }
 
 // MARK: - Toolbar
-extension RecordView {
+extension CalendarView {
     @ToolbarContentBuilder
     func setMonthToolbar() -> some ToolbarContent {
         ToolbarItem(placement: .navigationBarLeading) {
@@ -217,7 +217,7 @@ extension RecordView {
 }
 
 // MARK: - Cycle List
-extension RecordView {
+extension CalendarView {
     @ViewBuilder
     func getCycleList() -> some View {
         ScrollView {
@@ -238,9 +238,9 @@ extension RecordView {
 struct RecordView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            RecordView()
+            CalendarView()
                 .environment(\.locale, .init(identifier: "ko"))
-            RecordView()
+            CalendarView()
                 .environment(\.locale, .init(identifier: "en"))
         }
     }
