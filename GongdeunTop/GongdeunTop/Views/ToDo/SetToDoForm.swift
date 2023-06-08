@@ -44,7 +44,7 @@ struct SetToDoForm: View {
     private let db = Firestore.firestore()
     
     
-
+    
     private func handleDoneTapped() {
         manager.handleDoneTapped()
         if mode == .edit {
@@ -59,8 +59,9 @@ struct SetToDoForm: View {
                     .ignoresSafeArea(.all)
                 ScrollView {
                     VStack(spacing: 32) {
-                       titleAndContentTextField
-                       tagForm
+                        titleAndContentTextField
+                        startingTimeForm
+                        tagForm
                         if !manager.todo.tags.isEmpty {
                             tagScroll
                         }
@@ -136,7 +137,7 @@ extension SetToDoForm {
                 Text("content")
                     .font(.headline)
                     .fontWeight(.medium)
-
+                
                 TextField(String(localized: "todo_content"), text: $manager.todo.content)
                     .focused($focusedField, equals: .content)
                     .onReceive(Just(manager.todo.content)) { _ in
@@ -150,6 +151,45 @@ extension SetToDoForm {
             }
         } footer: {
             Text("todo_content_footer")
+        }
+    }
+}
+
+// MARK: - Time
+extension SetToDoForm {
+    @ViewBuilder
+    var startingTimeForm: some View {
+        FormContainer {
+            if let dateBinding = Binding<Date>($manager.todo.startingTime) {
+                    DatePicker(
+                        "Starting Time",
+                        selection: dateBinding,
+                        displayedComponents: [.hourAndMinute]
+                    )
+            } else {
+                HStack {
+                    Text("정해진 시작시간 없음")
+                        .font(.caption2)
+                        .foregroundStyle(.tertiary)
+                    Spacer()
+                    Button {
+                        manager.todo.startingTime = Date.now
+                    } label: {
+                        Text("시작시간 설정")
+                            .font(.caption2)
+                    }
+                }
+            }
+            if manager.todo.startingTime != nil {
+                Divider()
+                Button {
+                    manager.todo.startingTime = nil
+                } label: {
+                    Text("지정 취소")
+                        .font(.caption2)
+                }
+                .tint(.red)
+            }
         }
     }
 }
@@ -207,25 +247,25 @@ extension SetToDoForm {
     
     @ViewBuilder
     var tagSearchList: some View {
-            Divider()
-            ScrollView {
-                ForEach(filteredTags, id: \.self) { tag in
-                    HAlignment(alignment: .leading) {
-                        Button {
-                            handleTagListElementTapped(title: tag.title)
-                        } label: {
-                            HStack {
-                                Image(systemName: "magnifyingglass.circle")
-                                    .opacity(0.5)
-                                Text(tag.title)
-                            }
+        Divider()
+        ScrollView {
+            ForEach(filteredTags, id: \.self) { tag in
+                HAlignment(alignment: .leading) {
+                    Button {
+                        handleTagListElementTapped(title: tag.title)
+                    } label: {
+                        HStack {
+                            Image(systemName: "magnifyingglass.circle")
+                                .opacity(0.5)
+                            Text(tag.title)
                         }
-                        .tint(Color("basicFontColor"))
                     }
-                    .padding(.vertical, 4)
+                    .tint(Color("basicFontColor"))
                 }
+                .padding(.vertical, 4)
             }
-            .frame(minHeight: 30)
+        }
+        .frame(minHeight: 30)
     }
     
     var tagScroll: some View {
