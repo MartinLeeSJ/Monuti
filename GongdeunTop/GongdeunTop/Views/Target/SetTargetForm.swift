@@ -32,7 +32,7 @@ struct SetTargetForm: View {
             ZStack {
                 themeManager.getSheetBackgroundColor()
                     .ignoresSafeArea(.all)
-                VStack(spacing: 16) {
+                VStack(spacing: 32) {
                     titleAndSubtitleTextField
                     startAndDuteDatePicker
                     termsInfos

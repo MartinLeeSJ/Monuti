@@ -11,25 +11,13 @@ struct TextFieldFormContainer<Content>: View where Content: View {
     @EnvironmentObject var themeManager: ThemeManager
     @ViewBuilder let content: () -> Content
     var header: (() -> Text)? = nil
-
+    var footer: (() -> Text)? = nil
+    
     var body: some View {
-        VStack {
-            content()
-        }
-        .padding([.vertical, .leading])
-        .background(themeManager.getComponentColor(), in: RoundedRectangle(cornerRadius: 10))
+        FormContainer(paddingInsets: [.vertical, .leading], content: content, header: header, footer: footer)
         .textFieldStyle(.plain)
         .autocorrectionDisabled(true)
         .textInputAutocapitalization(.never)
-        .padding(.top, 16)
-        .overlay(alignment: .topLeading) {
-            if let header = header {
-                header()
-                    .font(.caption)
-                    .foregroundColor(.secondary)
-                    .offset(y: -2)
-            }
-        }
     }
 }
 

@@ -16,5 +16,5 @@ struct ToDo: Codable, Hashable, Identifiable {
     var tags: [String] = []
     var timeSpent: Int = 0
     var isCompleted: Bool = false
-    var createdAt: Timestamp
+    var createdAt: Date
 }

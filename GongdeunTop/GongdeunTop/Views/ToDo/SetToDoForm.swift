@@ -57,15 +57,17 @@ struct SetToDoForm: View {
                 themeManager.getSheetBackgroundColor()
                     .ignoresSafeArea(.all)
                 ScrollView {
-                    VStack {
+                    VStack(spacing: 32) {
                        titleAndContentTextField
                        tagForm
                         if !manager.todo.tags.isEmpty {
                             tagScroll
                         }
                     }
-                    .padding()
+                    .padding(.horizontal)
                 }
+                .navigationTitle(Text("새 투두_임시"))
+                .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
                     ToolbarItem(placement: .navigationBarTrailing) {
                         Button {
@@ -121,6 +123,8 @@ extension SetToDoForm {
                 TextField(String(localized: "todo_content"), text: $manager.todo.content)
                     .focused($focusedField, equals: .content)
             }
+        } footer: {
+            Text("todo_content_footer")
         }
     }
 }
@@ -147,7 +151,8 @@ extension SetToDoForm {
             if !filteredTags.isEmpty {
                 tagSearchList
             }
-            
+        } footer: {
+            Text("todo_tag_footer")
         }
         .onAppear {
             tagStore.subscribeTags()
