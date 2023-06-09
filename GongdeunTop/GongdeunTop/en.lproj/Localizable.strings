@@ -32,7 +32,11 @@
 "extendTodos_alert_title" = "Extend Expiration";
 "Extend" = "Yes";
 
-//SetToDoForm
+
+// MARK: - SetToDoForm
+"setTodoForm_title_new" = "New ToDo";
+"setTodoForm_title_edit" = "Edit ToDo";
+
 "title" = "Title";
 "todo_title" = "Title of todo";
 "todo_title_footer" = "Title is required.";
@@ -45,6 +49,11 @@
 "todo_tag" = "Tag of todo";
 "todo_tag_footer" = "Manage your Todo with tags";
 
+// SetToDoForm_startingTimeForm
+"setTodoForm_startingTimeForm_datePickerTitle" = "Start at";
+"setTodoForm_startingTimeForm_timeIsNil" = "No specified time";
+"setTodoForm_startingTimeForm_setTimeButtonLabel" = "Specify the time";
+"setTodoForm_startingTimeForm_donotSetTime" = "Cancel time designation";
 
 //SetTimeForm
 "setTime_session" = "Sessions";

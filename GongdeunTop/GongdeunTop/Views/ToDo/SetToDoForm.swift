@@ -68,7 +68,9 @@ struct SetToDoForm: View {
                     }
                     .padding(.horizontal)
                 }
-                .navigationTitle(Text("새 투두_임시"))
+                .navigationTitle(mode == .new ?
+                                 Text("setTodoForm_title_new") :
+                                 Text("setTodoForm_title_edit"))
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
                     ToolbarItem(placement: .navigationBarTrailing) {
@@ -114,7 +116,7 @@ extension SetToDoForm {
     @ViewBuilder
     var titleAndContentTextField: some View {
         TextFieldFormContainer {
-            HStack(spacing: 8) {
+            HStack(alignment: .bottom, spacing: 8) {
                 Text("title")
                     .font(.headline)
                     .fontWeight(.medium)
@@ -133,7 +135,7 @@ extension SetToDoForm {
             
             Divider()
             
-            HStack(spacing: 8) {
+            HStack(alignment: .bottom, spacing: 8) {
                 Text("content")
                     .font(.headline)
                     .fontWeight(.medium)
@@ -162,20 +164,20 @@ extension SetToDoForm {
         FormContainer {
             if let dateBinding = Binding<Date>($manager.todo.startingTime) {
                     DatePicker(
-                        "Starting Time",
+                        "setTodoForm_startingTimeForm_datePickerTitle",
                         selection: dateBinding,
                         displayedComponents: [.hourAndMinute]
                     )
             } else {
                 HStack {
-                    Text("정해진 시작시간 없음")
+                    Text("setTodoForm_startingTimeForm_timeIsNil")
                         .font(.caption2)
                         .foregroundStyle(.tertiary)
                     Spacer()
                     Button {
                         manager.todo.startingTime = Date.now
                     } label: {
-                        Text("시작시간 설정")
+                        Text("setTodoForm_startingTimeForm_setTimeButtonLabel")
                             .font(.caption2)
                     }
                 }
@@ -185,7 +187,7 @@ extension SetToDoForm {
                 Button {
                     manager.todo.startingTime = nil
                 } label: {
-                    Text("지정 취소")
+                    Text("setTodoForm_startingTimeForm_donotSetTime")
                         .font(.caption2)
                 }
                 .tint(.red)
@@ -200,6 +202,10 @@ extension SetToDoForm {
         5
     }
     
+    var tagCharacterLimit: Int {
+        20
+    }
+    
     var canAddMoreTag: Bool {
         manager.todo.tags.count < tagLimit
     }
@@ -207,17 +213,10 @@ extension SetToDoForm {
     @ViewBuilder
     var tagForm: some View {
         FormContainer {
-            HStack {
-                Text("tag")
-                    .font(.headline)
-                    .fontWeight(.medium)
-                
-                TextField(String(localized: "todo_tag"), text: $tagText)
-                    .focused($focusedField, equals: .tag)
-                    .onChange(of: tagText) { string in
-                        filteredTags = tagStore.tags.filter { $0.title.localizedCaseInsensitiveContains(string) }
-                    }
-                
+            HStack(alignment: .bottom){
+                tagFormTitle
+                tagFormTextField
+                tagFormCharacterLimitLabel
                 addTagButton
             }
             
@@ -234,8 +233,32 @@ extension SetToDoForm {
             tagStore.unsubscribeTags()
         }
     }
+    private var tagFormTitle: some View {
+        Text("tag")
+            .font(.headline)
+            .fontWeight(.medium)
+    }
     
-    var addTagButton: some View {
+    private var tagFormTextField: some View {
+        TextField(String(localized: "todo_tag"), text: $tagText)
+            .focused($focusedField, equals: .tag)
+            .onChange(of: tagText) { string in
+                filteredTags = tagStore.tags.filter { $0.title.localizedCaseInsensitiveContains(string) }
+            }
+            .onReceive(Just(tagText)) { _ in
+                if tagText.count > tagCharacterLimit {
+                    tagText = String(tagText.prefix(tagCharacterLimit))
+                }
+            }
+    }
+    
+    private var tagFormCharacterLimitLabel: some View {
+        Text("\(tagText.count)/\(tagCharacterLimit)")
+            .font(.caption)
+            .fixedSize()
+    }
+    
+    private var addTagButton: some View {
         Button {
             handleAddTagButton()
         } label: {
@@ -270,35 +293,40 @@ extension SetToDoForm {
     
     var tagScroll: some View {
         FormContainer {
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 18) {
-                    ForEach(manager.todo.tags, id: \.self) { tagTitle in
-                        Text(tagTitle)
-                            .font(.caption)
-                            .padding(.vertical, 2)
-                            .padding(.horizontal, 6)
-                            .background(.thinMaterial, in: Capsule())
-                            .background {
-                                HAlignment(alignment: .trailling) {
-                                    Button {
-                                        deleteTag(title: tagTitle)
-                                    } label: {
-                                        Image(systemName: "trash.fill")
-                                            .foregroundColor(.white)
-                                            .font(.caption)
-                                            .padding(2)
-                                            .background {
-                                                Circle()
-                                                    .fill(Color.black)
-                                            }
+            HStack(alignment: .bottom) {
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 18) {
+                        ForEach(manager.todo.tags, id: \.self) { tagTitle in
+                            Text(tagTitle)
+                                .font(.caption)
+                                .padding(.vertical, 2)
+                                .padding(.horizontal, 6)
+                                .background(.thinMaterial, in: Capsule())
+                                .background {
+                                    HAlignment(alignment: .trailling) {
+                                        Button {
+                                            deleteTag(title: tagTitle)
+                                        } label: {
+                                            Image(systemName: "trash.fill")
+                                                .foregroundColor(.white)
+                                                .font(.caption)
+                                                .padding(2)
+                                                .background {
+                                                    Circle()
+                                                        .fill(Color.black)
+                                                }
+                                        }
                                     }
+                                    .background(Capsule().fill(Color.black))
+                                    .offset(x: 15)
                                 }
-                                .background(Capsule().fill(Color.black))
-                                .offset(x: 15)
-                            }
+                        }
                     }
+                    .padding(.trailing, 60)
                 }
-                .padding(.trailing, 60)
+                Text("\(manager.todo.tags.count)/\(tagLimit)")
+                    .font(.caption)
+                    .fixedSize()
             }
         }
         
