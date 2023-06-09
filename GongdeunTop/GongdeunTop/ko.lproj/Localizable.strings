@@ -33,7 +33,10 @@
 "extendTodos_alert_title" = "내일 이어서 하기";
 "Extend" = "연장";
 
-//SetToDoForm
+// MARK: - SetToDoForm
+"setTodoForm_title_new" = "새로운 할 일";
+"setTodoForm_title_edit" = "할 일 수정";
+
 "title" = "제목";
 "todo_title" = "할 일 제목";
 "todo_title_footer" = "제목은 반드시 포함되어야 하는 필수 항목입니다.";
@@ -45,6 +48,12 @@
 "tag" = "태그";
 "todo_tag" = "할 일의 태그";
 "todo_tag_footer" = "태그를 등록해 할 일을 관리하세요";
+
+// SetToDoForm_startingTimeForm
+"setTodoForm_startingTimeForm_datePickerTitle" = "시작 시간";
+"setTodoForm_startingTimeForm_timeIsNil" = "지정된 시간 없음";
+"setTodoForm_startingTimeForm_setTimeButtonLabel" = "지정하기";
+"setTodoForm_startingTimeForm_donotSetTime" = "시간 지정 취소하기";
 
 
 //SetTimeForm
