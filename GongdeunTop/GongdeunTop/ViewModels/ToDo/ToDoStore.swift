@@ -36,9 +36,8 @@ final class ToDoStore: ObservableObject {
             
             let calendar = Calendar.current
             let dateInterval = calendar.dateInterval(of: .day, for: Date())
-            let startTime = calendar.date(byAdding: .day, value: -1, to: dateInterval?.start ?? Date())!
-            let endTime = dateInterval?.end ?? Date()
-            
+            let startTime = dateInterval?.start ?? Date()
+            let endTime = calendar.date(byAdding: .day, value: 1, to: dateInterval?.end ?? Date())!
             
             let query = database.collection("Members")
                 .document(uid)
