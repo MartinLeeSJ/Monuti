@@ -166,10 +166,35 @@ extension ToDoStore {
         guard !multiSelection.isEmpty else { return }
         
         let batch = database.batch()
-        
+       
         for id in multiSelection {
             if let id {
                 batch.updateData(["isCompleted": true],
+                                 forDocument:  database
+                    .collection("Members")
+                    .document(uid)
+                    .collection("ToDo")
+                    .document(id))
+            }
+        }
+        
+        batch.commit() { err in
+            if let err {
+                print(err.localizedDescription)
+            }
+        }
+    }
+    
+    func extendLifeOfToDo() {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        
+        let batch = database.batch()
+        let calendar = Calendar.current
+        
+        for todo in todos {
+            guard let updatedCreatedAt = calendar.date(byAdding: .day, value: 1, to: todo.createdAt) else { continue }
+            if let id = todo.id {
+                batch.updateData(["createdAt": updatedCreatedAt],
                                  forDocument:  database
                     .collection("Members")
                     .document(uid)

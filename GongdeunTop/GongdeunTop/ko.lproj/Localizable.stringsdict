@@ -44,24 +44,6 @@
 			<string>%d개 완료</string>
 		</dict>
 	</dict>
-	<key>%lld second</key>
-	<dict>
-		<key>NSStringLocalizedFormatKey</key>
-		<string>%#@second@</string>
-		<key>second</key>
-		<dict>
-			<key>NSStringFormatSpecTypeKey</key>
-			<string>NSStringPluralRuleType</string>
-			<key>NSStringFormatValueTypeKey</key>
-			<string>lld</string>
-			<key>other</key>
-			<string>%d초</string>
-			<key>zero</key>
-			<string>0초</string>
-			<key>one</key>
-			<string>1초</string>
-		</dict>
-	</dict>
 	<key>%lld minute</key>
 	<dict>
 		<key>NSStringLocalizedFormatKey</key>
@@ -80,6 +62,24 @@
 			<string>1분</string>
 		</dict>
 	</dict>
+	<key>%lld second</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@second@</string>
+		<key>second</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>other</key>
+			<string>%d초</string>
+			<key>zero</key>
+			<string>0초</string>
+			<key>one</key>
+			<string>1초</string>
+		</dict>
+	</dict>
 	<key>really_delete? %lld</key>
 	<dict>
 		<key>NSStringLocalizedFormatKey</key>
@@ -94,6 +94,22 @@
 			<string>이 할 일을 삭제하시겠습니까?</string>
 			<key>other</key>
 			<string>%d개의 할 일을 삭제하시겠습니까 ?</string>
+		</dict>
+	</dict>
+	<key>will_extend? %lld </key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@todoCount@</string>
+		<key>todoCount</key>
+		<dict>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>one</key>
+			<string>이 할 일을 내일까지 이어서 하시겠습니까?</string>
+			<key>other</key>
+			<string>%d 개의 할 일을 내일까지 이어서 하시겠습니까?</string>
 		</dict>
 	</dict>
 	<key>todo_counts %lld</key>
