@@ -14,12 +14,12 @@ import FirebaseAuth
 
 final class ToDoStore: ObservableObject {
     private var listenerRegistration: ListenerRegistration?
-    
     private let database = Firestore.firestore()
     
     @Published var todos: [ToDo] = []
     @Published var isEditing: Bool = false
     @Published var multiSelection = Set<String?>()
+    @Published var sortMode: SortMode = .basic
     
     func unsubscribeTodos() {
         if listenerRegistration != nil {
@@ -57,10 +57,70 @@ final class ToDoStore: ObservableObject {
                 self.todos = documents.compactMap { queryDocumentSnapshot in
                     try? queryDocumentSnapshot.data(as: ToDo.self)
                 }
+                
+                sortTodos(as: self.sortMode)
+            }
+        }
+    }
+}
+
+
+// MARK: - Sorting
+extension ToDoStore {
+    enum SortMode: String, Identifiable, CaseIterable {
+        case basic
+        case ascend
+        case descend
+        
+        var id: Self {
+            self
+        }
+        
+        var localizedString: String {
+            switch self {
+            case .ascend: return String(localized: "toDoList_sort_ascend")
+            case .descend: return String(localized: "toDoList_sort_descend")
+            case .basic: return String(localized: "toDoList_sort_basic")
             }
         }
     }
     
+    func sortTodos(as mode: ToDoStore.SortMode) {
+        self.sortMode = mode
+        
+        switch mode {
+        case .ascend: sortToDosByStartingTimeAscend()
+        case .basic: sortToDosByStartingTimeDescend()
+        case .descend: sortToDosByCreatedAt()
+        }
+    }
+    
+    private func sortToDosByStartingTimeAscend() {
+        self.todos.sort {
+            guard let firstDate = $0.startingTime, let secondDate = $1.startingTime else {
+                return $0.createdAt < $1.createdAt
+            }
+            return firstDate < secondDate
+        }
+    }
+    
+    private func sortToDosByStartingTimeDescend() {
+        self.todos.sort {
+            guard let firstDate = $0.startingTime, let secondDate = $1.startingTime else {
+                return $0.createdAt > $1.createdAt
+            }
+            return firstDate > secondDate
+        }
+    }
+    
+    private func sortToDosByCreatedAt() {
+        self.todos.sort { $0.createdAt < $1.createdAt }
+    }
+    
+}
+
+// MARK: - Multiple Deletion and Completion
+extension ToDoStore {
     
     func deleteTodos() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
@@ -125,7 +185,4 @@ final class ToDoStore: ObservableObject {
             }
         }
     }
-    
-    
-    
 }

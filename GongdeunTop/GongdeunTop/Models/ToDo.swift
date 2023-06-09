@@ -18,4 +18,23 @@ struct ToDo: Codable, Hashable, Identifiable {
     var isCompleted: Bool = false
     var startingTime: Date? = Date.now
     var createdAt: Date
+    
+    private var todoDateFormatter: DateFormatter {
+        let formatter = DateFormatter()
+        formatter.locale = Locale.current
+        formatter.dateStyle = .none
+        formatter.timeStyle = .short
+        return formatter
+    }
+    
+    var startingTimeString: String? {
+        guard let time = startingTime else { return nil }
+        var timeStringArray =  self.todoDateFormatter.string(from:  time)
+            .split(separator: " ")
+            .map { String($0) }
+        
+        timeStringArray.insert("\n", at: 1)
+        
+        return timeStringArray.reduce("", + )
+    }
 }

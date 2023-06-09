@@ -22,7 +22,12 @@
 "Set Time" = "Set Time";
 "Start" = "Timer Start";
 
+//ToDoList
+"toDoList_sort_ascend" = "Ascend";
+"toDoList_sort_descend" = "Descend";
+"toDoList_sort_basic" = "Basic";
 
+//SetToDoForm
 "title" = "Title";
 "todo_title" = "Title of todo";
 "todo_title_footer" = "Title is required.";

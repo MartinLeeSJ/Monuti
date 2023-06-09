@@ -9,6 +9,7 @@ import SwiftUI
 
 
 struct ToDoList: View {
+    
     @EnvironmentObject var themeManager: ThemeManager
     @EnvironmentObject var todoStore: ToDoStore
     @EnvironmentObject var timerManager: TimerManager
@@ -17,6 +18,8 @@ struct ToDoList: View {
     
     var body: some View {
         VStack(spacing: 0) {
+            topEditingConsole
+            
             List(todoStore.todos, selection: $todoStore.multiSelection) { todo in
                 ToDoListCell(todo: todo)
                     .listRowBackground(Color.clear)
@@ -31,21 +34,71 @@ struct ToDoList: View {
             Divider()
             
             if todoStore.isEditing {
-                editToDosButtons()
+                bottomEditingConsole
             }
         }
     }
 }
 
+// MARK: - Top Editing Console
+extension ToDoList {
+    @ViewBuilder
+    var topEditingConsole: some View {
+        HStack {
+            Menu {
+                ForEach(ToDoStore.SortMode.allCases) { mode in
+                    Button {
+                        todoStore.sortTodos(as: mode)
+                    } label: {
+                        HStack {
+                            Text(mode.localizedString)
+                            Spacer()
+                            if todoStore.sortMode == mode {
+                                Image(systemName: "checkmark")
+                            }
+                        }
+                    }
+                }
+            } label: {
+                if todoStore.sortMode == .basic {
+                    Image(systemName: "arrow.up.arrow.down.square")
+                        .font(.title2)
+                } else {
+                    HStack(alignment: .bottom ,spacing: 4) {
+                        Image(systemName: "arrow.up.arrow.down.square.fill")
+                            .font(.title2)
+                        Text(todoStore.sortMode.localizedString)
+                            .font(.caption)
+                    }
+                }
+            }
+            
+            Spacer()
 
-//MARK: - EditToDosButtons
+            Button {
+                withAnimation {
+                    todoStore.isEditing.toggle()
+                }
+            } label: {
+                Text(todoStore.isEditing ? "Done" : "Edit")
+            }
+            .transition(.opacity)
+        }
+        .padding(.horizontal)
+        .padding(.vertical, 8)
+        .tint(themeManager.getColorInPriority(of: .accent))
+    }
+}
+
+
+// MARK: - Bottom Editing Console
 extension ToDoList {
     var multiSelectionCount: Int {
         todoStore.multiSelection.count
     }
     
     @ViewBuilder
-    func editToDosButtons() -> some View {
+    var bottomEditingConsole: some View {
         HStack {
             Button {
                 isDeleteAlertOn.toggle()
