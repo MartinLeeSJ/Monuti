@@ -23,7 +23,17 @@
 "Set Time" = "시간 설정";
 "Start" = "집중 시작";
 
+//ToDoList
+"toDoList_sort_ascend" = "시간 오름차순";
+"toDoList_sort_descend" = "시간 내림차순";
+"toDoList_sort_basic" = "기본";
 
+//ToDoList_Extending Todos
+"extendTodos_button_label" = "내일 이어서 하기";
+"extendTodos_alert_title" = "내일 이어서 하기";
+"Extend" = "연장";
+
+//SetToDoForm
 "title" = "제목";
 "todo_title" = "할 일 제목";
 "todo_title_footer" = "제목은 반드시 포함되어야 하는 필수 항목입니다.";

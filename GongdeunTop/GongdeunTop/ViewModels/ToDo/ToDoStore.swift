@@ -14,12 +14,12 @@ import FirebaseAuth
 
 final class ToDoStore: ObservableObject {
     private var listenerRegistration: ListenerRegistration?
-    
     private let database = Firestore.firestore()
     
     @Published var todos: [ToDo] = []
     @Published var isEditing: Bool = false
     @Published var multiSelection = Set<String?>()
+    @Published var sortMode: SortMode = .basic
     
     func unsubscribeTodos() {
         if listenerRegistration != nil {
@@ -36,9 +36,8 @@ final class ToDoStore: ObservableObject {
             
             let calendar = Calendar.current
             let dateInterval = calendar.dateInterval(of: .day, for: Date())
-            let startTime = calendar.date(byAdding: .day, value: -1, to: dateInterval?.start ?? Date())!
-            let endTime = dateInterval?.end ?? Date()
-            
+            let startTime = dateInterval?.start ?? Date()
+            let endTime = calendar.date(byAdding: .day, value: 1, to: dateInterval?.end ?? Date())!
             
             let query = database.collection("Members")
                 .document(uid)
@@ -57,10 +56,70 @@ final class ToDoStore: ObservableObject {
                 self.todos = documents.compactMap { queryDocumentSnapshot in
                     try? queryDocumentSnapshot.data(as: ToDo.self)
                 }
+                
+                sortTodos(as: self.sortMode)
+            }
+        }
+    }
+}
+
+
+// MARK: - Sorting
+extension ToDoStore {
+    enum SortMode: String, Identifiable, CaseIterable {
+        case basic
+        case ascend
+        case descend
+        
+        var id: Self {
+            self
+        }
+        
+        var localizedString: String {
+            switch self {
+            case .ascend: return String(localized: "toDoList_sort_ascend")
+            case .descend: return String(localized: "toDoList_sort_descend")
+            case .basic: return String(localized: "toDoList_sort_basic")
             }
         }
     }
     
+    func sortTodos(as mode: ToDoStore.SortMode) {
+        self.sortMode = mode
+        
+        switch mode {
+        case .ascend: sortToDosByStartingTimeAscend()
+        case .basic: sortToDosByStartingTimeDescend()
+        case .descend: sortToDosByCreatedAt()
+        }
+    }
+    
+    private func sortToDosByStartingTimeAscend() {
+        self.todos.sort {
+            guard let firstDate = $0.startingTime, let secondDate = $1.startingTime else {
+                return $0.createdAt < $1.createdAt
+            }
+            return firstDate < secondDate
+        }
+    }
+    
+    private func sortToDosByStartingTimeDescend() {
+        self.todos.sort {
+            guard let firstDate = $0.startingTime, let secondDate = $1.startingTime else {
+                return $0.createdAt > $1.createdAt
+            }
+            return firstDate > secondDate
+        }
+    }
+    
+    private func sortToDosByCreatedAt() {
+        self.todos.sort { $0.createdAt < $1.createdAt }
+    }
+    
+}
+
+// MARK: - Multiple Deletion and Completion
+extension ToDoStore {
     
     func deleteTodos() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
@@ -107,7 +166,7 @@ final class ToDoStore: ObservableObject {
         guard !multiSelection.isEmpty else { return }
         
         let batch = database.batch()
-        
+       
         for id in multiSelection {
             if let id {
                 batch.updateData(["isCompleted": true],
@@ -126,6 +185,28 @@ final class ToDoStore: ObservableObject {
         }
     }
     
-    
-    
+    func extendLifeOfToDo() {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        
+        let batch = database.batch()
+        let calendar = Calendar.current
+        
+        for todo in todos {
+            guard let updatedCreatedAt = calendar.date(byAdding: .day, value: 1, to: todo.createdAt) else { continue }
+            if let id = todo.id {
+                batch.updateData(["createdAt": updatedCreatedAt],
+                                 forDocument:  database
+                    .collection("Members")
+                    .document(uid)
+                    .collection("ToDo")
+                    .document(id))
+            }
+        }
+        
+        batch.commit() { err in
+            if let err {
+                print(err.localizedDescription)
+            }
+        }
+    }
 }

@@ -94,21 +94,6 @@ struct MainRouterView: View {
                     }
                     .tint(themeManager.getColorInPriority(of: .accent))
                 }
-                
-                
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    if currentDisplayingView == .todo {
-                        Button {
-                            withAnimation {
-                                todoStore.isEditing.toggle()
-                            }
-                        } label: {
-                            Text(todoStore.isEditing ? "Done" : "Edit")
-                        }
-                        .tint(Color("basicFontColor"))
-                        .transition(.opacity)
-                    }
-                }
             }
             .onAppear {
                 todoStore.subscribeTodos()
