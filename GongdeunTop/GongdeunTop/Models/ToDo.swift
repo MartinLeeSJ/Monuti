@@ -17,6 +17,7 @@ struct ToDo: Codable, Hashable, Identifiable {
     var timeSpent: Int = 0
     var isCompleted: Bool = false
     var startingTime: Date? = Date.now
+    var relatedTarget: String? = nil
     var createdAt: Date
     
     private var todoDateFormatter: DateFormatter {
