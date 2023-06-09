@@ -108,17 +108,19 @@
 			<string>Will you really delete %d todos?</string>
 		</dict>
 	</dict>
-	<key>will_extend? %lld </key>
+	<key>will_extend?%lld</key>
 	<dict>
 		<key>NSStringLocalizedFormatKey</key>
-		<string>%#@todoCount@</string>
-		<key>todoCount</key>
+		<string>%#@todosCount@</string>
+		<key>todosCount</key>
 		<dict>
 			<key>NSStringFormatValueTypeKey</key>
 			<string>lld</string>
 			<key>NSStringFormatSpecTypeKey</key>
 			<string>NSStringPluralRuleType</string>
 			<key>one</key>
+			<string>Will you extend time of this ToDo until Tomorrow?</string>
+			<key>zero</key>
 			<string>Will you extend time of this ToDo until Tomorrow?</string>
 			<key>other</key>
 			<string>Will you extend time of %d ToDos until Tomorrow?</string>

@@ -29,7 +29,7 @@
 
 //ToDoList_Extending Todos
 "extendTodos_button_label" = "Keep Going";
-"extendTodos_alert_title" = "Extends ToDos";
+"extendTodos_alert_title" = "Extend Expiration";
 "Extend" = "Yes";
 
 //SetToDoForm

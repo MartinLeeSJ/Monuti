@@ -185,13 +185,14 @@ extension ToDoStore {
         }
     }
     
-    func extendLifeOfToDo() {
+    func extendLifeOfTodos() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         
         let batch = database.batch()
         let calendar = Calendar.current
         
         for todo in todos {
+            guard calendar.isDateInToday(todo.createdAt) else { continue }
             guard let updatedCreatedAt = calendar.date(byAdding: .day, value: 1, to: todo.createdAt) else { continue }
             if let id = todo.id {
                 batch.updateData(["createdAt": updatedCreatedAt],

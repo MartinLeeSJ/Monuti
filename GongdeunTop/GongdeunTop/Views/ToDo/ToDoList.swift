@@ -104,13 +104,13 @@ extension ToDoList {
                     Text("Cancel")
                 }
                 Button {
-                    todoStore.extendLifeOfToDo()
+                    todoStore.extendLifeOfTodos()
                     isExtendingTodosLifeAlertOn = false
                 } label: {
                     Text("Extend")
                 }
             } message: {
-                Text("will_extend? \(todoStore.todos.count)")
+                Text(String(localized: "will_extend?\(todoStore.todos.count)"))
             }
 
             
