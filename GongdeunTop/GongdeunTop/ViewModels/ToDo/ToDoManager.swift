@@ -11,10 +11,11 @@ import Combine
 import FirebaseFirestore
 import FirebaseAuth
 
+
 final class ToDoManager: ObservableObject {
     @Published var todo: ToDo
     @Published var modified: Bool = false
-
+    
     
     private let database = Firestore.firestore()
     private var cancellables = Set<AnyCancellable>()
@@ -34,14 +35,18 @@ final class ToDoManager: ObservableObject {
         self.modified = false
     }
     
-    private func addToDo(_ todo: ToDo) {
+    private func addToDo(_ todo: ToDo) async {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         if todo.id == nil {
             do {
-                try database.collection("Members")
+                let documentRef = try database.collection("Members")
                     .document(uid)
                     .collection("ToDo")
                     .addDocument(from: todo)
+                let documentId = documentRef.documentID
+                
+                await registerTodoInTarget(todoId: documentId, targetId: todo.relatedTarget)
+                
                 reset()
             } catch {
                 print(error.localizedDescription)
@@ -49,13 +54,15 @@ final class ToDoManager: ObservableObject {
         }
     }
     
-    private func updateToDo(_ todo: ToDo) {
+    private func updateToDo(_ todo: ToDo) async {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         guard let id = todo.id else { return }
         
         do {
             try database.collection("Members").document(uid).collection("ToDo").document(id)
                 .setData(from: self.todo)
+            
+            await registerTodoInTarget(todoId: id, targetId: todo.relatedTarget)
         } catch {
             print(error.localizedDescription)
         }
@@ -75,11 +82,61 @@ final class ToDoManager: ObservableObject {
     
     
     private func addOrUpdateToDo() {
-        if let _ = self.todo.id {
-            updateToDo(self.todo)
-        } else {
-            self.todo.createdAt = Date.now
-            addToDo(self.todo)
+        Task {
+            if let _ = self.todo.id {
+                await updateToDo(self.todo)
+            } else {
+                self.todo.createdAt = Date.now
+                await addToDo(self.todo)
+            }
+        }
+    }
+    
+    // MARK: - Update Todo relatedTarget
+    
+    func setRelatedTarget(ofId targetId: String?) {
+        guard let targetId else { return }
+        self.todo.relatedTarget = targetId
+    }
+    
+    
+    private func registerTodoInTarget(todoId: String, targetId: String?) async {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        guard let targetId else { return }
+        let batch = database.batch()
+        let ref = database
+            .collection("Members")
+            .document(uid)
+            .collection("Target")
+            .document(targetId)
+        
+        batch.updateData(["todos": FieldValue.arrayUnion([todoId]) ], forDocument: ref)
+        
+        do {
+            try await batch.commit()
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    
+    @MainActor
+    func deleteRelatedTarget(ofId targetId: String?) async {
+        guard let todoId = todo.id else { return }
+        guard let targetId else { return }
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        let batch = database.batch()
+        let ref = database
+            .collection("Members")
+            .document(uid)
+            .collection("Target")
+            .document(targetId)
+        
+        batch.updateData(["todos": FieldValue.arrayRemove([todoId]) ], forDocument: ref)
+        do {
+            try await batch.commit()
+            self.todo.relatedTarget = nil
+        } catch {
+            print(error.localizedDescription)
         }
     }
     

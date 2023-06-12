@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Darwin
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
@@ -20,12 +21,22 @@ struct Target: Codable, Hashable, Identifiable {
     var achievement: Int
     var memoirs: String // 회고
     
+    var achievementRate: Double {
+        guard todos.count != 0 else { return 0 }
+        let rate: Double = Double(achievement / todos.count)
+        return round(rate * 100) / 100
+    }
+}
+
+// MARK: - Day and Date
+extension Target {
+    
     var startDateString: String {
-        return DateFormatter.shortTimeFormat.string(from:  startDate)
+        return DateFormatter.shortDateFormat.string(from:  startDate)
     }
     
     var dueDateString: String {
-        return DateFormatter.shortTimeFormat.string(from:  dueDate)
+        return DateFormatter.shortDateFormat.string(from:  dueDate)
     }
     
     private func getDay(from start: Date, to end: Date) -> Int {

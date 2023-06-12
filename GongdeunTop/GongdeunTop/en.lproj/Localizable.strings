@@ -22,6 +22,11 @@
 "Set Time" = "Set Time";
 "Start" = "Timer Start";
 
+// MARK: - MainRouterView Switch
+"viewSwitch_todo" = "ToDo";
+"viewSwitch_target" = "Target";
+"viewSwitch_calendar" = "Calendar";
+
 //ToDoList
 "toDoList_sort_ascend" = "Ascend";
 "toDoList_sort_descend" = "Descend";
@@ -48,6 +53,9 @@
 "tag" = "Tag";
 "todo_tag" = "Tag of todo";
 "todo_tag_footer" = "Manage your Todo with tags";
+
+"setToDoForm_target_placeholder" = "Connect To Target";
+"setToDoForm_target_title" = "Target";
 
 // SetToDoForm_startingTimeForm
 "setTodoForm_startingTimeForm_datePickerTitle" = "Start at";

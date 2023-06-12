@@ -26,16 +26,21 @@ enum ToDoField: Int, Hashable, CaseIterable {
     case title
     case content
     case tag
+    case target
 }
 
 struct SetToDoForm: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var themeManager: ThemeManager
+    @EnvironmentObject var targetStore: TargetStore
     @StateObject var tagStore = TagStore()
     @ObservedObject var manager = ToDoManager()
     
     @State private var tagText: String = ""
     @State private var filteredTags: [Tag] = []
+    
+    @State private var targetQuery: String = ""
+    @State private var filteredTargets: [Target] = []
     
     @FocusState private var focusedField: ToDoField?
     
@@ -48,6 +53,15 @@ struct SetToDoForm: View {
     private func handleDoneTapped() {
         manager.handleDoneTapped()
         if mode == .edit {
+            dismiss()
+        }
+    }
+    
+    private func handleCloseTapped() {
+        Task {
+            if let targetId = manager.todo.relatedTarget, mode == .new {
+                await manager.deleteRelatedTarget(ofId: targetId)
+            }
             dismiss()
         }
     }
@@ -65,6 +79,7 @@ struct SetToDoForm: View {
                         if !manager.todo.tags.isEmpty {
                             tagScroll
                         }
+                        targetForm
                     }
                     .padding(.horizontal)
                 }
@@ -72,7 +87,17 @@ struct SetToDoForm: View {
                                  Text("setTodoForm_title_new") :
                                  Text("setTodoForm_title_edit"))
                 .navigationBarTitleDisplayMode(.inline)
+                .interactiveDismissDisabled()
                 .toolbar {
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        Button {
+                            handleCloseTapped()
+                        } label: {
+                            Image(systemName: "xmark.circle.fill")
+                                .font(.title3)
+                        }
+                    }
+                    
                     ToolbarItem(placement: .navigationBarTrailing) {
                         Button {
                             handleDoneTapped()
@@ -406,6 +431,91 @@ extension SetToDoForm {
         }
         return currentFocusedField.rawValue < ToDoField.allCases.count - 1
     }
+}
+
+// MARK: - Connecting Target
+extension SetToDoForm {
+    private func findTargetTitle(ofId id: String) -> String {
+        guard let target = targetStore.targets.first(where: { $0.id == id }) else { return "" }
+        return target.title
+    }
+    
+    @ViewBuilder
+    var targetForm: some View {
+        if let targetId = manager.todo.relatedTarget  {
+            currentTarget(ofId: targetId)
+        } else {
+            TextFieldFormContainer {
+                HStack {
+                    targetFormTitle
+                    targetFormTextField
+                }
+                if !filteredTargets.isEmpty {
+                    targetSearchList
+                }
+            }
+        }
+    }
+    
+    @ViewBuilder
+    var targetFormTitle: some View {
+        Text("setToDoForm_target_title")
+            .font(.headline)
+            .fontWeight(.medium)
+    }
+    
+    @ViewBuilder
+    private func currentTarget(ofId targetId: String) -> some View {
+        FormContainer {
+            HStack {
+                targetFormTitle
+                Text(findTargetTitle(ofId: targetId))
+                    .lineLimit(1)
+                Spacer()
+                Button {
+                    Task {
+                        await manager.deleteRelatedTarget(ofId: targetId)
+                    }
+                } label: {
+                    Text("Delete")
+                }
+                .tint(.red)
+            }
+        }
+    }
+    
+    private var targetFormTextField: some View {
+        TextField("setToDoForm_target_placeholder", text: $targetQuery)
+            .focused($focusedField, equals: .target)
+            .onChange(of: targetQuery) { query in
+                filteredTargets = targetStore.targets.filter { $0.title.localizedCaseInsensitiveContains(query) }
+            }
+    }
+    
+    @ViewBuilder
+    var targetSearchList: some View {
+        Divider()
+        ScrollView {
+            ForEach(filteredTargets, id: \.self) { target in
+                HAlignment(alignment: .leading) {
+                    Button {
+                        manager.setRelatedTarget(ofId: target.id)
+                    } label: {
+                        HStack {
+                            Image(systemName: "magnifyingglass.circle")
+                                .opacity(0.5)
+                            Text(target.title)
+                        }
+                    }
+                    .tint(Color("basicFontColor"))
+                }
+                .padding(.vertical, 4)
+            }
+        }
+        .frame(minHeight: 30)
+    }
+    
+    
 }
 
 
