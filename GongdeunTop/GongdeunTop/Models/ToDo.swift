@@ -20,17 +20,10 @@ struct ToDo: Codable, Hashable, Identifiable {
     var relatedTarget: String? = nil
     var createdAt: Date
     
-    private var todoDateFormatter: DateFormatter {
-        let formatter = DateFormatter()
-        formatter.locale = Locale.current
-        formatter.dateStyle = .none
-        formatter.timeStyle = .short
-        return formatter
-    }
     
     var startingTimeString: String? {
         guard let time = startingTime else { return nil }
-        var timeStringArray =  self.todoDateFormatter.string(from:  time)
+        var timeStringArray =  DateFormatter.shortTimeFormat.string(from:  time)
             .split(separator: " ")
             .map { String($0) }
         

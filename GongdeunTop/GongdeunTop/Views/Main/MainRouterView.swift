@@ -50,13 +50,10 @@ struct MainRouterView: View {
                 
                 VStack(spacing: 4) {
                     viewSwitch
-                        
                     Divider()
-                    
                     switch currentDisplayingView {
                     case .todo: ToDoList()
                                 .transition(.move(edge: edge).animation(.linear(duration: 0.3)))
-                                
                     case .calendar: Text("Test")
                     case .target: TargetList()
                             .transition(.move(edge: edge).animation(.linear(duration: 0.3)))
