@@ -12,7 +12,7 @@ import Combine
 import FirebaseFirestore
 import FirebaseAuth
 
-final class ToDoStore: ObservableObject {
+final class ToDoStore: ObservableObject {    
     private var listenerRegistration: ListenerRegistration?
     private let database = Firestore.firestore()
     
@@ -165,17 +165,27 @@ extension ToDoStore {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         guard !multiSelection.isEmpty else { return }
         
+        let membersRef = database
+            .collection("Members")
+            .document(uid)
         let batch = database.batch()
        
         for id in multiSelection {
-            if let id {
-                batch.updateData(["isCompleted": true],
-                                 forDocument:  database
-                    .collection("Members")
-                    .document(uid)
-                    .collection("ToDo")
-                    .document(id))
-            }
+            guard let id else { continue }
+            guard let todo = todos.filter({ $0.id == id }).first else { continue }
+            
+            batch.updateData(["isCompleted": true],
+                             forDocument:  membersRef
+                .collection("ToDo")
+                .document(id))
+            
+            guard let targetId = todo.relatedTarget else { continue }
+            
+            batch.updateData(["achievement": FieldValue.increment(Int64(1))],
+                             forDocument: membersRef
+                .collection("Target")
+                .document(targetId)
+            )
         }
         
         batch.commit() { err in

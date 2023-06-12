@@ -18,8 +18,12 @@ struct TargetList: View {
     var body: some View {
         VStack(spacing: 0) {
             topEditingConsole
-            List(targetStore.targets, selection: $targetStore.multiSelection) { target in
-                TargetListCell(target: target)
+            List(targetStore.targets, id: \.self.id, selection: $targetStore.multiSelection) { target in
+                NavigationLink {
+                    TargetDetailView(target: target)
+                } label: {
+                    TargetListCell(target: target)
+                }
                     .listRowBackground(Color.clear)
                     .listRowSeparator(.hidden)
                     .listRowInsets(.init(top: 8,

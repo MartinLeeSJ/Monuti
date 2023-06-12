@@ -43,7 +43,7 @@ struct MainRouterView: View {
     @State private var edge: Edge = .leading
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ZStack {
                 themeManager.getColorInPriority(of: .background)
                     .ignoresSafeArea()

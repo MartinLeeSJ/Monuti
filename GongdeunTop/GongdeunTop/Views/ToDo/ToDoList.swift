@@ -9,7 +9,6 @@ import SwiftUI
 
 
 struct ToDoList: View {
-    
     @EnvironmentObject var themeManager: ThemeManager
     @EnvironmentObject var todoStore: ToDoStore
     @EnvironmentObject var timerManager: TimerManager
@@ -21,7 +20,7 @@ struct ToDoList: View {
         VStack(spacing: 0) {
             topEditingConsole
             
-            List(todoStore.todos, selection: $todoStore.multiSelection) { todo in
+            List(todoStore.todos, id: \.self.id, selection: $todoStore.multiSelection) { todo in
                 ToDoListCell(todo: todo)
                     .listRowBackground(Color.clear)
                     .listRowSeparator(.hidden)
@@ -118,7 +117,6 @@ extension ToDoList {
         Spacer()
     }
     
-    
     @ViewBuilder
     private var multipleEditingButton: some View {
         Button {
@@ -130,7 +128,6 @@ extension ToDoList {
         }
         .transition(.opacity)
     }
-    
 }
 
 
