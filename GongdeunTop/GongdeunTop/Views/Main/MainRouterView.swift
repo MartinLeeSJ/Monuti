@@ -125,26 +125,27 @@ extension MainRouterView {
                 self.currentDisplayingView = .todo
             }
         } label: {
-            VStack(alignment: .trailing) {
-                HStack(spacing: 2) {
-                    Text("할 일")
+            VStack(alignment: .leading, spacing: 8) {
+                    Text("viewSwitch_todo")
+                    .font(.headline)
+                
+                HStack {
                     Image(systemName: "checklist")
                         .foregroundStyle(themeManager.getColorInPriority(of: .accent), .gray)
+                        .font(.headline)
                     Spacer()
+                    Text("\(todoStore.todos.count)")
+                        .font(.title3)
                 }
-                Spacer()
-                Text("\(todoStore.todos.count)")
-                    .font(.title)
-                    .fontWeight(.bold)
             }
-            .padding()
-            .frame(height: 90)
-            .background(themeManager.getComponentColor(), in: RoundedRectangle(cornerRadius: 8))
-            .overlay {
-                if self.currentDisplayingView == .todo {
-                    RoundedRectangle(cornerRadius: 8)
-                        .stroke(themeManager.getColorInPriority(of: .accent), lineWidth: 3)
-                }
+        }
+        .fontWeight(.bold)
+        .padding(8)
+        .background(themeManager.getComponentColor(), in: RoundedRectangle(cornerRadius: 8))
+        .overlay {
+            if self.currentDisplayingView == .todo {
+                RoundedRectangle(cornerRadius: 8)
+                    .stroke(themeManager.getColorInPriority(of: .accent), lineWidth: 3)
             }
         }
     }
@@ -156,20 +157,21 @@ extension MainRouterView {
                 self.currentDisplayingView = .target
             }
         } label: {
-            VStack(alignment: .trailing) {
-                HAlignment(alignment: .leading) {
-                    Text("목표")
+            VStack(alignment: .leading, spacing: 8) {
+                Text("viewSwitch_target")
+                    .font(.headline)
+                HStack {
                     Image(systemName: "target")
                         .foregroundStyle(themeManager.getColorInPriority(of: .accent), .gray)
+                        .font(.headline)
+                    Spacer()
+                    Text("\(targetStore.targets.count)")
+                        .font(.title3)
                 }
-                Spacer()
-                Text("\(targetStore.targets.count)")
-                    .font(.title)
-                    .fontWeight(.bold)
             }
         }
-        .padding()
-        .frame(height: 90)
+        .fontWeight(.bold)
+        .padding(8)
         .background(themeManager.getComponentColor(), in: RoundedRectangle(cornerRadius: 8))
         .overlay {
             if self.currentDisplayingView == .target {
@@ -183,22 +185,22 @@ extension MainRouterView {
         NavigationLink {
             CalendarView()
         } label: {
-            VStack(alignment: .trailing) {
-                HAlignment(alignment: .leading) {
-                    Text("달력")
+            VStack(alignment: .leading, spacing: 8) {
+                Text("viewSwitch_calendar")
+                HStack {
                     Image(systemName: "calendar")
                         .foregroundStyle(themeManager.getColorInPriority(of: .accent))
+                    Spacer()
+                    Text(DateFormatter.veryShortDateformat.string(from: Date.now))
                 }
-                Spacer()
-                Text("0")
-                    .font(.title)
-                    .fontWeight(.bold)
             }
         }
-        .padding()
-        .frame(height: 90)
+        .font(.headline)
+        .fontWeight(.bold)
+        .padding(8)
         .background(themeManager.getComponentColor(), in: RoundedRectangle(cornerRadius: 8))
     }
+    
 }
 
 struct MainRouterView_Previews: PreviewProvider {

@@ -108,6 +108,22 @@
 			<string>Will you really delete %d todos?</string>
 		</dict>
 	</dict>
+	<key>really_delete_target? %lld</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@multiSelecitonCount@</string>
+		<key>multiSelecitonCount</key>
+		<dict>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>one</key>
+			<string>Will you really delete this target?</string>
+			<key>other</key>
+			<string>Will you really delete %d targets?</string>
+		</dict>
+	</dict>
 	<key>will_extend?%lld</key>
 	<dict>
 		<key>NSStringLocalizedFormatKey</key>

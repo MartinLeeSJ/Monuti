@@ -96,6 +96,22 @@
 			<string>%d개의 할 일을 삭제하시겠습니까 ?</string>
 		</dict>
 	</dict>
+	<key>really_delete_target? %lld</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@multiSelecitonCount@</string>
+		<key>multiSelecitonCount</key>
+		<dict>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>one</key>
+			<string>이 목표를 정말로 삭제하시겠습니까?</string>
+			<key>other</key>
+			<string>%d개의 목표를 정말로 삭제하시겠습니까?</string>
+		</dict>
+	</dict>
 	<key>will_extend?%lld</key>
 	<dict>
 		<key>NSStringLocalizedFormatKey</key>

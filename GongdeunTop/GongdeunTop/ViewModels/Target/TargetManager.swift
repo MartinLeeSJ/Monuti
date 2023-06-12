@@ -63,14 +63,18 @@ final class TargetManager: ObservableObject {
     private func removeTarget() async {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         guard let id = target.id else { return }
+        let memberRef = database.collection("Members").document(uid)
+        let batch = database.batch()
+        
+        for todo in target.todos {
+            batch.updateData(["relatedTarget" : nil ?? ""],
+                             forDocument: memberRef.collection("ToDo").document(todo))
+        }
+        
+        batch.deleteDocument(memberRef.collection("Target").document(id))
         
         do {
-            try await
-            database.collection("Members")
-                .document(uid)
-                .collection("Target")
-                .document(id)
-                .delete()
+            try await batch.commit()
         } catch {
             print(error.localizedDescription)
         }

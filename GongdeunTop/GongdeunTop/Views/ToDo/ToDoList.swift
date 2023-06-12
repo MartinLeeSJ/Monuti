@@ -149,13 +149,7 @@ extension ToDoList {
                 Text("Delete")
             }
             .alert("Delete", isPresented: $isDeleteAlertOn) {
-                Button {
-                    isDeleteAlertOn.toggle()
-                } label: {
-                    Text("Cancel")
-                }
-                
-                Button {
+                Button(role: .destructive) {
                     todoStore.deleteTodos()
                     isDeleteAlertOn.toggle()
                 } label: {

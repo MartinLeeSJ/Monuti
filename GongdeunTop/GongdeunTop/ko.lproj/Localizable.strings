@@ -23,6 +23,11 @@
 "Set Time" = "시간 설정";
 "Start" = "집중 시작";
 
+// MARK: - MainRouterView Switch
+"viewSwitch_todo" = "할 일";
+"viewSwitch_target" = "목표";
+"viewSwitch_calendar" = "달력";
+
 //ToDoList
 "toDoList_sort_ascend" = "시간 오름차순";
 "toDoList_sort_descend" = "시간 내림차순";

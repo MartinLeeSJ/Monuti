@@ -21,11 +21,11 @@ struct Target: Codable, Hashable, Identifiable {
     var memoirs: String // 회고
     
     var startDateString: String {
-        return DateFormatter.shortTimeFormat.string(from:  startDate)
+        return DateFormatter.shortDateFormat.string(from:  startDate)
     }
     
     var dueDateString: String {
-        return DateFormatter.shortTimeFormat.string(from:  dueDate)
+        return DateFormatter.shortDateFormat.string(from:  dueDate)
     }
     
     private func getDay(from start: Date, to end: Date) -> Int {

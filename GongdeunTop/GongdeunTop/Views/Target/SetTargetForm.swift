@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SetTargetForm: View {
     @EnvironmentObject var themeManager: ThemeManager
-    @ObservedObject var targetManager = TargetManager()
+    @StateObject var targetManager = TargetManager()
     
     let startDateRange: ClosedRange<Date> = {
         let calendar = Calendar.current
@@ -118,7 +118,7 @@ struct SetTargetForm: View {
 
 struct SetTargetForm_Previews: PreviewProvider {
     static var previews: some View {
-        SetTargetForm(targetManager: TargetManager())
+        SetTargetForm()
             .environmentObject(ThemeManager())
     }
 }
