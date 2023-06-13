@@ -136,3 +136,6 @@
 "Thu" = "Thu";
 "Fri" = "Fri";
 "Sat" = "Sat";
+
+// MARK: - Target Detail View
+"targetDetail_term" = "Term";

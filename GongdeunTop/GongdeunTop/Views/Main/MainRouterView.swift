@@ -73,6 +73,7 @@ struct MainRouterView: View {
                     .offset(y: -90)
                 }
             }
+            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     AppLogoView(radius: 16)
@@ -133,6 +134,7 @@ extension MainRouterView {
                     Image(systemName: "checklist")
                         .foregroundStyle(themeManager.getColorInPriority(of: .accent), .gray)
                         .font(.headline)
+                        .symbolRenderingMode(.hierarchical)
                     Spacer()
                     Text("\(todoStore.todos.count)")
                         .font(.title3)

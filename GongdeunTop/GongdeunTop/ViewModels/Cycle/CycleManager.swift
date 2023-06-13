@@ -89,11 +89,10 @@ final class CycleManager: ObservableObject {
     
     
     func handleFinishedCycleButton() {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
         Task {
             self.addToDoIdInCycle()
             await updateToDos()
-            await updateTargets()
+            await updateTargetAchievements()
             self.addCycle()
         }
     }
@@ -127,12 +126,11 @@ final class CycleManager: ObservableObject {
         }
     }
     
-    private func updateTargets() async {
+    private func updateTargetAchievements() async {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         let batch = database.batch()
         
         for todo in todos {
-            guard let id = todo.id else { continue }
             guard let targetId = todo.relatedTarget else { continue }
             guard todo.isCompleted else { continue }
             
