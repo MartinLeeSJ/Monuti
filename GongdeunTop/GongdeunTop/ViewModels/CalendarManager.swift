@@ -40,7 +40,6 @@ final class CalendarManager: ObservableObject {
         }
 
         currentMonthData = monthData
-        print(monthData)
     }
     
     private func getCurrentYearDate() {

@@ -8,14 +8,110 @@
 import SwiftUI
 
 struct TargetDetailView: View {
+    @Environment(\.dismiss) var dismiss
+    @EnvironmentObject var themeManager: ThemeManager
+    @StateObject var targetToDoStore: TargetToDoStore
     let target: Target
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ScrollView {
+            VStack(alignment: .leading) {
+                titles
+                termInfo
+                ScrollView(.horizontal) {
+                    LazyHStack {
+                        ForEach(targetToDoStore.tempDates, id: \.self) { date in
+                            
+                        }
+                    }
+                }
+            }
+            .padding()
+        }
+        .navigationBarTitleDisplayMode(.inline)
+        .navigationBarBackButtonHidden(true)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button {
+                    dismiss()
+                } label: {
+                    Image(systemName: "arrow.backward.circle.fill")
+                }
+                .tint(themeManager.getColorInPriority(of: .accent))
+            }
+        }
+        .onAppear {
+            targetToDoStore.subscribeToDosOfTargets()
+        }
+        .onDisappear {
+            targetToDoStore.unsubscribeToDosOfTarget()
+        }
     }
 }
 
-struct TargetDetailView_Previews: PreviewProvider {
-    static var previews: some View {
-        TargetDetailView(target: Target(title: "", subtitle: "", createdAt: Date.now, startDate: Date.now, dueDate: Date.now, todos: [], achievement: 0, memoirs:  ""))
+// MARK: - Titles
+extension TargetDetailView {
+    @ViewBuilder
+    var titles: some View {
+        Text(target.title)
+            .font(.title)
+            .fontWeight(.bold)
+        Text(target.subtitle)
+            .font(.title3)
+            .fontWeight(.semibold)
+        Divider()
     }
 }
+
+// MARK: - Term Info
+extension TargetDetailView {
+    @ViewBuilder
+    var termInfo: some View {
+        termText
+        termGraph
+    }
+    var termText: some View {
+        HStack {
+            Text("targetDetail_term")
+                .font(.headline)
+            Divider()
+            
+            Text(target.startDateString)
+            Text("~")
+            Text(target.dueDateString)
+        }
+    }
+    
+    @ViewBuilder
+    var termGraph: some View {
+        GeometryReader { geo in
+            let leftDayRatio = CGFloat(target.dayLeftUntilDueDate) / CGFloat(target.daysFromStartToDueDate)
+            let leftDayWidth: CGFloat = geo.size.width * leftDayRatio
+            HStack {
+                Spacer()
+                HStack(spacing: 4) {
+                    Text("\(target.dayLeftUntilDueDate)")
+                    Text("/")
+                    Text("\(target.daysFromStartToDueDate)")
+                }
+                .font(.headline)
+                .padding(4)
+                .background(.thinMaterial, in: RoundedRectangle(cornerRadius: 8))
+                Spacer()
+            }
+            .padding()
+            .background {
+                Rectangle()
+                    .foregroundColor(themeManager.getColorInPriority(of: .weak))
+                    .overlay(alignment: .leading) {
+                        Rectangle()
+                            .frame(width: leftDayWidth)
+                            .foregroundColor(themeManager.getColorInPriority(of: .solid))
+                    }
+                    .clipShape(Capsule())
+            }
+        }
+    }
+}
+
+

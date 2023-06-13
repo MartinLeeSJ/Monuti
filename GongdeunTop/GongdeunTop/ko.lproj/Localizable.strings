@@ -132,3 +132,6 @@
 "Thu" = "목";
 "Fri" = "금";
 "Sat" = "토";
+
+// MARK: - Target Detail View
+"targetDetail_term" = "Term";
