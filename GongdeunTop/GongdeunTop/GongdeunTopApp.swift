@@ -28,8 +28,7 @@ struct GongdeunTopApp: App {
         WindowGroup {
             ZStack {
                 ContentView()
-                    
-                
+
                 if launchScreenManager.state != .finished {
                     LauchScreen()
                 }

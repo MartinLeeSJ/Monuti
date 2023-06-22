@@ -9,6 +9,7 @@ import Foundation
 import Combine
 
 import FirebaseFirestore
+import FirebaseFirestoreSwift
 import FirebaseAuth
 
 
@@ -35,6 +36,7 @@ final class ToDoManager: ObservableObject {
         self.modified = false
     }
     
+    @MainActor
     private func addToDo(_ todo: ToDo) async {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         if todo.id == nil {

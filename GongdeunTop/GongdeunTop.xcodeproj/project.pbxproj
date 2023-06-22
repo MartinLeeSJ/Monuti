@@ -388,7 +388,6 @@
 				5BCF550229C2CB2500A19759 /* GongdeunTop */,
 				5BC3E06429C9EA4100863AD2 /* GongdeunTopTests */,
 				5BCF550129C2CB2500A19759 /* Products */,
-				A2CFBAC1FD0D2784B3E8588C /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -487,13 +486,6 @@
 				5B63175B29E7F28400FF6876 /* Shape */,
 			);
 			path = Etc;
-			sourceTree = "<group>";
-		};
-		A2CFBAC1FD0D2784B3E8588C /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
