@@ -7,18 +7,10 @@
 
 import SwiftUI
 
-enum WeekDays: String, Identifiable, CaseIterable {
-    case Sun = "Sun"
-    case Mon, Tue, Wed, Thu, Fri, Sat
-    
-    var id: Self { self }
-}
 
 enum RecordSheetType: Identifiable {
     case setting
     case cycle
-    
-    
     var id: Self { self }
 }
 
@@ -27,34 +19,9 @@ struct CalendarView: View {
     @StateObject var calendarManager = CalendarManager()
     @StateObject var cycleStore = CycleStore()
     
-    @State private var sheetType: RecordSheetType?
+
     @State private var showSetMonth: Bool = false
-    
-    @State private var offsetX: CGFloat = 0.0
-    
-    var firstWeekdayDigit: Int {
-        if let startDate = calendarManager.currentMonthData.first {
-            
-            return Int(startDate.formatted(Date.FormatStyle().weekday(.oneDigit))) ?? 1
-        } else {
-            return 1
-        }
-    }
-    
-    var currentMonth: String {
-        calendarManager.startingPointDate.formatted(Date.FormatStyle().month(.abbreviated))
-    }
-    
-    var isCalendarInCurrentMonth: Bool {
-        calendarManager.startingPointDate.formatted(Date.FormatStyle().year().month())
-        == Date().formatted(Date.FormatStyle().year().month())
-    }
-    
-    var currentYear: String {
-        calendarManager.startingPointDate.formatted(Date.FormatStyle().year(.defaultDigits))
-    }
-    
-    
+
     private func handleNextMonth() {
         calendarManager.handleNextButton(.month)
         cycleStore.resetAndSubscribe(calendarManager.startingPointDate)
@@ -81,7 +48,7 @@ struct CalendarView: View {
             .padding(.horizontal)
             .toolbar {
                 setMonthToolbar()
-                if !isCalendarInCurrentMonth {
+                if !calendarManager.isCalendarInCurrentMonth {
                     backToToday()
                 }
             }
@@ -113,11 +80,7 @@ extension CalendarView {
             
             dates
         }
-        //        .offset(x: offsetX)
         .gesture(DragGesture(minimumDistance: 2.0, coordinateSpace: .local)
-            .onChanged { value in
-                //                offsetX = value.translation.width
-            }
             .onEnded { value in
                 switch(value.translation.width, value.translation.height) {
                 case (...0, -50...50):
@@ -126,25 +89,28 @@ extension CalendarView {
                     handlePreviousMonth()
                 default:  print("no clue")
                 }
-                
-                //                offsetX = 0
             })
         .padding(.bottom, 3)
     }
     
+    
+    @ViewBuilder
     var weekdays: some View {
-        ForEach(WeekDays.allCases) { weekday in
-            HStack(alignment: .center) {
-                Text(String(localized: LocalizedStringResource(stringLiteral: weekday.rawValue))
-                )
-                .font(.subheadline.bold())
-                .padding(5)
+        let dateFormatter = DateFormatter()
+        if let weekdays = dateFormatter.shortWeekdaySymbols {
+            ForEach(weekdays, id: \.self) { weekday in
+                HStack(alignment: .center) {
+                    Text(String(localized: LocalizedStringResource(stringLiteral: weekday))
+                    )
+                    .font(.subheadline.bold())
+                    .padding(5)
+                }
             }
         }
     }
     
     var blanks: some View {
-        ForEach(1..<firstWeekdayDigit, id: \.self) { _ in
+        ForEach(1..<calendarManager.firstWeekdayDigit, id: \.self) { _ in
             VStack {
                 Spacer()
             }
@@ -168,10 +134,10 @@ extension CalendarView {
                 showSetMonth.toggle()
             } label: {
                 HStack(alignment: .firstTextBaseline, spacing: 4) {
-                    Text(currentMonth)
+                    Text(calendarManager.currentMonth)
                         .font(.title.bold())
                     
-                    Text(currentYear)
+                    Text(calendarManager.currentYear)
                         .font(.callout)
                         .foregroundColor(.secondary)
                     
@@ -195,25 +161,6 @@ extension CalendarView {
             }
         }
     }
-    
-//    @ToolbarContentBuilder
-//    func goToMypage() -> some ToolbarContent {
-//        ToolbarItem(placement: .navigationBarTrailing) {
-//            Button {
-//                sheetType = .setting
-//            } label: {
-//                Circle()
-//                    .fill(Color.GTPastelBlue)
-//                    .frame(width: 30)
-//            }
-//            .fullScreenCover(item: $sheetType) { type in
-//                if type == .setting {
-//                    SettingView()
-//                }
-//            }
-//
-//        }
-//    }
 }
 
 // MARK: - Cycle List
@@ -237,11 +184,8 @@ extension CalendarView {
 
 struct RecordView_Previews: PreviewProvider {
     static var previews: some View {
-        Group {
-            CalendarView()
-                .environment(\.locale, .init(identifier: "ko"))
-            CalendarView()
-                .environment(\.locale, .init(identifier: "en"))
-        }
+        CalendarView(calendarManager: CalendarManager(), cycleStore: CycleStore())
+            .environment(\.locale, .init(identifier: "ko"))
+            .environmentObject(ThemeManager())
     }
 }
