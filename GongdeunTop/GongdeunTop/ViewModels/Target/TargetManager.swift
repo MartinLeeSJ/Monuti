@@ -19,7 +19,14 @@ final class TargetManager: ObservableObject {
     private let database = Firestore.firestore()
     private var cancellables = Set<AnyCancellable>()
     
-    init(target: Target = .placeholder) {
+    init(target: Target = Target(title: "",
+                                 subtitle: "",
+                                 createdAt: Date.now,
+                                 startDate: Date.now,
+                                 dueDate: Date.now,
+                                 todos: [],
+                                 achievement: 0,
+                                 memoirs: "")) {
         self.target = target
         self.$target
             .dropFirst()

@@ -185,9 +185,9 @@ extension TargetListCell {
     }
 }
 
-struct TargetListCell_Previews: PreviewProvider {
-    static var previews: some View {
-        TargetListCell(target: .placeholder)
-            .environmentObject(ThemeManager())
-    }
-}
+//struct TargetListCell_Previews: PreviewProvider {
+//    static var previews: some View {
+//        TargetListCell(target: .placeholder)
+//            .environmentObject(ThemeManager())
+//    }
+//}
