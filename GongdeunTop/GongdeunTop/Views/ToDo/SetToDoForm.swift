@@ -148,7 +148,7 @@ extension SetToDoForm {
                 
                 TextField(String(localized: "todo_title"), text: $manager.todo.title)
                     .focused($focusedField, equals: .title)
-                    .onReceive(Just(manager.todo.title)) { _ in
+                    .onChange(of: manager.todo.title) { _ in
                         manager.setTitleCharacterCountBelow(limit: titleCharacterLimit)
                     }
                 
@@ -167,7 +167,7 @@ extension SetToDoForm {
                 
                 TextField(String(localized: "todo_content"), text: $manager.todo.content)
                     .focused($focusedField, equals: .content)
-                    .onReceive(Just(manager.todo.content)) { _ in
+                    .onChange(of: manager.todo.content) { _ in
                         manager.setContentCharacterCountBelow(limit: contentCharacterLimit)
                     }
                 
