@@ -19,7 +19,27 @@ final class CalendarManager: ObservableObject {
     }
     @Published var selectedDate: Date = Date()
     
+    var firstWeekdayDigit: Int {
+        if let startDate = currentMonthData.first {
+            
+            return Int(startDate.formatted(Date.FormatStyle().weekday(.oneDigit))) ?? 1
+        } else {
+            return 1
+        }
+    }
     
+    var currentMonth: String {
+        startingPointDate.formatted(Date.FormatStyle().month(.abbreviated))
+    }
+    
+    var isCalendarInCurrentMonth: Bool {
+        startingPointDate.formatted(Date.FormatStyle().year().month())
+        == Date().formatted(Date.FormatStyle().year().month())
+    }
+    
+    var currentYear: String {
+        startingPointDate.formatted(Date.FormatStyle().year(.defaultDigits))
+    }
     
     init() {
       getCurrentMonthData()
@@ -40,7 +60,6 @@ final class CalendarManager: ObservableObject {
         }
 
         currentMonthData = monthData
-        print(monthData)
     }
     
     private func getCurrentYearDate() {

@@ -37,6 +37,8 @@ struct ToDoListCell: View {
                 }
             }
             
+            startingTimeContainer
+            
             Button {
                 isEditingSheetOn = true
             } label: {
@@ -53,5 +55,22 @@ struct ToDoListCell: View {
         .padding(.horizontal)
         .padding(.vertical, 8)
         .background(themeManager.getComponentColor(), in: RoundedRectangle(cornerRadius: 8))
+    }
+}
+
+
+extension ToDoListCell {
+    @ViewBuilder
+    var startingTimeContainer: some View {
+        if let timeString = todo.startingTimeString {
+            Text(timeString)
+                .font(.caption)
+                .multilineTextAlignment(.center)
+                .padding(.vertical)
+                .padding(.horizontal, 8)
+                .background(.ultraThickMaterial, in: RoundedRectangle(cornerRadius: 8))
+        } else {
+            EmptyView()
+        }
     }
 }

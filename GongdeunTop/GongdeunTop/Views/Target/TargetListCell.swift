@@ -15,13 +15,12 @@ struct TargetListCell: View {
         VStack(spacing: 8) {
             targetDatesHeader
             targetTitles
+            Divider()
             targetInfoBadges
         }
         .padding(.horizontal)
         .padding(.vertical, 8)
         .background(themeManager.getComponentColor(), in: RoundedRectangle(cornerRadius: 10))
-        .id(target.id)
-        
     }
 }
 // MARK: - Header

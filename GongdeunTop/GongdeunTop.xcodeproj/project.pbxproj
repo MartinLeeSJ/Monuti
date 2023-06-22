@@ -45,6 +45,8 @@
 		5B6AB2502A30AB0A008D09B6 /* MainSettingBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6AB24F2A30AB0A008D09B6 /* MainSettingBanner.swift */; };
 		5B6AB2542A316752008D09B6 /* TextFieldFormContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6AB2532A316752008D09B6 /* TextFieldFormContainer.swift */; };
 		5B6AB2562A316A75008D09B6 /* FormContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6AB2552A316A75008D09B6 /* FormContainer.swift */; };
+		5B6DF5F02A36C5F600CCA57F /* DateFormatter+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6DF5EF2A36C5F600CCA57F /* DateFormatter+Utils.swift */; };
+		5B6DF5F32A371B4600CCA57F /* TargetDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6DF5F22A371B4600CCA57F /* TargetDetailView.swift */; };
 		5B76D0F429C74FE0008883A8 /* TimerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B76D0F329C74FE0008883A8 /* TimerManager.swift */; };
 		5B76D0F629C76A2B008883A8 /* CircularSector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B76D0F529C76A2B008883A8 /* CircularSector.swift */; };
 		5B841E9F29FBC4D600F1675E /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B841E9E29FBC4D600F1675E /* LocationManager.swift */; };
@@ -74,6 +76,7 @@
 		5BD3D1DB29D1D15A008E8988 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5BD3D1DA29D1D15A008E8988 /* GoogleService-Info.plist */; };
 		5BD5131929D574900008E1C9 /* SessionIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD5131829D574900008E1C9 /* SessionIndicator.swift */; };
 		5BD5131D29D58D060008E1C9 /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD5131C29D58D060008E1C9 /* Tag.swift */; };
+		5BE45A802A3859F200F42F4F /* TargetToDoStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE45A7F2A3859F200F42F4F /* TargetToDoStore.swift */; };
 		5BE9EEDC29FFFBA500233C49 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE9EEDB29FFFBA500233C49 /* SettingView.swift */; };
 		5BF61E922A0296B1007592D6 /* ThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF61E912A0296B1007592D6 /* ThemeManager.swift */; };
 		5BFFDB8529C5F299004C5376 /* SetTimeForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BFFDB8429C5F298004C5376 /* SetTimeForm.swift */; };
@@ -135,6 +138,8 @@
 		5B6AB24F2A30AB0A008D09B6 /* MainSettingBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSettingBanner.swift; sourceTree = "<group>"; };
 		5B6AB2532A316752008D09B6 /* TextFieldFormContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldFormContainer.swift; sourceTree = "<group>"; };
 		5B6AB2552A316A75008D09B6 /* FormContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormContainer.swift; sourceTree = "<group>"; };
+		5B6DF5EF2A36C5F600CCA57F /* DateFormatter+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Utils.swift"; sourceTree = "<group>"; };
+		5B6DF5F22A371B4600CCA57F /* TargetDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetDetailView.swift; sourceTree = "<group>"; };
 		5B76D0F329C74FE0008883A8 /* TimerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerManager.swift; sourceTree = "<group>"; };
 		5B76D0F529C76A2B008883A8 /* CircularSector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularSector.swift; sourceTree = "<group>"; };
 		5B841E9E29FBC4D600F1675E /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
@@ -167,6 +172,7 @@
 		5BD3D1DA29D1D15A008E8988 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		5BD5131829D574900008E1C9 /* SessionIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionIndicator.swift; sourceTree = "<group>"; };
 		5BD5131C29D58D060008E1C9 /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
+		5BE45A7F2A3859F200F42F4F /* TargetToDoStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetToDoStore.swift; sourceTree = "<group>"; };
 		5BE9EEDB29FFFBA500233C49 /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
 		5BF61E912A0296B1007592D6 /* ThemeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeManager.swift; sourceTree = "<group>"; };
 		5BFFDB8429C5F298004C5376 /* SetTimeForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetTimeForm.swift; sourceTree = "<group>"; };
@@ -228,6 +234,7 @@
 			children = (
 				5B1C71192A11FCB700A5D3EB /* TargetStore.swift */,
 				5B1C711B2A1200A800A5D3EB /* TargetManager.swift */,
+				5BE45A7F2A3859F200F42F4F /* TargetToDoStore.swift */,
 			);
 			path = Target;
 			sourceTree = "<group>";
@@ -238,6 +245,7 @@
 				5B38FC092A0F87BC003F9B5C /* TargetList.swift */,
 				5B1C71222A120A7100A5D3EB /* TargetListCell.swift */,
 				5B1C71202A120A2A00A5D3EB /* SetTargetForm.swift */,
+				5B6DF5F22A371B4600CCA57F /* TargetDetailView.swift */,
 			);
 			path = Target;
 			sourceTree = "<group>";
@@ -316,6 +324,15 @@
 				5B6AB2552A316A75008D09B6 /* FormContainer.swift */,
 			);
 			path = Form;
+			sourceTree = "<group>";
+		};
+		5B6DF5F12A36D37C00CCA57F /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				5B6DF5EF2A36C5F600CCA57F /* DateFormatter+Utils.swift */,
+				5B54FE422A2B5917000D29ED /* CGFloat+Utils.swift */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 		5B76D0F729C7755A008883A8 /* ViewModels */ = {
@@ -478,7 +495,7 @@
 			isa = PBXGroup;
 			children = (
 				5BCF551129C2E50100A19759 /* Color+Custom.swift */,
-				5B54FE422A2B5917000D29ED /* CGFloat+Utils.swift */,
+				5B6DF5F12A36D37C00CCA57F /* Utils */,
 				5B63175B29E7F28400FF6876 /* Shape */,
 			);
 			path = Etc;
@@ -681,6 +698,7 @@
 				5BB4FECA29C832D9009CCD43 /* ToDo.swift in Sources */,
 				5B174C292A050F3B00204C75 /* HapticManager.swift in Sources */,
 				5B1C711F2A12012C00A5D3EB /* Target+PlaceHolder.swift in Sources */,
+				5B6DF5F32A371B4600CCA57F /* TargetDetailView.swift in Sources */,
 				5BCF551D29C30DA800A19759 /* SessionsTimer.swift in Sources */,
 				5B2767CB29FA4633008398A3 /* CycleStore.swift in Sources */,
 				5BD5131D29D58D060008E1C9 /* Tag.swift in Sources */,
@@ -722,11 +740,13 @@
 				5B6AB2542A316752008D09B6 /* TextFieldFormContainer.swift in Sources */,
 				5B4214F72A2D5F5F004362E5 /* MainConsole.swift in Sources */,
 				5BD3D1D929D1C45A008E8988 /* ToDo+PlaceHolder.swift in Sources */,
+				5B6DF5F02A36C5F600CCA57F /* DateFormatter+Utils.swift in Sources */,
 				5B174C272A03720600204C75 /* RoundedHexagon.swift in Sources */,
 				5B2767C729F90355008398A3 /* SetMonthView.swift in Sources */,
 				5BD3D1D729D1C3BB008E8988 /* ToDoListCell.swift in Sources */,
 				5B2767C529F8F30D008398A3 /* CalendarManager.swift in Sources */,
 				5B63A59329C95AD500AA4525 /* SetToDoForm.swift in Sources */,
+				5BE45A802A3859F200F42F4F /* TargetToDoStore.swift in Sources */,
 				5B38FC0A2A0F87BC003F9B5C /* TargetList.swift in Sources */,
 				5B95E13929D7FC9000E8CBA1 /* AuthManager.swift in Sources */,
 				5B38FBFF2A0CDC72003F9B5C /* SetNickNameView.swift in Sources */,

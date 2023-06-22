@@ -33,8 +33,7 @@ final class CycleManager: ObservableObject {
     
     private func addCycle() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
-        
-        
+
         if cycle.id == nil {
             do {
                 try database
@@ -90,36 +89,65 @@ final class CycleManager: ObservableObject {
     
     
     func handleFinishedCycleButton() {
+        Task {
+            self.addToDoIdInCycle()
+            await updateToDos()
+            await updateTargetAchievements()
+            self.addCycle()
+        }
+    }
+    
+    private func addToDoIdInCycle() {
+        self.cycle.todos = todos.compactMap { $0.id }
+    }
+    
+    private func updateToDos() async {
         guard let uid = Auth.auth().currentUser?.uid else { return }
-        
-        self.addToDoIdInCycle()
-        
         let batch = database.batch()
         
         for todo in todos {
             guard let id = todo.id else { continue }
             
-            let ref = database
+            let todoRef = database
                 .collection("Members")
                 .document(uid)
                 .collection("ToDo")
                 .document(id)
             
-            
             batch.updateData(["timeSpent": todo.timeSpent,
                               "isCompleted": todo.isCompleted
-                             ], forDocument: ref)
-            
+                             ], forDocument: todoRef)
         }
         
+        do {
+           try await batch.commit()
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
     
-        batch.commit() { err in
-            if let err {
-                print(err.localizedDescription)
-                return
-            }
+    private func updateTargetAchievements() async {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        let batch = database.batch()
+        
+        for todo in todos {
+            guard let targetId = todo.relatedTarget else { continue }
+            guard todo.isCompleted else { continue }
             
-            self.addCycle()
+            let targetRef = database
+                .collection("Members")
+                .document(uid)
+                .collection("Target")
+                .document(targetId)
+            
+            batch.updateData(["achievement": FieldValue.increment(Int64(1))],
+                             forDocument: targetRef)
+        }
+        
+        do {
+           try await batch.commit()
+        } catch {
+            print(error.localizedDescription)
         }
     }
     
@@ -131,9 +159,7 @@ final class CycleManager: ObservableObject {
         
     }
     
-    private func addToDoIdInCycle() {
-        self.cycle.todos = todos.compactMap { $0.id }
-    }
+   
     
     func fetchToDos() {
         guard !cycle.todos.isEmpty else { return }

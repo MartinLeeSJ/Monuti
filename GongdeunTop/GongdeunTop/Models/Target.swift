@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Darwin
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
@@ -20,46 +21,45 @@ struct Target: Codable, Hashable, Identifiable {
     var achievement: Int
     var memoirs: String // 회고
     
-    private var targetDateFormatter: DateFormatter {
-        let formatter = DateFormatter()
-        formatter.locale = Locale.current
-        formatter.dateStyle = .short
-        formatter.timeStyle = .none
-        return formatter
+    var achievementRate: Double {
+        guard todos.count != 0 else { return 0 }
+        let rate: Double = Double(achievement / todos.count)
+        return round(rate * 100) / 100
     }
+}
+
+// MARK: - Day and Date
+extension Target {
     
     var startDateString: String {
-        return self.targetDateFormatter.string(from:  startDate)
+        return DateFormatter.shortDateFormat.string(from:  startDate)
     }
     
     var dueDateString: String {
-        return self.targetDateFormatter.string(from:  dueDate)
+        return DateFormatter.shortDateFormat.string(from:  dueDate)
+    }
+    
+    private func getDay(from start: Date, to end: Date) -> Int {
+        let calendar = Calendar.current
+        let start = calendar.startOfDay(for: start)
+        let due = calendar.startOfDay(for: end)
+        let numberOfDays = calendar.dateComponents([.day], from: start, to: due)
+        let day = numberOfDays.day ?? 0
+        return day
     }
     
     var daysFromStartToDueDate: Int {
-        let calendar = Calendar.current
-        let start = calendar.startOfDay(for: startDate)
-        let due = calendar.startOfDay(for: dueDate)
-        let numberOfDays = calendar.dateComponents([.day], from: start, to: due)
-        let day = numberOfDays.day ?? 0
+        let day = getDay(from: startDate, to: dueDate)
         return day < 0 ? 0 : (day + 1)
     }
     
     var dayLeftUntilStartDate: Int {
-        let calendar = Calendar.current
-        let start = calendar.startOfDay(for: startDate)
-        let today = calendar.startOfDay(for: Date.now)
-        let numberOfDays = calendar.dateComponents([.day], from: start, to: today)
-        let day = numberOfDays.day ?? 0
+        let day = getDay(from: startDate, to: Date.now)
         return abs(day)
     }
     
     var dayLeftUntilDueDate: Int {
-        let calendar = Calendar.current
-        let today = calendar.startOfDay(for: Date.now)
-        let dueDate = calendar.startOfDay(for: dueDate)
-        let numberOfDays = calendar.dateComponents([.day], from: today, to: dueDate)
-        let day = numberOfDays.day ?? 0
+        let day = getDay(from: Date.now, to: dueDate)
         return abs(day)
     }
 }

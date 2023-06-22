@@ -22,6 +22,25 @@
 "Set Time" = "Set Time";
 "Start" = "Timer Start";
 
+// MARK: - MainRouterView Switch
+"viewSwitch_todo" = "ToDo";
+"viewSwitch_target" = "Target";
+"viewSwitch_calendar" = "Calendar";
+
+//ToDoList
+"toDoList_sort_ascend" = "Ascend";
+"toDoList_sort_descend" = "Descend";
+"toDoList_sort_basic" = "Basic";
+
+//ToDoList_Extending Todos
+"extendTodos_button_label" = "Keep Going";
+"extendTodos_alert_title" = "Extend Expiration";
+"Extend" = "Yes";
+
+
+// MARK: - SetToDoForm
+"setTodoForm_title_new" = "New ToDo";
+"setTodoForm_title_edit" = "Edit ToDo";
 
 "title" = "Title";
 "todo_title" = "Title of todo";
@@ -35,6 +54,14 @@
 "todo_tag" = "Tag of todo";
 "todo_tag_footer" = "Manage your Todo with tags";
 
+"setToDoForm_target_placeholder" = "Connect To Target";
+"setToDoForm_target_title" = "Target";
+
+// SetToDoForm_startingTimeForm
+"setTodoForm_startingTimeForm_datePickerTitle" = "Start at";
+"setTodoForm_startingTimeForm_timeIsNil" = "No specified time";
+"setTodoForm_startingTimeForm_setTimeButtonLabel" = "Specify the time";
+"setTodoForm_startingTimeForm_donotSetTime" = "Cancel time designation";
 
 //SetTimeForm
 "setTime_session" = "Sessions";
@@ -109,3 +136,6 @@
 "Thu" = "Thu";
 "Fri" = "Fri";
 "Sat" = "Sat";
+
+// MARK: - Target Detail View
+"targetDetail_term" = "Term";
