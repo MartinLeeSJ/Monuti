@@ -15,6 +15,7 @@ enum RecordSheetType: Identifiable {
 }
 
 struct CalendarView: View {
+    @Environment(\.dismiss) var dismiss
     @EnvironmentObject var themeManager: ThemeManager
     @StateObject var calendarManager = CalendarManager()
     @StateObject var cycleStore = CycleStore()
@@ -38,7 +39,9 @@ struct CalendarView: View {
             themeManager.getColorInPriority(of: .background)
                 .ignoresSafeArea(.all)
             
-            VStack(spacing: 0) {
+            VStack(alignment:.leading, spacing: 16) {
+                getTopConsole()
+                
                 getCalendar()
                 
                 Divider()
@@ -46,13 +49,16 @@ struct CalendarView: View {
                 getCycleList()
             }
             .padding(.horizontal)
-            .toolbar {
-                setMonthToolbar()
-                if !calendarManager.isCalendarInCurrentMonth {
-                    backToToday()
-                }
-            }
             .blur(radius: showSetMonth ? 10 : 0)
+        }
+        .navigationBarBackButtonHidden()
+        .navigationTitle(Text(Date.now, style: .date))
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            backButton()
+            if !calendarManager.isCalendarInCurrentMonth {
+                backToToday()
+            }
         }
         .overlay {
             if showSetMonth {
@@ -66,6 +72,62 @@ struct CalendarView: View {
         .onDisappear {
             cycleStore.unsubscribeCycles()
         }
+        
+    }
+}
+
+extension CalendarView {
+    @ViewBuilder
+    func getTopConsole() -> some View {
+        HStack {
+            setMonthButton()
+            Spacer()
+            previousMonthButton()
+            nextMonthButton()
+        }
+    }
+    
+    @ViewBuilder
+    func setMonthButton() -> some View {
+            Button {
+                showSetMonth.toggle()
+            } label: {
+                HStack(alignment: .firstTextBaseline, spacing: 4) {
+                    Text(calendarManager.currentMonth)
+                        .font(.largeTitle.bold())
+                    
+                    Text(calendarManager.currentYear)
+                        .font(.callout)
+                        .foregroundColor(.secondary)
+                    
+                    Image(systemName: "chevron.down.circle.fill")
+                        .font(.callout)
+                        .foregroundColor(.secondary)
+                }
+            }
+            .tint(Color("basicFontColor"))
+    }
+    
+    func previousMonthButton() -> some View {
+        Button {
+            handlePreviousMonth()
+        } label: {
+            Image(systemName: "chevron.left")
+                .font(.headline)
+                .foregroundColor(.gray)
+        }
+        .buttonStyle(.bordered)
+    }
+    
+    func nextMonthButton() -> some View {
+        Button {
+            handleNextMonth()
+        } label: {
+            Image(systemName: "chevron.right")
+                .font(.headline)
+                .foregroundColor(.gray)
+        }
+        .buttonStyle(.bordered)
     }
 }
 
@@ -90,7 +152,6 @@ extension CalendarView {
                 default:  print("no clue")
                 }
             })
-        .padding(.bottom, 3)
     }
     
     
@@ -128,23 +189,12 @@ extension CalendarView {
 // MARK: - Toolbar
 extension CalendarView {
     @ToolbarContentBuilder
-    func setMonthToolbar() -> some ToolbarContent {
+    func backButton() -> some ToolbarContent {
         ToolbarItem(placement: .navigationBarLeading) {
             Button {
-                showSetMonth.toggle()
+                dismiss()
             } label: {
-                HStack(alignment: .firstTextBaseline, spacing: 4) {
-                    Text(calendarManager.currentMonth)
-                        .font(.title.bold())
-                    
-                    Text(calendarManager.currentYear)
-                        .font(.callout)
-                        .foregroundColor(.secondary)
-                    
-                    Image(systemName: "chevron.down.circle")
-                        .font(.caption)
-                        .foregroundColor(.secondary)
-                }
+                Image(systemName: "arrow.backward.circle.fill")
             }
             
         }
@@ -157,7 +207,7 @@ extension CalendarView {
                 calendarManager.handleTodayButton()
                 cycleStore.resetAndSubscribe(calendarManager.startingPointDate)
             } label: {
-                Text("오늘")
+                Text("Today")
             }
         }
     }
@@ -172,6 +222,7 @@ extension CalendarView {
                 ForEach(cycleStore.cyclesDictionary[calendarManager.selectedDate] ?? [], id: \.self) {
                     cycle in
                     CycleListCell(cycleManager: CycleManager(cycle: cycle))
+                        .tint(Color("basicFontColor"))
                 }
             }
         }
@@ -184,8 +235,10 @@ extension CalendarView {
 
 struct RecordView_Previews: PreviewProvider {
     static var previews: some View {
-        CalendarView(calendarManager: CalendarManager(), cycleStore: CycleStore())
-            .environment(\.locale, .init(identifier: "ko"))
-            .environmentObject(ThemeManager())
+        NavigationStack {
+            CalendarView(calendarManager: CalendarManager(), cycleStore: CycleStore())
+                .environment(\.locale, .init(identifier: "ko"))
+                .environmentObject(ThemeManager())
+        }
     }
 }

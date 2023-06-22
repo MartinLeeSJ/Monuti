@@ -17,24 +17,28 @@ struct ToDoList: View {
     @State private var isExtendingTodosLifeAlertOn: Bool = false
     
     var body: some View {
-        VStack(spacing: 0) {
-            topEditingConsole
-            
-            List(todoStore.todos, id: \.self.id, selection: $todoStore.multiSelection) { todo in
-                ToDoListCell(todo: todo)
-                    .listRowBackground(Color.clear)
-                    .listRowSeparator(.hidden)
-                    .listRowInsets(.init(top: 8, leading: 16, bottom: 0, trailing: 16))
-            }
-            .listStyle(.plain)
-            .environment(\.editMode, .constant(todoStore.isEditing ? EditMode.active : EditMode.inactive))
-            
-            Spacer()
-            
-            Divider()
-            
-            if todoStore.isEditing {
-                bottomEditingConsole
+        ZStack {
+            themeManager.getColorInPriority(of: .background)
+                .ignoresSafeArea()
+            VStack(spacing: 0) {
+                topEditingConsole
+                
+                List(todoStore.todos, id: \.self.id, selection: $todoStore.multiSelection) { todo in
+                    ToDoListCell(todo: todo)
+                        .listRowBackground(Color.clear)
+                        .listRowSeparator(.hidden)
+                        .listRowInsets(.init(top: 8, leading: 16, bottom: 0, trailing: 16))
+                }
+                .listStyle(.plain)
+                .environment(\.editMode, .constant(todoStore.isEditing ? EditMode.active : EditMode.inactive))
+                
+                Spacer()
+                
+                Divider()
+                
+                if todoStore.isEditing {
+                    bottomEditingConsole
+                }
             }
         }
     }
