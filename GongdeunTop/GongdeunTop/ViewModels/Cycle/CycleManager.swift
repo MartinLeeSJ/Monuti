@@ -8,8 +8,10 @@
 import Foundation
 import Combine
 
+import Firebase
 import FirebaseAuth
 import FirebaseFirestore
+import FirebaseFirestoreSwift
 
 final class CycleManager: ObservableObject {
     @Published var cycle: Cycle
@@ -178,9 +180,12 @@ final class CycleManager: ObservableObject {
                 return
             }
             
-            self.todos = documents.compactMap { try? $0.data(as: ToDo.self) }
+            self.todos = documents.compactMap {
+                try? $0.data(as: ToDo.self)
+            }
+            print(todos)
         }
         
-        print(todos)
+       
     }
 }

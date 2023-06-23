@@ -31,4 +31,5 @@ struct ToDo: Codable, Hashable, Identifiable {
         
         return timeStringArray.reduce("", + )
     }
+    
 }

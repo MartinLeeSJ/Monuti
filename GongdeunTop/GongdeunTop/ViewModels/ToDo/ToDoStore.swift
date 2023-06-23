@@ -10,6 +10,7 @@ import Combine
 
 
 import FirebaseFirestore
+import FirebaseFirestoreSwift
 import FirebaseAuth
 
 final class ToDoStore: ObservableObject {    
@@ -56,6 +57,8 @@ final class ToDoStore: ObservableObject {
                 self.todos = documents.compactMap { queryDocumentSnapshot in
                     try? queryDocumentSnapshot.data(as: ToDo.self)
                 }
+                
+                print(todos)
                 
                 sortTodos(as: self.sortMode)
             }
