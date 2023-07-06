@@ -61,10 +61,7 @@ struct CycleListCellDetail: View {
             }
             .padding(.top, 10)
             
-           
             CycleToDoList(manager: cycleManager, mode: .cycleListCellDetail)
-                
-           
         }
         .padding()
         .task {
