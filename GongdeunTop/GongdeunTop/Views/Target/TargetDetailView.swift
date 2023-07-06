@@ -10,7 +10,7 @@ import SwiftUI
 struct TargetDetailView: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var themeManager: ThemeManager
-    @StateObject var targetToDoStore: TargetToDoStore
+    
     let target: Target
     
     var body: some View {
@@ -18,13 +18,6 @@ struct TargetDetailView: View {
             VStack(alignment: .leading) {
                 titles
                 termInfo
-                ScrollView(.horizontal) {
-                    LazyHStack {
-                        ForEach(targetToDoStore.tempDates, id: \.self) { date in
-                            
-                        }
-                    }
-                }
             }
             .padding()
         }
@@ -39,12 +32,6 @@ struct TargetDetailView: View {
                 }
                 .tint(themeManager.getColorInPriority(of: .accent))
             }
-        }
-        .onAppear {
-            targetToDoStore.subscribeToDosOfTargets()
-        }
-        .onDisappear {
-            targetToDoStore.unsubscribeToDosOfTarget()
         }
     }
 }
