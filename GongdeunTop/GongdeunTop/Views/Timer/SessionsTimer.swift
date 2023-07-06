@@ -131,13 +131,13 @@ extension SessionsTimer {
         let secondWidth = width * 0.425
         let colonWidth = width * 0.15
         HStack(alignment: .center, spacing: 0) {
-            Text(timerManager.getMinute())
+            Text(timerManager.getMinuteString())
                 .frame(width: minuteWidth, alignment: .trailing)
                 .font(.system(size: 60, weight: .regular, design: .rounded))
             Text(":")
                 .frame(width: colonWidth, alignment: .center)
                 .font(.system(size: 54, weight: .regular))
-            Text(timerManager.getSecond())
+            Text(timerManager.getSecondString())
                 .frame(width: secondWidth, alignment: .leading)
                 .font(.system(size: 60, weight: .regular, design: .rounded))
         }
@@ -265,7 +265,7 @@ extension SessionsTimer {
 // MARK: - Record Times
 extension SessionsTimer {
     private func updateToDoTimeSpent() {
-        guard !timerManager.knowIsRefreshTime() else { return }
+        guard !timerManager.knowIsInRestTime() else { return }
         
         if let index = todos.firstIndex(where: { $0.id == currentTodo?.id }) {
             todos[index].timeSpent += 1
@@ -284,8 +284,8 @@ extension SessionsTimer {
     
     private func recordStartingTime() {
         // 초창기에만 기록하면 됨
-        let isConcentrationTimeStarted: Bool = !timerManager.knowIsRefreshTime() && timerManager.remainSeconds == timerManager.timeSetting.concentrationTime * 60
-        let isRefreshTimeStarted: Bool = timerManager.knowIsRefreshTime() && timerManager.remainSeconds == timerManager.timeSetting.refreshTime * 60
+        let isConcentrationTimeStarted: Bool = !timerManager.knowIsInRestTime() && timerManager.remainSeconds == timerManager.timeSetting.concentrationTime * 60
+        let isRefreshTimeStarted: Bool = timerManager.knowIsInRestTime() && timerManager.remainSeconds == timerManager.timeSetting.restTime * 60
         
         guard isConcentrationTimeStarted || isRefreshTimeStarted else {
             print("Failed To Record Time \(timerManager.remainSeconds)")

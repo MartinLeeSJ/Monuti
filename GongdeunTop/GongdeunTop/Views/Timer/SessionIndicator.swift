@@ -24,7 +24,7 @@ struct SessionIndicator: View {
             Text("Session \(currentSession)")
                 .foregroundColor(.secondary)
             
-            Text(String(localized: manager.knowIsRefreshTime() ? "Refresh" : "Concentrate"))
+            Text(String(localized: manager.knowIsInRestTime() ? "Refresh" : "Concentrate"))
                 .font(.headline)
                 .padding(.bottom, 8)
             

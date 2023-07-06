@@ -155,7 +155,7 @@ final class CycleManager: ObservableObject {
     
     func recordCycleTimeSetting(timeSetting: TimerManager.TimeSetting, minutes: Int) {
         cycle.sessions = timeSetting.numOfSessions
-        cycle.refreshTime = timeSetting.refreshTime
+        cycle.refreshTime = timeSetting.restTime
         cycle.concentrationTime = timeSetting.concentrationTime
         cycle.minutes = minutes
         

@@ -75,6 +75,7 @@
 "setTime_rest_range" = "5 to 10, last 30min";
 
 "setTime_minute%lld" = "%lldmin";
+"setTime_long_refresh?" = "Will you rest last 30 minutes?";
 
 //Session Timer
 "timer_currentTodo_nothing" = "Nothing To Do";
