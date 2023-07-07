@@ -329,8 +329,8 @@
 			children = (
 				5BF61E912A0296B1007592D6 /* ThemeManager.swift */,
 				5B841E9E29FBC4D600F1675E /* LocationManager.swift */,
-				5B174C282A050F3B00204C75 /* HapticManager.swift */,
 				5B2767C429F8F30D008398A3 /* CalendarManager.swift */,
+				5B174C282A050F3B00204C75 /* HapticManager.swift */,
 				5B95E13829D7FC9000E8CBA1 /* AuthManager.swift */,
 				5B38FC012A0E1695003F9B5C /* LaunchScreenManager.swift */,
 				5B1C711D2A1200AE00A5D3EB /* Target */,

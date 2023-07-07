@@ -7,6 +7,16 @@
 
 import SwiftUI
 
+struct SetTimeContraint {
+    static let sessionsBound: ClosedRange<Int> = 1...5
+    static let sessionStep: Int.Stride = 1
+    
+    static let concentrationTimeBound: ClosedRange<Int> = 15...50
+    static let concentrationTimeStep: Int.Stride = 5
+    
+    static let restTimeBound: ClosedRange<Int> = 5...10
+    static let restTimeStep: Int.Stride = 1
+}
 
 struct SetTimeForm: View {
     @EnvironmentObject var themeManager: ThemeManager
@@ -110,8 +120,8 @@ struct SetTimeForm: View {
                 .foregroundColor(.secondary)
             Spacer()
             SetTimeStepper(stepValue: $manager.timeSetting.numOfSessions,
-                           bound: TimerBasicPreset.sessionsBound,
-                           step: TimerBasicPreset.sessionStep)
+                           bound: SetTimeContraint.sessionsBound,
+                           step: SetTimeContraint.sessionStep)
         }
     }
     var concentrationTimeStepper: some View {
@@ -129,8 +139,8 @@ struct SetTimeForm: View {
             Spacer()
             
             SetTimeStepper(stepValue: $manager.timeSetting.concentrationTime,
-                           bound: TimerBasicPreset.concentrationTimeBound,
-                           step: TimerBasicPreset.concentrationTimeStep)
+                           bound: SetTimeContraint.concentrationTimeBound,
+                           step: SetTimeContraint.concentrationTimeStep)
                 .onChange(of: manager.timeSetting.concentrationTime) { _ in
                     manager.setTimerRemainSeconds()
                 }
@@ -148,8 +158,8 @@ struct SetTimeForm: View {
                 .foregroundColor(.secondary)
             Spacer()
             SetTimeStepper(stepValue: $manager.timeSetting.restTime,
-                           bound: TimerBasicPreset.restTimeBound,
-                           step: TimerBasicPreset.restTimeStep)
+                           bound: SetTimeContraint.restTimeBound,
+                           step: SetTimeContraint.restTimeStep)
             
         }
     }
