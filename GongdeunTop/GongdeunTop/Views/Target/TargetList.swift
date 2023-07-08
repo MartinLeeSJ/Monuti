@@ -20,7 +20,7 @@ struct TargetList: View {
             topEditingConsole
             List(targetStore.targets, id: \.self.id, selection: $targetStore.multiSelection) { target in
                 NavigationLink {
-                    TargetDetailView(targetToDoStore: TargetToDoStore(target: target), target: target)
+//                    TargetDetailView(targetToDoStore: TargetToDoStore(target: target), target: target)
                 } label: {
                     TargetListCell(target: target)
                 }

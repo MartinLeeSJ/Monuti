@@ -7,77 +7,92 @@
 
 import Foundation
 import SwiftUI
+import Combine
+
+struct TimeSetting {
+    var session: Session = Session.basicSetting
+    var sessions: [Session] = Session.basicSessions
+    var numOfSessions: Int {
+        get { sessions.count }
+        set(newValue) {
+            guard abs(newValue - numOfSessions) == 1 else {
+                return
+            }
+            if newValue < numOfSessions {
+                sessions.removeFirst()
+            } else {
+                sessions.insert(self.session, at: sessions.startIndex)
+            }
+        }
+    }
+    var willGetLongRefresh: Bool = true
+    var isCustomized: Bool = false
+    
+    static let longRefreshTime: Int = 30
+}
+
+struct Session: Identifiable {
+    var id: String = UUID().uuidString
+    var concentrationTime: Int
+    var restTime: Int
+    
+    var concentrationSeconds: Int {
+        concentrationTime * 60
+    }
+    
+    var restSeconds: Int {
+        restTime * 60
+    }
+    
+    var sessionTime: Int {
+        concentrationTime + restTime
+    }
+}
+
+extension Session {
+    static let basicSetting = Session(concentrationTime: 25, restTime: 5)
+    static let lastSessionPlaceholder = Session(concentrationTime: 25, restTime: 30)
+    static var basicSessions = Array(repeating: Self.basicSetting, count: 3) + [Self.lastSessionPlaceholder]
+}
 
 @MainActor
 final class TimerManager: ObservableObject {
-    @Published var timeSetting: TimeSetting
-    @Published var currentTime: Int {
-        didSet {
-            setTimerRemainSeconds()
-        }
-    }
-    
-    @Published var remainSeconds: Int
+    @Published var timeSetting = TimeSetting()
+    @Published var currentTimeIndex: Int = 0
+    @Published var remainSeconds: Int = 0
     @Published var isRunning: Bool = false
     @Published var timer: Timer?
     
-    struct TimeSetting {
-        var numOfSessions: Int
-        var concentrationTime: Int
-        var refreshTime: Int
-        
-        var concentrationSeconds: Int {
-            concentrationTime * 60
-        }
-        
-        var refreshSeconds: Int {
-            refreshTime * 60
-        }
-        
-        static let longRefreshSeconds = 30 * 60
+    var currentSession: Session {
+        let sessionIndex = Int(currentTimeIndex / 2)
+        guard sessionIndex < timeSetting.sessions.count else { return timeSetting.sessions.first ?? Session.basicSetting}
+        return timeSetting.sessions[sessionIndex]
     }
     
-    init(timeSetting: TimeSetting = .init(numOfSessions: 4, concentrationTime: 25, refreshTime: 5) , currentTime: Int = 1) {
-        self.timeSetting = timeSetting
-        self.currentTime = currentTime
-        self.remainSeconds = timeSetting.concentrationTime * 60
+    
+    init() {
+        $currentTimeIndex
+            .combineLatest($timeSetting)
+            .map { (current, timeSetting) in
+                let sessionIndex = Int(current / 2)
+                let timeIndex = current % 2
+                let currentSession: Session = timeSetting.sessions[sessionIndex]
+                return timeIndex == 0 ? currentSession.concentrationSeconds : currentSession.restSeconds
+            }
+            .assign(to: &$remainSeconds)
     }
     
     
     // MARK: - Reset Methods
     func resetToOrigin() {
         pauseTime()
-        currentTime = 1
+        currentTimeIndex = 0
         timer = nil
     }
     
     func resetTimes() {
         pauseTime()
-        
-        if knowIsRefreshTime() {
-            resetRefreshTime()
-            return
-        }
-        
-        resetConcentrationTime()
-    }
-    
-    private func resetRefreshTime() {
-        guard knowIsRefreshTime() else { return }
-        
-        
-        if knowIsLastTime() {
-            remainSeconds = TimeSetting.longRefreshSeconds
-            return
-        }
-        
-        remainSeconds = timeSetting.refreshSeconds
-    }
-    
-    private func resetConcentrationTime() {
-        guard !knowIsRefreshTime() else { return }
-        
-        remainSeconds = timeSetting.concentrationSeconds
+        currentTimeIndex = currentTimeIndex
     }
     
     
@@ -85,8 +100,8 @@ final class TimerManager: ObservableObject {
     func moveToNextTimes() {
         withAnimation {
             pauseTime()
-            if knowIsInSession() {
-                currentTime += 1
+            if knowIsInSession() && !knowIsLastTime() {
+                currentTimeIndex += 1
             }
         }
     }
@@ -100,53 +115,26 @@ final class TimerManager: ObservableObject {
         remainSeconds -= 1
     }
     
-// MARK: - Set Remain Seconds
-    func setTimerRemainSeconds() {
-        if knowIsRefreshTime()  {
-            setRefreshSeconds()
-            return
-        }
-        
-        setConcentrationSeconds()
-    }
-    
-    private func setConcentrationSeconds() {
-        guard !knowIsRefreshTime() else { return }
-        
-        remainSeconds = timeSetting.concentrationSeconds
-    }
-    
-    private func setRefreshSeconds() {
-        guard knowIsRefreshTime() else { return }
-        
-        if knowIsLastTime() {
-            remainSeconds = TimeSetting.longRefreshSeconds
-            return
-        }
-        
-        remainSeconds = timeSetting.refreshSeconds
-    }
-    
     
     
 // MARK: - Get CurrentTime Info
-    func knowIsRefreshTime() -> Bool {
-        self.currentTime % 2 == 0
+    func knowIsInRestTime() -> Bool {
+        self.currentTimeIndex % 2 == 1
     }
     
     func knowIsInSession() -> Bool {
         let numOfTimes = timeSetting.numOfSessions * 2
-        return self.currentTime < numOfTimes
+        return (0..<numOfTimes).contains(self.currentTimeIndex)
     }
     
     func knowIsLastTime() -> Bool {
         let numOfTimes = timeSetting.numOfSessions * 2
-        return self.currentTime == numOfTimes
+        return self.currentTimeIndex == numOfTimes - 1
     }
     
     
 // MARK: - Get CurrentTime Digit Strings
-    func getMinute() -> String {
+    func getMinuteString() -> String {
         let seconds: Int = self.remainSeconds <= 0 ? 0 : self.remainSeconds
         let result: Int = Int(seconds / 60)
         
@@ -154,10 +142,9 @@ final class TimerManager: ObservableObject {
             return "0" + String(result)
         }
         return String(result)
-        
     }
     
-    func getSecond() -> String {
+    func getSecondString() -> String {
         let seconds: Int = self.remainSeconds <= 0 ? 0 : self.remainSeconds
         let result: Int = seconds % 60
         
@@ -169,73 +156,45 @@ final class TimerManager: ObservableObject {
     }
     
     func getTotalMinute() -> Int {
-        var result: Int = 0
-        let longRefreshMinute = 30
-        
-        for _ in 1..<timeSetting.numOfSessions {
-            result += (timeSetting.concentrationTime + timeSetting.refreshTime)
-        }
-        
-        result += (timeSetting.concentrationTime + longRefreshMinute)
-        
-        return result
+        timeSetting.sessions.reduce(0) {$0 + $1.sessionTime}
     }
     
 // MARK: - Get End Degree
     func getEndDegree() -> Double {
-        if knowIsRefreshTime()  {
-            return getRefreshTimeEndDegree()
-        }
+        let currentSeconds = knowIsInRestTime() ? currentSession.restSeconds : currentSession.concentrationSeconds
         
-        return getConcentrationTimeEndDegree()
-        
+        return Double(self.remainSeconds) / Double(currentSeconds)  * 360.0
     }
-    
-    private func getRefreshTimeEndDegree() -> Double {
-        if knowIsLastTime() {
-            return Double(self.remainSeconds) / Double(TimeSetting.longRefreshSeconds) * 360.0
-        }
-        
-        return Double(self.remainSeconds) / Double(timeSetting.refreshSeconds)  * 360.0
-    }
-    
-    private func getConcentrationTimeEndDegree() -> Double {
-        
-        return Double(self.remainSeconds) / Double(timeSetting.concentrationSeconds)  * 360.0
-    }
-    
- 
-    
+
     func subtractTimeElapsed(from last: Double) {
         let now: Double = Double(Date.now.timeIntervalSince1970)
         let diff: Int = Int((now - last).rounded())
         
-        if knowIsRefreshTime() {
-            subtractRefreshElapsed(time: diff)
-            return
-        }
-        
-        subtractConcentrationElapsed(time: diff)
+        remainSeconds = knowIsInRestTime() ? currentSession.restTime - diff : currentSession.concentrationSeconds - diff
      
     }
     
-    private func subtractRefreshElapsed(time: Int) {
-        guard knowIsRefreshTime() else { return }
-
-        
-        if knowIsLastTime() {
-            remainSeconds = TimeSetting.longRefreshSeconds - time
-            return
+//MARK: - Set Time
+    func mapAllSessions() {
+        let concentrationTime = timeSetting.session.concentrationTime
+        let restTime = timeSetting.session.restTime
+        var newSessions = [Session]()
+        for index in 0..<timeSetting.numOfSessions {
+            newSessions.append(Session(concentrationTime: concentrationTime,
+                                       restTime: index == timeSetting.numOfSessions - 1 ?
+                                       TimeSetting.longRefreshTime :
+                                       restTime))
         }
-        
-        remainSeconds = timeSetting.refreshSeconds - time
+        timeSetting.sessions = newSessions
     }
     
-    private func subtractConcentrationElapsed(time: Int) {
-        guard !knowIsRefreshTime() else { return }
-        
-        remainSeconds = timeSetting.concentrationSeconds - time
+    func toggleLastLongRefresh(isOn: Bool) {
+        timeSetting.sessions.removeLast()
+        timeSetting.sessions.append(Session(concentrationTime: timeSetting.session.concentrationTime,
+                                            restTime: isOn ? TimeSetting.longRefreshTime : 0))
     }
-   
+    
+
+ 
 }
 

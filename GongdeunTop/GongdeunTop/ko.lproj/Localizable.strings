@@ -76,6 +76,7 @@
 "setTime_rest_range" = "5~10분, 마지막 30분";
 
 "setTime_minute%lld" = "%lld분";
+"setTime_long_refresh?" = "마지막에 30분 동안 쉬시겠습니까?";
 
 //Session Timer
 "timer_currentTodo_nothing" = "현재 할 일 없음";

@@ -205,8 +205,8 @@ extension CycleMemoir {
 //MARK: - Handle Finish
 extension CycleMemoir {
     func handleFinish() {
-        manager.recordCycleTimeSetting(timeSetting: timerManager.timeSetting,
-                                       minutes: timerManager.getTotalMinute())
+//        manager.recordCycleTimeSetting(timeSetting: timerManager.timeSetting,
+//                                       minutes: timerManager.getTotalMinute())
         manager.handleFinishedCycleButton()
         dismiss()
         
