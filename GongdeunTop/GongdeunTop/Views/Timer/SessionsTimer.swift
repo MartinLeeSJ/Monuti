@@ -284,8 +284,8 @@ extension SessionsTimer {
     
     private func recordStartingTime() {
         // 초창기에만 기록하면 됨
-        let isConcentrationTimeStarted: Bool = !timerManager.knowIsInRestTime() && timerManager.remainSeconds == timerManager.timeSetting.concentrationTime * 60
-        let isRefreshTimeStarted: Bool = timerManager.knowIsInRestTime() && timerManager.remainSeconds == timerManager.timeSetting.restTime * 60
+        let isConcentrationTimeStarted: Bool = !timerManager.knowIsInRestTime() && timerManager.remainSeconds == timerManager.currentSession.concentrationTime * 60
+        let isRefreshTimeStarted: Bool = timerManager.knowIsInRestTime() && timerManager.remainSeconds == timerManager.currentSession.restTime * 60
         
         guard isConcentrationTimeStarted || isRefreshTimeStarted else {
             print("Failed To Record Time \(timerManager.remainSeconds)")

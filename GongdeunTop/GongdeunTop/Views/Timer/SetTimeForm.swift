@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Combine
 
 struct SetTimeContraint {
     static let sessionsBound: ClosedRange<Int> = 1...5
@@ -22,16 +23,22 @@ struct SetTimeForm: View {
     @EnvironmentObject var themeManager: ThemeManager
     @ObservedObject var manager: TimerManager
     
-    private var concentrationTimeRatio: CGFloat {
-        CGFloat(manager.timeSetting.concentrationTime) / CGFloat(manager.getTotalMinute())
+    private var sessionIndex: Int {
+        Int(manager.currentTimeIndex / 2)
     }
     
-    private var restTimeRatio: CGFloat {
-        CGFloat(manager.timeSetting.restTime) / CGFloat(manager.getTotalMinute())
+    private func getConcentrationTimeRatio(ofSession index: Int) -> CGFloat {
+        guard index < manager.timeSetting.numOfSessions else { return CGFloat(1)}
+        let concetrationTime = CGFloat(manager.timeSetting.sessions[index].concentrationTime)
+        let totalMinute = CGFloat(manager.getTotalMinute())
+        return concetrationTime / totalMinute
     }
     
-    private var longRefreshTimeRatio: CGFloat {
-        CGFloat(manager.timeSetting.longRefreshMinute) / CGFloat(manager.getTotalMinute())
+    private func getRestTimeRatio(ofSession index: Int) -> CGFloat {
+        guard index < manager.timeSetting.numOfSessions else { return CGFloat(1)}
+        let restTime = CGFloat(manager.timeSetting.sessions[index].restTime)
+        let totalMinute = CGFloat(manager.getTotalMinute())
+        return restTime / totalMinute
     }
     
     var body: some View {
@@ -52,6 +59,9 @@ struct SetTimeForm: View {
                 Text("setTime_long_refresh?")
                     .font(.caption)
             }
+//            .onReceive(Just(manager.timeSetting.willGetLongRefresh)) { bool in
+//                manager.toggleLastLongRefresh(isOn: bool)
+//            }
             .tint(themeManager.getColorInPriority(of: .accent))
             
         }
@@ -64,21 +74,20 @@ struct SetTimeForm: View {
         GeometryReader { geo in
             let width = geo.size.width
             HStack(spacing: 0) {
-                ForEach(1...manager.timeSetting.numOfSessions, id: \.self) { session in
-                    let isLastSession: Bool = session == (0...manager.timeSetting.numOfSessions).upperBound
+                ForEach(0..<manager.timeSetting.numOfSessions, id: \.self) { index in
                     var sessionRatio: CGFloat {
-                        concentrationTimeRatio + (isLastSession ? longRefreshTimeRatio : restTimeRatio)
+                        getConcentrationTimeRatio(ofSession: index) + getRestTimeRatio(ofSession: index)
                     }
                     var sessionWidth: CGFloat {
                         width * sessionRatio
                     }
                     
                     var concentrationTimeWidth: CGFloat {
-                        width * concentrationTimeRatio - 4
+                        width * getConcentrationTimeRatio(ofSession: index) - 4
                     }
                     
                     var restTimeWidth: CGFloat {
-                        width * (isLastSession ?  longRefreshTimeRatio : restTimeRatio) - 4
+                        width * getRestTimeRatio(ofSession: index) - 4
                     }
                     
                     HStack(spacing: 2) {
@@ -135,15 +144,13 @@ struct SetTimeForm: View {
             Text("setTime_concentration_range")
                 .font(.caption)
                 .foregroundColor(.secondary)
-            
             Spacer()
             
-            SetTimeStepper(stepValue: $manager.timeSetting.concentrationTime,
+            SetTimeStepper(stepValue: $manager.timeSetting.session.concentrationTime,
                            bound: SetTimeContraint.concentrationTimeBound,
-                           step: SetTimeContraint.concentrationTimeStep)
-                .onChange(of: manager.timeSetting.concentrationTime) { _ in
-                    manager.setTimerRemainSeconds()
-                }
+                           step: SetTimeContraint.concentrationTimeStep) { _ in
+                manager.mapAllSessions()
+            }
         }
     }
     var restTimeStepper: some View {
@@ -157,9 +164,11 @@ struct SetTimeForm: View {
                 .font(.caption)
                 .foregroundColor(.secondary)
             Spacer()
-            SetTimeStepper(stepValue: $manager.timeSetting.restTime,
+            SetTimeStepper(stepValue: $manager.timeSetting.session.restTime,
                            bound: SetTimeContraint.restTimeBound,
-                           step: SetTimeContraint.restTimeStep)
+                           step: SetTimeContraint.restTimeStep) { _ in
+                manager.mapAllSessions()
+            }
             
         }
     }
@@ -169,6 +178,15 @@ struct SetTimeStepper: View  {
     @Binding var stepValue: Int
     let bound: ClosedRange<Int>
     let step: Int.Stride
+    let onEditingChanged: (Bool) -> Void
+    
+    init(stepValue: Binding<Int>, bound: ClosedRange<Int>, step: Int.Stride, _ onEditingChanged: @escaping (Bool) -> Void = { _ in }) {
+        self._stepValue = stepValue
+        self.bound = bound
+        self.step = step
+        self.onEditingChanged = onEditingChanged
+    }
+    
     
     var isLowerBound: Bool {
         stepValue == bound.lowerBound || !(bound ~= stepValue - step)
@@ -192,6 +210,7 @@ struct SetTimeStepper: View  {
         HStack(spacing: 8) {
             Button {
                 countDown()
+                onEditingChanged(true)
             } label: {
                 Image(systemName: "minus")
                     .frame(minWidth: 33, minHeight: 25)
@@ -209,6 +228,7 @@ struct SetTimeStepper: View  {
                 .padding(.vertical, 8)
             Button {
                 countUp()
+                onEditingChanged(true)
             } label: {
                 Image(systemName: "plus")
                     .frame(minWidth: 33, minHeight: 25)
