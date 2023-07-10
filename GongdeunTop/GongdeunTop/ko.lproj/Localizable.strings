@@ -78,6 +78,10 @@
 "setTime_minute%lld" = "%lld분";
 "setTime_long_refresh?" = "마지막에 30분 동안 쉬시겠습니까?";
 
+"timeSetMode_batch" = "일괄 설정";
+"timeSetMode_individual" = "세부 설정";
+"timeSetMode_preset" = "저장된 설정";
+
 //Session Timer
 "timer_currentTodo_nothing" = "현재 할 일 없음";
 "timer_todoMenu" = "할 일 선택";

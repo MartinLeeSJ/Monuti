@@ -58,6 +58,10 @@
 		5B95944D29D96277001F2B4B /* Turret.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B95944C29D96277001F2B4B /* Turret.swift */; };
 		5B95E0E42A5BB71F007FA721 /* Array+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B95E0E32A5BB71F007FA721 /* Array+Utils.swift */; };
 		5B95E0E62A5BE1B4007FA721 /* SetTimeStepper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B95E0E52A5BE1B4007FA721 /* SetTimeStepper.swift */; };
+		5B95E0E92A5BF543007FA721 /* BatchTimeSettingForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B95E0E82A5BF543007FA721 /* BatchTimeSettingForm.swift */; };
+		5B95E0EB2A5BF79F007FA721 /* IndividualTimeSettingForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B95E0EA2A5BF79F007FA721 /* IndividualTimeSettingForm.swift */; };
+		5B95E0ED2A5BF7B5007FA721 /* PresetTimeSettingForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B95E0EC2A5BF7B5007FA721 /* PresetTimeSettingForm.swift */; };
+		5B95E0EF2A5C54B0007FA721 /* MonutiSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B95E0EE2A5C54B0007FA721 /* MonutiSlider.swift */; };
 		5B95E13929D7FC9000E8CBA1 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B95E13829D7FC9000E8CBA1 /* AuthManager.swift */; };
 		5B95E13E29D805AC00E8CBA1 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B95E13D29D805AC00E8CBA1 /* SignUpView.swift */; };
 		5B95E14029D80B7D00E8CBA1 /* Member.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B95E13F29D80B7D00E8CBA1 /* Member.swift */; };
@@ -148,6 +152,10 @@
 		5B95944C29D96277001F2B4B /* Turret.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Turret.swift; sourceTree = "<group>"; };
 		5B95E0E32A5BB71F007FA721 /* Array+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Utils.swift"; sourceTree = "<group>"; };
 		5B95E0E52A5BE1B4007FA721 /* SetTimeStepper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetTimeStepper.swift; sourceTree = "<group>"; };
+		5B95E0E82A5BF543007FA721 /* BatchTimeSettingForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatchTimeSettingForm.swift; sourceTree = "<group>"; };
+		5B95E0EA2A5BF79F007FA721 /* IndividualTimeSettingForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndividualTimeSettingForm.swift; sourceTree = "<group>"; };
+		5B95E0EC2A5BF7B5007FA721 /* PresetTimeSettingForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresetTimeSettingForm.swift; sourceTree = "<group>"; };
+		5B95E0EE2A5C54B0007FA721 /* MonutiSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonutiSlider.swift; sourceTree = "<group>"; };
 		5B95E13829D7FC9000E8CBA1 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		5B95E13C29D804F000E8CBA1 /* GongdeunTop.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GongdeunTop.entitlements; sourceTree = "<group>"; };
 		5B95E13D29D805AC00E8CBA1 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
@@ -358,6 +366,10 @@
 			isa = PBXGroup;
 			children = (
 				5BFFDB8429C5F298004C5376 /* SetTimeForm.swift */,
+				5B95E0E82A5BF543007FA721 /* BatchTimeSettingForm.swift */,
+				5B95E0EA2A5BF79F007FA721 /* IndividualTimeSettingForm.swift */,
+				5B95E0EE2A5C54B0007FA721 /* MonutiSlider.swift */,
+				5B95E0EC2A5BF7B5007FA721 /* PresetTimeSettingForm.swift */,
 				5B95E0E52A5BE1B4007FA721 /* SetTimeStepper.swift */,
 			);
 			path = SetTime;
@@ -639,6 +651,7 @@
 				5B05A61529ECE5CF00C89417 /* CycleManager.swift in Sources */,
 				5B76D0F429C74FE0008883A8 /* TimerManager.swift in Sources */,
 				5B2FEABF29DA645E0022F827 /* Cycle.swift in Sources */,
+				5B95E0EF2A5C54B0007FA721 /* MonutiSlider.swift in Sources */,
 				5B95E13E29D805AC00E8CBA1 /* SignUpView.swift in Sources */,
 				5BAC85EF2A00F1D500A34056 /* ColorThemeSetting.swift in Sources */,
 				5BCF551229C2E50100A19759 /* Color+Custom.swift in Sources */,
@@ -654,9 +667,11 @@
 				5BF61E922A0296B1007592D6 /* ThemeManager.swift in Sources */,
 				5B2767C929FA2229008398A3 /* DateCell.swift in Sources */,
 				5B54FE432A2B5917000D29ED /* CGFloat+Utils.swift in Sources */,
+				5B95E0EB2A5BF79F007FA721 /* IndividualTimeSettingForm.swift in Sources */,
 				5B2FEABC29D9CC000022F827 /* ToDoStore.swift in Sources */,
 				5B1C711A2A11FCB700A5D3EB /* TargetStore.swift in Sources */,
 				5B95E0E42A5BB71F007FA721 /* Array+Utils.swift in Sources */,
+				5B95E0ED2A5BF7B5007FA721 /* PresetTimeSettingForm.swift in Sources */,
 				5B6585A629EEAE6200F9E758 /* CubeHexagon.swift in Sources */,
 				5BE9EEDC29FFFBA500233C49 /* SettingView.swift in Sources */,
 				5B6AB2502A30AB0A008D09B6 /* MainSettingBanner.swift in Sources */,
@@ -676,6 +691,7 @@
 				5BD3D1D929D1C45A008E8988 /* ToDo+PlaceHolder.swift in Sources */,
 				5B6DF5F02A36C5F600CCA57F /* DateFormatter+Utils.swift in Sources */,
 				5B174C272A03720600204C75 /* RoundedHexagon.swift in Sources */,
+				5B95E0E92A5BF543007FA721 /* BatchTimeSettingForm.swift in Sources */,
 				5B2767C729F90355008398A3 /* SetMonthView.swift in Sources */,
 				5BD3D1D729D1C3BB008E8988 /* ToDoListCell.swift in Sources */,
 				5B2767C529F8F30D008398A3 /* CalendarManager.swift in Sources */,

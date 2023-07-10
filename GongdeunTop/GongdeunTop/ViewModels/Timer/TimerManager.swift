@@ -66,13 +66,7 @@ final class TimerManager: ObservableObject {
     @Published var timer: Timer?
     @Published var mode: TimeSetMode = .batch
     
-    enum TimeSetMode: String, CaseIterable, Identifiable {
-        case batch
-        case individual
-        case preset
-        
-        var id: Self { self }
-    }
+  
     var currentSession: Session {
         let sessionIndex = Int(currentTimeIndex / 2)
         guard sessionIndex < timeSetting.sessions.count else { return timeSetting.sessions.first ?? Session.basicSetting}
@@ -209,5 +203,16 @@ final class TimerManager: ObservableObject {
         }
     }
 
+}
+
+//MARK: - TimeSetMode
+extension TimerManager {
+    enum TimeSetMode: LocalizedStringKey, CaseIterable, Identifiable {
+        case batch = "timeSetMode_batch"
+        case individual  = "timeSetMode_individual"
+        case preset = "timeSetMode_preset"
+        
+        var id: Self { self }
+    }
 }
 
