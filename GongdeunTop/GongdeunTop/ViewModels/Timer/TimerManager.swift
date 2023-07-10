@@ -12,6 +12,7 @@ import Combine
 struct TimeSetting {
     var session: Session = Session.basicSetting
     var sessions: [Session] = Session.basicSessions
+    var willGetLongRefresh: Bool = true
     var numOfSessions: Int {
         get { sessions.count }
         set(newValue) {
@@ -25,11 +26,12 @@ struct TimeSetting {
             }
         }
     }
-    var willGetLongRefresh: Bool = true
-    var isCustomized: Bool = false
+    
     
     static let longRefreshTime: Int = 30
 }
+
+
 
 struct Session: Identifiable {
     var id: String = UUID().uuidString
@@ -62,7 +64,15 @@ final class TimerManager: ObservableObject {
     @Published var remainSeconds: Int = 0
     @Published var isRunning: Bool = false
     @Published var timer: Timer?
+    @Published var mode: TimeSetMode = .batch
     
+    enum TimeSetMode: String, CaseIterable, Identifiable {
+        case batch
+        case individual
+        case preset
+        
+        var id: Self { self }
+    }
     var currentSession: Session {
         let sessionIndex = Int(currentTimeIndex / 2)
         guard sessionIndex < timeSetting.sessions.count else { return timeSetting.sessions.first ?? Session.basicSetting}
@@ -75,9 +85,9 @@ final class TimerManager: ObservableObject {
             .combineLatest($timeSetting)
             .map { (current, timeSetting) in
                 let sessionIndex = Int(current / 2)
-                let timeIndex = current % 2
-                let currentSession: Session = timeSetting.sessions[sessionIndex]
-                return timeIndex == 0 ? currentSession.concentrationSeconds : currentSession.restSeconds
+                let isConcentrateTime: Bool = current % 2 == 0
+                let currentSession: Session = timeSetting.sessions[safe: sessionIndex] ?? Session.basicSetting
+                return isConcentrateTime ? currentSession.concentrationSeconds : currentSession.restSeconds
             }
             .assign(to: &$remainSeconds)
     }
@@ -176,25 +186,28 @@ final class TimerManager: ObservableObject {
     
 //MARK: - Set Time
     func mapAllSessions() {
-        let concentrationTime = timeSetting.session.concentrationTime
-        let restTime = timeSetting.session.restTime
-        var newSessions = [Session]()
-        for index in 0..<timeSetting.numOfSessions {
-            newSessions.append(Session(concentrationTime: concentrationTime,
-                                       restTime: index == timeSetting.numOfSessions - 1 ?
-                                       TimeSetting.longRefreshTime :
-                                       restTime))
+        timeSetting.sessions = timeSetting.sessions.enumerated().map { (index, _) in
+            let isLastIndex: Bool = index == timeSetting.sessions.endIndex - 1
+            if isLastIndex {
+                return Session(concentrationTime: timeSetting.session.concentrationTime,
+                               restTime: timeSetting.willGetLongRefresh ? TimeSetting.longRefreshTime : 0)
+            } else {
+                return Session(concentrationTime: timeSetting.session.concentrationTime,
+                               restTime: timeSetting.session.restTime)
+            }
         }
-        timeSetting.sessions = newSessions
     }
     
     func toggleLastLongRefresh(isOn: Bool) {
-        timeSetting.sessions.removeLast()
-        timeSetting.sessions.append(Session(concentrationTime: timeSetting.session.concentrationTime,
-                                            restTime: isOn ? TimeSetting.longRefreshTime : 0))
+        timeSetting.sessions = timeSetting.sessions.enumerated().map { (index, session) in
+            let isLastIndex: Bool = index == timeSetting.sessions.endIndex - 1
+            if isLastIndex {
+                return Session(concentrationTime: timeSetting.session.concentrationTime,
+                               restTime: isOn ? TimeSetting.longRefreshTime : 0)
+            }
+            return session
+        }
     }
-    
 
- 
 }
 

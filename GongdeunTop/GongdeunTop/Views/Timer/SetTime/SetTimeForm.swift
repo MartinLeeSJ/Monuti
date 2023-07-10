@@ -43,6 +43,13 @@ struct SetTimeForm: View {
     
     var body: some View {
         VStack {
+            Picker("Mode", selection: $manager.mode) {
+                ForEach(TimerManager.TimeSetMode.allCases) { mode in
+                
+                    Text(mode.rawValue)
+                }
+            }
+            .pickerStyle(.segmented)
             Text("totalTime\(manager.getTotalMinute())")
                 .font(.title)
                 .bold()
@@ -55,14 +62,7 @@ struct SetTimeForm: View {
             
             restTimeStepper
             
-            Toggle(isOn: $manager.timeSetting.willGetLongRefresh) {
-                Text("setTime_long_refresh?")
-                    .font(.caption)
-            }
-//            .onReceive(Just(manager.timeSetting.willGetLongRefresh)) { bool in
-//                manager.toggleLastLongRefresh(isOn: bool)
-//            }
-            .tint(themeManager.getColorInPriority(of: .accent))
+            longRefreshToggle
             
         }
         .padding(16)
@@ -174,74 +174,21 @@ struct SetTimeForm: View {
     }
 }
 
-struct SetTimeStepper: View  {
-    @Binding var stepValue: Int
-    let bound: ClosedRange<Int>
-    let step: Int.Stride
-    let onEditingChanged: (Bool) -> Void
-    
-    init(stepValue: Binding<Int>, bound: ClosedRange<Int>, step: Int.Stride, _ onEditingChanged: @escaping (Bool) -> Void = { _ in }) {
-        self._stepValue = stepValue
-        self.bound = bound
-        self.step = step
-        self.onEditingChanged = onEditingChanged
-    }
-    
-    
-    var isLowerBound: Bool {
-        stepValue == bound.lowerBound || !(bound ~= stepValue - step)
-    }
-    
-    var isUpperBound: Bool {
-        stepValue == bound.upperBound || !(bound ~= stepValue + step)
-    }
-    
-    func countUp() {
-        guard bound ~= stepValue + step else { return }
-        stepValue += step
-    }
-    
-    func countDown() {
-        guard bound ~= stepValue - step else { return }
-        stepValue -= step
-    }
- 
-    var body: some View {
-        HStack(spacing: 8) {
-            Button {
-                countDown()
-                onEditingChanged(true)
-            } label: {
-                Image(systemName: "minus")
-                    .frame(minWidth: 33, minHeight: 25)
-            }
-            .disabled(isLowerBound)
-            .contentShape(Rectangle())
-            
-            Divider()
-                .padding(.vertical, 8)
-            
-            Text("\(stepValue)")
-                .frame(minWidth: 33, maxWidth: 33)
-            
-            Divider()
-                .padding(.vertical, 8)
-            Button {
-                countUp()
-                onEditingChanged(true)
-            } label: {
-                Image(systemName: "plus")
-                    .frame(minWidth: 33, minHeight: 25)
-            }
-            .disabled(isUpperBound)
-            .contentShape(Rectangle())
+//MARK: - Toggle
+extension SetTimeForm {
+    var longRefreshToggle: some View {
+        Toggle(isOn: $manager.timeSetting.willGetLongRefresh) {
+            Text("setTime_long_refresh?")
+                .font(.caption)
         }
-        .tint(Color("basicFontColor"))
-        .padding(.horizontal, 8)
-        .background(.thickMaterial, in: RoundedRectangle(cornerRadius: 10))
-        .frame(minHeight: 33, maxHeight: 33)
+        .onChange(of: manager.timeSetting.willGetLongRefresh) { bool in
+            manager.toggleLastLongRefresh(isOn: bool)
+        }
+        .tint(themeManager.getColorInPriority(of: .accent))
     }
 }
+
+
 
 struct SetTimeView_Previews: PreviewProvider {
     struct Container: View {
@@ -253,15 +200,8 @@ struct SetTimeView_Previews: PreviewProvider {
                 .environmentObject(themeManger)
         }
     }
-    
-    struct StepperContainer: View {
-        @State var value: Int = 0
-        var body: some View {
-            SetTimeStepper(stepValue: $value, bound: 0...5, step: 1)
-        }
-    }
+
     static var previews: some View {
         Container()
-        StepperContainer()
     }
 }

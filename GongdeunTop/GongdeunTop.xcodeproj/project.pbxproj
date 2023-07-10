@@ -56,6 +56,8 @@
 		5B841E9F29FBC4D600F1675E /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B841E9E29FBC4D600F1675E /* LocationManager.swift */; };
 		5B8B119529D07EE6009BB0E6 /* FirstCountdown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8B119429D07EE6009BB0E6 /* FirstCountdown.swift */; };
 		5B95944D29D96277001F2B4B /* Turret.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B95944C29D96277001F2B4B /* Turret.swift */; };
+		5B95E0E42A5BB71F007FA721 /* Array+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B95E0E32A5BB71F007FA721 /* Array+Utils.swift */; };
+		5B95E0E62A5BE1B4007FA721 /* SetTimeStepper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B95E0E52A5BE1B4007FA721 /* SetTimeStepper.swift */; };
 		5B95E13929D7FC9000E8CBA1 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B95E13829D7FC9000E8CBA1 /* AuthManager.swift */; };
 		5B95E13E29D805AC00E8CBA1 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B95E13D29D805AC00E8CBA1 /* SignUpView.swift */; };
 		5B95E14029D80B7D00E8CBA1 /* Member.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B95E13F29D80B7D00E8CBA1 /* Member.swift */; };
@@ -144,6 +146,8 @@
 		5B841E9E29FBC4D600F1675E /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		5B8B119429D07EE6009BB0E6 /* FirstCountdown.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstCountdown.swift; sourceTree = "<group>"; };
 		5B95944C29D96277001F2B4B /* Turret.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Turret.swift; sourceTree = "<group>"; };
+		5B95E0E32A5BB71F007FA721 /* Array+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Utils.swift"; sourceTree = "<group>"; };
+		5B95E0E52A5BE1B4007FA721 /* SetTimeStepper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetTimeStepper.swift; sourceTree = "<group>"; };
 		5B95E13829D7FC9000E8CBA1 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		5B95E13C29D804F000E8CBA1 /* GongdeunTop.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GongdeunTop.entitlements; sourceTree = "<group>"; };
 		5B95E13D29D805AC00E8CBA1 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
@@ -202,7 +206,7 @@
 			isa = PBXGroup;
 			children = (
 				5BCF551C29C30DA800A19759 /* SessionsTimer.swift */,
-				5BFFDB8429C5F298004C5376 /* SetTimeForm.swift */,
+				5B95E0E72A5BE24F007FA721 /* SetTime */,
 				5BD5131829D574900008E1C9 /* SessionIndicator.swift */,
 				5B8B119429D07EE6009BB0E6 /* FirstCountdown.swift */,
 			);
@@ -350,6 +354,15 @@
 			path = Cycle;
 			sourceTree = "<group>";
 		};
+		5B95E0E72A5BE24F007FA721 /* SetTime */ = {
+			isa = PBXGroup;
+			children = (
+				5BFFDB8429C5F298004C5376 /* SetTimeForm.swift */,
+				5B95E0E52A5BE1B4007FA721 /* SetTimeStepper.swift */,
+			);
+			path = SetTime;
+			sourceTree = "<group>";
+		};
 		5BA9A43A2A09307700453D65 /* Cycle */ = {
 			isa = PBXGroup;
 			children = (
@@ -484,6 +497,7 @@
 				5BCF551129C2E50100A19759 /* Color+Custom.swift */,
 				5B6DF5F12A36D37C00CCA57F /* Utils */,
 				5B63175B29E7F28400FF6876 /* Shape */,
+				5B95E0E32A5BB71F007FA721 /* Array+Utils.swift */,
 			);
 			path = Etc;
 			sourceTree = "<group>";
@@ -611,6 +625,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5B63A59129C8931300AA4525 /* SheetPresenter.swift in Sources */,
+				5B95E0E62A5BE1B4007FA721 /* SetTimeStepper.swift in Sources */,
 				5B4214F52A2D57D1004362E5 /* MainRouterView.swift in Sources */,
 				5B05A61829ECFD5A00C89417 /* CycleMemoir.swift in Sources */,
 				5BB4FECA29C832D9009CCD43 /* ToDo.swift in Sources */,
@@ -641,6 +656,7 @@
 				5B54FE432A2B5917000D29ED /* CGFloat+Utils.swift in Sources */,
 				5B2FEABC29D9CC000022F827 /* ToDoStore.swift in Sources */,
 				5B1C711A2A11FCB700A5D3EB /* TargetStore.swift in Sources */,
+				5B95E0E42A5BB71F007FA721 /* Array+Utils.swift in Sources */,
 				5B6585A629EEAE6200F9E758 /* CubeHexagon.swift in Sources */,
 				5BE9EEDC29FFFBA500233C49 /* SettingView.swift in Sources */,
 				5B6AB2502A30AB0A008D09B6 /* MainSettingBanner.swift in Sources */,
