@@ -131,13 +131,13 @@ extension SessionsTimer {
         let secondWidth = width * 0.425
         let colonWidth = width * 0.15
         HStack(alignment: .center, spacing: 0) {
-            Text(timerManager.getMinuteString())
+            Text(timerManager.getMinuteString(of: timerManager.remainSeconds))
                 .frame(width: minuteWidth, alignment: .trailing)
                 .font(.system(size: 60, weight: .regular, design: .rounded))
             Text(":")
                 .frame(width: colonWidth, alignment: .center)
                 .font(.system(size: 54, weight: .regular))
-            Text(timerManager.getSecondString())
+            Text(timerManager.getSecondString(of: timerManager.remainSeconds))
                 .frame(width: secondWidth, alignment: .leading)
                 .font(.system(size: 60, weight: .regular, design: .rounded))
         }
@@ -284,8 +284,8 @@ extension SessionsTimer {
     
     private func recordStartingTime() {
         // 초창기에만 기록하면 됨
-        let isConcentrationTimeStarted: Bool = !timerManager.knowIsInRestTime() && timerManager.remainSeconds == timerManager.currentSession.concentrationTime * 60
-        let isRefreshTimeStarted: Bool = timerManager.knowIsInRestTime() && timerManager.remainSeconds == timerManager.currentSession.restTime * 60
+        let isConcentrationTimeStarted: Bool = !timerManager.knowIsInRestTime() && timerManager.remainSeconds == timerManager.currentSession.concentrationSeconds * 60
+        let isRefreshTimeStarted: Bool = timerManager.knowIsInRestTime() && timerManager.remainSeconds == timerManager.currentSession.restSeconds * 60
         
         guard isConcentrationTimeStarted || isRefreshTimeStarted else {
             print("Failed To Record Time \(timerManager.remainSeconds)")

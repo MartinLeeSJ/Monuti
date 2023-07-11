@@ -77,6 +77,10 @@
 "setTime_minute%lld" = "%lldmin";
 "setTime_long_refresh?" = "Will you rest last 30 minutes?";
 
+"timeSetMode_batch" = "Batch";
+"timeSetMode_individual" = "Individual";
+"timeSetMode_preset" = "Preset";
+
 //Session Timer
 "timer_currentTodo_nothing" = "Nothing To Do";
 "timer_todoMenu" = "Select ToDo";

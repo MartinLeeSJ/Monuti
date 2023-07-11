@@ -12,6 +12,7 @@ import Combine
 struct TimeSetting {
     var session: Session = Session.basicSetting
     var sessions: [Session] = Session.basicSessions
+    var willGetLongRefresh: Bool = true
     var numOfSessions: Int {
         get { sessions.count }
         set(newValue) {
@@ -25,33 +26,26 @@ struct TimeSetting {
             }
         }
     }
-    var willGetLongRefresh: Bool = true
-    var isCustomized: Bool = false
     
-    static let longRefreshTime: Int = 30
+    
+    static let longRefreshSeconds: Int = 30 * 60
 }
+
+
 
 struct Session: Identifiable {
     var id: String = UUID().uuidString
-    var concentrationTime: Int
-    var restTime: Int
+    var concentrationSeconds: Int
+    var restSeconds: Int
     
-    var concentrationSeconds: Int {
-        concentrationTime * 60
-    }
-    
-    var restSeconds: Int {
-        restTime * 60
-    }
-    
-    var sessionTime: Int {
-        concentrationTime + restTime
+    var sessionSeconds: Int {
+        concentrationSeconds + restSeconds
     }
 }
 
 extension Session {
-    static let basicSetting = Session(concentrationTime: 25, restTime: 5)
-    static let lastSessionPlaceholder = Session(concentrationTime: 25, restTime: 30)
+    static let basicSetting = Session(concentrationSeconds: 25 * 60, restSeconds: 5 * 60)
+    static let lastSessionPlaceholder = Session(concentrationSeconds: 25 * 60, restSeconds: 30 * 60)
     static var basicSessions = Array(repeating: Self.basicSetting, count: 3) + [Self.lastSessionPlaceholder]
 }
 
@@ -62,7 +56,9 @@ final class TimerManager: ObservableObject {
     @Published var remainSeconds: Int = 0
     @Published var isRunning: Bool = false
     @Published var timer: Timer?
+    @Published var mode: TimeSetMode = .batch
     
+  
     var currentSession: Session {
         let sessionIndex = Int(currentTimeIndex / 2)
         guard sessionIndex < timeSetting.sessions.count else { return timeSetting.sessions.first ?? Session.basicSetting}
@@ -75,9 +71,9 @@ final class TimerManager: ObservableObject {
             .combineLatest($timeSetting)
             .map { (current, timeSetting) in
                 let sessionIndex = Int(current / 2)
-                let timeIndex = current % 2
-                let currentSession: Session = timeSetting.sessions[sessionIndex]
-                return timeIndex == 0 ? currentSession.concentrationSeconds : currentSession.restSeconds
+                let isConcentrateTime: Bool = current % 2 == 0
+                let currentSession: Session = timeSetting.sessions[safe: sessionIndex] ?? Session.basicSetting
+                return isConcentrateTime ? currentSession.concentrationSeconds : currentSession.restSeconds
             }
             .assign(to: &$remainSeconds)
     }
@@ -134,29 +130,31 @@ final class TimerManager: ObservableObject {
     
     
 // MARK: - Get CurrentTime Digit Strings
-    func getMinuteString() -> String {
-        let seconds: Int = self.remainSeconds <= 0 ? 0 : self.remainSeconds
-        let result: Int = Int(seconds / 60)
+    func getMinuteString(of seconds: Int, isTwoLetters: Bool = true) -> String {
+        let result: Int = getMinute(of: seconds)
         
-        if result < 10 {
+        if result < 10 && isTwoLetters {
             return "0" + String(result)
         }
         return String(result)
     }
     
-    func getSecondString() -> String {
-        let seconds: Int = self.remainSeconds <= 0 ? 0 : self.remainSeconds
-        let result: Int = seconds % 60
+    func getMinute(of seconds: Int) -> Int {
+        Int((seconds <= 0 ? 0 : seconds) / 60)
+    }
+    
+    func getSecondString(of seconds: Int, isTwoLetters: Bool = true) -> String {
+        let result: Int = (seconds <= 0 ? 0 : seconds) % 60
         
-        if result < 10 {
+        if result < 10 && isTwoLetters {
             return "0" + String(result)
         } else {
             return String(result)
         }
     }
     
-    func getTotalMinute() -> Int {
-        timeSetting.sessions.reduce(0) {$0 + $1.sessionTime}
+    func getTotalSeconds() -> Int {
+        timeSetting.sessions.reduce(0) {$0 + $1.sessionSeconds}
     }
     
 // MARK: - Get End Degree
@@ -170,31 +168,45 @@ final class TimerManager: ObservableObject {
         let now: Double = Double(Date.now.timeIntervalSince1970)
         let diff: Int = Int((now - last).rounded())
         
-        remainSeconds = knowIsInRestTime() ? currentSession.restTime - diff : currentSession.concentrationSeconds - diff
+        remainSeconds = knowIsInRestTime() ? currentSession.restSeconds - diff : currentSession.concentrationSeconds - diff
      
     }
     
 //MARK: - Set Time
     func mapAllSessions() {
-        let concentrationTime = timeSetting.session.concentrationTime
-        let restTime = timeSetting.session.restTime
-        var newSessions = [Session]()
-        for index in 0..<timeSetting.numOfSessions {
-            newSessions.append(Session(concentrationTime: concentrationTime,
-                                       restTime: index == timeSetting.numOfSessions - 1 ?
-                                       TimeSetting.longRefreshTime :
-                                       restTime))
+        timeSetting.sessions = timeSetting.sessions.enumerated().map { (index, _) in
+            let isLastIndex: Bool = index == timeSetting.sessions.endIndex - 1
+            if isLastIndex {
+                return Session(concentrationSeconds: timeSetting.session.concentrationSeconds,
+                               restSeconds: timeSetting.willGetLongRefresh ? TimeSetting.longRefreshSeconds : 0)
+            } else {
+                return Session(concentrationSeconds: timeSetting.session.concentrationSeconds,
+                               restSeconds: timeSetting.session.restSeconds)
+            }
         }
-        timeSetting.sessions = newSessions
     }
     
     func toggleLastLongRefresh(isOn: Bool) {
-        timeSetting.sessions.removeLast()
-        timeSetting.sessions.append(Session(concentrationTime: timeSetting.session.concentrationTime,
-                                            restTime: isOn ? TimeSetting.longRefreshTime : 0))
+        timeSetting.sessions = timeSetting.sessions.enumerated().map { (index, session) in
+            let isLastIndex: Bool = index == timeSetting.sessions.endIndex - 1
+            if isLastIndex {
+                return Session(concentrationSeconds: timeSetting.session.concentrationSeconds,
+                               restSeconds: isOn ? TimeSetting.longRefreshSeconds : 0)
+            }
+            return session
+        }
     }
-    
 
- 
+}
+
+//MARK: - TimeSetMode
+extension TimerManager {
+    enum TimeSetMode: LocalizedStringKey, CaseIterable, Identifiable {
+        case batch = "timeSetMode_batch"
+        case individual  = "timeSetMode_individual"
+        case preset = "timeSetMode_preset"
+        
+        var id: Self { self }
+    }
 }
 
