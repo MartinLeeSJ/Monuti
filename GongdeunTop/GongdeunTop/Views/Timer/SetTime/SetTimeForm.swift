@@ -13,13 +13,14 @@ struct SetTimeContraint {
     static let sessionsBound: ClosedRange<Int> = 1...5
     static let sessionStep: Int.Stride = 1
     
-    static let looseConcentrationTimeBound: ClosedRange<Int> = 1...50
-    static let concentrationTimeBound: ClosedRange<Int> = 15...50
-    static let concentrationTimeStep: Int.Stride = 5
+    static let looseConcentrationTimeBound: ClosedRange<Int> = (1 * 60)...(50 * 60)
+    static let concentrationTimeBound: ClosedRange<Int> = (15 * 60)...(50 * 60)
+    static let concentrationTimeStep: Int.Stride = 5 * 60
     
-    static let looseRestTimeBound: ClosedRange<Int> = 0...30
-    static let restTimeBound: ClosedRange<Int> = 5...10
-    static let restTimeStep: Int.Stride = 1
+    static let looseRestTimeBound: ClosedRange<Int> = 0...(30 * 60)
+    static let restTimeBound: ClosedRange<Int> = (5 * 60)...(10 * 60)
+    static let restTimeStep: Int.Stride = 1 * 60
+
 }
 
 struct SetTimeForm: View {

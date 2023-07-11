@@ -12,7 +12,7 @@ struct BatchTimeSettingForm: View {
     @ObservedObject var manager: TimerManager
     var body: some View {
         VStack {
-            Text("totalTime\(manager.getTotalMinute())")
+            Text("totalTime\(manager.getMinute(of: manager.getTotalSeconds()))")
                 .font(.title)
                 .bold()
             
@@ -32,16 +32,16 @@ struct BatchTimeSettingForm: View {
 extension BatchTimeSettingForm {
     private func getConcentrationTimeRatio(ofSession index: Int) -> CGFloat {
         guard index < manager.timeSetting.numOfSessions else { return CGFloat(1)}
-        let concetrationTime = CGFloat(manager.timeSetting.sessions[index].concentrationTime)
-        let totalMinute = CGFloat(manager.getTotalMinute())
-        return concetrationTime / totalMinute
+        let concetrationSeconds = CGFloat(manager.timeSetting.sessions[index].concentrationSeconds)
+        let totalSeconds = CGFloat(manager.getTotalSeconds())
+        return concetrationSeconds / totalSeconds
     }
     
     private func getRestTimeRatio(ofSession index: Int) -> CGFloat {
         guard index < manager.timeSetting.numOfSessions else { return CGFloat(1)}
-        let restTime = CGFloat(manager.timeSetting.sessions[index].restTime)
-        let totalMinute = CGFloat(manager.getTotalMinute())
-        return restTime / totalMinute
+        let restSeconds = CGFloat(manager.timeSetting.sessions[index].restSeconds)
+        let totalSeconds = CGFloat(manager.getTotalSeconds())
+        return restSeconds / totalSeconds
     }
     
     @ViewBuilder
@@ -108,7 +108,11 @@ extension BatchTimeSettingForm {
             Spacer()
             SetTimeStepper(stepValue: $manager.timeSetting.numOfSessions,
                            bound: SetTimeContraint.sessionsBound,
-                           step: SetTimeContraint.sessionStep)
+                           step: SetTimeContraint.sessionStep) { _ in
+                
+            } label: {
+                Text("\(manager.timeSetting.numOfSessions)")
+            }
         }
     }
     var concentrationTimeStepper: some View {
@@ -124,10 +128,12 @@ extension BatchTimeSettingForm {
                 .foregroundColor(.secondary)
             Spacer()
             
-            SetTimeStepper(stepValue: $manager.timeSetting.session.concentrationTime,
+            SetTimeStepper(stepValue: $manager.timeSetting.session.concentrationSeconds,
                            bound: SetTimeContraint.concentrationTimeBound,
                            step: SetTimeContraint.concentrationTimeStep) { _ in
                 manager.mapAllSessions()
+            } label: {
+                Text("\(manager.getMinute(of: manager.timeSetting.session.concentrationSeconds))")
             }
         }
     }
@@ -142,10 +148,12 @@ extension BatchTimeSettingForm {
                 .font(.caption)
                 .foregroundColor(.secondary)
             Spacer()
-            SetTimeStepper(stepValue: $manager.timeSetting.session.restTime,
+            SetTimeStepper(stepValue: $manager.timeSetting.session.restSeconds,
                            bound: SetTimeContraint.restTimeBound,
                            step: SetTimeContraint.restTimeStep) { _ in
                 manager.mapAllSessions()
+            } label: {
+                Text("\(manager.getMinute(of: manager.timeSetting.session.restSeconds))")
             }
             
         }

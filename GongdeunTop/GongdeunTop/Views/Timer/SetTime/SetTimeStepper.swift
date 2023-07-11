@@ -7,17 +7,20 @@
 
 import SwiftUI
 
-struct SetTimeStepper: View  {
+struct SetTimeStepper<Label>: View where Label : View {
     @Binding var stepValue: Int
     let bound: ClosedRange<Int>
     let step: Int.Stride
     let onEditingChanged: (Bool) -> Void
+    @ViewBuilder let label: () -> Label
+
     
-    init(stepValue: Binding<Int>, bound: ClosedRange<Int>, step: Int.Stride, _ onEditingChanged: @escaping (Bool) -> Void = { _ in }) {
+    init(stepValue: Binding<Int>, bound: ClosedRange<Int>, step: Int.Stride, _ onEditingChanged: @escaping (Bool) -> Void = { _ in }, @ViewBuilder label: @escaping () -> Label) {
         self._stepValue = stepValue
         self.bound = bound
         self.step = step
         self.onEditingChanged = onEditingChanged
+        self.label = label
     }
     
     
@@ -54,7 +57,7 @@ struct SetTimeStepper: View  {
             Divider()
                 .padding(.vertical, 8)
             
-            Text("\(stepValue)")
+            label()
                 .frame(minWidth: 33, maxWidth: 33)
             
             Divider()
