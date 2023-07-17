@@ -22,6 +22,7 @@
 "totalTime%lld" = " 총 %lld분";
 "Set Time" = "시간 설정";
 "Start" = "집중 시작";
+"%lld minute %lld seconds" = "%lld분 %lld초";
 
 // MARK: - MainRouterView Switch
 "viewSwitch_todo" = "할 일";

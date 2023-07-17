@@ -68,7 +68,7 @@ struct MainRouterView: View {
                 }
                 .overlay(alignment: .bottom) {
                     MainSettingBanner(todoCount: todoStore.todos.count,
-                                      numOfSessions: timerManager.timeSetting.numOfSessions,
+                                      numOfSessions: timerManager.timeSetting.sessions.count,
                                       totalTime: timerManager.getTotalSeconds())
                     .offset(y: -90)
                 }

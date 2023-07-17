@@ -10,8 +10,8 @@ import SwiftUI
 import Combine
 
 struct TimeSetting {
-    var session: Session = Session.basicSetting
-    var sessions: [Session] = Session.basicSessions
+    var session: Session = Session.getBasicSession()
+    var sessions: [Session] = Session.getBasicSessions()
     var willGetLongRefresh: Bool = true
     var numOfSessions: Int {
         get { sessions.count }
@@ -26,12 +26,8 @@ struct TimeSetting {
             }
         }
     }
-    
-    
     static let longRefreshSeconds: Int = 30 * 60
 }
-
-
 
 struct Session: Identifiable {
     var id: String = UUID().uuidString
@@ -44,9 +40,21 @@ struct Session: Identifiable {
 }
 
 extension Session {
-    static let basicSetting = Session(concentrationSeconds: 25 * 60, restSeconds: 5 * 60)
-    static let lastSessionPlaceholder = Session(concentrationSeconds: 25 * 60, restSeconds: 30 * 60)
-    static var basicSessions = Array(repeating: Self.basicSetting, count: 3) + [Self.lastSessionPlaceholder]
+    static func getBasicSession() -> Self {
+        Session(concentrationSeconds: 25 * 60, restSeconds: 5 * 60)
+    }
+    static func getBasicLongRestSession() -> Self {
+        Session(concentrationSeconds: 25 * 60, restSeconds: 30 * 60)
+    }
+    static func getBasicSessions() -> [Self] {
+        var result = Array<Self>()
+        
+        (0..<SetTimeContraint.basicSessions).forEach { index in
+            result.append(index == SetTimeContraint.basicSessions - 1  ? getBasicLongRestSession() : getBasicSession())
+        }
+
+        return result
+    }
 }
 
 @MainActor
@@ -56,12 +64,12 @@ final class TimerManager: ObservableObject {
     @Published var remainSeconds: Int = 0
     @Published var isRunning: Bool = false
     @Published var timer: Timer?
-    @Published var mode: TimeSetMode = .batch
+    @Published var mode: TimeSetMode = .individual
     
   
     var currentSession: Session {
         let sessionIndex = Int(currentTimeIndex / 2)
-        guard sessionIndex < timeSetting.sessions.count else { return timeSetting.sessions.first ?? Session.basicSetting}
+        guard sessionIndex < timeSetting.sessions.count else { return timeSetting.sessions.first ?? Session.getBasicSession()}
         return timeSetting.sessions[sessionIndex]
     }
     
@@ -72,7 +80,7 @@ final class TimerManager: ObservableObject {
             .map { (current, timeSetting) in
                 let sessionIndex = Int(current / 2)
                 let isConcentrateTime: Bool = current % 2 == 0
-                let currentSession: Session = timeSetting.sessions[safe: sessionIndex] ?? Session.basicSetting
+                let currentSession: Session = timeSetting.sessions[safe: sessionIndex] ?? Session.getBasicSession()
                 return isConcentrateTime ? currentSession.concentrationSeconds : currentSession.restSeconds
             }
             .assign(to: &$remainSeconds)
@@ -119,12 +127,12 @@ final class TimerManager: ObservableObject {
     }
     
     func knowIsInSession() -> Bool {
-        let numOfTimes = timeSetting.numOfSessions * 2
+        let numOfTimes = timeSetting.sessions.count * 2
         return (0..<numOfTimes).contains(self.currentTimeIndex)
     }
     
     func knowIsLastTime() -> Bool {
-        let numOfTimes = timeSetting.numOfSessions * 2
+        let numOfTimes = timeSetting.sessions.count * 2
         return self.currentTimeIndex == numOfTimes - 1
     }
     
@@ -144,13 +152,17 @@ final class TimerManager: ObservableObject {
     }
     
     func getSecondString(of seconds: Int, isTwoLetters: Bool = true) -> String {
-        let result: Int = (seconds <= 0 ? 0 : seconds) % 60
+        let result: Int = getSeconds(of: seconds)
         
         if result < 10 && isTwoLetters {
             return "0" + String(result)
         } else {
             return String(result)
         }
+    }
+    
+    func getSeconds(of seconds: Int) -> Int {
+        (seconds <= 0 ? 0 : seconds) % 60
     }
     
     func getTotalSeconds() -> Int {
@@ -196,15 +208,32 @@ final class TimerManager: ObservableObject {
             return session
         }
     }
+    
+    func addNewSession() {
+        timeSetting.sessions.append(Session.getBasicSession())
+    }
+    
+    func removeSession(at index: Int) {
+        guard index < timeSetting.sessions.count else { return }
+        timeSetting.sessions.remove(at: index)
+    }
 
 }
 
 //MARK: - TimeSetMode
 extension TimerManager {
-    enum TimeSetMode: LocalizedStringKey, CaseIterable, Identifiable {
-        case batch = "timeSetMode_batch"
-        case individual  = "timeSetMode_individual"
-        case preset = "timeSetMode_preset"
+    enum TimeSetMode: String, CaseIterable, Identifiable {
+        case individual
+        case batch
+        case preset 
+        
+        var localizedStringKey: LocalizedStringKey {
+            switch self {
+            case .individual: return "timeSetMode_individual"
+            case .batch: return "timeSetMode_batch"
+            case .preset: return "timeSetMode_preset"
+            }
+        }
         
         var id: Self { self }
     }

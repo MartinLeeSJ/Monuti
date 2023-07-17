@@ -21,6 +21,7 @@
 "totalTime%lld" = " %lld minutes";
 "Set Time" = "Set Time";
 "Start" = "Timer Start";
+"%lld minute %lld seconds" = "%lldm %llds";
 
 // MARK: - MainRouterView Switch
 "viewSwitch_todo" = "ToDo";

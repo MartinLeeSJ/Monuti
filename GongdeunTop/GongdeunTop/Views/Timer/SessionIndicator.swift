@@ -11,7 +11,7 @@ struct SessionIndicator: View {
     @ObservedObject var manager: TimerManager
     
     // 4
-    var sessions: Int { manager.timeSetting.numOfSessions }
+    var sessions: Int { manager.timeSetting.sessions.count }
     
     // 0, 1, 2, 3, 4, 5, 6, 7
     var currentTime: Int { manager.currentTimeIndex }

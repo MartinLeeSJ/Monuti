@@ -10,6 +10,7 @@ import SwiftUI
 struct BatchTimeSettingForm: View {
     @EnvironmentObject var themeManager: ThemeManager
     @ObservedObject var manager: TimerManager
+    
     var body: some View {
         VStack {
             Text("totalTime\(manager.getMinute(of: manager.getTotalSeconds()))")
@@ -31,15 +32,21 @@ struct BatchTimeSettingForm: View {
 //MARK: - Graph
 extension BatchTimeSettingForm {
     private func getConcentrationTimeRatio(ofSession index: Int) -> CGFloat {
-        guard index < manager.timeSetting.numOfSessions else { return CGFloat(1)}
-        let concetrationSeconds = CGFloat(manager.timeSetting.sessions[index].concentrationSeconds)
+        guard let session = manager.timeSetting.sessions[safe: index] else {
+            print("out of index")
+            return CGFloat(1)
+        }
+        let concetrationSeconds = CGFloat(session.concentrationSeconds)
         let totalSeconds = CGFloat(manager.getTotalSeconds())
         return concetrationSeconds / totalSeconds
     }
     
     private func getRestTimeRatio(ofSession index: Int) -> CGFloat {
-        guard index < manager.timeSetting.numOfSessions else { return CGFloat(1)}
-        let restSeconds = CGFloat(manager.timeSetting.sessions[index].restSeconds)
+        guard let session = manager.timeSetting.sessions[safe: index] else {
+            print("out of index")
+            return CGFloat(1)
+        }
+        let restSeconds = CGFloat(session.restSeconds)
         let totalSeconds = CGFloat(manager.getTotalSeconds())
         return restSeconds / totalSeconds
     }
@@ -49,7 +56,7 @@ extension BatchTimeSettingForm {
         GeometryReader { geo in
             let width = geo.size.width
             HStack(spacing: 0) {
-                ForEach(0..<manager.timeSetting.numOfSessions, id: \.self) { index in
+                ForEach(manager.timeSetting.sessions.indices, id: \.self) { index in
                     var sessionRatio: CGFloat {
                         getConcentrationTimeRatio(ofSession: index) + getRestTimeRatio(ofSession: index)
                     }
@@ -106,13 +113,13 @@ extension BatchTimeSettingForm {
                 .font(.caption)
                 .foregroundColor(.secondary)
             Spacer()
-            SetTimeStepper(stepValue: $manager.timeSetting.numOfSessions,
-                           bound: SetTimeContraint.sessionsBound,
-                           step: SetTimeContraint.sessionStep) { _ in
-                
-            } label: {
-                Text("\(manager.timeSetting.numOfSessions)")
-            }
+//            SetTimeStepper(stepValue: $manager.timeSetting.,
+//                           bound: SetTimeContraint.sessionsBound,
+//                           step: SetTimeContraint.sessionStep) { _ in
+//                
+//            } label: {
+//                Text("\(manager.timeSetting.numOfSessions)")
+//            }
         }
     }
     var concentrationTimeStepper: some View {
@@ -129,8 +136,8 @@ extension BatchTimeSettingForm {
             Spacer()
             
             SetTimeStepper(stepValue: $manager.timeSetting.session.concentrationSeconds,
-                           bound: SetTimeContraint.concentrationTimeBound,
-                           step: SetTimeContraint.concentrationTimeStep) { _ in
+                           bound: SetTimeContraint.concentrationSecondBound,
+                           step: SetTimeContraint.concentrationSecondStep) { _ in
                 manager.mapAllSessions()
             } label: {
                 Text("\(manager.getMinute(of: manager.timeSetting.session.concentrationSeconds))")
@@ -149,8 +156,8 @@ extension BatchTimeSettingForm {
                 .foregroundColor(.secondary)
             Spacer()
             SetTimeStepper(stepValue: $manager.timeSetting.session.restSeconds,
-                           bound: SetTimeContraint.restTimeBound,
-                           step: SetTimeContraint.restTimeStep) { _ in
+                           bound: SetTimeContraint.restSecondBound,
+                           step: SetTimeContraint.restSecondStep) { _ in
                 manager.mapAllSessions()
             } label: {
                 Text("\(manager.getMinute(of: manager.timeSetting.session.restSeconds))")
