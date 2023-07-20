@@ -36,6 +36,13 @@ extension SetTimeGraph {
 
 // MARK: - Time Setting Graph
 extension SetTimeGraph {
+    private func goToTappedSession(ofIndex index: Int) {
+        guard manager.mode == .individual else { return }
+        withAnimation {
+            currentFocusedIndex = index
+        }
+    }
+    
     private func concentrationTimeRatio(ofSession index: Int) -> CGFloat {
         guard let session = manager.timeSetting.sessions[safe: index] else {
             print("out of index")
@@ -93,9 +100,12 @@ extension SetTimeGraph {
                     .overlay(alignment: .bottom) {
                         Capsule()
                             .frame(width: sessionWidth - 10, height: 5)
-                            .foregroundColor(index == currentFocusedIndex ? .black : .gray)
+                            .foregroundColor(index == currentFocusedIndex ? Color("basicFontColor") : .gray)
                             .opacity(0.5)
                             .offset(y: 10)
+                    }
+                    .onTapGesture {
+                        goToTappedSession(ofIndex: index)
                     }
                 }
             }

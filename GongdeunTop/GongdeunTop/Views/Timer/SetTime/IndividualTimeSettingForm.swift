@@ -29,9 +29,25 @@ struct IndividualTimeSettingForm: View  {
                 ForEach(manager.timeSetting.sessions.indices, id: \.self) { index in
                     if index < manager.timeSetting.sessions.count {
                         VStack(spacing: 8) {
-                            HAlignment(alignment: .leading) {
+                            HStack(spacing: 16) {
                                 Text("Session \(index + 1)")
                                     .font(.headline)
+                                Spacer()
+                                if index != 0 {
+                                    Button(role: .destructive) {
+                                        manager.removeSession(at: index)
+                                    } label: {
+                                        Text("Delete")
+                                    }
+                                    .tint(.red)
+                                }
+                                if index == (manager.timeSetting.sessions.endIndex - 1) {
+                                    Button {
+                                        manager.addNewSession()
+                                    } label: {
+                                        Text("Add")
+                                    }
+                                }
                             }
                             .padding(.bottom, 16)
                             
@@ -57,13 +73,7 @@ struct IndividualTimeSettingForm: View  {
                         .tag(index)
                         .padding()
                         .overlay(alignment: .topTrailing) {
-                            Button {
-                                manager.removeSession(at: index)
-                            } label: {
-                                Image(systemName: "minus.circle.fill")
-                                    .foregroundColor(.red)
-                            }
-                            .offset(x: -16, y: 8)
+                            
                         }
                     }
                 }

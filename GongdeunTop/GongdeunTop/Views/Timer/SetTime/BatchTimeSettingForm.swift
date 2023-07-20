@@ -40,13 +40,13 @@ extension BatchTimeSettingForm {
                 .font(.caption)
                 .foregroundColor(.secondary)
             Spacer()
-//            SetTimeStepper(stepValue: $manager.timeSetting.,
-//                           bound: SetTimeContraint.sessionsBound,
-//                           step: SetTimeContraint.sessionStep) { _ in
-//                
-//            } label: {
-//                Text("\(manager.timeSetting.numOfSessions)")
-//            }
+            SetTimeStepper(stepValue: $manager.timeSetting.numOfSessions,
+                           bound: SetTimeContraint.sessionsBound,
+                           step: SetTimeContraint.sessionStep) { _ in
+                
+            } label: {
+                Text("\(manager.timeSetting.numOfSessions)")
+            }
         }
     }
     var concentrationTimeStepper: some View {

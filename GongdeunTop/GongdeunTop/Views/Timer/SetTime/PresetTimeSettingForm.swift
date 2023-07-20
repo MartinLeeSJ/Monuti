@@ -9,7 +9,11 @@ import SwiftUI
 
 struct PresetTimeSettingForm: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack {
+            Spacer()
+            Text("Wait For it")
+            Spacer()
+        }
     }
 }
 

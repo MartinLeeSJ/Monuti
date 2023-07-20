@@ -9,35 +9,9 @@ import Foundation
 import SwiftUI
 import Combine
 
-struct TimeSetting {
-    var session: Session = Session.getBasicSession()
-    var sessions: [Session] = Session.getBasicSessions()
-    var willGetLongRefresh: Bool = true
-    var numOfSessions: Int {
-        get { sessions.count }
-        set(newValue) {
-            guard abs(newValue - numOfSessions) == 1 else {
-                return
-            }
-            if newValue < numOfSessions {
-                sessions.removeFirst()
-            } else {
-                sessions.insert(self.session, at: sessions.startIndex)
-            }
-        }
-    }
-    static let longRefreshSeconds: Int = 30 * 60
-}
 
-struct Session: Identifiable {
-    var id: String = UUID().uuidString
-    var concentrationSeconds: Int
-    var restSeconds: Int
-    
-    var sessionSeconds: Int {
-        concentrationSeconds + restSeconds
-    }
-}
+
+
 
 extension Session {
     static func getBasicSession() -> Self {
@@ -64,7 +38,7 @@ final class TimerManager: ObservableObject {
     @Published var remainSeconds: Int = 0
     @Published var isRunning: Bool = false
     @Published var timer: Timer?
-    @Published var mode: TimeSetMode = .individual
+    @Published var mode: TimeSetMode = .batch
     
   
     var currentSession: Session {
@@ -223,15 +197,15 @@ final class TimerManager: ObservableObject {
 //MARK: - TimeSetMode
 extension TimerManager {
     enum TimeSetMode: String, CaseIterable, Identifiable {
-        case individual
         case batch
-        case preset 
+        case individual
+//        case preset
         
         var localizedStringKey: LocalizedStringKey {
             switch self {
             case .individual: return "timeSetMode_individual"
             case .batch: return "timeSetMode_batch"
-            case .preset: return "timeSetMode_preset"
+//            case .preset: return "timeSetMode_preset"
             }
         }
         

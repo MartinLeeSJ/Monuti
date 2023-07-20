@@ -26,7 +26,7 @@ struct SetTimeForm: View {
             switch manager.mode {
             case .batch: BatchTimeSettingForm(manager: manager)
             case .individual: IndividualTimeSettingForm(manager: manager)
-            case .preset: PresetTimeSettingForm()
+//            case .preset: PresetTimeSettingForm()
             }
         }
         .padding(16)
