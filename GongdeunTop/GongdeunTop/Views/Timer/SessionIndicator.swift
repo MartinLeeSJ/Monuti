@@ -10,31 +10,32 @@ import SwiftUI
 struct SessionIndicator: View {
     @ObservedObject var manager: TimerManager
     
-    var sessions: Int { manager.timeSetting.numOfSessions }
-    // 1, 2, 3, 4
-    var cycle: Int { 2 * sessions }
+    // 4
+    var sessions: Int { manager.timeSetting.sessions.count }
     
-    // 1, 2, 3, 4, 5, 6, 7, 8
-    var currentTime: Int { manager.currentTime }
+    // 0, 1, 2, 3, 4, 5, 6, 7
+    var currentTime: Int { manager.currentTimeIndex }
     
-    var currentSession: Int { Int(ceil(Double(currentTime) / 2)) }
+    var currentSessionNumber: Int {
+        Int(manager.currentTimeIndex / 2) + 1
+    }
     
     var body: some View {
         VStack(spacing: 0) {
-            Text("Session \(currentSession)")
+            Text("Session \(currentSessionNumber)")
                 .foregroundColor(.secondary)
             
-            Text(String(localized: manager.knowIsRefreshTime() ? "Refresh" : "Concentrate"))
+            Text(String(localized: manager.knowIsInRestTime() ? "Rest" : "Concentrate"))
                 .font(.headline)
                 .padding(.bottom, 8)
             
             HStack(spacing: 5) {
                 Spacer()
-                ForEach(1...sessions, id: \.self) { session in
-                    let firstTime: Int = session * 2 - 1
-                    let lastTime: Int = firstTime + 1
+                ForEach(1...sessions, id: \.self) { index in
+                    let concentrationTime: Int = index * 2 - 2
+                    let restTime: Int = concentrationTime + 1
                     HStack(spacing: 4) {
-                        ForEach(firstTime...lastTime, id: \.self) { time in
+                        ForEach(concentrationTime...restTime, id: \.self) { time in
                             if time == currentTime {
                                 Capsule().frame(width: 16, height: 8)
                             } else {
@@ -43,9 +44,9 @@ struct SessionIndicator: View {
                             }
                         }
                     }
-                    .padding(currentTime <= lastTime && firstTime <= currentTime ? 7 : 2)
+                    .padding((concentrationTime...restTime).contains(currentTime) ? 7 : 2)
                     .background {
-                        if currentTime <= lastTime && firstTime <= currentTime {
+                        if (concentrationTime...restTime).contains(currentTime) {
                             Capsule()
                                 .fill(Color.gray)
                                 .opacity(0.3)

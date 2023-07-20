@@ -47,7 +47,7 @@ struct CycleListCellDetail: View {
                 Text("집중도")
                     .font(.title2.bold())
                 RoundedHexagon(radius: 15, cornerAngle: 5)
-                    .fill(themeManager.getColorInPriority(of: cycleManager.cycle.colorPriority))
+                    .fill(themeManager.colorInPriority(of: cycleManager.cycle.colorPriority))
                     .frame(width: 32, height: 32)
             }
             .padding(.top, 10)
@@ -61,10 +61,7 @@ struct CycleListCellDetail: View {
             }
             .padding(.top, 10)
             
-           
             CycleToDoList(manager: cycleManager, mode: .cycleListCellDetail)
-                
-           
         }
         .padding()
         .task {

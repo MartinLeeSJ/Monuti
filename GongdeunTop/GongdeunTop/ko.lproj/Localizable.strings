@@ -19,9 +19,10 @@
 "really exit" = "정말로 끝내겠습니까?";
 
 "sessions%lld" = " %lld개 세션,";
-"totalTime%lld" = " 총 %lld분";
+"totalTime%lld%lld" = " 총 %lld분 %lld초";
 "Set Time" = "시간 설정";
 "Start" = "집중 시작";
+"%lld minute %lld seconds" = "%lld분 %lld초";
 
 // MARK: - MainRouterView Switch
 "viewSwitch_todo" = "할 일";
@@ -76,6 +77,11 @@
 "setTime_rest_range" = "5~10분, 마지막 30분";
 
 "setTime_minute%lld" = "%lld분";
+"setTime_long_refresh?" = "마지막에 30분 동안 쉬시겠습니까?";
+
+"timeSetMode_batch" = "일괄 설정";
+"timeSetMode_individual" = "세부 설정";
+"timeSetMode_preset" = "저장된 설정";
 
 //Session Timer
 "timer_currentTodo_nothing" = "현재 할 일 없음";

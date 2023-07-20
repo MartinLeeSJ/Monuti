@@ -69,7 +69,7 @@ struct SetToDoForm: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                themeManager.getSheetBackgroundColor()
+                themeManager.sheetBackgroundColor()
                     .ignoresSafeArea(.all)
                 ScrollView {
                     VStack(spacing: 32) {

@@ -10,7 +10,7 @@ import SwiftUI
 struct TargetDetailView: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var themeManager: ThemeManager
-    @StateObject var targetToDoStore: TargetToDoStore
+    
     let target: Target
     
     var body: some View {
@@ -18,13 +18,6 @@ struct TargetDetailView: View {
             VStack(alignment: .leading) {
                 titles
                 termInfo
-                ScrollView(.horizontal) {
-                    LazyHStack {
-                        ForEach(targetToDoStore.tempDates, id: \.self) { date in
-                            
-                        }
-                    }
-                }
             }
             .padding()
         }
@@ -37,14 +30,8 @@ struct TargetDetailView: View {
                 } label: {
                     Image(systemName: "arrow.backward.circle.fill")
                 }
-                .tint(themeManager.getColorInPriority(of: .accent))
+                .tint(themeManager.colorInPriority(of: .accent))
             }
-        }
-        .onAppear {
-            targetToDoStore.subscribeToDosOfTargets()
-        }
-        .onDisappear {
-            targetToDoStore.unsubscribeToDosOfTarget()
         }
     }
 }
@@ -102,11 +89,11 @@ extension TargetDetailView {
             .padding()
             .background {
                 Rectangle()
-                    .foregroundColor(themeManager.getColorInPriority(of: .weak))
+                    .foregroundColor(themeManager.colorInPriority(of: .weak))
                     .overlay(alignment: .leading) {
                         Rectangle()
                             .frame(width: leftDayWidth)
-                            .foregroundColor(themeManager.getColorInPriority(of: .solid))
+                            .foregroundColor(themeManager.colorInPriority(of: .solid))
                     }
                     .clipShape(Capsule())
             }

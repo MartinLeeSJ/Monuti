@@ -18,9 +18,10 @@
 "really exit" = "Are you sure you want to exit?";
 
 "sessions%lld" = " %lld Sessions,";
-"totalTime%lld" = " %lld minutes";
+"totalTime%lld%lld" = " %lldm %llds";
 "Set Time" = "Set Time";
 "Start" = "Timer Start";
+"%lld minute %lld seconds" = "%lldm %llds";
 
 // MARK: - MainRouterView Switch
 "viewSwitch_todo" = "ToDo";
@@ -75,6 +76,11 @@
 "setTime_rest_range" = "5 to 10, last 30min";
 
 "setTime_minute%lld" = "%lldmin";
+"setTime_long_refresh?" = "Will you rest last 30 minutes?";
+
+"timeSetMode_batch" = "Batch";
+"timeSetMode_individual" = "Individual";
+"timeSetMode_preset" = "Preset";
 
 //Session Timer
 "timer_currentTodo_nothing" = "Nothing To Do";

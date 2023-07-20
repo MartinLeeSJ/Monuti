@@ -97,7 +97,7 @@ extension SessionsTimer {
             handlePlayButton()
         } label: {
             Image(systemName: timerManager.isRunning ?  "pause.fill" : "play.fill")
-                .foregroundColor(themeManager.getColorInPriority(of: .accent))
+                .foregroundColor(themeManager.colorInPriority(of: .accent))
                 .font(.largeTitle)
             
         }
@@ -119,7 +119,7 @@ extension SessionsTimer {
                     
                 }
             }
-            .foregroundColor(themeManager.getColorInPriority(of: .accent))
+            .foregroundColor(themeManager.colorInPriority(of: .accent))
             .frame(width: width * 0.45)
         }
         .frame(height: 30)
@@ -131,18 +131,18 @@ extension SessionsTimer {
         let secondWidth = width * 0.425
         let colonWidth = width * 0.15
         HStack(alignment: .center, spacing: 0) {
-            Text(timerManager.getMinute())
+            Text(timerManager.getMinuteString(of: timerManager.remainSeconds))
                 .frame(width: minuteWidth, alignment: .trailing)
                 .font(.system(size: 60, weight: .regular, design: .rounded))
             Text(":")
                 .frame(width: colonWidth, alignment: .center)
                 .font(.system(size: 54, weight: .regular))
-            Text(timerManager.getSecond())
+            Text(timerManager.getSecondString(of: timerManager.remainSeconds))
                 .frame(width: secondWidth, alignment: .leading)
                 .font(.system(size: 60, weight: .regular, design: .rounded))
         }
         
-        .foregroundColor(themeManager.getColorInPriority(of: .accent))
+        .foregroundColor(themeManager.colorInPriority(of: .accent))
         .padding(.bottom, 25)
     }
     
@@ -150,7 +150,7 @@ extension SessionsTimer {
     private func getTimerShape(width: CGFloat) -> some View {
         CircularSector(endDegree: timerManager.getEndDegree())
             .frame(width: width * 0.85, height: width * 0.85)
-            .foregroundColor(themeManager.getColorInPriority(of: .medium))
+            .foregroundColor(themeManager.colorInPriority(of: .medium))
             .clipShape(RoundedHexagon(radius: width * 0.425, cornerAngle: 5))
             .overlay {
                 CubeHexagon(radius: width * 0.425)
@@ -159,7 +159,7 @@ extension SessionsTimer {
             }
             .background {
                 RoundedHexagon(radius: width * 0.425, cornerAngle: 5)
-                    .foregroundColor(themeManager.getColorInPriority(of: .weak))
+                    .foregroundColor(themeManager.colorInPriority(of: .weak))
             }
         
     }
@@ -225,7 +225,7 @@ extension SessionsTimer {
                 }
             }
             .menuStyle(.borderlessButton)
-            .foregroundColor(themeManager.getColorInPriority(of: .accent))
+            .foregroundColor(themeManager.colorInPriority(of: .accent))
             .disabled(todos.isEmpty)
         }
     }
@@ -265,7 +265,7 @@ extension SessionsTimer {
 // MARK: - Record Times
 extension SessionsTimer {
     private func updateToDoTimeSpent() {
-        guard !timerManager.knowIsRefreshTime() else { return }
+        guard !timerManager.knowIsInRestTime() else { return }
         
         if let index = todos.firstIndex(where: { $0.id == currentTodo?.id }) {
             todos[index].timeSpent += 1
@@ -284,8 +284,8 @@ extension SessionsTimer {
     
     private func recordStartingTime() {
         // 초창기에만 기록하면 됨
-        let isConcentrationTimeStarted: Bool = !timerManager.knowIsRefreshTime() && timerManager.remainSeconds == timerManager.timeSetting.concentrationTime * 60
-        let isRefreshTimeStarted: Bool = timerManager.knowIsRefreshTime() && timerManager.remainSeconds == timerManager.timeSetting.refreshTime * 60
+        let isConcentrationTimeStarted: Bool = !timerManager.knowIsInRestTime() && timerManager.remainSeconds == timerManager.currentSession.concentrationSeconds * 60
+        let isRefreshTimeStarted: Bool = timerManager.knowIsInRestTime() && timerManager.remainSeconds == timerManager.currentSession.restSeconds * 60
         
         guard isConcentrationTimeStarted || isRefreshTimeStarted else {
             print("Failed To Record Time \(timerManager.remainSeconds)")

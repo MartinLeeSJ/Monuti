@@ -18,19 +18,21 @@ struct ToDoList: View {
     
     var body: some View {
         ZStack {
-            themeManager.getColorInPriority(of: .background)
+            themeManager.colorInPriority(of: .background)
                 .ignoresSafeArea()
             VStack(spacing: 0) {
                 topEditingConsole
                 
-                List(todoStore.todos, id: \.self.id, selection: $todoStore.multiSelection) { todo in
-                    ToDoListCell(todo: todo)
-                        .listRowBackground(Color.clear)
-                        .listRowSeparator(.hidden)
-                        .listRowInsets(.init(top: 8, leading: 16, bottom: 0, trailing: 16))
+                if !todoStore.todos.isEmpty {
+                    List(todoStore.todos, id: \.self.id, selection: $todoStore.multiSelection) { todo in
+                        ToDoListCell(todo: todo)
+                            .listRowBackground(Color.clear)
+                            .listRowSeparator(.hidden)
+                            .listRowInsets(.init(top: 8, leading: 16, bottom: 0, trailing: 16))
+                    }
+                    .listStyle(.plain)
+                    .environment(\.editMode, .constant(todoStore.isEditing ? EditMode.active : EditMode.inactive))
                 }
-                .listStyle(.plain)
-                .environment(\.editMode, .constant(todoStore.isEditing ? EditMode.active : EditMode.inactive))
                 
                 Spacer()
                 
@@ -62,7 +64,7 @@ extension ToDoList {
         }
         .padding(.horizontal)
         .padding(.vertical, 8)
-        .tint(themeManager.getColorInPriority(of: .accent))
+        .tint(themeManager.colorInPriority(of: .accent))
     }
     
     @ViewBuilder
@@ -169,7 +171,7 @@ extension ToDoList {
             }
             
         }
-        .tint(themeManager.getColorInPriority(of: .accent))
+        .tint(themeManager.colorInPriority(of: .accent))
         .disabled(todoStore.multiSelection.isEmpty)
         .padding(.horizontal, 24)
         .padding(.vertical, 6)
