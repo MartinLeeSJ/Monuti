@@ -23,7 +23,7 @@ struct MainConsole: View {
         VStack {
             HStack {
                 addButton
-                    .tint(themeManager.getColorInPriority(of: .accent))
+                    .tint(themeManager.colorInPriority(of: .accent))
                 
                 Button {
                     isSetTimeViewOn.toggle()
@@ -38,10 +38,12 @@ struct MainConsole: View {
                 }
                 .sheet(isPresented: $isSetTimeViewOn) {
                     SetTimeForm(manager: timerManager)
-                        .presentationDetents([.medium])
+                        .presentationDetents([.fraction(0.65)])
                 }
-                .buttonStyle(.bordered)
-                .tint(themeManager.getColorInPriority(of: .accent))
+                .padding(.horizontal)
+                .padding(.vertical, 8)
+                .background(themeManager.colorInPriority(of: .accent).opacity(0.3),
+                            in: RoundedRectangle(cornerRadius: 10))
                 
                 NavigationLink {
                     SessionsTimer(todos: todoStore.todos,
@@ -56,8 +58,14 @@ struct MainConsole: View {
                     .font(.headline)
                     .frame(width: .getScreenWidthDivided(with: 3), height: 36)
                 }
-                .buttonStyle(.borderedProminent)
-                .tint(themeManager.getColorInPriority(of: .accent))
+                .padding(.horizontal)
+                .padding(.vertical, 8)
+                .background(themeManager.componentColor(),
+                            in: RoundedRectangle(cornerRadius: 10))
+                .overlay {
+                    RoundedRectangle(cornerRadius: 10)
+                        .stroke(themeManager.colorInPriority(of: .accent), lineWidth: 2)
+                }
             }
             .padding(.vertical, 6)
             .padding(.horizontal)

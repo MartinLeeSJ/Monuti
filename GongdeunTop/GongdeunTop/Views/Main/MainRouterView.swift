@@ -45,7 +45,7 @@ struct MainRouterView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                themeManager.getColorInPriority(of: .background)
+                themeManager.colorInPriority(of: .background)
                     .ignoresSafeArea()
                 
                 VStack(spacing: 4) {
@@ -68,8 +68,9 @@ struct MainRouterView: View {
                 }
                 .overlay(alignment: .bottom) {
                     MainSettingBanner(todoCount: todoStore.todos.count,
-                                      numOfSessions: timerManager.timeSetting.numOfSessions,
-                                      totalTime: timerManager.getTotalSeconds())
+                                      numOfSessions: timerManager.timeSetting.sessions.count,
+                                      minute: timerManager.getMinute(of: timerManager.getTotalSeconds()),
+                                      seconds: timerManager.getSeconds(of: timerManager.getTotalSeconds()))
                     .offset(y: -90)
                 }
             }
@@ -90,7 +91,7 @@ struct MainRouterView: View {
                     .sheet(isPresented: $isSettingViewOn) {
                         SettingView()
                     }
-                    .tint(themeManager.getColorInPriority(of: .accent))
+                    .tint(themeManager.colorInPriority(of: .accent))
                 }
             }
             .onAppear {
@@ -132,7 +133,7 @@ extension MainRouterView {
                 
                 HStack {
                     Image(systemName: "checklist")
-                        .foregroundStyle(themeManager.getColorInPriority(of: .accent), .gray)
+                        .foregroundStyle(themeManager.colorInPriority(of: .accent), .gray)
                         .font(.headline)
                         .symbolRenderingMode(.hierarchical)
                     Spacer()
@@ -143,11 +144,11 @@ extension MainRouterView {
         }
         .fontWeight(.bold)
         .padding(8)
-        .background(themeManager.getComponentColor(), in: RoundedRectangle(cornerRadius: 8))
+        .background(themeManager.componentColor(), in: RoundedRectangle(cornerRadius: 8))
         .overlay {
             if self.currentDisplayingView == .todo {
                 RoundedRectangle(cornerRadius: 8)
-                    .stroke(themeManager.getColorInPriority(of: .accent), lineWidth: 3)
+                    .stroke(themeManager.colorInPriority(of: .accent), lineWidth: 3)
             }
         }
     }
@@ -164,7 +165,7 @@ extension MainRouterView {
                     .font(.headline)
                 HStack {
                     Image(systemName: "target")
-                        .foregroundStyle(themeManager.getColorInPriority(of: .accent), .gray)
+                        .foregroundStyle(themeManager.colorInPriority(of: .accent), .gray)
                         .font(.headline)
                     Spacer()
                     Text("\(targetStore.targets.count)")
@@ -174,11 +175,11 @@ extension MainRouterView {
         }
         .fontWeight(.bold)
         .padding(8)
-        .background(themeManager.getComponentColor(), in: RoundedRectangle(cornerRadius: 8))
+        .background(themeManager.componentColor(), in: RoundedRectangle(cornerRadius: 8))
         .overlay {
             if self.currentDisplayingView == .target {
                 RoundedRectangle(cornerRadius: 8)
-                    .stroke(themeManager.getColorInPriority(of: .accent), lineWidth: 3)
+                    .stroke(themeManager.colorInPriority(of: .accent), lineWidth: 3)
             }
         }
     }
@@ -191,7 +192,7 @@ extension MainRouterView {
                 Text("viewSwitch_calendar")
                 HStack {
                     Image(systemName: "calendar")
-                        .foregroundStyle(themeManager.getColorInPriority(of: .accent))
+                        .foregroundStyle(themeManager.colorInPriority(of: .accent))
                     Spacer()
                     Text(DateFormatter.veryShortDateformat.string(from: Date.now))
                 }
@@ -200,7 +201,7 @@ extension MainRouterView {
         .font(.headline)
         .fontWeight(.bold)
         .padding(8)
-        .background(themeManager.getComponentColor(), in: RoundedRectangle(cornerRadius: 8))
+        .background(themeManager.componentColor(), in: RoundedRectangle(cornerRadius: 8))
     }
     
 }

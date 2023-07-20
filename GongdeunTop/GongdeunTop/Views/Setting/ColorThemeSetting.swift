@@ -14,7 +14,7 @@ struct ColorThemeSetting: View {
     var body: some View {
         VStack {
             ForEach(ColorPriority.allCases) { priority in
-                themeManager.getColorInPriority(of: priority)
+                themeManager.colorInPriority(of: priority)
             }
             
             
@@ -33,7 +33,7 @@ struct ColorThemeSetting: View {
                             .overlay {
                                 if themeManager.theme == colorTheme {
                                     RoundedRectangle(cornerRadius: 10)
-                                        .stroke(themeManager.getColorInPriority(of: .accent), lineWidth: 2)
+                                        .stroke(themeManager.colorInPriority(of: .accent), lineWidth: 2)
                                 }
                             }
                     }

@@ -9,13 +9,13 @@ import SwiftUI
 
 struct SetTimeStepper<Label>: View where Label : View {
     @Binding var stepValue: Int
-    let bound: ClosedRange<Int>
+    let bound: Range<Int>
     let step: Int.Stride
     let onEditingChanged: (Bool) -> Void
     @ViewBuilder let label: () -> Label
 
     
-    init(stepValue: Binding<Int>, bound: ClosedRange<Int>, step: Int.Stride, _ onEditingChanged: @escaping (Bool) -> Void = { _ in }, @ViewBuilder label: @escaping () -> Label) {
+    init(stepValue: Binding<Int>, bound: Range<Int>, step: Int.Stride, _ onEditingChanged: @escaping (Bool) -> Void = { _ in }, @ViewBuilder label: @escaping () -> Label) {
         self._stepValue = stepValue
         self.bound = bound
         self.step = step
@@ -29,7 +29,7 @@ struct SetTimeStepper<Label>: View where Label : View {
     }
     
     var isUpperBound: Bool {
-        stepValue == bound.upperBound || !(bound ~= stepValue + step)
+        stepValue == (bound.upperBound - 1) || !(bound ~= stepValue + step)
     }
     
     func countUp() {

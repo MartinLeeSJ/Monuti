@@ -56,19 +56,19 @@ class ThemeManager: ObservableObject {
         theme = newTheme
     }
     
-    func getColorInPriority(of priority: ColorPriority) -> Color {
+    func colorInPriority(of priority: ColorPriority) -> Color {
         Color("\(theme.rawValue)\(priority.rawValue)")
     }
     
-    func getComponentColor() -> Color {
+    func componentColor() -> Color {
         Color("\(theme.rawValue)Components")
     }
     
-    func getSheetBackgroundColor() -> Color {
+    func sheetBackgroundColor() -> Color {
         Color("\(theme.rawValue)SheetBackground")
     }
     
-    func getAppLogoImage() -> Image {
+    func appLogoImage() -> Image {
         theme.logoImage
     }
     

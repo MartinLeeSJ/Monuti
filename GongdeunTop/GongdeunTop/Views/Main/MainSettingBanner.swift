@@ -10,11 +10,15 @@ import SwiftUI
 struct MainSettingBanner: View {
     let todoCount: Int
     let numOfSessions: Int
-    let totalTime: Int
+    let minute: Int
+    let seconds: Int
+
 
     var body: some View {
         HStack {
-            Text("todo_counts \(todoCount)") + Text("sessions\(numOfSessions)") + Text("totalTime\(totalTime)")
+            Text("todo_counts \(todoCount)")
+            + Text("sessions\(numOfSessions)")
+            + Text("totalTime\(minute)\(seconds)")
         }
         .font(.caption)
         .padding(8)

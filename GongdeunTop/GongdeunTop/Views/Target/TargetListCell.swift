@@ -20,7 +20,7 @@ struct TargetListCell: View {
         }
         .padding(.horizontal)
         .padding(.vertical, 8)
-        .background(themeManager.getComponentColor(), in: RoundedRectangle(cornerRadius: 10))
+        .background(themeManager.componentColor(), in: RoundedRectangle(cornerRadius: 10))
     }
 }
 // MARK: - Header

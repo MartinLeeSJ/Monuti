@@ -18,9 +18,10 @@
 "really exit" = "Are you sure you want to exit?";
 
 "sessions%lld" = " %lld Sessions,";
-"totalTime%lld" = " %lld minutes";
+"totalTime%lld%lld" = " %lldm %llds";
 "Set Time" = "Set Time";
 "Start" = "Timer Start";
+"%lld minute %lld seconds" = "%lldm %llds";
 
 // MARK: - MainRouterView Switch
 "viewSwitch_todo" = "ToDo";

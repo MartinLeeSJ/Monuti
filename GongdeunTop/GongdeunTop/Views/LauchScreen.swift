@@ -12,13 +12,13 @@ struct LauchScreen: View {
     
     @ViewBuilder
     private var background: some View {
-        themeManager.getColorInPriority(of: .background)
+        themeManager.colorInPriority(of: .background)
             .ignoresSafeArea(.all)
     }
     
     @ViewBuilder
     private var image: some View {
-        themeManager.getAppLogoImage()
+        themeManager.appLogoImage()
             .resizable()
             .aspectRatio(1, contentMode: .fit)
             .frame(width: 200)
