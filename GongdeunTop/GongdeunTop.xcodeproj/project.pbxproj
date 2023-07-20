@@ -931,7 +931,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = GongdeunTop/GongdeunTop.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 0.8.1;
+				CURRENT_PROJECT_VERSION = 0.9.0;
 				DEVELOPMENT_ASSET_PATHS = "\"GongdeunTop/Preview Content\"";
 				DEVELOPMENT_TEAM = SUDPP9C593;
 				ENABLE_PREVIEWS = YES;
@@ -948,7 +948,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.8.1;
+				MARKETING_VERSION = 0.9.0;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.martin.GongdeunTop;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -968,7 +968,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = GongdeunTop/GongdeunTop.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 0.8.1;
+				CURRENT_PROJECT_VERSION = 0.9.0;
 				DEVELOPMENT_ASSET_PATHS = "\"GongdeunTop/Preview Content\"";
 				DEVELOPMENT_TEAM = SUDPP9C593;
 				ENABLE_PREVIEWS = YES;
@@ -985,7 +985,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.8.1;
+				MARKETING_VERSION = 0.9.0;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.martin.GongdeunTop;
 				PRODUCT_NAME = "$(TARGET_NAME)";
