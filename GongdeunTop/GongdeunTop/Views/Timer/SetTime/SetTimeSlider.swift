@@ -79,7 +79,7 @@ struct SetTimeSlider<Label>: View where Label : View {
                                     let width = geo.size.width
                                     let upperRectangleWidth: CGFloat = width * draggedOffset / CGFloat(bound.upperBound - bound.lowerBound)
                                     Rectangle()
-                                        .foregroundColor(themeManager.getColorInPriority(of: .solid))
+                                        .foregroundColor(themeManager.colorInPriority(of: .solid))
                                         .frame(width: upperRectangleWidth)
                                 }
                             }

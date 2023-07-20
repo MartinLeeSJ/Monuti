@@ -30,7 +30,7 @@ struct SetTargetForm: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                themeManager.getSheetBackgroundColor()
+                themeManager.sheetBackgroundColor()
                     .ignoresSafeArea(.all)
                 VStack(spacing: 32) {
                     titleAndSubtitleTextField
@@ -111,7 +111,7 @@ struct SetTargetForm: View {
             Text(targetManager.target.dateTerms)
         }
         .padding()
-        .background(themeManager.getComponentColor(), in: RoundedRectangle(cornerRadius: 10))
+        .background(themeManager.componentColor(), in: RoundedRectangle(cornerRadius: 10))
 
     }
 }

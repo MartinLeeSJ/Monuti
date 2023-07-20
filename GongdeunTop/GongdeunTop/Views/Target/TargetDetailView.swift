@@ -30,7 +30,7 @@ struct TargetDetailView: View {
                 } label: {
                     Image(systemName: "arrow.backward.circle.fill")
                 }
-                .tint(themeManager.getColorInPriority(of: .accent))
+                .tint(themeManager.colorInPriority(of: .accent))
             }
         }
     }
@@ -89,11 +89,11 @@ extension TargetDetailView {
             .padding()
             .background {
                 Rectangle()
-                    .foregroundColor(themeManager.getColorInPriority(of: .weak))
+                    .foregroundColor(themeManager.colorInPriority(of: .weak))
                     .overlay(alignment: .leading) {
                         Rectangle()
                             .frame(width: leftDayWidth)
-                            .foregroundColor(themeManager.getColorInPriority(of: .solid))
+                            .foregroundColor(themeManager.colorInPriority(of: .solid))
                     }
                     .clipShape(Capsule())
             }

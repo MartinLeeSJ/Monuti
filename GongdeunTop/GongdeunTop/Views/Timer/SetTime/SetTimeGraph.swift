@@ -86,12 +86,12 @@ extension SetTimeGraph {
                     
                     HStack(spacing: 2) {
                         Rectangle()
-                            .foregroundColor(themeManager.getColorInPriority(of: .solid))
+                            .foregroundColor(themeManager.colorInPriority(of: .solid))
                             .frame(width: concentrationTimeWidth,
                                    height: 48)
                         
                         Rectangle()
-                            .foregroundColor(themeManager.getColorInPriority(of: .medium))
+                            .foregroundColor(themeManager.colorInPriority(of: .medium))
                             .frame(width: restTimeWidth < 0 ? 0 : restTimeWidth,
                                    height: 48)
                     }

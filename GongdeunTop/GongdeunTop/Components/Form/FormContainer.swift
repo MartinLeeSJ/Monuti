@@ -19,7 +19,7 @@ struct FormContainer<Content>: View where Content: View {
             content()
         }
         .padding(paddingInsets)
-        .background(themeManager.getComponentColor(), in: RoundedRectangle(cornerRadius: 10))
+        .background(themeManager.componentColor(), in: RoundedRectangle(cornerRadius: 10))
         .overlay(alignment: .topLeading) {
             if let header = header {
                 header()

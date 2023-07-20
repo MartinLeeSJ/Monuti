@@ -54,7 +54,7 @@ struct ToDoListCell: View {
         }
         .padding(.horizontal)
         .padding(.vertical, 8)
-        .background(themeManager.getComponentColor(), in: RoundedRectangle(cornerRadius: 8))
+        .background(themeManager.componentColor(), in: RoundedRectangle(cornerRadius: 8))
     }
 }
 

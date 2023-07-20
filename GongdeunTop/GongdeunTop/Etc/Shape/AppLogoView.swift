@@ -12,10 +12,10 @@ struct AppLogoView: View {
     let radius: CGFloat
     var body: some View {
         RoundedHexagon(radius: radius, cornerAngle: 8)
-            .foregroundColor(themeManager.getColorInPriority(of: .weak))
+            .foregroundColor(themeManager.colorInPriority(of: .weak))
             .overlay {
                 CircularSector(endDegree: 120)
-                    .foregroundColor(themeManager.getColorInPriority(of: .solid))
+                    .foregroundColor(themeManager.colorInPriority(of: .solid))
                     .frame(width: radius * 2)
             }
             .clipShape(RoundedHexagon(radius: radius, cornerAngle: 8))

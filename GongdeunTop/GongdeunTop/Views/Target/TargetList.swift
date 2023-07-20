@@ -52,7 +52,7 @@ extension TargetList {
         }
         .padding(.horizontal)
         .padding(.vertical, 8)
-        .tint(themeManager.getColorInPriority(of: .accent))
+        .tint(themeManager.colorInPriority(of: .accent))
     }
     
     @ViewBuilder
@@ -90,7 +90,7 @@ extension TargetList {
             
             Spacer()
         }
-        .tint(themeManager.getColorInPriority(of: .accent))
+        .tint(themeManager.colorInPriority(of: .accent))
         .disabled(targetStore.multiSelection.isEmpty)
         .padding(.horizontal, 24)
         .padding(.vertical, 6)

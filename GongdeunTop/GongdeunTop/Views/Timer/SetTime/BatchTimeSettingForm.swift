@@ -52,7 +52,7 @@ extension BatchTimeSettingForm {
     var concentrationTimeStepper: some View {
         HStack{
             Rectangle()
-                .fill(themeManager.getColorInPriority(of: .solid))
+                .fill(themeManager.colorInPriority(of: .solid))
                 .frame(width: 20, height: 15)
             Text("setTime_concentration")
                 .font(.headline)
@@ -74,7 +74,7 @@ extension BatchTimeSettingForm {
     var restTimeStepper: some View {
         HStack {
             Rectangle()
-                .fill(themeManager.getColorInPriority(of: .medium))
+                .fill(themeManager.colorInPriority(of: .medium))
                 .frame(width: 20, height: 15)
             Text("setTime_rest")
                 .font(.headline)
@@ -104,7 +104,7 @@ extension BatchTimeSettingForm {
         .onChange(of: manager.timeSetting.willGetLongRefresh) { bool in
             manager.toggleLastLongRefresh(isOn: bool)
         }
-        .tint(themeManager.getColorInPriority(of: .accent))
+        .tint(themeManager.colorInPriority(of: .accent))
     }
 }
 
