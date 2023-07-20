@@ -22,51 +22,56 @@ struct IndividualTimeSettingForm: View  {
     
     
     var body: some View {
-        TabView(selection: $currentSession) {
-            ForEach(manager.timeSetting.sessions.indices, id: \.self) { index in
-                if index < manager.timeSetting.sessions.count {
-                    VStack(spacing: 8) {
-                        HAlignment(alignment: .leading) {
-                            Text("Session \(index + 1)")
-                                .font(.headline)
+        VStack {
+            SetTimeGraph(manager: manager, currentFocusedIndex: $currentSession)
+            Spacer()
+            TabView(selection: $currentSession) {
+                ForEach(manager.timeSetting.sessions.indices, id: \.self) { index in
+                    if index < manager.timeSetting.sessions.count {
+                        VStack(spacing: 8) {
+                            HAlignment(alignment: .leading) {
+                                Text("Session \(index + 1)")
+                                    .font(.headline)
+                            }
+                            .padding(.bottom, 16)
+                            
+                            HStack {
+                                Text("setTime_concentration")
+                                    .font(.subheadline.bold())
+                                Spacer()
+                                SetTimePicker(time: $manager.timeSetting.sessions[index].concentrationSeconds,
+                                              in: SetTimeContraint.looseConcentrationSecondBound)
+                            }
+                            
+                            Divider()
+                                .padding(.bottom, 8)
+                            
+                            HStack {
+                                Text("setTime_rest")
+                                    .font(.subheadline.bold())
+                                Spacer()
+                                SetTimePicker(time: $manager.timeSetting.sessions[index].restSeconds,
+                                              in: SetTimeContraint.looseRestSecondBound)
+                            }
                         }
-                        .padding(.bottom, 16)
-
-                        HStack {
-                            Text("setTime_concentration")
-                                .font(.subheadline.bold())
-                            Spacer()
-                            TimePicker(time: $manager.timeSetting.sessions[index].concentrationSeconds,
-                                       in: SetTimeContraint.looseConcentrationSecondBound)
+                        .tag(index)
+                        .padding()
+                        .overlay(alignment: .topTrailing) {
+                            Button {
+                                manager.removeSession(at: index)
+                            } label: {
+                                Image(systemName: "minus.circle.fill")
+                                    .foregroundColor(.red)
+                            }
+                            .offset(x: -16, y: 8)
                         }
-
-                        Divider()
-                            .padding(.bottom, 8)
-
-                        HStack {
-                            Text("setTime_rest")
-                                .font(.subheadline.bold())
-                            Spacer()
-                            TimePicker(time: $manager.timeSetting.sessions[index].restSeconds,
-                                       in: SetTimeContraint.looseRestSecondBound)
-                        }
-                    }
-                    .tag(index)
-                    .padding()
-                    .overlay(alignment: .topTrailing) {
-                        Button {
-                            manager.removeSession(at: index)
-                        } label: {
-                            Image(systemName: "minus.circle.fill")
-                                .foregroundColor(.red)
-                        }
-                        .offset(x: -16, y: 8)
                     }
                 }
             }
+            .background(.thinMaterial, in: RoundedRectangle(cornerRadius: 8))
+            .tabViewStyle(PageTabViewStyle(indexDisplayMode: .always))
+            Spacer()
         }
-        .background(.thinMaterial, in: RoundedRectangle(cornerRadius: 8))
-        .tabViewStyle(PageTabViewStyle(indexDisplayMode: .always))
     }
 }
 

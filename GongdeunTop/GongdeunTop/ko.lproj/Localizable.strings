@@ -19,7 +19,7 @@
 "really exit" = "정말로 끝내겠습니까?";
 
 "sessions%lld" = " %lld개 세션,";
-"totalTime%lld" = " 총 %lld분";
+"totalTime%lld%lld" = " 총 %lld분 %lld초";
 "Set Time" = "시간 설정";
 "Start" = "집중 시작";
 "%lld minute %lld seconds" = "%lld분 %lld초";

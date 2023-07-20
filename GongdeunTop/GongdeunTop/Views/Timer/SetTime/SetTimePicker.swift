@@ -8,7 +8,7 @@
 import SwiftUI
 import Combine
 
-struct TimePicker: View {
+struct SetTimePicker: View {
     @Binding var time: Int
     @State private var minute: Int
     @State private var second: Int

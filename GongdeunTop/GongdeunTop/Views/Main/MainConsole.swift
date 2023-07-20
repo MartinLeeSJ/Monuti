@@ -38,7 +38,7 @@ struct MainConsole: View {
                 }
                 .sheet(isPresented: $isSetTimeViewOn) {
                     SetTimeForm(manager: timerManager)
-                        .presentationDetents([.medium])
+                        .presentationDetents([.fraction(0.65)])
                 }
                 .buttonStyle(.bordered)
                 .tint(themeManager.getColorInPriority(of: .accent))
