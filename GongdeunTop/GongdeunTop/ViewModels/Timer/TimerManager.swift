@@ -184,6 +184,8 @@ final class TimerManager: ObservableObject {
     }
     
     func addNewSession() {
+        guard mode == .individual else { return }
+        guard timeSetting.numOfSessions < SetTimeContraint.looseSessionsBound.upperBound else { return }
         timeSetting.sessions.append(Session.getBasicSession())
     }
     

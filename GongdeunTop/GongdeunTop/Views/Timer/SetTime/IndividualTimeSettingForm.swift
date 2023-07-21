@@ -20,6 +20,10 @@ struct IndividualTimeSettingForm: View  {
         currentSession = manager.timeSetting.sessions.count - 1
     }
     
+    private var hasReachedSessionLimit: Bool {
+        manager.timeSetting.numOfSessions == SetTimeContraint.looseSessionsBound.upperBound
+    }
+    
     
     var body: some View {
         VStack {
@@ -43,10 +47,11 @@ struct IndividualTimeSettingForm: View  {
                                 }
                                 if index == (manager.timeSetting.sessions.endIndex - 1) {
                                     Button {
-                                        manager.addNewSession()
+                                        addNewSession()
                                     } label: {
                                         Text("Add")
                                     }
+                                    .disabled(hasReachedSessionLimit)
                                 }
                             }
                             .padding(.bottom, 16)
