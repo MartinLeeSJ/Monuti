@@ -67,7 +67,8 @@ struct IndividualTimeSettingForm: View  {
                                     .font(.subheadline.bold())
                                 Spacer()
                                 SetTimePicker(time: $manager.timeSetting.sessions[index].concentrationSeconds,
-                                              in: SetTimeContraint.looseConcentrationSecondBound)
+                                              in: SetTimeContraint.looseConcentrationSecondBound,
+                                              secondStride: 5)
                             }
                             
                             Divider()
@@ -78,7 +79,8 @@ struct IndividualTimeSettingForm: View  {
                                     .font(.subheadline.bold())
                                 Spacer()
                                 SetTimePicker(time: $manager.timeSetting.sessions[index].restSeconds,
-                                              in: SetTimeContraint.looseRestSecondBound)
+                                              in: SetTimeContraint.looseRestSecondBound,
+                                              secondStride: 5)
                             }
                         }
                         .tag(index)
