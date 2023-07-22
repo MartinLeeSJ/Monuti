@@ -18,14 +18,16 @@ struct BatchTimeSettingForm: View {
             SetTimeGraph(manager: manager)
             
             HAlignment(alignment: .trailling) {
-                Button {
-                    
-                } label: {
-                    Label("기본 설정으로 돌아가기", systemImage: "arrow.clockwise")
-                        .font(.caption2)
+                if !manager.isDefaultSessionsSetting {
+                    Button {
+                        manager.resetToBasicSessions()
+                    } label: {
+                        Label("기본 설정으로 돌아가기", systemImage: "arrow.clockwise")
+                            .font(.caption2)
+                    }
+                    .buttonStyle(.bordered)
+                    .tint(themeManager.colorInPriority(of: .accent))
                 }
-                .buttonStyle(.bordered)
-                .tint(themeManager.colorInPriority(of: .accent))
             }
             .frame(minHeight: 60)
             

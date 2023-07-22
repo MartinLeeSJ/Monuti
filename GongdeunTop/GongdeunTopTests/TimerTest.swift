@@ -20,4 +20,13 @@ final class TimerTest: XCTestCase {
         XCTAssertEqual(timerManager.knowIsBasicSetting(basicSessions), true)
         XCTAssertEqual(timerManager.knowIsBasicSetting(nonBasicSessions), false)
     }
+    
+    
+    func testCanNoticeChangeInSessions() {
+        let timerManger = TimerManager()
+        XCTAssertEqual(timerManger.isDefaultSessionsSetting, true)
+        
+        timerManger.timeSetting.sessions = Session.getRandomLooseSessions()
+        XCTAssertEqual(timerManger.isDefaultSessionsSetting, false)
+    }
 }

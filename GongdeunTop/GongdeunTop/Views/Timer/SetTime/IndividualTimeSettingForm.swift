@@ -12,12 +12,18 @@ struct IndividualTimeSettingForm: View  {
     @ObservedObject var manager: TimerManager
     
     @State private var currentSession: Int = 0
-    @State private var concentrationMinute: Int = 25 
-    @State private var restSeconds: Int = 5 * 60
+    @State private var isLoading: Bool = false
+    
+    
     
     private func addNewSession() {
+        isLoading = true
         manager.addNewSession()
         currentSession = manager.timeSetting.sessions.count - 1
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            isLoading = false
+        }
     }
     
     private var hasReachedSessionLimit: Bool {
@@ -31,7 +37,7 @@ struct IndividualTimeSettingForm: View  {
             Spacer()
             TabView(selection: $currentSession) {
                 ForEach(manager.timeSetting.sessions.indices, id: \.self) { index in
-                    if index < manager.timeSetting.sessions.count {
+                    if !isLoading {
                         VStack(spacing: 8) {
                             HStack(spacing: 16) {
                                 Text("Session \(index + 1)")
@@ -77,9 +83,8 @@ struct IndividualTimeSettingForm: View  {
                         }
                         .tag(index)
                         .padding()
-                        .overlay(alignment: .topTrailing) {
-                            
-                        }
+                    } else {
+                        ProgressView()
                     }
                 }
             }
