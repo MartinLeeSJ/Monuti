@@ -15,10 +15,12 @@ import Combine
 
 extension Session {
     static func getBasicSession() -> Self {
-        Session(concentrationSeconds: 25 * 60, restSeconds: 5 * 60)
+        Session(concentrationSeconds: SetTimeContraint.basicConcentrationSecond,
+                restSeconds: SetTimeContraint.basicRestSecond)
     }
     static func getBasicLongRestSession() -> Self {
-        Session(concentrationSeconds: 25 * 60, restSeconds: 30 * 60)
+        Session(concentrationSeconds: SetTimeContraint.basicConcentrationSecond,
+                restSeconds: SetTimeContraint.basicLongRestSecond)
     }
     static func getBasicSessions() -> [Self] {
         var result = Array<Self>()
@@ -192,6 +194,18 @@ final class TimerManager: ObservableObject {
     func removeSession(at index: Int) {
         guard index < timeSetting.sessions.count else { return }
         timeSetting.sessions.remove(at: index)
+    }
+    
+    // MARK: - Set Time Info
+    func knowIsBasicSetting(_ sessions: [Session]) -> Bool {
+        guard sessions.count == SetTimeContraint.basicSessions else { return false }
+        let basicSessions = Session.getBasicSessions()
+        return sessions.enumerated().reduce(true) { _, element in
+            let (index,session) = element
+            let basicSession = basicSessions[index]
+            return (basicSession.concentrationSeconds == session.concentrationSeconds) &&
+            (basicSession.restSeconds == session.restSeconds)
+        }
     }
 
 }
