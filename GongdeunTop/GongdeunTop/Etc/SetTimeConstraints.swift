@@ -17,12 +17,15 @@ struct SetTimeContraint {
     static var looseConcentrationMinuteBound: Range<Int> { Self.getMinuteBound(bound: Self.looseConcentrationSecondBound) }
     static let concentrationSecondBound: Range<Int> = (15 * 60)..<((50 * 60) + 1)
     static var concentrationMinuteBound: Range<Int> { Self.getMinuteBound(bound: Self.concentrationSecondBound) }
+    static let basicConcentrationSecond: Int = 25 * 60
     static let concentrationSecondStep: Int.Stride = 5 * 60
     
     static let looseRestSecondBound: Range<Int> = 0..<((30 * 60) + 1)
     static var looseRestMinuteBound: Range<Int> { Self.getMinuteBound(bound: Self.looseRestSecondBound) }
     static let restSecondBound: Range<Int> = (5 * 60)..<((10 * 60) + 1)
     static var restMinuteBound: Range<Int> { Self.getMinuteBound(bound: Self.restSecondBound) }
+    static let basicRestSecond: Int = 5 * 60
+    static let basicLongRestSecond: Int = 30 * 60
     static let restSecondStep: Int.Stride = 1 * 60
     
     static func getMinuteBound(bound: Range<Int>) -> Range<Int> {
