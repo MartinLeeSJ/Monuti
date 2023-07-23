@@ -39,8 +39,8 @@ struct SetToDoForm: View {
     @State private var tagText: String = ""
     @State private var filteredTags: [Tag] = []
     
-    @State private var targetQuery: String = ""
-    @State private var filteredTargets: [Target] = []
+    @State private var isEditingTarget: Bool = false
+    
     
     @FocusState private var focusedField: ToDoField?
     
@@ -435,24 +435,17 @@ extension SetToDoForm {
 
 // MARK: - Connecting Target
 extension SetToDoForm {
-    private func findTargetTitle(ofId id: String) -> String {
-        guard let target = targetStore.targets.first(where: { $0.id == id }) else { return "" }
+    private func findTargetTitle(ofId id: String?) -> String {
+        guard let id = id, let target = targetStore.targets.first(where: { $0.id == id }) else { return String(localized: "setToDoForm_target_placeholder") }
         return target.title
     }
     
     @ViewBuilder
     var targetForm: some View {
-        if let targetId = manager.todo.relatedTarget  {
-            currentTarget(ofId: targetId)
-        } else {
-            TextFieldFormContainer {
-                HStack {
-                    targetFormTitle
-                    targetFormTextField
-                }
-                if !filteredTargets.isEmpty {
-                    targetSearchList
-                }
+        FormContainer {
+            currentTarget
+            if manager.todo.id == nil || isEditingTarget {
+                targetList
             }
         }
     }
@@ -465,46 +458,58 @@ extension SetToDoForm {
     }
     
     @ViewBuilder
-    private func currentTarget(ofId targetId: String) -> some View {
-        FormContainer {
-            HStack {
-                targetFormTitle
-                Text(findTargetTitle(ofId: targetId))
-                    .lineLimit(1)
-                Spacer()
+    private var currentTarget: some View {
+        HStack {
+            targetFormTitle
+            
+            Text(findTargetTitle(ofId: manager.todo.relatedTarget))
+                .lineLimit(1)
+                .foregroundColor(manager.todo.relatedTarget == nil ?
+                    .black.opacity(0.2) :
+                    Color("basicFontColor")
+                )
+            Spacer()
+            
+            if manager.todo.id != nil {
                 Button {
-                    Task {
-                        await manager.deleteRelatedTarget(ofId: targetId)
+                    if isEditingTarget {
+                      isEditingTarget = false
+                    } else {
+                        Task {
+                            await manager.deleteRelatedTarget(ofId: manager.todo.relatedTarget)
+                            isEditingTarget = true
+                        }
                     }
                 } label: {
-                    Text("Delete")
+                    Text(isEditingTarget ? "Done" : "Edit")
                 }
-                .tint(.red)
+                .tint(isEditingTarget ? .blue : .red)
             }
+            
         }
+        
     }
     
-    private var targetFormTextField: some View {
-        TextField("setToDoForm_target_placeholder", text: $targetQuery)
-            .focused($focusedField, equals: .target)
-            .onChange(of: targetQuery) { query in
-                filteredTargets = targetStore.targets.filter { $0.title.localizedCaseInsensitiveContains(query) }
-            }
-    }
     
     @ViewBuilder
-    var targetSearchList: some View {
+    var targetList: some View {
         Divider()
         ScrollView {
-            ForEach(filteredTargets, id: \.self) { target in
-                HAlignment(alignment: .leading) {
+            ForEach(targetStore.targets, id: \.self) { target in
+                HStack {
                     Button {
-                        manager.setRelatedTarget(ofId: target.id)
+                        manager.manageRelatedTarget(ofId: target.id)
                     } label: {
                         HStack {
-                            Image(systemName: "magnifyingglass.circle")
-                                .opacity(0.5)
+                            if let targetId = manager.todo.relatedTarget, targetId == target.id {
+                                Image(systemName: "largecircle.fill.circle")
+                                    .tint(themeManager.colorInPriority(of: .accent))
+                            } else {
+                                Image(systemName: "circle")
+                                    .tint(themeManager.colorInPriority(of: .accent))
+                            }
                             Text(target.title)
+                            Spacer()
                         }
                     }
                     .tint(Color("basicFontColor"))
