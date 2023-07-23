@@ -91,9 +91,9 @@ extension ToDoStore {
         self.sortMode = mode
         
         switch mode {
+        case .basic: sortToDosByCreatedAt()
         case .ascend: sortToDosByStartingTimeAscend()
-        case .basic: sortToDosByStartingTimeDescend()
-        case .descend: sortToDosByCreatedAt()
+        case .descend: sortToDosByStartingTimeDescend()
         }
     }
     

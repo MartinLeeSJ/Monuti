@@ -11,11 +11,25 @@ struct BatchTimeSettingForm: View {
     @EnvironmentObject var themeManager: ThemeManager
     @ObservedObject var manager: TimerManager
     
+    
+    
     var body: some View {
         VStack {
             SetTimeGraph(manager: manager)
             
-            Spacer()
+            HAlignment(alignment: .trailling) {
+                if !manager.isDefaultSessionsSetting {
+                    Button {
+                        manager.resetToBasicSessions()
+                    } label: {
+                        Label("기본 설정으로 돌아가기", systemImage: "arrow.clockwise")
+                            .font(.caption2)
+                    }
+                    .buttonStyle(.bordered)
+                    .tint(themeManager.colorInPriority(of: .accent))
+                }
+            }
+            .frame(minHeight: 60)
             
             sessionStepper
             concentrationTimeStepper
@@ -25,6 +39,7 @@ struct BatchTimeSettingForm: View {
             
             Spacer()
         }
+        
     }
 }
 

@@ -14,13 +14,15 @@ struct SetTimePicker: View {
     @State private var second: Int
     let minuteBound: Range<Int>
     let secondBound: Range<Int>
+    let secondStride: Int.Stride
     
-    init(time: Binding<Int>, in timeBound: Range<Int>) {
+    init(time: Binding<Int>, in timeBound: Range<Int>, secondStride: Int.Stride = 1) {
         self._time = time
         self.minute = Int(time.wrappedValue / 60)
         self.second = time.wrappedValue % 60
         self.minuteBound = SetTimeContraint.getMinuteBound(bound: timeBound)
         self.secondBound = 0..<59
+        self.secondStride = secondStride
     }
     
     private func computeTotalSeconds() {
@@ -47,8 +49,10 @@ struct SetTimePicker: View {
             
             Picker(selection: $second) {
                 ForEach(secondBound, id: \.self) { now in
-                    Text("\(now)")
-                        .tag(now)
+                    if now % secondStride == 0 {
+                        Text("\(now)")
+                            .tag(now)
+                    }
                 }
             } label: {
                 Text("\(second)")

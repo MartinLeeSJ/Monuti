@@ -12,12 +12,22 @@ struct IndividualTimeSettingForm: View  {
     @ObservedObject var manager: TimerManager
     
     @State private var currentSession: Int = 0
-    @State private var concentrationMinute: Int = 25 
-    @State private var restSeconds: Int = 5 * 60
+    @State private var isLoading: Bool = false
+    
+    
     
     private func addNewSession() {
+        isLoading = true
         manager.addNewSession()
         currentSession = manager.timeSetting.sessions.count - 1
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            isLoading = false
+        }
+    }
+    
+    private var hasReachedSessionLimit: Bool {
+        manager.timeSetting.numOfSessions == SetTimeContraint.looseSessionsBound.upperBound
     }
     
     
@@ -27,7 +37,7 @@ struct IndividualTimeSettingForm: View  {
             Spacer()
             TabView(selection: $currentSession) {
                 ForEach(manager.timeSetting.sessions.indices, id: \.self) { index in
-                    if index < manager.timeSetting.sessions.count {
+                    if !isLoading {
                         VStack(spacing: 8) {
                             HStack(spacing: 16) {
                                 Text("Session \(index + 1)")
@@ -43,10 +53,11 @@ struct IndividualTimeSettingForm: View  {
                                 }
                                 if index == (manager.timeSetting.sessions.endIndex - 1) {
                                     Button {
-                                        manager.addNewSession()
+                                        addNewSession()
                                     } label: {
                                         Text("Add")
                                     }
+                                    .disabled(hasReachedSessionLimit)
                                 }
                             }
                             .padding(.bottom, 16)
@@ -56,7 +67,8 @@ struct IndividualTimeSettingForm: View  {
                                     .font(.subheadline.bold())
                                 Spacer()
                                 SetTimePicker(time: $manager.timeSetting.sessions[index].concentrationSeconds,
-                                              in: SetTimeContraint.looseConcentrationSecondBound)
+                                              in: SetTimeContraint.looseConcentrationSecondBound,
+                                              secondStride: 5)
                             }
                             
                             Divider()
@@ -67,14 +79,14 @@ struct IndividualTimeSettingForm: View  {
                                     .font(.subheadline.bold())
                                 Spacer()
                                 SetTimePicker(time: $manager.timeSetting.sessions[index].restSeconds,
-                                              in: SetTimeContraint.looseRestSecondBound)
+                                              in: SetTimeContraint.looseRestSecondBound,
+                                              secondStride: 5)
                             }
                         }
                         .tag(index)
                         .padding()
-                        .overlay(alignment: .topTrailing) {
-                            
-                        }
+                    } else {
+                        ProgressView()
                     }
                 }
             }

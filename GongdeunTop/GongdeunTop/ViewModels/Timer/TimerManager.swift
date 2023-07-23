@@ -15,10 +15,12 @@ import Combine
 
 extension Session {
     static func getBasicSession() -> Self {
-        Session(concentrationSeconds: 25 * 60, restSeconds: 5 * 60)
+        Session(concentrationSeconds: SetTimeContraint.basicConcentrationSecond,
+                restSeconds: SetTimeContraint.basicRestSecond)
     }
     static func getBasicLongRestSession() -> Self {
-        Session(concentrationSeconds: 25 * 60, restSeconds: 30 * 60)
+        Session(concentrationSeconds: SetTimeContraint.basicConcentrationSecond,
+                restSeconds: SetTimeContraint.basicLongRestSecond)
     }
     static func getBasicSessions() -> [Self] {
         var result = Array<Self>()
@@ -29,6 +31,19 @@ extension Session {
 
         return result
     }
+    
+    static func getRandomLooseSessions() -> [Self] {
+        var result = Array<Self>()
+        SetTimeContraint.looseSessionsBound.forEach { _ in
+            result.append(
+                Session(
+                    concentrationSeconds: Int.random(in: SetTimeContraint.looseConcentrationSecondBound),
+                    restSeconds: Int.random(in: SetTimeContraint.looseRestSecondBound)
+                )
+            )
+        }
+        return result
+    }
 }
 
 @MainActor
@@ -37,6 +52,7 @@ final class TimerManager: ObservableObject {
     @Published var currentTimeIndex: Int = 0
     @Published var remainSeconds: Int = 0
     @Published var isRunning: Bool = false
+    @Published var isDefaultSessionsSetting: Bool = true
     @Published var timer: Timer?
     @Published var mode: TimeSetMode = .batch
     
@@ -58,6 +74,12 @@ final class TimerManager: ObservableObject {
                 return isConcentrateTime ? currentSession.concentrationSeconds : currentSession.restSeconds
             }
             .assign(to: &$remainSeconds)
+        
+        $timeSetting
+            .map { timeSetting in
+                self.knowIsBasicSetting(timeSetting.sessions)
+            }
+            .assign(to: &$isDefaultSessionsSetting)
     }
     
     
@@ -184,12 +206,30 @@ final class TimerManager: ObservableObject {
     }
     
     func addNewSession() {
+        guard mode == .individual else { return }
+        guard timeSetting.numOfSessions < SetTimeContraint.looseSessionsBound.upperBound else { return }
         timeSetting.sessions.append(Session.getBasicSession())
     }
     
     func removeSession(at index: Int) {
         guard index < timeSetting.sessions.count else { return }
         timeSetting.sessions.remove(at: index)
+    }
+    
+    func resetToBasicSessions() {
+        timeSetting.sessions = Session.getBasicSessions()
+    }
+    
+    // MARK: - Set Time Info
+    func knowIsBasicSetting(_ sessions: [Session]) -> Bool {
+        guard sessions.count == SetTimeContraint.basicSessions else { return false }
+        let basicSessions = Session.getBasicSessions()
+        return sessions.enumerated().reduce(true) { _, element in
+            let (index,session) = element
+            let basicSession = basicSessions[index]
+            return (basicSession.concentrationSeconds == session.concentrationSeconds) &&
+            (basicSession.restSeconds == session.restSeconds)
+        }
     }
 
 }
