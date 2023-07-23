@@ -12,7 +12,6 @@ import FirebaseFirestore
 import FirebaseFirestoreSwift
 import FirebaseAuth
 
-
 final class ToDoManager: ObservableObject {
     @Published var todo: ToDo
     @Published var modified: Bool = false
@@ -21,6 +20,7 @@ final class ToDoManager: ObservableObject {
     private let database = Firestore.firestore()
     private var cancellables = Set<AnyCancellable>()
     
+    @MainActor
     init(todo: ToDo = .init(title: "", content: "", tags: [], timeSpent: 0, isCompleted: false, createdAt: Date.now )) {
         self.todo = todo
         self.$todo
@@ -96,12 +96,15 @@ final class ToDoManager: ObservableObject {
     
     // MARK: - Update Todo relatedTarget
     
-    func setRelatedTarget(ofId targetId: String?) {
-        guard let targetId else { return }
-        self.todo.relatedTarget = targetId
+    func manageRelatedTarget(ofId targetId: String?) {
+        guard let newTargetId = targetId else { return }
+        if let oldTargetId = self.todo.relatedTarget, oldTargetId == newTargetId {
+            self.todo.relatedTarget = nil
+        } else {
+            self.todo.relatedTarget = newTargetId
+        }
     }
-    
-    
+
     private func registerTodoInTarget(todoId: String, targetId: String?) async {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         guard let targetId else { return }

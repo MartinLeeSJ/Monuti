@@ -55,7 +55,7 @@
 "todo_tag" = "Tag of todo";
 "todo_tag_footer" = "Manage your Todo with tags";
 
-"setToDoForm_target_placeholder" = "Connect To Target";
+"setToDoForm_target_placeholder" = "Connect to target in below list";
 "setToDoForm_target_title" = "Target";
 
 // SetToDoForm_startingTimeForm
