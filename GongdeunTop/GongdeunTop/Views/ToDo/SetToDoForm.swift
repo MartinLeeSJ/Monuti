@@ -107,19 +107,17 @@ struct SetToDoForm: View {
                         .disabled(manager.todo.title.isEmpty)
                     }
                     
-                    
-                    ToolbarItem(placement: .keyboard) {
-                        Button(action: focusPreviousField) {
-                            Image(systemName: "chevron.up")
+                    ToolbarItemGroup(placement: .keyboard) {
+                        HAlignment(alignment: .leading) {
+                            Button(action: focusPreviousField) {
+                                Image(systemName: "chevron.up")
+                            }
+                            .disabled(!canFocusPreviousField())
+                            Button(action: focusNextField) {
+                                Image(systemName: "chevron.down")
+                            }
+                            .disabled(!canFocusNextField())
                         }
-                        .disabled(!canFocusPreviousField())
-                    }
-                    
-                    ToolbarItem(placement: .keyboard) {
-                        Button(action: focusNextField) {
-                            Image(systemName: "chevron.down")
-                        }
-                        .disabled(!canFocusNextField())
                     }
                 }
             }
