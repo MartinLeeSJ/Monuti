@@ -20,6 +20,7 @@ final class ToDoManager: ObservableObject {
     private let database = Firestore.firestore()
     private var cancellables = Set<AnyCancellable>()
     
+    @MainActor
     init(todo: ToDo = .init(title: "", content: "", tags: [], timeSpent: 0, isCompleted: false, createdAt: Date.now )) {
         self.todo = todo
         self.$todo

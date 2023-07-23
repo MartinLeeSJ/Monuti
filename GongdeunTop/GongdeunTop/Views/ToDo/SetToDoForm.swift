@@ -52,9 +52,8 @@ struct SetToDoForm: View {
     
     private func handleDoneTapped() {
         manager.handleDoneTapped()
-        if mode == .edit {
-            dismiss()
-        }
+        dismiss()
+        
     }
     
     private func handleCloseTapped() {
@@ -95,6 +94,7 @@ struct SetToDoForm: View {
                         } label: {
                             Image(systemName: "xmark.circle.fill")
                                 .font(.title3)
+                                .tint(themeManager.colorInPriority(of: .accent))
                         }
                     }
                     
@@ -139,10 +139,17 @@ extension SetToDoForm {
     @ViewBuilder
     var titleAndContentTextField: some View {
         TextFieldFormContainer {
-            HStack(alignment: .bottom, spacing: 8) {
+            HStack(alignment: .bottom, spacing: 12) {
                 Text("title")
                     .font(.headline)
                     .fontWeight(.medium)
+                    .overlay(alignment: .topTrailing) {
+                        Image(systemName: "staroflife.fill")
+                            .font(.system(size: 6))
+                            .foregroundColor(.red)
+                            .offset(x: 8)
+
+                    }
                 
                 TextField(String(localized: "todo_title"), text: $manager.todo.title)
                     .focused($focusedField, equals: .title)
@@ -158,7 +165,7 @@ extension SetToDoForm {
             
             Divider()
             
-            HStack(alignment: .bottom, spacing: 8) {
+            HStack(alignment: .bottom, spacing: 12) {
                 Text("content")
                     .font(.headline)
                     .fontWeight(.medium)
@@ -236,7 +243,7 @@ extension SetToDoForm {
     @ViewBuilder
     var tagForm: some View {
         FormContainer {
-            HStack(alignment: .bottom){
+            HStack(alignment: .bottom, spacing: 12){
                 tagFormTitle
                 tagFormTextField
                 tagFormCharacterLimitLabel
@@ -457,7 +464,7 @@ extension SetToDoForm {
     
     @ViewBuilder
     private var currentTarget: some View {
-        HStack {
+        HStack(spacing: 12) {
             targetFormTitle
             
             Text(findTargetTitle(ofId: manager.todo.relatedTarget))
