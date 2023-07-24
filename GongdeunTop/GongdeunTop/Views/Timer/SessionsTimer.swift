@@ -16,8 +16,6 @@ struct SessionsTimer: View {
     
     @AppStorage("lastTime") private var lastTimeObserved: String = ""
     
- 
-    
     @State var todos: [ToDo] = []
     @State var currentTodo: ToDo? = nil
     
@@ -36,22 +34,22 @@ struct SessionsTimer: View {
             VStack {
                 Spacer()
    
-                getTimerShape(width: shorterSize)
+                timerShape(width: shorterSize)
                     .overlay {
                         VStack {
-                            getDigitTimes(width: digitTimeWidth)
+                            digitTimes(width: digitTimeWidth)
                             
-                            getButtons(width: shorterSize)
+                            timerButtons(width: shorterSize)
                         }
                     }
                     .padding(.bottom, 20)
                 
-                getIndicator(width: indicatorWidth)
+                sessionIndicator(width: indicatorWidth)
                 
                 Spacer()
                 
                 if !todos.isEmpty {
-                    getTodoMenu()
+                    todoMenu()
                 }
                 
                 
@@ -92,7 +90,7 @@ struct SessionsTimer: View {
 // MARK: - Timer UI
 extension SessionsTimer {
     @ViewBuilder
-    private func getButtons(width: CGFloat) -> some View {
+    private func timerButtons(width: CGFloat) -> some View {
         Button {
             handlePlayButton()
         } label: {
@@ -126,7 +124,7 @@ extension SessionsTimer {
     }
     
     @ViewBuilder
-    private func getDigitTimes(width: CGFloat) -> some View {
+    private func digitTimes(width: CGFloat) -> some View {
         let minuteWidth = width * 0.425
         let secondWidth = width * 0.425
         let colonWidth = width * 0.15
@@ -147,7 +145,7 @@ extension SessionsTimer {
     }
     
     @ViewBuilder
-    private func getTimerShape(width: CGFloat) -> some View {
+    private func timerShape(width: CGFloat) -> some View {
         CircularSector(endDegree: timerManager.getEndDegree())
             .frame(width: width * 0.85, height: width * 0.85)
             .foregroundColor(themeManager.colorInPriority(of: .medium))
@@ -168,7 +166,7 @@ extension SessionsTimer {
 // MARK: - Indicator UI
 extension SessionsTimer {
     @ViewBuilder
-    func getIndicator(width: CGFloat) -> some View {
+    func sessionIndicator(width: CGFloat) -> some View {
         SessionIndicator(manager: timerManager)
             .frame(width: width)
             .gesture(DragGesture(minimumDistance: 2.0, coordinateSpace: .local)
@@ -191,11 +189,10 @@ extension SessionsTimer {
 // MARK: - TodoMenu UI
 extension SessionsTimer {
     @ViewBuilder
-    private func getTodoMenu() -> some View {
+    private func todoMenu() -> some View {
         VStack {
             Text(currentTodo?.title ?? String(localized: "timer_currentTodo_nothing"))
                 .font(.headline)
-            
             Menu {
                 ForEach(todos, id: \.self) { todo in
                     Button {
@@ -204,7 +201,6 @@ extension SessionsTimer {
                         Text(todo.title)
                     }
                 }
-                
                 Button {
                     currentTodo = nil
                 } label: {
@@ -238,7 +234,6 @@ extension SessionsTimer {
             timerManager.pauseTime()
         } else {
             recordStartingTime()
-            
             timerManager.timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
                 if timerManager.remainSeconds > 0 {
                     timerManager.elapsesTime()
@@ -247,7 +242,6 @@ extension SessionsTimer {
                     timerManager.moveToNextTimes()
                 }
             }
-            
             timerManager.isRunning = true
         }
     }
@@ -282,7 +276,6 @@ extension SessionsTimer {
     }
     
     private func recordStartingTime() {
-        // 초창기에만 기록하면 됨
         let isConcentrationTimeStarted: Bool = !timerManager.knowIsInRestTime() && timerManager.remainSeconds == timerManager.currentSession.concentrationSeconds
         let isRefreshTimeStarted: Bool = timerManager.knowIsInRestTime() && timerManager.remainSeconds == timerManager.currentSession.restSeconds
         
