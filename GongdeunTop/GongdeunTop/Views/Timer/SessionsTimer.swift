@@ -269,9 +269,17 @@ extension SessionsTimer {
     private func scheduleUserNotification() {
         let notificationCenter = UNUserNotificationCenter.current()
         notificationCenter.removeAllPendingNotificationRequests()
+        
         let content = UNMutableNotificationContent()
-        content.title = "Message"
-        content.body = "Timer Is Completed Successfully In Background !!!"
+        var notificationBody: String = ""
+        switch timerManager.knowIsInRestTime() {
+        case true where !timerManager.knowIsLastTime(): notificationBody = String(localized: "notification_restTime_ended")
+        case true where timerManager.knowIsLastTime(): notificationBody = String(localized: "notification_allTime_ended")
+        case false: notificationBody = String(localized: "notification_concentrationTime_ended")
+        default: notificationBody = ""
+        }
+        content.title = String(localized: "Monuti")
+        content.body = notificationBody
 
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: timerManager.remainSeconds, repeats: false)
 
