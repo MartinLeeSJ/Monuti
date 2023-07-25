@@ -77,8 +77,9 @@ struct MainRouterView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    AppLogoView(radius: 16)
-                        .offset(x: 16)
+                    themeManager.appLogoImage()
+                        .resizable()
+                        .frame(width: 36, height: 36)
                 }
                 
                 ToolbarItem(placement: .navigationBarTrailing) {

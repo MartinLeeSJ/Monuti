@@ -68,9 +68,11 @@ class ThemeManager: ObservableObject {
         Color("\(theme.rawValue)SheetBackground")
     }
     
+    func timerDigitAndButtonColor() -> Color {
+        theme == .yellow ? Color.black : Color("\(theme.rawValue)\(ColorPriority.accent.description)")
+    }
+    
     func appLogoImage() -> Image {
         theme.logoImage
     }
-    
-
 }

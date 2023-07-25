@@ -80,6 +80,8 @@
 		5BB4FEC829C83124009CCD43 /* ToDoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB4FEC729C83124009CCD43 /* ToDoManager.swift */; };
 		5BB4FECA29C832D9009CCD43 /* ToDo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB4FEC929C832D9009CCD43 /* ToDo.swift */; };
 		5BB4FECC29C83964009CCD43 /* HAlignment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB4FECB29C83964009CCD43 /* HAlignment.swift */; };
+		5BC275332A6FE7DF0028F5F8 /* TimerDigit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC275322A6FE7DF0028F5F8 /* TimerDigit.swift */; };
+		5BC275352A6FE7F90028F5F8 /* TimerHexagon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC275342A6FE7F90028F5F8 /* TimerHexagon.swift */; };
 		5BC3E06629C9EA4100863AD2 /* GongdeunTopTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC3E06529C9EA4100863AD2 /* GongdeunTopTests.swift */; };
 		5BCF550429C2CB2500A19759 /* GongdeunTopApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCF550329C2CB2500A19759 /* GongdeunTopApp.swift */; };
 		5BCF550629C2CB2500A19759 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCF550529C2CB2500A19759 /* ContentView.swift */; };
@@ -180,6 +182,8 @@
 		5BB4FEC729C83124009CCD43 /* ToDoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoManager.swift; sourceTree = "<group>"; };
 		5BB4FEC929C832D9009CCD43 /* ToDo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDo.swift; sourceTree = "<group>"; };
 		5BB4FECB29C83964009CCD43 /* HAlignment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAlignment.swift; sourceTree = "<group>"; };
+		5BC275322A6FE7DF0028F5F8 /* TimerDigit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerDigit.swift; sourceTree = "<group>"; };
+		5BC275342A6FE7F90028F5F8 /* TimerHexagon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerHexagon.swift; sourceTree = "<group>"; };
 		5BC3E06329C9EA4100863AD2 /* GongdeunTopTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GongdeunTopTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5BC3E06529C9EA4100863AD2 /* GongdeunTopTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GongdeunTopTests.swift; sourceTree = "<group>"; };
 		5BCF550029C2CB2500A19759 /* GongdeunTop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GongdeunTop.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -230,6 +234,8 @@
 			isa = PBXGroup;
 			children = (
 				5BCF551C29C30DA800A19759 /* SessionsTimer.swift */,
+				5BC275322A6FE7DF0028F5F8 /* TimerDigit.swift */,
+				5BC275342A6FE7F90028F5F8 /* TimerHexagon.swift */,
 				5B95E0E72A5BE24F007FA721 /* SetTime */,
 				5BD5131829D574900008E1C9 /* SessionIndicator.swift */,
 				5B8B119429D07EE6009BB0E6 /* FirstCountdown.swift */,
@@ -702,6 +708,7 @@
 				5BFFDB8529C5F299004C5376 /* SetTimeForm.swift in Sources */,
 				5BCF550629C2CB2500A19759 /* ContentView.swift in Sources */,
 				5BF61E922A0296B1007592D6 /* ThemeManager.swift in Sources */,
+				5BC275332A6FE7DF0028F5F8 /* TimerDigit.swift in Sources */,
 				5B2767C929FA2229008398A3 /* DateCell.swift in Sources */,
 				5B54FE432A2B5917000D29ED /* CGFloat+Utils.swift in Sources */,
 				5B0EBE6F2A603A2D0011B024 /* SetTimeConstraints.swift in Sources */,
@@ -735,6 +742,7 @@
 				5B2767C529F8F30D008398A3 /* CalendarManager.swift in Sources */,
 				5B63A59329C95AD500AA4525 /* SetToDoForm.swift in Sources */,
 				5BE45A802A3859F200F42F4F /* TargetToDoStore.swift in Sources */,
+				5BC275352A6FE7F90028F5F8 /* TimerHexagon.swift in Sources */,
 				5B38FC0A2A0F87BC003F9B5C /* TargetList.swift in Sources */,
 				5B95E13929D7FC9000E8CBA1 /* AuthManager.swift in Sources */,
 				5B38FBFF2A0CDC72003F9B5C /* SetNickNameView.swift in Sources */,
@@ -950,7 +958,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = GongdeunTop/GongdeunTop.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 0.9.0;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"GongdeunTop/Preview Content\"";
 				DEVELOPMENT_TEAM = SUDPP9C593;
 				ENABLE_PREVIEWS = YES;
@@ -987,7 +995,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = GongdeunTop/GongdeunTop.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 0.9.0;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"GongdeunTop/Preview Content\"";
 				DEVELOPMENT_TEAM = SUDPP9C593;
 				ENABLE_PREVIEWS = YES;
