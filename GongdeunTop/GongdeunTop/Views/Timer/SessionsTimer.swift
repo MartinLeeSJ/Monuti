@@ -6,50 +6,7 @@
 //
 
 import SwiftUI
-
-struct TimerDigit: View {
-    let width: CGFloat
-    let minuteString: String
-    let secondString: String
-    var body: some View {
-        let minuteWidth = width * 0.425
-        let secondWidth = width * 0.425
-        let colonWidth = width * 0.15
-        HStack(alignment: .center, spacing: 0) {
-            Text(minuteString)
-                .frame(width: minuteWidth, alignment: .trailing)
-                .font(.system(size: 60, weight: .regular, design: .rounded))
-            Text(":")
-                .frame(width: colonWidth, alignment: .center)
-                .font(.system(size: 54, weight: .regular))
-            Text(secondString)
-                .frame(width: secondWidth, alignment: .leading)
-                .font(.system(size: 60, weight: .regular, design: .rounded))
-        }
-    }
-}
-
-struct TimerHexagon: View {
-    let width: CGFloat
-    let timerEndDegree: Double
-    let foregroundColor: Color
-    let backgroundColor: Color
-    var body: some View {
-        CircularSector(endDegree: timerEndDegree)
-            .frame(width: width * 0.85, height: width * 0.85)
-            .foregroundColor(foregroundColor)
-            .clipShape(RoundedHexagon(radius: width * 0.425, cornerAngle: 5))
-            .overlay {
-                CubeHexagon(radius: width * 0.425)
-                    .stroke(style: .init(lineWidth: 8, lineJoin: .round))
-                    .foregroundColor(.white.opacity(0.2))
-            }
-            .background {
-                RoundedHexagon(radius: width * 0.425, cornerAngle: 5)
-                    .foregroundColor(backgroundColor)
-            }
-    }
-}
+import UserNotifications
 
 struct SessionsTimer: View {
     @Environment(\.dismiss) private var dismiss
@@ -83,7 +40,7 @@ struct SessionsTimer: View {
                              backgroundColor: themeManager.colorInPriority(of: .weak))
                     .overlay {
                         VStack {
-                            TimerDigit(width: shorterSize,
+                            TimerDigit(width: digitTimeWidth,
                                        minuteString: timerManager.getMinuteString(of: timerManager.remainSeconds),
                                        secondString: timerManager.getSecondString(of: timerManager.remainSeconds))
                             .foregroundColor(themeManager.colorInPriority(of: .accent))
@@ -101,8 +58,6 @@ struct SessionsTimer: View {
                 if !todos.isEmpty {
                     todoMenu()
                 }
-                
-                
                 Spacer()
             }
             .frame(width: width, height: height)
@@ -110,19 +65,6 @@ struct SessionsTimer: View {
         .navigationBarBackButtonHidden(true)
         .toolbar {
             toolbarContents()
-        }
-        .overlay {
-            if !isFirstCountDownEnded {
-                FirstCountdown(isEnded: $isFirstCountDownEnded)
-            }
-        }
-        .onChange(of: isFirstCountDownEnded) { _ in
-            if timerManager.timer == nil && isFirstCountDownEnded {
-                handlePlayButton()
-            }
-        }
-        .onChange(of: scenePhase) { phase in
-            updateTimeElapsed(newPhase: phase)
         }
         .sheet(isPresented: $isShowingCycleMemoir) {
             timerManager.resetToOrigin()
@@ -132,8 +74,30 @@ struct SessionsTimer: View {
                 CycleMemoir(manager: CycleManager(todos: todos), timerManager: timerManager)
             }
         }
+        .overlay {
+            if !isFirstCountDownEnded {
+                FirstCountdown(isEnded: $isFirstCountDownEnded)
+            }
+        }
+        .onChange(of: isFirstCountDownEnded) { _ in
+            if !timerManager.isRunning && isFirstCountDownEnded {
+                handlePlay()
+            }
+        }
+        .onChange(of: scenePhase) { phase in
+            manageTimeWithScenePhase(of: phase)
+        }
+        .onReceive(timerManager.timer) { _ in
+            if timerManager.isRunning {
+                if timerManager.remainSeconds > 0 {
+                    timerManager.elapsesTime()
+                    updateToDoTimeSpent()
+                } else {
+                    timerManager.moveToNextTimes()
+                }
+            }
+        }
     }
-    
 }
 
 
@@ -142,29 +106,26 @@ extension SessionsTimer {
     @ViewBuilder
     private func timerControls(width: CGFloat) -> some View {
         Button {
-            handlePlayButton()
+            handlePlay()
         } label: {
             Image(systemName: timerManager.isRunning ?  "pause.fill" : "play.fill")
                 .foregroundColor(themeManager.colorInPriority(of: .accent))
                 .font(.largeTitle)
-            
         }
         .overlay {
             HStack {
                 Button {
-                    handleResetButton()
+                    handleReset()
                 } label: {
                     Image(systemName: "clock.arrow.circlepath")
                         .font(.title)
-                    
                 }
                 Spacer()
                 Button {
-                    handleNextButton()
+                    handleNext()
                 } label: {
                     Image(systemName: "chevron.right")
                         .font(.largeTitle)
-                    
                 }
             }
             .foregroundColor(themeManager.colorInPriority(of: .accent))
@@ -188,9 +149,9 @@ extension SessionsTimer {
                     
                     switch(value.translation.width, value.translation.height) {
                     case (swipeLeftRange, verticalSwipeConstraint):
-                        handleNextButton()
+                        handleNext()
                     case (swipeRightRange, verticalSwipeConstraint):
-                        handleResetButton()
+                        handleReset()
                     default:  print("no clue")
                     }
             })
@@ -240,34 +201,35 @@ extension SessionsTimer {
 
 // MARK: - Button Methods
 extension SessionsTimer {
-    private func handlePlayButton() {
+    private func handlePlay() {
         if timerManager.isRunning {
             timerManager.pauseTime()
         } else {
-            timerManager.timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
-                if timerManager.remainSeconds > 0 {
-                    timerManager.elapsesTime()
-                    updateToDoTimeSpent()
-                } else {
-                    timerManager.moveToNextTimes()
-                }
-            }
-            timerManager.isRunning = true
+            timerManager.startTime()
         }
     }
     
-    
-    private func handleResetButton() {
+    private func handleReset() {
         timerManager.resetTimes()
     }
     
-    private func handleNextButton() {
+    private func handleNext() {
         timerManager.moveToNextTimes()
+    }
+    
+    private func handleQuit() {
+        if !timerManager.knowIsLastTime() {
+            isShowingReallyQuitAlert = true
+        } else {
+            isShowingCycleMemoir = true
+        }
+        handlePlay()
     }
 }
 
-// MARK: - Record Times
+// MARK: - Manage Times
 extension SessionsTimer {
+    
     private func updateToDoTimeSpent() {
         guard !timerManager.knowIsInRestTime() else { return }
         
@@ -276,51 +238,61 @@ extension SessionsTimer {
         }
     }
     
-    private func updateTimeElapsed(newPhase: ScenePhase) {
+    private func manageTimeWithScenePhase(of newPhase: ScenePhase) {
         guard timerManager.isRunning else { return }
-        
-        if newPhase == .active {
-            timerManager.subtractTimeElapsed(from: lastTimeObserved)
+        switch newPhase {
+        case .background: manageTimeWithBackgroundMode()
+        case .active: manageTimeWithActiveMode()
+        default: print("")
         }
     }
     
-    private func recordStartingTime() {
-        let isConcentrationTimeStarted: Bool = !timerManager.knowIsInRestTime() && timerManager.remainSeconds == TimeInterval(timerManager.currentSession.concentrationSeconds)
-        let isRefreshTimeStarted: Bool = timerManager.knowIsInRestTime() && timerManager.remainSeconds == TimeInterval(timerManager.currentSession.restSeconds)
-        
-        guard isConcentrationTimeStarted || isRefreshTimeStarted else {
-            print("Failed To Record Time \(timerManager.remainSeconds)")
-            return
-        }
-        
+    private func manageTimeWithBackgroundMode() {
+        recordTime()
+        scheduleUserNotification()
+    }
+    
+    private func manageTimeWithActiveMode() {
+        timerManager.subtractTimeElapsed(from: lastTimeObserved)
+    }
+    
+    private func recordTime() {
         lastTimeObserved = Date.now.timeIntervalSince1970
         print("Time is Recorded \(lastTimeObserved)")
+    }
+    
+    private func scheduleUserNotification() {
+        let notificationCenter = UNUserNotificationCenter.current()
+        notificationCenter.removeAllPendingNotificationRequests()
+        let content = UNMutableNotificationContent()
+        content.title = "Message"
+        content.body = "Timer Is Completed Successfully In Background !!!"
+
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: timerManager.remainSeconds, repeats: false)
+
+        let req = UNNotificationRequest(identifier:  UUID().uuidString, content: content, trigger: trigger)
+
+        notificationCenter.add(req) { error in
+            if let error {
+                print("Error scheduling notification: \(error.localizedDescription)")
+            }
+        }
     }
 }
 
 // MARK: - Toolbars
 extension SessionsTimer {
-    private func handleQuitButton() {
-        if !timerManager.knowIsLastTime() {
-            isShowingReallyQuitAlert = true
-        } else {
-            isShowingCycleMemoir = true
-        }
-        
-        handlePlayButton()
-    }
-    
     @ToolbarContentBuilder
     func toolbarContents() -> some ToolbarContent {
         ToolbarItem {
             Button {
-                handleQuitButton()
+                handleQuit()
             } label: {
                 Text(String(localized: "Quit"))
             }
             .alert(String(localized: "Quit") ,isPresented: $isShowingReallyQuitAlert) {
                 Button {
-                    handlePlayButton()
+                    handlePlay()
                     isShowingReallyQuitAlert = false
                 } label: {
                     Text(String(localized:"Continue"))

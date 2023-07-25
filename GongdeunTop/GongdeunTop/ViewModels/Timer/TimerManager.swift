@@ -53,7 +53,7 @@ final class TimerManager: ObservableObject {
     @Published var remainSeconds: TimeInterval = 0
     @Published var isRunning: Bool = false
     @Published var isDefaultSessionsSetting: Bool = true
-    @Published var timer: Timer?
+    @Published var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     @Published var mode: TimeSetMode = .batch
     
   
@@ -89,7 +89,6 @@ final class TimerManager: ObservableObject {
     func resetToOrigin() {
         pauseTime()
         currentTimeIndex = 0
-        timer = nil
     }
     
     func resetTimes() {
@@ -108,8 +107,11 @@ final class TimerManager: ObservableObject {
         }
     }
     
+    func startTime() {
+        isRunning = true
+    }
+    
     func pauseTime() {
-        timer?.invalidate()
         isRunning = false
     }
     
@@ -171,20 +173,17 @@ final class TimerManager: ObservableObject {
     func getEndDegree() -> Double {
         let currentSeconds = knowIsInRestTime() ? currentSession.restSeconds : currentSession.concentrationSeconds
         
-        return Double(self.remainSeconds) / Double(currentSeconds)  * 360.0
+        return remainSeconds / Double(currentSeconds)  * 360.0
     }
 
     func subtractTimeElapsed(from last: TimeInterval) {
         let diff: TimeInterval = Date.now.timeIntervalSince(Date(timeIntervalSince1970: last))
-        
-        var newRemainSeconds: TimeInterval
-        if knowIsInRestTime() {
-            newRemainSeconds = TimeInterval(currentSession.restSeconds) - diff
+        let newRemainSeconds: TimeInterval = floor(remainSeconds - diff)
+        if newRemainSeconds > 0 {
+            remainSeconds = newRemainSeconds
         } else {
-            newRemainSeconds = TimeInterval(currentSession.concentrationSeconds) - diff
+            moveToNextTimes()
         }
-        
-        remainSeconds = newRemainSeconds
     }
     
 //MARK: - Set Time
