@@ -50,10 +50,10 @@ extension Session {
 final class TimerManager: ObservableObject {
     @Published var timeSetting = TimeSetting()
     @Published var currentTimeIndex: Int = 0
-    @Published var remainSeconds: Int = 0
+    @Published var remainSeconds: TimeInterval = 0
     @Published var isRunning: Bool = false
     @Published var isDefaultSessionsSetting: Bool = true
-    @Published var timer: Timer?
+    @Published var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     @Published var mode: TimeSetMode = .batch
     
   
@@ -71,7 +71,9 @@ final class TimerManager: ObservableObject {
                 let sessionIndex = Int(current / 2)
                 let isConcentrateTime: Bool = current % 2 == 0
                 let currentSession: Session = timeSetting.sessions[safe: sessionIndex] ?? Session.getBasicSession()
-                return isConcentrateTime ? currentSession.concentrationSeconds : currentSession.restSeconds
+                return isConcentrateTime ?
+                TimeInterval(currentSession.concentrationSeconds) :
+                TimeInterval(currentSession.restSeconds)
             }
             .assign(to: &$remainSeconds)
         
@@ -87,7 +89,6 @@ final class TimerManager: ObservableObject {
     func resetToOrigin() {
         pauseTime()
         currentTimeIndex = 0
-        timer = nil
     }
     
     func resetTimes() {
@@ -106,8 +107,11 @@ final class TimerManager: ObservableObject {
         }
     }
     
+    func startTime() {
+        isRunning = true
+    }
+    
     func pauseTime() {
-        timer?.invalidate()
         isRunning = false
     }
     
@@ -134,8 +138,8 @@ final class TimerManager: ObservableObject {
     
     
 // MARK: - Get CurrentTime Digit Strings
-    func getMinuteString(of seconds: Int, isTwoLetters: Bool = true) -> String {
-        let result: Int = getMinute(of: seconds)
+    func getMinuteString(of seconds: TimeInterval, isTwoLetters: Bool = true) -> String {
+        let result: Int = getMinute(of: Int(seconds))
         
         if result < 10 && isTwoLetters {
             return "0" + String(result)
@@ -147,8 +151,8 @@ final class TimerManager: ObservableObject {
         Int((seconds <= 0 ? 0 : seconds) / 60)
     }
     
-    func getSecondString(of seconds: Int, isTwoLetters: Bool = true) -> String {
-        let result: Int = getSeconds(of: seconds)
+    func getSecondString(of seconds: TimeInterval, isTwoLetters: Bool = true) -> String {
+        let result: Int = getSeconds(of: Int(seconds))
         
         if result < 10 && isTwoLetters {
             return "0" + String(result)
@@ -169,15 +173,22 @@ final class TimerManager: ObservableObject {
     func getEndDegree() -> Double {
         let currentSeconds = knowIsInRestTime() ? currentSession.restSeconds : currentSession.concentrationSeconds
         
-        return Double(self.remainSeconds) / Double(currentSeconds)  * 360.0
+        return remainSeconds / Double(currentSeconds)  * 360.0
     }
 
-    func subtractTimeElapsed(from last: Double) {
-        let now: Double = Double(Date.now.timeIntervalSince1970)
-        let diff: Int = Int((now - last).rounded())
-        
-        remainSeconds = knowIsInRestTime() ? currentSession.restSeconds - diff : currentSession.concentrationSeconds - diff
-     
+    func subtractTimeElapsed(from last: TimeInterval) {
+        let diff: TimeInterval = Date.now.timeIntervalSince(Date(timeIntervalSince1970: last))
+        let newRemainSeconds: TimeInterval = floor(remainSeconds - diff)
+        if newRemainSeconds > 0 {
+            remainSeconds = newRemainSeconds
+        } else {
+            if knowIsLastTime() {
+                remainSeconds = 0
+                pauseTime()
+            } else {
+                moveToNextTimes()
+            }
+        }
     }
     
 //MARK: - Set Time

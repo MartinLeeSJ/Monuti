@@ -8,6 +8,7 @@
 
 "Today's ToDos" = "오늘의 할 일";
 
+"Monuti" = "모누티";
 "Done" = "완료";
 "Edit" = "수정";
 "Add" = "추가";
@@ -65,7 +66,7 @@
 "setTodoForm_startingTimeForm_donotSetTime" = "시간 지정 취소하기";
 
 
-//SetTimeForm
+//MARK: - SetTimeForm
 "setTime_session" = "세션 수";
 "setTime_session%lld" = "%lld개 세션";
 "setTime_session_range" = "2 ~ 5개";
@@ -83,17 +84,22 @@
 "timeSetMode_individual" = "세부 설정";
 "timeSetMode_preset" = "저장된 설정";
 
-//Session Timer
+//MARK: - Session Timer
 "timer_currentTodo_nothing" = "현재 할 일 없음";
 "timer_todoMenu" = "할 일 선택";
 "timer_todoMenu_nothing" = "선택할 할 일 없음";
 "timer_todoMenu_doNotSelect" = "선택 안함";
 
 //Session Timer _ Indicator
-"Refresh" = "쉬는시간";
+"Rest" = "쉬는시간";
 "Concentrate" = "집중!";
 
-//CycleMemoir
+//Session Timer _ Notification
+"notification_concentrationTime_ended" = "엄청난 집중력이군요! 이제 잠시 쉴 시간 입니다!";
+"notification_restTime_ended" = "푹 쉬셨나요? 다시 집중해봅시다!";
+"notification_allTime_ended" = "모든 시간이 끝났습니다! 대단하시네요!";
+
+//MARK: - CycleMemoir
 "cycleMemoir_Quit" = "바로 끝내기";
 "cycleMemoir_Add" = "저장";
 
