@@ -7,6 +7,50 @@
 
 import SwiftUI
 
+struct TimerDigit: View {
+    let width: CGFloat
+    let minuteString: String
+    let secondString: String
+    var body: some View {
+        let minuteWidth = width * 0.425
+        let secondWidth = width * 0.425
+        let colonWidth = width * 0.15
+        HStack(alignment: .center, spacing: 0) {
+            Text(minuteString)
+                .frame(width: minuteWidth, alignment: .trailing)
+                .font(.system(size: 60, weight: .regular, design: .rounded))
+            Text(":")
+                .frame(width: colonWidth, alignment: .center)
+                .font(.system(size: 54, weight: .regular))
+            Text(secondString)
+                .frame(width: secondWidth, alignment: .leading)
+                .font(.system(size: 60, weight: .regular, design: .rounded))
+        }
+    }
+}
+
+struct TimerHexagon: View {
+    let width: CGFloat
+    let timerEndDegree: Double
+    let foregroundColor: Color
+    let backgroundColor: Color
+    var body: some View {
+        CircularSector(endDegree: timerEndDegree)
+            .frame(width: width * 0.85, height: width * 0.85)
+            .foregroundColor(foregroundColor)
+            .clipShape(RoundedHexagon(radius: width * 0.425, cornerAngle: 5))
+            .overlay {
+                CubeHexagon(radius: width * 0.425)
+                    .stroke(style: .init(lineWidth: 8, lineJoin: .round))
+                    .foregroundColor(.white.opacity(0.2))
+            }
+            .background {
+                RoundedHexagon(radius: width * 0.425, cornerAngle: 5)
+                    .foregroundColor(backgroundColor)
+            }
+    }
+}
+
 struct SessionsTimer: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.scenePhase) var scenePhase
@@ -14,7 +58,7 @@ struct SessionsTimer: View {
     @EnvironmentObject var themeManager: ThemeManager
     @EnvironmentObject var timerManager: TimerManager
     
-    @AppStorage("lastTime") private var lastTimeObserved: String = ""
+    @AppStorage("lastTime") private var lastTimeObserved: TimeInterval = 0
     
     @State var todos: [ToDo] = []
     @State var currentTodo: ToDo? = nil
@@ -33,13 +77,19 @@ struct SessionsTimer: View {
             
             VStack {
                 Spacer()
-   
-                timerShape(width: shorterSize)
+                TimerHexagon(width: shorterSize,
+                             timerEndDegree: timerManager.getEndDegree(),
+                             foregroundColor: themeManager.colorInPriority(of: .medium),
+                             backgroundColor: themeManager.colorInPriority(of: .weak))
                     .overlay {
                         VStack {
-                            digitTimes(width: digitTimeWidth)
+                            TimerDigit(width: shorterSize,
+                                       minuteString: timerManager.getMinuteString(of: timerManager.remainSeconds),
+                                       secondString: timerManager.getSecondString(of: timerManager.remainSeconds))
+                            .foregroundColor(themeManager.colorInPriority(of: .accent))
+                            .padding(.bottom, 25)
                             
-                            timerButtons(width: shorterSize)
+                            timerControls(width: shorterSize)
                         }
                     }
                     .padding(.bottom, 20)
@@ -90,7 +140,7 @@ struct SessionsTimer: View {
 // MARK: - Timer UI
 extension SessionsTimer {
     @ViewBuilder
-    private func timerButtons(width: CGFloat) -> some View {
+    private func timerControls(width: CGFloat) -> some View {
         Button {
             handlePlayButton()
         } label: {
@@ -121,45 +171,6 @@ extension SessionsTimer {
             .frame(width: width * 0.45)
         }
         .frame(height: 30)
-    }
-    
-    @ViewBuilder
-    private func digitTimes(width: CGFloat) -> some View {
-        let minuteWidth = width * 0.425
-        let secondWidth = width * 0.425
-        let colonWidth = width * 0.15
-        HStack(alignment: .center, spacing: 0) {
-            Text(timerManager.getMinuteString(of: timerManager.remainSeconds))
-                .frame(width: minuteWidth, alignment: .trailing)
-                .font(.system(size: 60, weight: .regular, design: .rounded))
-            Text(":")
-                .frame(width: colonWidth, alignment: .center)
-                .font(.system(size: 54, weight: .regular))
-            Text(timerManager.getSecondString(of: timerManager.remainSeconds))
-                .frame(width: secondWidth, alignment: .leading)
-                .font(.system(size: 60, weight: .regular, design: .rounded))
-        }
-        
-        .foregroundColor(themeManager.colorInPriority(of: .accent))
-        .padding(.bottom, 25)
-    }
-    
-    @ViewBuilder
-    private func timerShape(width: CGFloat) -> some View {
-        CircularSector(endDegree: timerManager.getEndDegree())
-            .frame(width: width * 0.85, height: width * 0.85)
-            .foregroundColor(themeManager.colorInPriority(of: .medium))
-            .clipShape(RoundedHexagon(radius: width * 0.425, cornerAngle: 5))
-            .overlay {
-                CubeHexagon(radius: width * 0.425)
-                    .stroke(style: .init(lineWidth: 8, lineJoin: .round))
-                    .foregroundColor(.white.opacity(0.2))
-            }
-            .background {
-                RoundedHexagon(radius: width * 0.425, cornerAngle: 5)
-                    .foregroundColor(themeManager.colorInPriority(of: .weak))
-            }
-        
     }
 }
 
@@ -233,7 +244,6 @@ extension SessionsTimer {
         if timerManager.isRunning {
             timerManager.pauseTime()
         } else {
-            recordStartingTime()
             timerManager.timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
                 if timerManager.remainSeconds > 0 {
                     timerManager.elapsesTime()
@@ -270,21 +280,20 @@ extension SessionsTimer {
         guard timerManager.isRunning else { return }
         
         if newPhase == .active {
-            let last: Double = Double(lastTimeObserved) ?? 0.0
-            timerManager.subtractTimeElapsed(from: last)
+            timerManager.subtractTimeElapsed(from: lastTimeObserved)
         }
     }
     
     private func recordStartingTime() {
-        let isConcentrationTimeStarted: Bool = !timerManager.knowIsInRestTime() && timerManager.remainSeconds == timerManager.currentSession.concentrationSeconds
-        let isRefreshTimeStarted: Bool = timerManager.knowIsInRestTime() && timerManager.remainSeconds == timerManager.currentSession.restSeconds
+        let isConcentrationTimeStarted: Bool = !timerManager.knowIsInRestTime() && timerManager.remainSeconds == TimeInterval(timerManager.currentSession.concentrationSeconds)
+        let isRefreshTimeStarted: Bool = timerManager.knowIsInRestTime() && timerManager.remainSeconds == TimeInterval(timerManager.currentSession.restSeconds)
         
         guard isConcentrationTimeStarted || isRefreshTimeStarted else {
             print("Failed To Record Time \(timerManager.remainSeconds)")
             return
         }
         
-        lastTimeObserved = String(Date.now.timeIntervalSince1970)
+        lastTimeObserved = Date.now.timeIntervalSince1970
         print("Time is Recorded \(lastTimeObserved)")
     }
 }
