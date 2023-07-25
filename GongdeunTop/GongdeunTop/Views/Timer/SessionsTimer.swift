@@ -84,8 +84,9 @@ struct SessionsTimer: View {
                 handlePlay()
             }
         }
-        .onChange(of: scenePhase) { phase in
-            manageTimeWithScenePhase(of: phase)
+        .onChange(of: scenePhase) { [oldPhase = scenePhase] newPhase in
+            print("oldValue is ::: \(oldPhase)")
+            manageTimeWithScenePhase(old: oldPhase, new: newPhase)
         }
         .onReceive(timerManager.timer) { _ in
             if timerManager.isRunning {
@@ -238,21 +239,25 @@ extension SessionsTimer {
         }
     }
     
-    private func manageTimeWithScenePhase(of newPhase: ScenePhase) {
+    private func manageTimeWithScenePhase(old oldPhase: ScenePhase, new newPhase: ScenePhase) {
         guard timerManager.isRunning else { return }
         switch newPhase {
+        case .inactive where oldPhase == .background: manageTimeWhenAwakeApp()
+        case .inactive where oldPhase == .active: print("active => inactive")
+        case .active: print("active")
         case .background: manageTimeWithBackgroundMode()
-        case .active: manageTimeWithActiveMode()
-        default: print("")
+        default: print("default")
         }
     }
     
     private func manageTimeWithBackgroundMode() {
+        print("background")
         recordTime()
         scheduleUserNotification()
     }
     
-    private func manageTimeWithActiveMode() {
+    private func manageTimeWhenAwakeApp() {
+        print("background => inactive")
         timerManager.subtractTimeElapsed(from: lastTimeObserved)
     }
     
