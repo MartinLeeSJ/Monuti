@@ -182,7 +182,12 @@ final class TimerManager: ObservableObject {
         if newRemainSeconds > 0 {
             remainSeconds = newRemainSeconds
         } else {
-            moveToNextTimes()
+            if knowIsLastTime() {
+                remainSeconds = 0
+                pauseTime()
+            } else {
+                moveToNextTimes()
+            }
         }
     }
     
