@@ -43,7 +43,7 @@ struct SessionsTimer: View {
                             TimerDigit(width: digitTimeWidth,
                                        minuteString: timerManager.getMinuteString(of: timerManager.remainSeconds),
                                        secondString: timerManager.getSecondString(of: timerManager.remainSeconds))
-                            .foregroundColor(themeManager.colorInPriority(of: .accent))
+                            .foregroundColor(themeManager.timerDigitAndButtonColor())
                             .padding(.bottom, 25)
                             
                             timerControls(width: shorterSize)
@@ -110,7 +110,6 @@ extension SessionsTimer {
             handlePlay()
         } label: {
             Image(systemName: timerManager.isRunning ?  "pause.fill" : "play.fill")
-                .foregroundColor(themeManager.colorInPriority(of: .accent))
                 .font(.largeTitle)
         }
         .overlay {
@@ -129,9 +128,9 @@ extension SessionsTimer {
                         .font(.largeTitle)
                 }
             }
-            .foregroundColor(themeManager.colorInPriority(of: .accent))
             .frame(width: width * 0.45)
         }
+        .foregroundColor(themeManager.timerDigitAndButtonColor())
         .frame(height: 30)
     }
 }
