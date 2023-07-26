@@ -99,6 +99,15 @@ struct MainRouterView: View {
                 todoStore.subscribeTodos()
                 targetStore.subscribeTargets()
             }
+            .onAppear {
+                UNUserNotificationCenter.current().requestAuthorization(options: [.badge, .alert, .sound]) { (granted, error) in
+                    if granted {
+                        print("Notifications authorization granted.")
+                    } else {
+                        print("Notifications authorization denied.")
+                    }
+                }
+            }
             .onDisappear {
                 todoStore.unsubscribeTodos()
                 targetStore.unsubscribeTargets()

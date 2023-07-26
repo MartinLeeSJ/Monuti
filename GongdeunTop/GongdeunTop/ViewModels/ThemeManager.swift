@@ -69,7 +69,7 @@ class ThemeManager: ObservableObject {
     }
     
     func timerDigitAndButtonColor() -> Color {
-        theme == .yellow ? Color.black : Color("\(theme.rawValue)\(ColorPriority.accent.description)")
+        theme == .yellow ? Color.black : Color("\(theme.rawValue)\(ColorPriority.accent.rawValue)")
     }
     
     func appLogoImage() -> Image {
