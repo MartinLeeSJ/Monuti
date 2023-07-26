@@ -28,7 +28,6 @@
 		5B2767C929FA2229008398A3 /* DateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2767C829FA2229008398A3 /* DateCell.swift */; };
 		5B2767CB29FA4633008398A3 /* CycleStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2767CA29FA4633008398A3 /* CycleStore.swift */; };
 		5B2767CD29FA8C1B008398A3 /* CycleListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2767CC29FA8C1B008398A3 /* CycleListCell.swift */; };
-		5B2FEABC29D9CC000022F827 /* ToDoStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2FEABB29D9CC000022F827 /* ToDoStore.swift */; };
 		5B2FEABF29DA645E0022F827 /* Cycle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2FEABE29DA645E0022F827 /* Cycle.swift */; };
 		5B2FEAC129DD4EF30022F827 /* TagStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2FEAC029DD4EF30022F827 /* TagStore.swift */; };
 		5B350D382A56B7C1000B8EF1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5B350D372A56B7C1000B8EF1 /* GoogleService-Info.plist */; };
@@ -142,7 +141,6 @@
 		5B2767C829FA2229008398A3 /* DateCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateCell.swift; sourceTree = "<group>"; };
 		5B2767CA29FA4633008398A3 /* CycleStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CycleStore.swift; sourceTree = "<group>"; };
 		5B2767CC29FA8C1B008398A3 /* CycleListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CycleListCell.swift; sourceTree = "<group>"; };
-		5B2FEABB29D9CC000022F827 /* ToDoStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoStore.swift; sourceTree = "<group>"; };
 		5B2FEABE29DA645E0022F827 /* Cycle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cycle.swift; sourceTree = "<group>"; };
 		5B2FEAC029DD4EF30022F827 /* TagStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagStore.swift; sourceTree = "<group>"; };
 		5B350D372A56B7C1000B8EF1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -300,7 +298,6 @@
 			children = (
 				5B2FEAC029DD4EF30022F827 /* TagStore.swift */,
 				5BB4FEC729C83124009CCD43 /* ToDoManager.swift */,
-				5B2FEABB29D9CC000022F827 /* ToDoStore.swift */,
 			);
 			path = ToDo;
 			sourceTree = "<group>";
@@ -780,7 +777,6 @@
 				5B0EBE6F2A603A2D0011B024 /* SetTimeConstraints.swift in Sources */,
 				5B3CCAAD2A70E46100973F43 /* TargetRepository.swift in Sources */,
 				5B95E0EB2A5BF79F007FA721 /* IndividualTimeSettingForm.swift in Sources */,
-				5B2FEABC29D9CC000022F827 /* ToDoStore.swift in Sources */,
 				5B1E4CF92A697BB000D364A7 /* TimeSetting.swift in Sources */,
 				5B95E0E42A5BB71F007FA721 /* Array+Utils.swift in Sources */,
 				5B95E0ED2A5BF7B5007FA721 /* PresetTimeSettingForm.swift in Sources */,

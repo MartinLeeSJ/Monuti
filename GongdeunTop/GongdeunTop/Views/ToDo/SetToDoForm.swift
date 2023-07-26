@@ -31,7 +31,7 @@ struct SetToDoForm: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var themeManager: ThemeManager
     
-    @State var todo: ToDo = .placeholder
+    @State var todo: ToDo = ToDo(createdAt: Date.now)
     var targets: [Target]
  
     @StateObject var tagStore = TagStore()
