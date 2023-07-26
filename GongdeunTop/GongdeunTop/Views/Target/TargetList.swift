@@ -20,16 +20,16 @@ struct TargetList: View {
             topEditingConsole
             List(targetStore.targets, id: \.self.id, selection: $targetStore.multiSelection) { target in
                 NavigationLink {
-//                    TargetDetailView(targetToDoStore: TargetToDoStore(target: target), target: target)
+                    TargetDetailView(target: target)
                 } label: {
                     TargetListCell(target: target)
                 }
-                    .listRowBackground(Color.clear)
-                    .listRowSeparator(.hidden)
-                    .listRowInsets(.init(top: 8,
-                                         leading: 16,
-                                         bottom: 4,
-                                         trailing: 16))
+                .listRowBackground(Color.clear)
+                .listRowSeparator(.hidden)
+                .listRowInsets(.init(top: 8,
+                                     leading: 16,
+                                     bottom: 4,
+                                     trailing: 16))
             }
             .listStyle(.plain)
             .environment(\.editMode, .constant(targetStore.isEditing ? EditMode.active : EditMode.inactive))

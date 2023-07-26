@@ -34,9 +34,6 @@ struct SetNickNameView: View {
                 }
                 
                 Spacer()
-                
-                
-                
             }
             
             .padding()

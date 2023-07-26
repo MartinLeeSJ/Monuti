@@ -20,14 +20,14 @@ struct ContentView: View {
         VStack {
             switch authManager.authState {
             case .unAuthenticated: SignUpView(manager: authManager)
-            case .authenticating: ProgressView()
             case .authenticated where authManager.nickNameRegisterState != .existingUser: SetNickNameView(manager: authManager)
-            case .authenticated:
+            case .authenticated where authManager.nickNameRegisterState == .existingUser:
                 MainRouterView()
                     .environmentObject(authManager)
                     .environmentObject(todoStore)
                     .environmentObject(targetStore)
                     .environmentObject(timerManager)
+            default: ProgressView()
             }
         }
         .task {
