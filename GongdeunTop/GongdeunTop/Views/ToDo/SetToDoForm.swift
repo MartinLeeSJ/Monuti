@@ -11,58 +11,53 @@ import Combine
 import FirebaseFirestore
 import FirebaseAuth
 
-enum Mode {
-    case new
-    case edit
-}
 
-enum Action {
-    case delete
-    case done
-    case cancel
-}
 
-enum ToDoField: Int, Hashable, CaseIterable {
-    case title
-    case content
-    case tag
-    case target
-}
 
+// TODO: - Target 관련 로직 리팩토링
 struct SetToDoForm: View {
+    enum Mode {
+        case add
+        case edit
+    }
+    
+    enum ToDoField: Int, Hashable, CaseIterable {
+        case title
+        case content
+        case tag
+        case target
+    }
+    
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var themeManager: ThemeManager
-    @EnvironmentObject var targetManager: TargetManager
+    
+    @State var todo: ToDo = ToDo(createdAt: Date.now)
+    var targets: [Target]
+ 
     @StateObject var tagStore = TagStore()
-    @ObservedObject var manager = ToDoManager()
     
     @State private var tagText: String = ""
     @State private var filteredTags: [Tag] = []
-    
+
     @State private var isEditingTarget: Bool = false
     
     
     @FocusState private var focusedField: ToDoField?
     
-    var mode: Mode = .new
-    var completionHandler: ((Result<Action, Error>) -> Void)?
+    var mode: Mode = .add
+    var onCommit: (_ todo: ToDo) -> Void
     private let db = Firestore.firestore()
     
     
     
     private func handleDoneTapped() {
-        manager.handleDoneTapped()
+        onCommit(todo)
         dismiss()
         
     }
     
     private func handleCloseTapped() {
-        Task {
-            if let targetId = manager.todo.relatedTarget, mode == .new {
-                await manager.deleteRelatedTarget(ofId: targetId)
-            }
-            dismiss()
-        }
+        dismiss()
     }
     
     var body: some View {
@@ -75,26 +70,23 @@ struct SetToDoForm: View {
                         titleAndContentTextField
                         startingTimeForm
                         tagForm
-                        if !manager.todo.tags.isEmpty {
+                        if !todo.tags.isEmpty {
                             tagScroll
                         }
                         targetForm
                     }
                     .padding(.horizontal)
                 }
-                .navigationTitle(mode == .new ?
+                .navigationTitle(mode == .add ?
                                  Text("setTodoForm_title_new") :
                                  Text("setTodoForm_title_edit"))
                 .navigationBarTitleDisplayMode(.inline)
-                .interactiveDismissDisabled()
                 .toolbar {
-                    ToolbarItem(placement: .navigationBarLeading) {
+                    ToolbarItem(placement: .cancellationAction) {
                         Button {
                             handleCloseTapped()
                         } label: {
-                            Image(systemName: "xmark.circle.fill")
-                                .font(.title3)
-                                .tint(themeManager.colorInPriority(of: .accent))
+                            Text("Cancel")
                         }
                     }
                     
@@ -102,9 +94,9 @@ struct SetToDoForm: View {
                         Button {
                             handleDoneTapped()
                         } label: {
-                            Text(mode == .new ? "Add" : "Edit")
+                            Text(mode == .add ? "Add" : "Edit")
                         }
-                        .disabled(manager.todo.title.isEmpty)
+                        .disabled(todo.title.isEmpty)
                     }
                     
                     ToolbarItemGroup(placement: .keyboard) {
@@ -151,13 +143,15 @@ extension SetToDoForm {
 
                     }
                 
-                TextField(String(localized: "todo_title"), text: $manager.todo.title)
+                TextField(String(localized: "todo_title"), text: $todo.title)
                     .focused($focusedField, equals: .title)
-                    .onReceive(Just(manager.todo.title)) { _ in
-                        manager.setTitleCharacterCountBelow(limit: titleCharacterLimit)
+                    .onReceive(Just(todo.title)) { _ in
+                        if titleCharacterLimit < todo.title.count {
+                            todo.title = String(todo.title.prefix(titleCharacterLimit))
+                        }
                     }
                 
-                Text("\(manager.todo.title.count)/\(titleCharacterLimit)")
+                Text("\(todo.title.count)/\(titleCharacterLimit)")
                     .font(.caption)
                     .fixedSize()
                     .padding(.trailing, 8)
@@ -170,13 +164,15 @@ extension SetToDoForm {
                     .font(.headline)
                     .fontWeight(.medium)
                 
-                TextField(String(localized: "todo_content"), text: $manager.todo.content)
+                TextField(String(localized: "todo_content"), text: $todo.content)
                     .focused($focusedField, equals: .content)
-                    .onReceive(Just(manager.todo.content)) { _ in
-                        manager.setContentCharacterCountBelow(limit: contentCharacterLimit)
+                    .onReceive(Just(todo.content)) { _ in
+                        if contentCharacterLimit < todo.content.count {
+                            todo.content = String(todo.content.prefix(contentCharacterLimit))
+                        }
                     }
                 
-                Text("\(manager.todo.content.count)/\(contentCharacterLimit)")
+                Text("\(todo.content.count)/\(contentCharacterLimit)")
                     .font(.caption)
                     .fixedSize()
                     .padding(.trailing, 8)
@@ -192,7 +188,7 @@ extension SetToDoForm {
     @ViewBuilder
     var startingTimeForm: some View {
         FormContainer {
-            if let dateBinding = Binding<Date>($manager.todo.startingTime) {
+            if let dateBinding = Binding<Date>($todo.startingTime) {
                     DatePicker(
                         "setTodoForm_startingTimeForm_datePickerTitle",
                         selection: dateBinding,
@@ -205,17 +201,17 @@ extension SetToDoForm {
                         .foregroundStyle(.tertiary)
                     Spacer()
                     Button {
-                        manager.todo.startingTime = Date.now
+                        todo.startingTime = Date.now
                     } label: {
                         Text("setTodoForm_startingTimeForm_setTimeButtonLabel")
                             .font(.caption2)
                     }
                 }
             }
-            if manager.todo.startingTime != nil {
+            if todo.startingTime != nil {
                 Divider()
                 Button {
-                    manager.todo.startingTime = nil
+                    todo.startingTime = nil
                 } label: {
                     Text("setTodoForm_startingTimeForm_donotSetTime")
                         .font(.caption2)
@@ -237,7 +233,7 @@ extension SetToDoForm {
     }
     
     var canAddMoreTag: Bool {
-        manager.todo.tags.count < tagLimit
+        todo.tags.count < tagLimit
     }
     
     @ViewBuilder
@@ -326,7 +322,7 @@ extension SetToDoForm {
             HStack(alignment: .bottom) {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 18) {
-                        ForEach(manager.todo.tags, id: \.self) { tagTitle in
+                        ForEach(todo.tags, id: \.self) { tagTitle in
                             Text(tagTitle)
                                 .font(.caption)
                                 .padding(.vertical, 2)
@@ -354,7 +350,7 @@ extension SetToDoForm {
                     }
                     .padding(.trailing, 60)
                 }
-                Text("\(manager.todo.tags.count)/\(tagLimit)")
+                Text("\(todo.tags.count)/\(tagLimit)")
                     .font(.caption)
                     .fixedSize()
             }
@@ -367,7 +363,7 @@ extension SetToDoForm {
 extension SetToDoForm {
     private func handleAddTagButton() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
-        guard !manager.todo.tags.contains(where: { $0 == tagText }) else { return }
+        guard !todo.tags.contains(where: { $0 == tagText }) else { return }
         
         let tagRef = db.collection("Members").document(uid).collection("Tag").document(tagText)
         
@@ -377,7 +373,7 @@ extension SetToDoForm {
             addTag(at: tagRef)
         }
         
-        manager.todo.tags.append(tagText)
+        todo.tags.append(tagText)
         tagText = ""
         
     }
@@ -398,7 +394,7 @@ extension SetToDoForm {
         let tagRef = db.collection("Members").document(uid).collection("Tag").document(title)
         
         tagRef.updateData(["count" : FieldValue.increment(Int64(-1))])
-        manager.todo.tags = manager.todo.tags.filter { $0 != title }
+        todo.tags = todo.tags.filter { $0 != title }
     }
     
     
@@ -441,7 +437,7 @@ extension SetToDoForm {
 // MARK: - Connecting Target
 extension SetToDoForm {
     private func findTargetTitle(ofId id: String?) -> String {
-        guard let id = id, let target = targetManager.targets.first(where: { $0.id == id }) else { return String(localized: "setToDoForm_target_placeholder") }
+        guard let id = id, let target = targets.first(where: { $0.id == id }) else { return String(localized: "setToDoForm_target_placeholder") }
         return target.title
     }
     
@@ -449,7 +445,7 @@ extension SetToDoForm {
     var targetForm: some View {
         FormContainer {
             currentTarget
-            if manager.todo.id == nil || isEditingTarget {
+            if todo.id == nil || isEditingTarget {
                 targetList
             }
         }
@@ -467,23 +463,21 @@ extension SetToDoForm {
         HStack(spacing: 12) {
             targetFormTitle
             
-            Text(findTargetTitle(ofId: manager.todo.relatedTarget))
+            Text(findTargetTitle(ofId: todo.relatedTarget))
                 .lineLimit(1)
-                .foregroundColor(manager.todo.relatedTarget == nil ?
+                .foregroundColor(todo.relatedTarget == nil ?
                     .black.opacity(0.2) :
                     Color("basicFontColor")
                 )
             Spacer()
             
-            if manager.todo.id != nil {
+            if mode == .edit {
                 Button {
                     if isEditingTarget {
                       isEditingTarget = false
                     } else {
-                        Task {
-                            await manager.deleteRelatedTarget(ofId: manager.todo.relatedTarget)
-                            isEditingTarget = true
-                        }
+                        todo.relatedTarget = nil
+                        isEditingTarget = true
                     }
                 } label: {
                     Text(isEditingTarget ? "Done" : "Edit")
@@ -500,13 +494,13 @@ extension SetToDoForm {
     var targetList: some View {
         Divider()
         ScrollView {
-            ForEach(targetManager.targets, id: \.self) { target in
+            ForEach(targets, id: \.self) { target in
                 HStack {
                     Button {
-                        manager.manageRelatedTarget(ofId: target.id)
+                        todo.relatedTarget = target.id
                     } label: {
                         HStack {
-                            if let targetId = manager.todo.relatedTarget, targetId == target.id {
+                            if let targetId = todo.relatedTarget, targetId == target.id {
                                 Image(systemName: "largecircle.fill.circle")
                                     .tint(themeManager.colorInPriority(of: .accent))
                             } else {
@@ -533,7 +527,7 @@ extension SetToDoForm {
 
 struct AddToDoSheetView_Previews: PreviewProvider {
     static var previews: some View {
-        SetToDoForm()
+        SetToDoForm(targets: [], onCommit: {_ in})
     }
 }
 

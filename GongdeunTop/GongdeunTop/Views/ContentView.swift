@@ -10,7 +10,7 @@ import SwiftUI
 struct ContentView: View {
     @Environment(\.colorScheme) var scheme: ColorScheme
     @StateObject var authManager = AuthManager()
-    @StateObject var todoStore = ToDoStore()
+    @StateObject var todoManager = ToDoManager()
     @StateObject var targetManager = TargetManager()
     @StateObject var timerManager = TimerManager()
     @EnvironmentObject var launchScreenManager: LaunchScreenManager
@@ -24,7 +24,7 @@ struct ContentView: View {
             case .authenticated where authManager.nickNameRegisterState == .existingUser:
                 MainRouterView()
                     .environmentObject(authManager)
-                    .environmentObject(todoStore)
+                    .environmentObject(todoManager)
                     .environmentObject(targetManager)
                     .environmentObject(timerManager)
             default: ProgressView()

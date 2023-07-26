@@ -26,7 +26,7 @@ struct MainRouterView: View {
         }
     }
     @EnvironmentObject var themeManager: ThemeManager
-    @EnvironmentObject var todoStore: ToDoStore
+    @EnvironmentObject var todoManager: ToDoManager
     @EnvironmentObject var targetManager: TargetManager
     @EnvironmentObject var timerManager: TimerManager
     
@@ -65,7 +65,7 @@ struct MainRouterView: View {
                     MainConsole(displayingView: $currentDisplayingView)
                 }
                 .overlay(alignment: .bottom) {
-                    MainSettingBanner(todoCount: todoStore.todos.count,
+                    MainSettingBanner(todoCount: todoManager.todos.count,
                                       numOfSessions: timerManager.timeSetting.sessions.count,
                                       minute: timerManager.getMinute(of: timerManager.getTotalSeconds()),
                                       seconds: timerManager.getSeconds(of: timerManager.getTotalSeconds()))
@@ -94,9 +94,6 @@ struct MainRouterView: View {
                 }
             }
             .onAppear {
-                todoStore.subscribeTodos()
-            }
-            .onAppear {
                 UNUserNotificationCenter.current().requestAuthorization(options: [.badge, .alert, .sound]) { (granted, error) in
                     if granted {
                         print("Notifications authorization granted.")
@@ -104,9 +101,6 @@ struct MainRouterView: View {
                         print("Notifications authorization denied.")
                     }
                 }
-            }
-            .onDisappear {
-                todoStore.unsubscribeTodos()
             }
         }
     }
@@ -143,7 +137,7 @@ extension MainRouterView {
                         .font(.headline)
                         .symbolRenderingMode(.hierarchical)
                     Spacer()
-                    Text("\(todoStore.todos.count)")
+                    Text("\(todoManager.todos.count)")
                         .font(.title3)
                 }
             }
