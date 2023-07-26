@@ -27,7 +27,7 @@ struct MainRouterView: View {
     }
     @EnvironmentObject var themeManager: ThemeManager
     @EnvironmentObject var todoStore: ToDoStore
-    @EnvironmentObject var targetStore: TargetStore
+    @EnvironmentObject var targetManager: TargetManager
     @EnvironmentObject var timerManager: TimerManager
     
     @State private var isSettingViewOn: Bool = false
@@ -63,8 +63,6 @@ struct MainRouterView: View {
                     Spacer()
                     
                     MainConsole(displayingView: $currentDisplayingView)
-                        .environmentObject(todoStore)
-                        .environmentObject(timerManager)
                 }
                 .overlay(alignment: .bottom) {
                     MainSettingBanner(todoCount: todoStore.todos.count,
@@ -97,7 +95,6 @@ struct MainRouterView: View {
             }
             .onAppear {
                 todoStore.subscribeTodos()
-                targetStore.subscribeTargets()
             }
             .onAppear {
                 UNUserNotificationCenter.current().requestAuthorization(options: [.badge, .alert, .sound]) { (granted, error) in
@@ -110,7 +107,6 @@ struct MainRouterView: View {
             }
             .onDisappear {
                 todoStore.unsubscribeTodos()
-                targetStore.unsubscribeTargets()
             }
         }
     }
@@ -178,7 +174,7 @@ extension MainRouterView {
                         .foregroundStyle(themeManager.colorInPriority(of: .accent), .gray)
                         .font(.headline)
                     Spacer()
-                    Text("\(targetStore.targets.count)")
+                    Text("\(targetManager.targets.count)")
                         .font(.title3)
                 }
             }

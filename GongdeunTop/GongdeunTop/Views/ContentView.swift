@@ -11,7 +11,7 @@ struct ContentView: View {
     @Environment(\.colorScheme) var scheme: ColorScheme
     @StateObject var authManager = AuthManager()
     @StateObject var todoStore = ToDoStore()
-    @StateObject var targetStore = TargetStore()
+    @StateObject var targetManager = TargetManager()
     @StateObject var timerManager = TimerManager()
     @EnvironmentObject var launchScreenManager: LaunchScreenManager
     @EnvironmentObject var themeManager: ThemeManager
@@ -20,14 +20,14 @@ struct ContentView: View {
         VStack {
             switch authManager.authState {
             case .unAuthenticated: SignUpView(manager: authManager)
-            case .authenticating: ProgressView()
             case .authenticated where authManager.nickNameRegisterState != .existingUser: SetNickNameView(manager: authManager)
-            case .authenticated:
+            case .authenticated where authManager.nickNameRegisterState == .existingUser:
                 MainRouterView()
                     .environmentObject(authManager)
                     .environmentObject(todoStore)
-                    .environmentObject(targetStore)
+                    .environmentObject(targetManager)
                     .environmentObject(timerManager)
+            default: ProgressView()
             }
         }
         .task {

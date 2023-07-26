@@ -32,7 +32,7 @@ enum ToDoField: Int, Hashable, CaseIterable {
 struct SetToDoForm: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var themeManager: ThemeManager
-    @EnvironmentObject var targetStore: TargetStore
+    @EnvironmentObject var targetManager: TargetManager
     @StateObject var tagStore = TagStore()
     @ObservedObject var manager = ToDoManager()
     
@@ -441,7 +441,7 @@ extension SetToDoForm {
 // MARK: - Connecting Target
 extension SetToDoForm {
     private func findTargetTitle(ofId id: String?) -> String {
-        guard let id = id, let target = targetStore.targets.first(where: { $0.id == id }) else { return String(localized: "setToDoForm_target_placeholder") }
+        guard let id = id, let target = targetManager.targets.first(where: { $0.id == id }) else { return String(localized: "setToDoForm_target_placeholder") }
         return target.title
     }
     
@@ -500,7 +500,7 @@ extension SetToDoForm {
     var targetList: some View {
         Divider()
         ScrollView {
-            ForEach(targetStore.targets, id: \.self) { target in
+            ForEach(targetManager.targets, id: \.self) { target in
                 HStack {
                     Button {
                         manager.manageRelatedTarget(ofId: target.id)

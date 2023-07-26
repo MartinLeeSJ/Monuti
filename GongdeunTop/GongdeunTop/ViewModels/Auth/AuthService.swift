@@ -1,60 +1,66 @@
 //
-//  AuthManager.swift
+//  AuthService.swift
 //  GongdeunTop
 //
-//  Created by Martin on 2023/04/01.
+//  Created by Martin on 2023/07/26.
 //
 
 import Foundation
 import AuthenticationServices
 import CryptoKit
+import Factory
 
 import FirebaseAuth
 import FirebaseFirestore
+import FirebaseFirestoreSwift
 
-
-
-@MainActor
-final class AuthManager: ObservableObject {
-    enum AuthState {
-        case unAuthenticated, authenticated, authenticating
-    }
+public class AuthService {
+    @Injected(\.firestore) private var database
+    @Injected(\.auth) private var auth
+    @Published var user: User?
+    @Published var nickNameRegisteredState: NickNameRegisteredState = .existingUser
+    @Published var errorMessage = ""
     
-    enum NickNameRegisterState {
-        case newUser, registering, existingUser
-    }
-    
-    struct NickName {
-        var name: String
-        var isValidate: Bool {
-            name.count <= 8 && !name.isEmpty
-        }
-    }
-    
-    @Published var authState: AuthState = .authenticating
-    @Published var currentUser: User?
-    @Published var nickNameRegisterState: NickNameRegisterState = .existingUser
-    @Published var nickName: NickName = NickName(name: "")
-    
-    
-    private let database = Firestore.firestore()
-    private var authStateHandle: AuthStateDidChangeListenerHandle?
-    var currentNonce: String?
+    private var authStateHandler: AuthStateDidChangeListenerHandle?
+    private var currentNonce: String?
     
     init() {
         registerAuthStateHandler()
     }
     
-    private func registerAuthStateHandler() {
-        if authStateHandle == nil {
-            authStateHandle = Auth.auth().addStateDidChangeListener { auth, user in
-                self.currentUser = user
-                self.authState =  user == nil ? .unAuthenticated : .authenticated
+    
+    func registerAuthStateHandler() {
+        if authStateHandler == nil {
+            authStateHandler = auth.addStateDidChangeListener { auth, user in
+                self.user = user
             }
         }
     }
     
+    func signOut() {
+        do {
+            try auth.signOut()
+        }
+        catch {
+            print("Error while trying to sign out: \(error.localizedDescription)")
+        }
+    }
     
+    func deleteAccount() async -> Bool {
+        do {
+            try await user?.delete()
+            signOut()
+            return true
+        }
+        catch {
+            print(error.localizedDescription)
+            return false
+        }
+    }
+}
+
+
+extension AuthService {
     func requestAppleSignUp(request: ASAuthorizationAppleIDRequest) -> Void {
         let nonce = randomNonceString()
         currentNonce = nonce
@@ -74,8 +80,9 @@ final class AuthManager: ObservableObject {
                 return
             }
             
-            let authCredential = OAuthProvider.credential(withProviderID: "apple.com", idToken: idTokenString, rawNonce: nonce)
-            
+            let authCredential = OAuthProvider.appleCredential(withIDToken: idTokenString,
+                                                                 rawNonce: nonce,
+                                                                 fullName: appleIDCredential.fullName)
             
             signInFirebase(with: authCredential)
            
@@ -85,21 +92,20 @@ final class AuthManager: ObservableObject {
     }
     
     
-    private func signInFirebase(with authCredential: OAuthCredential) {
+    private func signInFirebase(with authCredential: OAuthCredential) -> Void {
         Task {
             do {
-                nickNameRegisterState = .newUser
-                let authResult = try await Auth.auth().signIn(with: authCredential)
+                let authResult = try await auth.signIn(with: authCredential)
                 let userReference = database.collection("Members").document(authResult.user.uid)
                 let documentSnapshot = try await userReference.getDocument()
                 
                 guard !documentSnapshot.exists else {
-                    nickNameRegisterState = .existingUser
                     return
                 }
                 
                 try await userReference.setData(["email" : authResult.user.email ?? "",
                                                "createdAt" : Timestamp(date: Date.now)])
+                nickNameRegisteredState = .newUser
                 
             } catch {
                 print(error.localizedDescription)
@@ -150,32 +156,5 @@ final class AuthManager: ObservableObject {
         }.reduce("", { x,y in x + y })
         
         return hashString
-    }
-    
-    
-    public func signOut() {
-        try? Auth.auth().signOut()
-    }
-}
-
-// MARK: - NickNameLogic
-extension AuthManager {
-    func registerMemberNickName() {
-        guard let uid = currentUser?.uid else { return }
-        guard nickName.isValidate else { return }
-        let userReference = database.collection("Members").document(uid)
-        userReference.setData(["nickName" : nickName.name], merge: true)
-        forcedLoading()
-    }
-    
-    func forcedLoading() {
-        nickNameRegisterState = .registering
-        DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
-            self.nickNameRegisterState = .existingUser
-        }
-    }
-    
-    func resetNickName() {
-        nickName.name.removeAll()
     }
 }
