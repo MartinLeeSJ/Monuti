@@ -11,6 +11,7 @@ struct MainConsole: View {
     @EnvironmentObject var themeManager: ThemeManager
     @EnvironmentObject var todoStore: ToDoStore
     @EnvironmentObject var timerManager: TimerManager
+    @EnvironmentObject var targetManager: TargetManager
     
     @State private var isSetTimeViewOn: Bool = false
     @State private var isAddTargetSheetOn: Bool = false
@@ -105,8 +106,10 @@ extension MainConsole{
             addButtonLabel
         }
         .sheet(isPresented: $isAddTargetSheetOn) {
-            SetTargetForm()
-                .presentationDetents([.medium, .large])
+            SetTargetForm { target in
+                targetManager.addTarget(target)
+            }
+            .presentationDetents([.medium, .large])
         }
     }
     

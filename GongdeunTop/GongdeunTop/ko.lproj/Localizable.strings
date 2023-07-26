@@ -136,6 +136,9 @@
 "target_start_date" = "시작";
 "target_due_date" = "종료";
 
+"targetForm_title_add" = "새 목표";
+"targetForm_title_edit" = "목표 수정";
+
 //Weekday
 "Sun" = "일";
 "Mon" = "월";

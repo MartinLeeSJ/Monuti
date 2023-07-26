@@ -14,7 +14,6 @@
 		5B0EBE6F2A603A2D0011B024 /* SetTimeConstraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B0EBE6E2A603A2D0011B024 /* SetTimeConstraints.swift */; };
 		5B174C272A03720600204C75 /* RoundedHexagon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B174C262A03720600204C75 /* RoundedHexagon.swift */; };
 		5B174C292A050F3B00204C75 /* HapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B174C282A050F3B00204C75 /* HapticManager.swift */; };
-		5B1C711A2A11FCB700A5D3EB /* TargetStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1C71192A11FCB700A5D3EB /* TargetStore.swift */; };
 		5B1C711C2A1200A800A5D3EB /* TargetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1C711B2A1200A800A5D3EB /* TargetManager.swift */; };
 		5B1C711F2A12012C00A5D3EB /* Target+PlaceHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1C711E2A12012C00A5D3EB /* Target+PlaceHolder.swift */; };
 		5B1C71212A120A2A00A5D3EB /* SetTargetForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1C71202A120A2A00A5D3EB /* SetTargetForm.swift */; };
@@ -47,6 +46,7 @@
 		5B3CCAB32A70EE1500973F43 /* Firebase+Injection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3CCAB22A70EE1500973F43 /* Firebase+Injection.swift */; };
 		5B3CCAB62A70EFED00973F43 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3CCAB52A70EFED00973F43 /* AuthService.swift */; };
 		5B3CCAB82A70F3CC00973F43 /* AuthService+Injection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3CCAB72A70F3CC00973F43 /* AuthService+Injection.swift */; };
+		5B3CCABA2A710AF100973F43 /* TargetRepository+Injection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3CCAB92A710AF100973F43 /* TargetRepository+Injection.swift */; };
 		5B4214F52A2D57D1004362E5 /* MainRouterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4214F42A2D57D1004362E5 /* MainRouterView.swift */; };
 		5B4214F72A2D5F5F004362E5 /* MainConsole.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4214F62A2D5F5F004362E5 /* MainConsole.swift */; };
 		5B54FE432A2B5917000D29ED /* CGFloat+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B54FE422A2B5917000D29ED /* CGFloat+Utils.swift */; };
@@ -126,7 +126,6 @@
 		5B0EBE6E2A603A2D0011B024 /* SetTimeConstraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetTimeConstraints.swift; sourceTree = "<group>"; };
 		5B174C262A03720600204C75 /* RoundedHexagon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedHexagon.swift; sourceTree = "<group>"; };
 		5B174C282A050F3B00204C75 /* HapticManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticManager.swift; sourceTree = "<group>"; };
-		5B1C71192A11FCB700A5D3EB /* TargetStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetStore.swift; sourceTree = "<group>"; };
 		5B1C711B2A1200A800A5D3EB /* TargetManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetManager.swift; sourceTree = "<group>"; };
 		5B1C711E2A12012C00A5D3EB /* Target+PlaceHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Target+PlaceHolder.swift"; sourceTree = "<group>"; };
 		5B1C71202A120A2A00A5D3EB /* SetTargetForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetTargetForm.swift; sourceTree = "<group>"; };
@@ -155,6 +154,7 @@
 		5B3CCAB22A70EE1500973F43 /* Firebase+Injection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Firebase+Injection.swift"; sourceTree = "<group>"; };
 		5B3CCAB52A70EFED00973F43 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		5B3CCAB72A70F3CC00973F43 /* AuthService+Injection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AuthService+Injection.swift"; sourceTree = "<group>"; };
+		5B3CCAB92A710AF100973F43 /* TargetRepository+Injection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TargetRepository+Injection.swift"; sourceTree = "<group>"; };
 		5B4214F42A2D57D1004362E5 /* MainRouterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainRouterView.swift; sourceTree = "<group>"; };
 		5B4214F62A2D5F5F004362E5 /* MainConsole.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainConsole.swift; sourceTree = "<group>"; };
 		5B54FE422A2B5917000D29ED /* CGFloat+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGFloat+Utils.swift"; sourceTree = "<group>"; };
@@ -265,7 +265,6 @@
 		5B1C711D2A1200AE00A5D3EB /* Target */ = {
 			isa = PBXGroup;
 			children = (
-				5B1C71192A11FCB700A5D3EB /* TargetStore.swift */,
 				5B1C711B2A1200A800A5D3EB /* TargetManager.swift */,
 				5BE45A7F2A3859F200F42F4F /* TargetToDoStore.swift */,
 			);
@@ -323,6 +322,7 @@
 			isa = PBXGroup;
 			children = (
 				5B3CCAAC2A70E46100973F43 /* TargetRepository.swift */,
+				5B3CCAB92A710AF100973F43 /* TargetRepository+Injection.swift */,
 			);
 			path = Target;
 			sourceTree = "<group>";
@@ -739,6 +739,7 @@
 				5B6AB24B2A306281008D09B6 /* TargetTermGauge.swift in Sources */,
 				5B05A61529ECE5CF00C89417 /* CycleManager.swift in Sources */,
 				5B76D0F429C74FE0008883A8 /* TimerManager.swift in Sources */,
+				5B3CCABA2A710AF100973F43 /* TargetRepository+Injection.swift in Sources */,
 				5B2FEABF29DA645E0022F827 /* Cycle.swift in Sources */,
 				5B95E0EF2A5C54B0007FA721 /* SetTimeSlider.swift in Sources */,
 				5B95E13E29D805AC00E8CBA1 /* SignUpView.swift in Sources */,
@@ -765,7 +766,6 @@
 				5B3CCAAD2A70E46100973F43 /* TargetRepository.swift in Sources */,
 				5B95E0EB2A5BF79F007FA721 /* IndividualTimeSettingForm.swift in Sources */,
 				5B2FEABC29D9CC000022F827 /* ToDoStore.swift in Sources */,
-				5B1C711A2A11FCB700A5D3EB /* TargetStore.swift in Sources */,
 				5B1E4CF92A697BB000D364A7 /* TimeSetting.swift in Sources */,
 				5B95E0E42A5BB71F007FA721 /* Array+Utils.swift in Sources */,
 				5B95E0ED2A5BF7B5007FA721 /* PresetTimeSettingForm.swift in Sources */,

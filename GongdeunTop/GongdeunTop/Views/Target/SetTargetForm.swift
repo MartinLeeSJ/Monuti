@@ -8,8 +8,22 @@
 import SwiftUI
 
 struct SetTargetForm: View {
+    @Environment(\.dismiss) var dismiss
     @EnvironmentObject var themeManager: ThemeManager
-    @StateObject var targetManager = TargetManager()
+    @State var target: Target = Target(title: "",
+                                       subtitle: "",
+                                       createdAt: Date.now,
+                                       startDate: Date.now,
+                                       dueDate: Date.now,
+                                       todos: [],
+                                       achievement: 0,
+                                       memoirs: "")
+    enum Mode {
+        case add
+        case edit
+    }
+    var mode: Mode = .add
+    var onCommit: (_ target: Target) -> Void
     
     let startDateRange: ClosedRange<Date> = {
         let calendar = Calendar.current
@@ -21,10 +35,19 @@ struct SetTargetForm: View {
     
     var endDateRange: ClosedRange<Date> {
         let calendar = Calendar.current
-        let dateInterval = calendar.dateInterval(of: .day, for: targetManager.target.startDate)
+        let dateInterval = calendar.dateInterval(of: .day, for: target.startDate)
         let startTime: Date = dateInterval?.start ?? Date()
         let endTime = calendar.date(byAdding: .month, value: 6, to: startTime) ?? Date()
         return startTime...endTime
+    }
+    
+    private func commit() {
+        onCommit(target)
+        dismiss()
+    }
+    
+    private func cancel() {
+        dismiss()
     }
     
     var body: some View {
@@ -39,17 +62,26 @@ struct SetTargetForm: View {
                     Spacer()
                 }
                 .toolbar {
-                    ToolbarItem {
+                    ToolbarItem(placement: .cancellationAction) {
                         Button {
-                            targetManager.handleDoneTapped()
+                            cancel()
                         } label: {
-                            Text("Add")
+                            Text("Cancel")
                         }
-                        .disabled(!targetManager.modified)
+                    }
+                    
+                    ToolbarItem(placement: .confirmationAction) {
+                        Button {
+                            commit()
+                        } label: {
+                            Text(mode == .add ? "Add" : "Edit")
+                        }
                     }
                 }
                 .navigationBarTitleDisplayMode(.inline)
-                .navigationTitle(Text("새 목표"))
+                .navigationTitle(mode == .add ?
+                                 String(localized: "targetForm_title_add") :
+                                    String(localized: "targetForm_title_edit"))
                 .font(.headline)
                 .padding()
             }
@@ -61,7 +93,7 @@ struct SetTargetForm: View {
         TextFieldFormContainer {
             HStack {
                 Text("targetTitle")
-                TextField(text: $targetManager.target.title) {
+                TextField(text: $target.title) {
                     Text("targetTitle_placeholder")
                 }
                 .font(.body)
@@ -71,7 +103,7 @@ struct SetTargetForm: View {
             
             HStack {
                 Text("targetSubTitle")
-                TextField(text: $targetManager.target.subtitle) {
+                TextField(text: $target.subtitle) {
                     Text("targetSubTitle_placeHolder")
                 }
                 .font(.body)
@@ -86,14 +118,14 @@ struct SetTargetForm: View {
         FormContainer {
             DatePicker(
                 String(localized: "target_start_date"),
-                selection: $targetManager.target.startDate,
+                selection: $target.startDate,
                 in: startDateRange,
                 displayedComponents: [.date]
             )
             
             DatePicker(
                 String(localized: "target_due_date"),
-                selection: $targetManager.target.dueDate,
+                selection: $target.dueDate,
                 in: endDateRange,
                 displayedComponents: [.date]
             )
@@ -105,20 +137,20 @@ struct SetTargetForm: View {
     @ViewBuilder
     var termsInfos: some View {
         HStack {
-            Text("\(targetManager.target.daysFromStartToDueDate) target_total_days")
+            Text("\(target.daysFromStartToDueDate) target_total_days")
             Spacer()
-            TargetTermGauge(termIndex: targetManager.target.termIndex)
-            Text(targetManager.target.dateTerms)
+            TargetTermGauge(termIndex: target.termIndex)
+            Text(target.dateTerms)
         }
         .padding()
         .background(themeManager.componentColor(), in: RoundedRectangle(cornerRadius: 10))
 
     }
 }
-
-struct SetTargetForm_Previews: PreviewProvider {
-    static var previews: some View {
-        SetTargetForm()
-            .environmentObject(ThemeManager())
-    }
-}
+//
+//struct SetTargetForm_Previews: PreviewProvider {
+//    static var previews: some View {
+//        SetTargetForm()
+//            .environmentObject(ThemeManager())
+//    }
+//}

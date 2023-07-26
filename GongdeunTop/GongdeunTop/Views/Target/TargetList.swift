@@ -10,7 +10,7 @@ import SwiftUI
 
 struct TargetList: View {
     @EnvironmentObject var themeManager: ThemeManager
-    @EnvironmentObject var targetStore: TargetStore
+    @EnvironmentObject var targetManager: TargetManager
     
     @State private var isDeleteAlertOn: Bool = false
     
@@ -18,7 +18,7 @@ struct TargetList: View {
     var body: some View {
         VStack(spacing: 0) {
             topEditingConsole
-            List(targetStore.targets, id: \.self.id, selection: $targetStore.multiSelection) { target in
+            List(targetManager.targets, id: \.self.id, selection: $targetManager.multiSelection) { target in
                 NavigationLink {
                     TargetDetailView(target: target)
                 } label: {
@@ -32,11 +32,11 @@ struct TargetList: View {
                                      trailing: 16))
             }
             .listStyle(.plain)
-            .environment(\.editMode, .constant(targetStore.isEditing ? EditMode.active : EditMode.inactive))
+            .environment(\.editMode, .constant(targetManager.isEditing ? EditMode.active : EditMode.inactive))
             
             Divider()
             
-            if targetStore.isEditing {
+            if targetManager.isEditing {
                 bottomDeleteButton
             }
         }
@@ -59,10 +59,10 @@ extension TargetList {
     private var multipleEditingButton: some View {
         Button {
             withAnimation {
-                targetStore.isEditing.toggle()
+                targetManager.isEditing.toggle()
             }
         } label: {
-            Text(targetStore.isEditing ? "Done" : "Edit")
+            Text(targetManager.isEditing ? "Done" : "Edit")
         }
     }
 }
@@ -79,19 +79,19 @@ extension TargetList {
             }
             .alert("Delete", isPresented: $isDeleteAlertOn) {
                 Button(role: .destructive) {
-                    targetStore.deleteTargets()
+                    targetManager.removeTargets()
                     isDeleteAlertOn.toggle()
                 } label: {
                     Text("Delete")
                 }
             } message: {
-                Text("really_delete_target? \(targetStore.multiSelection.count)")
+                Text("really_delete_target? \(targetManager.multiSelection.count)")
             }
             
             Spacer()
         }
         .tint(themeManager.colorInPriority(of: .accent))
-        .disabled(targetStore.multiSelection.isEmpty)
+        .disabled(targetManager.multiSelection.isEmpty)
         .padding(.horizontal, 24)
         .padding(.vertical, 6)
     }

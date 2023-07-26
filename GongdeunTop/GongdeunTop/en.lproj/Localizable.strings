@@ -137,6 +137,8 @@
 "target_start_date" = "Start";
 "target_due_date" = "Due in";
 
+"targetForm_title_add" = "New Target";
+"targetForm_title_edit" = "Edit Target";
 
 //Weekday
 "Sun" = "Sun";
