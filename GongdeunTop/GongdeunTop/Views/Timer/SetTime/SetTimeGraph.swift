@@ -77,11 +77,13 @@ extension SetTimeGraph {
                     }
                     
                     var concentrationTimeWidth: CGFloat {
-                        width * concentrationTimeRatio(ofSession: index) - 4
+                        let newWidth = width * concentrationTimeRatio(ofSession: index) - 4
+                        return newWidth > 0 ? newWidth : 0
                     }
                     
                     var restTimeWidth: CGFloat {
-                        width * restTimeRatio(ofSession: index) - 4
+                        let newWidth = width * restTimeRatio(ofSession: index) - 4
+                        return newWidth > 0 ? newWidth : 0
                     }
                     
                     HStack(spacing: 2) {
