@@ -47,6 +47,8 @@
 		5B3CCAB62A70EFED00973F43 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3CCAB52A70EFED00973F43 /* AuthService.swift */; };
 		5B3CCAB82A70F3CC00973F43 /* AuthService+Injection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3CCAB72A70F3CC00973F43 /* AuthService+Injection.swift */; };
 		5B3CCABA2A710AF100973F43 /* TargetRepository+Injection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3CCAB92A710AF100973F43 /* TargetRepository+Injection.swift */; };
+		5B3CCABD2A71519800973F43 /* ToDoRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3CCABC2A71519800973F43 /* ToDoRepository.swift */; };
+		5B3CCABF2A7166AF00973F43 /* ToDoRepository+Injection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3CCABE2A7166AF00973F43 /* ToDoRepository+Injection.swift */; };
 		5B4214F52A2D57D1004362E5 /* MainRouterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4214F42A2D57D1004362E5 /* MainRouterView.swift */; };
 		5B4214F72A2D5F5F004362E5 /* MainConsole.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4214F62A2D5F5F004362E5 /* MainConsole.swift */; };
 		5B54FE432A2B5917000D29ED /* CGFloat+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B54FE422A2B5917000D29ED /* CGFloat+Utils.swift */; };
@@ -155,6 +157,8 @@
 		5B3CCAB52A70EFED00973F43 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		5B3CCAB72A70F3CC00973F43 /* AuthService+Injection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AuthService+Injection.swift"; sourceTree = "<group>"; };
 		5B3CCAB92A710AF100973F43 /* TargetRepository+Injection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TargetRepository+Injection.swift"; sourceTree = "<group>"; };
+		5B3CCABC2A71519800973F43 /* ToDoRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoRepository.swift; sourceTree = "<group>"; };
+		5B3CCABE2A7166AF00973F43 /* ToDoRepository+Injection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ToDoRepository+Injection.swift"; sourceTree = "<group>"; };
 		5B4214F42A2D57D1004362E5 /* MainRouterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainRouterView.swift; sourceTree = "<group>"; };
 		5B4214F62A2D5F5F004362E5 /* MainConsole.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainConsole.swift; sourceTree = "<group>"; };
 		5B54FE422A2B5917000D29ED /* CGFloat+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGFloat+Utils.swift"; sourceTree = "<group>"; };
@@ -313,6 +317,7 @@
 		5B3CCAAE2A70E47800973F43 /* Repository */ = {
 			isa = PBXGroup;
 			children = (
+				5B3CCABB2A71518700973F43 /* ToDo */,
 				5B3CCAAF2A70E48A00973F43 /* Target */,
 			);
 			path = Repository;
@@ -351,6 +356,15 @@
 				5B3CCAB72A70F3CC00973F43 /* AuthService+Injection.swift */,
 			);
 			path = Auth;
+			sourceTree = "<group>";
+		};
+		5B3CCABB2A71518700973F43 /* ToDo */ = {
+			isa = PBXGroup;
+			children = (
+				5B3CCABC2A71519800973F43 /* ToDoRepository.swift */,
+				5B3CCABE2A7166AF00973F43 /* ToDoRepository+Injection.swift */,
+			);
+			path = ToDo;
 			sourceTree = "<group>";
 		};
 		5B63175B29E7F28400FF6876 /* Shape */ = {
@@ -755,6 +769,7 @@
 				5B2FEAC129DD4EF30022F827 /* TagStore.swift in Sources */,
 				5B59207D2A627A3B009DD91F /* SetTimePicker.swift in Sources */,
 				5B63175A29E7F27700FF6876 /* RoundedCorners.swift in Sources */,
+				5B3CCABD2A71519800973F43 /* ToDoRepository.swift in Sources */,
 				5BA9A4392A092E6A00453D65 /* CycleListCellDetail.swift in Sources */,
 				5BFFDB8529C5F299004C5376 /* SetTimeForm.swift in Sources */,
 				5BCF550629C2CB2500A19759 /* ContentView.swift in Sources */,
@@ -776,6 +791,7 @@
 				5BCF551629C3065E00A19759 /* CalendarView.swift in Sources */,
 				5BCF551B29C30D1600A19759 /* ToDoList.swift in Sources */,
 				5BB4FEC829C83124009CCD43 /* ToDoManager.swift in Sources */,
+				5B3CCABF2A7166AF00973F43 /* ToDoRepository+Injection.swift in Sources */,
 				5B38FC082A0F8268003F9B5C /* Target.swift in Sources */,
 				5B38FC062A0E176F003F9B5C /* LauchScreen.swift in Sources */,
 				5B8B119529D07EE6009BB0E6 /* FirstCountdown.swift in Sources */,
