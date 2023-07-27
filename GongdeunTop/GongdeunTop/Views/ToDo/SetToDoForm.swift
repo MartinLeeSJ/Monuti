@@ -29,6 +29,7 @@ struct SetToDoForm: View {
     
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var themeManager: ThemeManager
+    @StateObject var tagManager = TagManager()
     
     @State var todo: ToDo = ToDo(createdAt: Date.now)
     @State private var isEditingTarget: Bool = false
@@ -46,6 +47,9 @@ struct SetToDoForm: View {
     
     private func handleCloseTapped() {
         dismiss()
+        if mode == .add {
+            tagManager.decreaseCountOfTags(of: todo.tags)
+        }
     }
     
     var body: some View {
@@ -57,7 +61,11 @@ struct SetToDoForm: View {
                     VStack(spacing: 32) {
                         titleAndContentTextField
                         startingTimeForm
-                        TagForm(todo: $todo, focusedField: _focusedField)
+                        TagForm(todo: $todo,
+                                focusedField: _focusedField,
+                                tags: tagManager.tags,
+                                onAddTag: {onAddTag($0)},
+                                onRemoveTag: { onRemoveTag($0) })
                         targetForm
                     }
                     .padding(.horizontal)
@@ -66,6 +74,7 @@ struct SetToDoForm: View {
                                  Text("setTodoForm_title_new") :
                                  Text("setTodoForm_title_edit"))
                 .navigationBarTitleDisplayMode(.inline)
+                .interactiveDismissDisabled()
                 .toolbar {
                     ToolbarItem(placement: .cancellationAction) {
                         Button {
@@ -204,6 +213,23 @@ extension SetToDoForm {
                 .tint(.red)
             }
         }
+    }
+}
+
+// MARK: - Tag Action
+extension SetToDoForm {
+    private func onAddTag(_ tag: Tag) {
+        todo.tags.append(tag.title)
+        if tagManager.tags.contains(where: { $0.title == tag.title }) {
+            tagManager.increaseCount(of: tag)
+        } else {
+            tagManager.add(tag)
+        }
+    }
+    
+    private func onRemoveTag(_ tag: Tag) {
+        tagManager.decreaseCount(of: Tag(title: tag.title))
+        todo.tags = todo.tags.filter { $0 != tag.title }
     }
 }
 

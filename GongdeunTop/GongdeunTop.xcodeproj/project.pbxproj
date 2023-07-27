@@ -49,6 +49,9 @@
 		5B3CCABD2A71519800973F43 /* ToDoRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3CCABC2A71519800973F43 /* ToDoRepository.swift */; };
 		5B3CCABF2A7166AF00973F43 /* ToDoRepository+Injection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3CCABE2A7166AF00973F43 /* ToDoRepository+Injection.swift */; };
 		5B3D07C22A721157001691F4 /* TagForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3D07C12A721157001691F4 /* TagForm.swift */; };
+		5B3D07C52A721908001691F4 /* TagRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3D07C42A721908001691F4 /* TagRepository.swift */; };
+		5B3D07C72A72390B001691F4 /* TagRepository+Injection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3D07C62A72390B001691F4 /* TagRepository+Injection.swift */; };
+		5B3D07CA2A723957001691F4 /* TagManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3D07C92A723957001691F4 /* TagManager.swift */; };
 		5B4214F52A2D57D1004362E5 /* MainRouterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4214F42A2D57D1004362E5 /* MainRouterView.swift */; };
 		5B4214F72A2D5F5F004362E5 /* MainConsole.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4214F62A2D5F5F004362E5 /* MainConsole.swift */; };
 		5B54FE432A2B5917000D29ED /* CGFloat+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B54FE422A2B5917000D29ED /* CGFloat+Utils.swift */; };
@@ -159,6 +162,9 @@
 		5B3CCABC2A71519800973F43 /* ToDoRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoRepository.swift; sourceTree = "<group>"; };
 		5B3CCABE2A7166AF00973F43 /* ToDoRepository+Injection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ToDoRepository+Injection.swift"; sourceTree = "<group>"; };
 		5B3D07C12A721157001691F4 /* TagForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagForm.swift; sourceTree = "<group>"; };
+		5B3D07C42A721908001691F4 /* TagRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagRepository.swift; sourceTree = "<group>"; };
+		5B3D07C62A72390B001691F4 /* TagRepository+Injection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TagRepository+Injection.swift"; sourceTree = "<group>"; };
+		5B3D07C92A723957001691F4 /* TagManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagManager.swift; sourceTree = "<group>"; };
 		5B4214F42A2D57D1004362E5 /* MainRouterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainRouterView.swift; sourceTree = "<group>"; };
 		5B4214F62A2D5F5F004362E5 /* MainConsole.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainConsole.swift; sourceTree = "<group>"; };
 		5B54FE422A2B5917000D29ED /* CGFloat+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGFloat+Utils.swift"; sourceTree = "<group>"; };
@@ -298,7 +304,6 @@
 		5B2FEABD29D9CC0B0022F827 /* ToDo */ = {
 			isa = PBXGroup;
 			children = (
-				5B2FEAC029DD4EF30022F827 /* TagStore.swift */,
 				5BB4FEC729C83124009CCD43 /* ToDoManager.swift */,
 			);
 			path = ToDo;
@@ -316,6 +321,7 @@
 		5B3CCAAE2A70E47800973F43 /* Repository */ = {
 			isa = PBXGroup;
 			children = (
+				5B3D07C32A7218F6001691F4 /* Tag */,
 				5B3CCABB2A71518700973F43 /* ToDo */,
 				5B3CCAAF2A70E48A00973F43 /* Target */,
 			);
@@ -364,6 +370,24 @@
 				5B3CCABE2A7166AF00973F43 /* ToDoRepository+Injection.swift */,
 			);
 			path = ToDo;
+			sourceTree = "<group>";
+		};
+		5B3D07C32A7218F6001691F4 /* Tag */ = {
+			isa = PBXGroup;
+			children = (
+				5B3D07C42A721908001691F4 /* TagRepository.swift */,
+				5B3D07C62A72390B001691F4 /* TagRepository+Injection.swift */,
+			);
+			path = Tag;
+			sourceTree = "<group>";
+		};
+		5B3D07C82A723949001691F4 /* Tag */ = {
+			isa = PBXGroup;
+			children = (
+				5B2FEAC029DD4EF30022F827 /* TagStore.swift */,
+				5B3D07C92A723957001691F4 /* TagManager.swift */,
+			);
+			path = Tag;
 			sourceTree = "<group>";
 		};
 		5B63175B29E7F28400FF6876 /* Shape */ = {
@@ -430,6 +454,7 @@
 		5B76D0F729C7755A008883A8 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				5B3D07C82A723949001691F4 /* Tag */,
 				5BF61E912A0296B1007592D6 /* ThemeManager.swift */,
 				5B38FC012A0E1695003F9B5C /* LaunchScreenManager.swift */,
 				5B841E9E29FBC4D600F1675E /* LocationManager.swift */,
@@ -758,6 +783,7 @@
 				5B95E0EF2A5C54B0007FA721 /* SetTimeSlider.swift in Sources */,
 				5B95E13E29D805AC00E8CBA1 /* SignUpView.swift in Sources */,
 				5B1E4CF72A69794800D364A7 /* TimePresetRepository.swift in Sources */,
+				5B3D07C52A721908001691F4 /* TagRepository.swift in Sources */,
 				5B1E4CF52A691B8500D364A7 /* SetTimeGraph.swift in Sources */,
 				5BAC85EF2A00F1D500A34056 /* ColorThemeSetting.swift in Sources */,
 				5B3CCAB62A70EFED00973F43 /* AuthService.swift in Sources */,
@@ -791,6 +817,7 @@
 				5BCF551B29C30D1600A19759 /* ToDoList.swift in Sources */,
 				5BB4FEC829C83124009CCD43 /* ToDoManager.swift in Sources */,
 				5B3CCABF2A7166AF00973F43 /* ToDoRepository+Injection.swift in Sources */,
+				5B3D07C72A72390B001691F4 /* TagRepository+Injection.swift in Sources */,
 				5B38FC082A0F8268003F9B5C /* Target.swift in Sources */,
 				5B38FC062A0E176F003F9B5C /* LauchScreen.swift in Sources */,
 				5B8B119529D07EE6009BB0E6 /* FirstCountdown.swift in Sources */,
@@ -815,6 +842,7 @@
 				5B38FBFF2A0CDC72003F9B5C /* SetNickNameView.swift in Sources */,
 				5B1E4CFB2A697BB800D364A7 /* Session.swift in Sources */,
 				5BD5131929D574900008E1C9 /* SessionIndicator.swift in Sources */,
+				5B3D07CA2A723957001691F4 /* TagManager.swift in Sources */,
 				5B3CCAB82A70F3CC00973F43 /* AuthService+Injection.swift in Sources */,
 				5B6AB2562A316A75008D09B6 /* FormContainer.swift in Sources */,
 				5B1C71212A120A2A00A5D3EB /* SetTargetForm.swift in Sources */,

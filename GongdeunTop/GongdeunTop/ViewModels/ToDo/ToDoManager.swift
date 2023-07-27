@@ -21,8 +21,7 @@ final class ToDoManager: ObservableObject {
     @Published var isEditing: Bool = false
     @Published var multiSelection = Set<String?>()
     @Published var sortMode: SortMode = .basic
-    
-    private let database = Firestore.firestore()
+
     private var cancellables = Set<AnyCancellable>()
     
     @MainActor
