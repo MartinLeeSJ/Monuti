@@ -48,6 +48,7 @@
 		5B3CCABA2A710AF100973F43 /* TargetRepository+Injection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3CCAB92A710AF100973F43 /* TargetRepository+Injection.swift */; };
 		5B3CCABD2A71519800973F43 /* ToDoRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3CCABC2A71519800973F43 /* ToDoRepository.swift */; };
 		5B3CCABF2A7166AF00973F43 /* ToDoRepository+Injection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3CCABE2A7166AF00973F43 /* ToDoRepository+Injection.swift */; };
+		5B3D07C22A721157001691F4 /* TagForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3D07C12A721157001691F4 /* TagForm.swift */; };
 		5B4214F52A2D57D1004362E5 /* MainRouterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4214F42A2D57D1004362E5 /* MainRouterView.swift */; };
 		5B4214F72A2D5F5F004362E5 /* MainConsole.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4214F62A2D5F5F004362E5 /* MainConsole.swift */; };
 		5B54FE432A2B5917000D29ED /* CGFloat+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B54FE422A2B5917000D29ED /* CGFloat+Utils.swift */; };
@@ -157,6 +158,7 @@
 		5B3CCAB92A710AF100973F43 /* TargetRepository+Injection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TargetRepository+Injection.swift"; sourceTree = "<group>"; };
 		5B3CCABC2A71519800973F43 /* ToDoRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoRepository.swift; sourceTree = "<group>"; };
 		5B3CCABE2A7166AF00973F43 /* ToDoRepository+Injection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ToDoRepository+Injection.swift"; sourceTree = "<group>"; };
+		5B3D07C12A721157001691F4 /* TagForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagForm.swift; sourceTree = "<group>"; };
 		5B4214F42A2D57D1004362E5 /* MainRouterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainRouterView.swift; sourceTree = "<group>"; };
 		5B4214F62A2D5F5F004362E5 /* MainConsole.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainConsole.swift; sourceTree = "<group>"; };
 		5B54FE422A2B5917000D29ED /* CGFloat+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGFloat+Utils.swift"; sourceTree = "<group>"; };
@@ -590,6 +592,7 @@
 				5BCF551A29C30D1600A19759 /* ToDoList.swift */,
 				5BD3D1D629D1C3BB008E8988 /* ToDoListCell.swift */,
 				5B63A59229C95AD500AA4525 /* SetToDoForm.swift */,
+				5B3D07C12A721157001691F4 /* TagForm.swift */,
 			);
 			path = ToDo;
 			sourceTree = "<group>";
@@ -791,6 +794,7 @@
 				5B38FC082A0F8268003F9B5C /* Target.swift in Sources */,
 				5B38FC062A0E176F003F9B5C /* LauchScreen.swift in Sources */,
 				5B8B119529D07EE6009BB0E6 /* FirstCountdown.swift in Sources */,
+				5B3D07C22A721157001691F4 /* TagForm.swift in Sources */,
 				5B6AB24D2A30959C008D09B6 /* AppLogoView.swift in Sources */,
 				5B1C71262A121C3C00A5D3EB /* RangeDatePicker.swift in Sources */,
 				5B76D0F629C76A2B008883A8 /* CircularSector.swift in Sources */,
