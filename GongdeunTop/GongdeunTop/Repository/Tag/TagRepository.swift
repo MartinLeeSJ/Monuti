@@ -86,6 +86,18 @@ public class TagRepository: ObservableObject, FirebaseListener {
         tagReference.updateData(["count" : FieldValue.increment(Int64(-1))])
     }
     
+    func decreaseCount(of tags: [Tag]) async throws {
+        let batch = database.batch()
+        
+        for tag in tags {
+            guard let tagReference = reference(of: tag) else { continue }
+            batch.updateData(["count": FieldValue.increment(Int64(-1))],
+                             forDocument: tagReference)
+        }
+        
+        try await batch.commit()
+    }
+    
     func delete(_ tag: Tag) async throws {
         guard let tagReference = reference(of: tag) else { return }
         try await tagReference.delete()

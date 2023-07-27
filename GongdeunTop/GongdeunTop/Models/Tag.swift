@@ -10,5 +10,5 @@ import Foundation
 struct Tag: Codable, Hashable, Identifiable {
     var id: String { self.title }
     var title: String
-    var count: Int
+    var count: Int = 0
 }

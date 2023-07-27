@@ -14,14 +14,18 @@ import FirebaseFirestoreSwift
 
 
 struct TagForm: View {
-    @StateObject var tagManager = TagManager()
     @Binding var todo: ToDo
     @FocusState var focusedField: SetToDoForm.ToDoField?
+    
     @State private var tag: Tag = Tag(title: "", count: 0)
     @State private var filteredTags: [Tag] = []
+    
+    var tags: [Tag]
+    var onAddTag: (_ tag: Tag) -> Void
+    var onRemoveTag: (_ tag: Tag) -> Void
 
     var body: some View {
-        VStack {
+        VStack(spacing: 32) {
             FormContainer {
                 HStack(alignment: .bottom, spacing: 12){
                     tagFormTitle
@@ -68,7 +72,7 @@ extension TagForm {
         TextField(String(localized: "todo_tag"), text: $tag.title)
             .focused($focusedField, equals: .tag)
             .onChange(of: tag.title) { string in
-                filteredTags = tagManager.tags.filter { $0.title.localizedCaseInsensitiveContains(string) }
+                filteredTags = tags.filter { $0.title.localizedCaseInsensitiveContains(string) }
             }
             .onReceive(Just(tag.title)) { _ in
                 if tag.title.count > tagCharacterLimit {
@@ -160,19 +164,12 @@ extension TagForm {
 
 extension TagForm {
     private func handleAddTagButton() {
-        if tagManager.tags.contains(where: { $0.title == tag.title }) {
-            tagManager.increaseCount(of: tag)
-        } else {
-            tagManager.add(tag)
-        }
-        
-        todo.tags.append(tag.title)
+        onAddTag(tag)
         tag.title = ""
     }
     
     private func removeTagInTodo(tagTitle: String) {
-        tagManager.decreaseCount(of: Tag(title: tagTitle, count: 0))
-        todo.tags = todo.tags.filter { $0 != tagTitle }
+        onRemoveTag(Tag(title: tagTitle, count: 0))
     }
     
     

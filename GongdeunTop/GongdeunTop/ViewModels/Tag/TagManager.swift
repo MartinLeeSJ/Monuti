@@ -35,6 +35,18 @@ final class TagManager: ObservableObject {
         tagRepository.decreaseCount(of: tag)
     }
     
+    func decreaseCountOfTags(of titles: [String]) {
+        guard !titles.isEmpty else { return }
+        let tags: [Tag] = titles.map { Tag(title: $0) }
+        Task {
+            do {
+                try await tagRepository.decreaseCount(of: tags)
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
     func delete(_ tag: Tag) {
         Task {
             do {
