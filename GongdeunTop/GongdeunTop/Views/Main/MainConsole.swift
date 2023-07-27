@@ -96,7 +96,7 @@ extension MainConsole{
         .sheet(isPresented: $isAddToDoSheetOn) {
             SetToDoForm(targets: targetManager.targets) { todo in
                 todoManager.addToDo(todo)
-            }.presentationDetents([.medium, .large])
+            }.presentationDetents([.large])
         }
     }
     

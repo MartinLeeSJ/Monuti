@@ -14,12 +14,11 @@ import FirebaseFirestoreSwift
 
 
 struct TagForm: View {
-    @StateObject var tagStore = TagStore()
+    @StateObject var tagManager = TagManager()
     @Binding var todo: ToDo
     @FocusState var focusedField: SetToDoForm.ToDoField?
-    @State private var tagText: String = ""
+    @State private var tag: Tag = Tag(title: "", count: 0)
     @State private var filteredTags: [Tag] = []
-    private let db = Firestore.firestore()
 
     var body: some View {
         VStack {
@@ -41,12 +40,7 @@ struct TagForm: View {
                 tagScroll
             }
         }
-        .onAppear {
-            tagStore.subscribeTags()
-        }
-        .onDisappear {
-            tagStore.unsubscribeTags()
-        }
+      
     }
 }
 
@@ -71,20 +65,20 @@ extension TagForm {
     }
     
     private var tagFormTextField: some View {
-        TextField(String(localized: "todo_tag"), text: $tagText)
+        TextField(String(localized: "todo_tag"), text: $tag.title)
             .focused($focusedField, equals: .tag)
-            .onChange(of: tagText) { string in
-                filteredTags = tagStore.tags.filter { $0.title.localizedCaseInsensitiveContains(string) }
+            .onChange(of: tag.title) { string in
+                filteredTags = tagManager.tags.filter { $0.title.localizedCaseInsensitiveContains(string) }
             }
-            .onReceive(Just(tagText)) { _ in
-                if tagText.count > tagCharacterLimit {
-                    tagText = String(tagText.prefix(tagCharacterLimit))
+            .onReceive(Just(tag.title)) { _ in
+                if tag.title.count > tagCharacterLimit {
+                    tag.title = String(tag.title.prefix(tagCharacterLimit))
                 }
             }
     }
     
     private var tagFormCharacterLimitLabel: some View {
-        Text("\(tagText.count)/\(tagCharacterLimit)")
+        Text("\(tag.title.count)/\(tagCharacterLimit)")
             .font(.caption)
             .fixedSize()
     }
@@ -95,7 +89,7 @@ extension TagForm {
         } label: {
             Text("등록")
         }
-        .disabled(tagText.isEmpty)
+        .disabled(tag.title.isEmpty)
         .disabled(!canAddMoreTag)
     }
     
@@ -136,7 +130,7 @@ extension TagForm {
                                 .background {
                                     HAlignment(alignment: .trailling) {
                                         Button {
-                                            deleteTag(title: tagTitle)
+                                            removeTagInTodo(tagTitle: tagTitle)
                                         } label: {
                                             Image(systemName: "trash.fill")
                                                 .foregroundColor(.white)
@@ -166,44 +160,24 @@ extension TagForm {
 
 extension TagForm {
     private func handleAddTagButton() {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        guard !todo.tags.contains(where: { $0 == tagText }) else { return }
-        
-        let tagRef = db.collection("Members").document(uid).collection("Tag").document(tagText)
-        
-        if tagStore.tags.contains(where: { $0.title == tagText }) {
-            updateTagCount(of: tagRef)
+        if tagManager.tags.contains(where: { $0.title == tag.title }) {
+            tagManager.increaseCount(of: tag)
         } else {
-            addTag(at: tagRef)
+            tagManager.add(tag)
         }
         
-        todo.tags.append(tagText)
-        tagText = ""
-        
+        todo.tags.append(tag.title)
+        tag.title = ""
     }
     
-    private func updateTagCount(of tagRef: DocumentReference) {
-        tagRef.updateData(["count" : FieldValue.increment(Int64(1))])
-    }
-    
-    private func addTag(at tagRef: DocumentReference) {
-        tagRef.setData([
-            "title" : tagText,
-            "count" : 1
-        ])
-    }
-    
-    private func deleteTag(title: String) {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        let tagRef = db.collection("Members").document(uid).collection("Tag").document(title)
-        
-        tagRef.updateData(["count" : FieldValue.increment(Int64(-1))])
-        todo.tags = todo.tags.filter { $0 != title }
+    private func removeTagInTodo(tagTitle: String) {
+        tagManager.decreaseCount(of: Tag(title: tagTitle, count: 0))
+        todo.tags = todo.tags.filter { $0 != tagTitle }
     }
     
     
     private func handleTagListElementTapped(title: String) {
-        tagText = title
+        tag.title = title
         handleAddTagButton()
         filteredTags = []
     }
