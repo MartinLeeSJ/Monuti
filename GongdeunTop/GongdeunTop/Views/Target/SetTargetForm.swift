@@ -8,6 +8,15 @@
 import SwiftUI
 
 struct SetTargetForm: View {
+    enum Mode {
+        case add
+        case edit
+    }
+    
+    enum TargetField: Int, Hashable, CaseIterable {
+        case title
+        case content
+    }
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var themeManager: ThemeManager
     @State var target: Target = Target(title: "",
@@ -18,10 +27,8 @@ struct SetTargetForm: View {
                                        todos: [],
                                        achievement: 0,
                                        memoirs: "")
-    enum Mode {
-        case add
-        case edit
-    }
+    @FocusState private var focusedField: TargetField?
+    
     var mode: Mode = .add
     var onCommit: (_ target: Target) -> Void
     
@@ -84,6 +91,7 @@ struct SetTargetForm: View {
                                     String(localized: "targetForm_title_edit"))
                 .font(.headline)
                 .padding()
+                .padding(.top, 32)
             }
         }
     }
@@ -96,6 +104,9 @@ struct SetTargetForm: View {
                 TextField(text: $target.title) {
                     Text("targetTitle_placeholder")
                 }
+                .focused($focusedField, equals: .title)
+                .submitLabel(.next)
+                .onSubmit { DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {focusedField = .content} }
                 .font(.body)
             }
             
@@ -106,6 +117,9 @@ struct SetTargetForm: View {
                 TextField(text: $target.subtitle) {
                     Text("targetSubTitle_placeHolder")
                 }
+                .focused($focusedField, equals: .content)
+                .submitLabel(.continue)
+                .onSubmit { focusedField = nil }
                 .font(.body)
             }
         } header: {

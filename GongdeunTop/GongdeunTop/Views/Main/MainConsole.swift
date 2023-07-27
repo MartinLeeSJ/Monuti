@@ -110,7 +110,7 @@ extension MainConsole{
             SetTargetForm { target in
                 targetManager.addTarget(target)
             }
-            .presentationDetents([.medium, .large])
+            .presentationDetents([.large])
         }
     }
     
