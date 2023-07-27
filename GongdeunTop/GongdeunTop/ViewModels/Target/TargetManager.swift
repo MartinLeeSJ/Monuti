@@ -7,102 +7,62 @@
 
 import Foundation
 import Combine
+import Factory
 
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 import FirebaseAuth
 
 final class TargetManager: ObservableObject {
-    @Published var target: Target
-    @Published var modified: Bool = false
-
-    private let database = Firestore.firestore()
+    @Injected(\.firestore) var database
+    @Injected(\.targetRepository) var targetRepository
+    @Published var targets = [Target]()
+    @Published var isEditing: Bool = false
+    @Published var multiSelection = Set<String?>()
+    
     private var cancellables = Set<AnyCancellable>()
     
-    init(target: Target = Target(title: "",
-                                 subtitle: "",
-                                 createdAt: Date.now,
-                                 startDate: Date.now,
-                                 dueDate: Date.now,
-                                 todos: [],
-                                 achievement: 0,
-                                 memoirs: "")) {
-        self.target = target
-        self.$target
-            .dropFirst()
-            .sink { [weak self] target in
-                self?.modified = true
-            }
-            .store(in: &self.cancellables)
+    init() {
+        targetRepository
+            .$targets
+            .assign(to: &$targets)
     }
     
-    private func addTarget(_ target: Target) {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        if target.id == nil {
+    func addTarget(_ target: Target) {
+        do {
+            try targetRepository.addTarget(target)
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    
+    func updateTarget(_ target: Target) {
+        do {
+            try targetRepository.updateTarget(target)
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    
+    func removeTarget(_ target: Target) async {
+        do {
+            try await targetRepository.removeTarget(target)
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    
+    func removeTargets() {
+        guard !multiSelection.isEmpty else { return }
+        let filteredTarget: [Target] = self.targets.filter {
+            multiSelection.contains($0.id)
+        }
+        Task {
             do {
-                try database.collection("Members")
-                    .document(uid)
-                    .collection("Target")
-                    .addDocument(from: target)
-            }
-            catch {
+                try await targetRepository.removeTargets(filteredTarget: filteredTarget)
+            } catch {
                 print(error.localizedDescription)
             }
-        }
-    }
-    
-    private func updateTarget(_ target: Target) {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        guard let id = target.id else { return }
-        
-        do {
-            try database
-                .collection("Members")
-                .document(uid)
-                .collection("Target")
-                .document(id)
-                .setData(from: target)
-        } catch {
-            print(error.localizedDescription)
-        }
-    }
-    
-    private func removeTarget() async {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        guard let id = target.id else { return }
-        let memberRef = database.collection("Members").document(uid)
-        let batch = database.batch()
-        
-        for todo in target.todos {
-            batch.updateData(["relatedTarget" : nil ?? ""],
-                             forDocument: memberRef.collection("ToDo").document(todo))
-        }
-        
-        batch.deleteDocument(memberRef.collection("Target").document(id))
-        
-        do {
-            try await batch.commit()
-        } catch {
-            print(error.localizedDescription)
-        }
-    }
-    
-    private func addOrUpdateTarget() {
-        if let _ = self.target.id {
-            updateTarget(self.target)
-        } else {
-            addTarget(self.target)
-        }
-    }
-    
-    //MARK: - UI Handler
-    func handleDoneTapped() {
-        addOrUpdateTarget()
-    }
-    
-    func handleDeleteTapped() {
-        Task {
-            await removeTarget()
         }
     }
 }

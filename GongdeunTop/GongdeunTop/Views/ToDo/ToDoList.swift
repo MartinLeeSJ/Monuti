@@ -10,7 +10,8 @@ import SwiftUI
 
 struct ToDoList: View {
     @EnvironmentObject var themeManager: ThemeManager
-    @EnvironmentObject var todoStore: ToDoStore
+    @EnvironmentObject var todoManager: ToDoManager
+    @EnvironmentObject var targetManager: TargetManager
     @EnvironmentObject var timerManager: TimerManager
     
     @State private var isDeleteAlertOn: Bool = false
@@ -23,22 +24,22 @@ struct ToDoList: View {
             VStack(spacing: 0) {
                 topEditingConsole
                 
-                if !todoStore.todos.isEmpty {
-                    List(todoStore.todos, id: \.self.id, selection: $todoStore.multiSelection) { todo in
-                        ToDoListCell(todo: todo)
+                if !todoManager.todos.isEmpty {
+                    List(todoManager.todos, id: \.self.id, selection: $todoManager.multiSelection) { todo in
+                        ToDoListCell(todo: todo, targets: targetManager.targets)
                             .listRowBackground(Color.clear)
                             .listRowSeparator(.hidden)
                             .listRowInsets(.init(top: 8, leading: 16, bottom: 0, trailing: 16))
                     }
                     .listStyle(.plain)
-                    .environment(\.editMode, .constant(todoStore.isEditing ? EditMode.active : EditMode.inactive))
+                    .environment(\.editMode, .constant(todoManager.isEditing ? EditMode.active : EditMode.inactive))
                 }
                 
                 Spacer()
                 
                 Divider()
                 
-                if todoStore.isEditing {
+                if todoManager.isEditing {
                     bottomEditingConsole
                 }
             }
@@ -70,21 +71,21 @@ extension ToDoList {
     @ViewBuilder
     private var sortingMenu: some View {
         Menu {
-            ForEach(ToDoStore.SortMode.allCases) { mode in
+            ForEach(ToDoManager.SortMode.allCases) { mode in
                 Button {
-                    todoStore.sortTodos(as: mode)
+                    todoManager.setSortMode(mode)
                 } label: {
                     HStack {
                         Text(mode.localizedString)
                         Spacer()
-                        if todoStore.sortMode == mode {
+                        if todoManager.sortMode == mode {
                             Image(systemName: "checkmark")
                         }
                     }
                 }
             }
         } label: {
-            Image(systemName: "arrow.up.arrow.down.square\(todoStore.sortMode == .basic ? "" : ".fill")")
+            Image(systemName: "arrow.up.arrow.down.square\(todoManager.sortMode == .basic ? "" : ".fill")")
                 .font(.title2)
             
         }
@@ -109,13 +110,13 @@ extension ToDoList {
                     Text("Cancel")
                 }
                 Button {
-                    todoStore.extendLifeOfTodos()
+                    todoManager.updateToDosExpiration(todoManager.todos)
                     isExtendingTodosLifeAlertOn = false
                 } label: {
                     Text("Extend")
                 }
             } message: {
-                Text(String(localized: "will_extend?\(todoStore.todos.count)"))
+                Text(String(localized: "will_extend?\(todoManager.todos.count)"))
             }
 
             
@@ -127,10 +128,10 @@ extension ToDoList {
     private var multipleEditingButton: some View {
         Button {
             withAnimation {
-                todoStore.isEditing.toggle()
+                todoManager.isEditing.toggle()
             }
         } label: {
-            Text(todoStore.isEditing ? "Done" : "Edit")
+            Text(todoManager.isEditing ? "Done" : "Edit")
         }
         .transition(.opacity)
     }
@@ -140,7 +141,7 @@ extension ToDoList {
 // MARK: - Bottom Editing Console
 extension ToDoList {
     var multiSelectionCount: Int {
-        todoStore.multiSelection.count
+        todoManager.multiSelection.count
     }
     
     @ViewBuilder
@@ -153,7 +154,7 @@ extension ToDoList {
             }
             .alert("Delete", isPresented: $isDeleteAlertOn) {
                 Button(role: .destructive) {
-                    todoStore.deleteTodos()
+                    todoManager.removeToDos(todoManager.todos)
                     isDeleteAlertOn.toggle()
                 } label: {
                     Text("Delete")
@@ -165,14 +166,14 @@ extension ToDoList {
             Spacer()
             
             Button {
-                todoStore.completeTodos()
+                todoManager.updateToDosCompletion(todoManager.todos)
             } label: {
                 Text("Complete Todo")
             }
             
         }
         .tint(themeManager.colorInPriority(of: .accent))
-        .disabled(todoStore.multiSelection.isEmpty)
+        .disabled(todoManager.multiSelection.isEmpty)
         .padding(.horizontal, 24)
         .padding(.vertical, 6)
     }

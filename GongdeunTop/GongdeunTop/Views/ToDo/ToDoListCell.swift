@@ -13,6 +13,7 @@ struct ToDoListCell: View {
     @State private var isEditingSheetOn: Bool = false
     
     let todo: ToDo
+    let targets: [Target]
     
     var body: some View {
         HStack {
@@ -45,10 +46,8 @@ struct ToDoListCell: View {
                 Image(systemName: "chevron.right")
             }
             .sheet(isPresented: $isEditingSheetOn) {
-                SetToDoForm(manager: ToDoManager(todo: todo), mode: .edit) { result in
-                    if case .success(let action) = result, action == .delete {
-                        self.dismiss()
-                    }
+                SetToDoForm(todo: todo, targets: targets, mode: .edit) { todo in
+                    
                 }
             }
         }

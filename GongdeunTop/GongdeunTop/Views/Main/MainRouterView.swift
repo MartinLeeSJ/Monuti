@@ -26,8 +26,8 @@ struct MainRouterView: View {
         }
     }
     @EnvironmentObject var themeManager: ThemeManager
-    @EnvironmentObject var todoStore: ToDoStore
-    @EnvironmentObject var targetStore: TargetStore
+    @EnvironmentObject var todoManager: ToDoManager
+    @EnvironmentObject var targetManager: TargetManager
     @EnvironmentObject var timerManager: TimerManager
     
     @State private var isSettingViewOn: Bool = false
@@ -63,11 +63,9 @@ struct MainRouterView: View {
                     Spacer()
                     
                     MainConsole(displayingView: $currentDisplayingView)
-                        .environmentObject(todoStore)
-                        .environmentObject(timerManager)
                 }
                 .overlay(alignment: .bottom) {
-                    MainSettingBanner(todoCount: todoStore.todos.count,
+                    MainSettingBanner(todoCount: todoManager.todos.count,
                                       numOfSessions: timerManager.timeSetting.sessions.count,
                                       minute: timerManager.getMinute(of: timerManager.getTotalSeconds()),
                                       seconds: timerManager.getSeconds(of: timerManager.getTotalSeconds()))
@@ -96,10 +94,6 @@ struct MainRouterView: View {
                 }
             }
             .onAppear {
-                todoStore.subscribeTodos()
-                targetStore.subscribeTargets()
-            }
-            .onAppear {
                 UNUserNotificationCenter.current().requestAuthorization(options: [.badge, .alert, .sound]) { (granted, error) in
                     if granted {
                         print("Notifications authorization granted.")
@@ -107,10 +101,6 @@ struct MainRouterView: View {
                         print("Notifications authorization denied.")
                     }
                 }
-            }
-            .onDisappear {
-                todoStore.unsubscribeTodos()
-                targetStore.unsubscribeTargets()
             }
         }
     }
@@ -147,7 +137,7 @@ extension MainRouterView {
                         .font(.headline)
                         .symbolRenderingMode(.hierarchical)
                     Spacer()
-                    Text("\(todoStore.todos.count)")
+                    Text("\(todoManager.todos.count)")
                         .font(.title3)
                 }
             }
@@ -178,7 +168,7 @@ extension MainRouterView {
                         .foregroundStyle(themeManager.colorInPriority(of: .accent), .gray)
                         .font(.headline)
                     Spacer()
-                    Text("\(targetStore.targets.count)")
+                    Text("\(targetManager.targets.count)")
                         .font(.title3)
                 }
             }

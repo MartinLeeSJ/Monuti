@@ -41,7 +41,7 @@
 			<key>NSStringFormatValueTypeKey</key>
 			<string>lld</string>
 			<key>other</key>
-			<string>%d개 완료</string>
+			<string>%d개 할 일</string>
 		</dict>
 	</dict>
 	<key>%lld minute</key>

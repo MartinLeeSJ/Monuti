@@ -9,8 +9,9 @@ import SwiftUI
 
 struct MainConsole: View {
     @EnvironmentObject var themeManager: ThemeManager
-    @EnvironmentObject var todoStore: ToDoStore
+    @EnvironmentObject var todoManager: ToDoManager
     @EnvironmentObject var timerManager: TimerManager
+    @EnvironmentObject var targetManager: TargetManager
     
     @State private var isSetTimeViewOn: Bool = false
     @State private var isAddTargetSheetOn: Bool = false
@@ -46,8 +47,8 @@ struct MainConsole: View {
                             in: RoundedRectangle(cornerRadius: 10))
                 
                 NavigationLink {
-                    SessionsTimer(todos: todoStore.todos,
-                                  currentTodo: todoStore.todos.first)
+                    SessionsTimer(todos: todoManager.todos,
+                                  currentTodo: todoManager.todos.first)
                     .environmentObject(timerManager)
                 } label: {
                     HStack(spacing: 4) {
@@ -70,7 +71,7 @@ struct MainConsole: View {
             .padding(.vertical, 6)
             .padding(.horizontal)
         }
-        .animation(.easeIn, value: todoStore.isEditing)
+        .animation(.easeIn, value: todoManager.isEditing)
         .background(.clear)
     }
     
@@ -93,8 +94,9 @@ extension MainConsole{
             addButtonLabel
         }
         .sheet(isPresented: $isAddToDoSheetOn) {
-            SetToDoForm()
-                .presentationDetents([.medium, .large])
+            SetToDoForm(targets: targetManager.targets) { todo in
+                todoManager.addToDo(todo)
+            }.presentationDetents([.large])
         }
     }
     
@@ -105,8 +107,10 @@ extension MainConsole{
             addButtonLabel
         }
         .sheet(isPresented: $isAddTargetSheetOn) {
-            SetTargetForm()
-                .presentationDetents([.medium, .large])
+            SetTargetForm { target in
+                targetManager.addTarget(target)
+            }
+            .presentationDetents([.large])
         }
     }
     
