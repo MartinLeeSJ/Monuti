@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SetMonthView: View {
     @Environment(\.colorScheme) var scheme: ColorScheme
-    
+    @EnvironmentObject var themeManager: ThemeManager
     @ObservedObject var manager: CalendarManager
     @ObservedObject var cycleStore: CycleStore
     
@@ -54,7 +54,7 @@ struct SetMonthView: View {
                             Image(systemName: "chevron.left.circle.fill")
                                 .font(.title3)
                         }
-                        .tint(scheme == .light ? .GTDenimNavy : .white)
+                        
                         
                         Button {
                             manager.handleNextButton(.year)
@@ -63,8 +63,8 @@ struct SetMonthView: View {
                             Image(systemName: "chevron.right.circle.fill")
                                 .font(.title3)
                         }
-                        .tint(scheme == .light ? .GTDenimNavy : .white)
                     }
+                    .tint(themeManager.colorInPriority(of: .accent))
                     LazyVGrid(columns: Array(repeating: .init(.flexible(), spacing: 10), count: 4), spacing: 15) {
                         
                         ForEach(manager.currentYearData, id: \.self) { month in
@@ -83,15 +83,15 @@ struct SetMonthView: View {
                                 }
                                 .frame(height: 50)
                                 .background {
-                                    if scheme == .light {
+                                    if knowIsSelectedMonth(month) {
                                         RoundedRectangle(cornerRadius: 10)
-                                            .fill(knowIsSelectedMonth(month) ? Color.GTDenimNavy : Color.white.opacity(0.3))
+                                            .fill(themeManager.colorInPriority(of: .accent))
                                     } else {
                                         RoundedRectangle(cornerRadius: 10)
-                                            .stroke(knowIsSelectedMonth(month) ? Color.GTDenimNavy : Color.white.opacity(0.3), lineWidth: 1.5)
+                                            .fill(Material.thinMaterial)
                                     }
-                                   
                                 }
+                                
                             }
                             
                         }
@@ -100,7 +100,7 @@ struct SetMonthView: View {
                 .padding()
                 .background {
                     RoundedRectangle(cornerRadius: 10)
-                        .fill(scheme == .light ? Color.GTPastelBlue : Color.black)
+                        .fill(themeManager.sheetBackgroundColor())
                 }
                 .overlay {
                     if scheme == .dark {
@@ -113,8 +113,10 @@ struct SetMonthView: View {
     }
 }
 
+
 struct SetMonthView_Previews: PreviewProvider {
     static var previews: some View {
         SetMonthView(manager: CalendarManager(), cycleStore: CycleStore(), isShowing: .constant(true) )
+            .environmentObject(ThemeManager())
     }
 }
