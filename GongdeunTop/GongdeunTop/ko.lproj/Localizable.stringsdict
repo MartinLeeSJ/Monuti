@@ -30,7 +30,7 @@
 			<string>%d일 후</string>
 		</dict>
 	</dict>
-	<key>%lld todo_in_target</key>
+	<key>%lld completedTodo_in_target</key>
 	<dict>
 		<key>NSStringLocalizedFormatKey</key>
 		<string>%#@todoInTarget@</string>
@@ -40,7 +40,13 @@
 			<string>NSStringPluralRuleType</string>
 			<key>NSStringFormatValueTypeKey</key>
 			<string>lld</string>
+			<key>many</key>
+			<string>%d개 할 일</string>
 			<key>other</key>
+			<string>%d개 할 일</string>
+			<key>one</key>
+			<string>%d개 할 일</string>
+			<key>zero</key>
 			<string>%d개 할 일</string>
 		</dict>
 	</dict>
