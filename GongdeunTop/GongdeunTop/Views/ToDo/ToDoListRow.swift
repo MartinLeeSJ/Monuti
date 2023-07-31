@@ -7,7 +7,33 @@
 
 import SwiftUI
 
-struct ToDoListCell: View {
+struct ToDoInfoCell: View {
+    let todo: ToDo
+    var body: some View {
+        VStack(alignment: .leading, spacing: 5) {
+            Text(todo.title)
+                .font(.headline)
+            
+            Text(todo.content)
+                .font(.footnote)
+                .foregroundStyle(.secondary)
+            
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack {
+                    ForEach(todo.tags, id: \.self) { tag in
+                        Text(tag)
+                            .font(.caption)
+                            .padding(.vertical, 2)
+                            .padding(.horizontal, 6)
+                            .background(Capsule().fill(.thinMaterial))
+                    }
+                }
+            }
+        }
+    }
+}
+
+struct ToDoListRow: View {
     @EnvironmentObject var themeManager: ThemeManager
     @Environment(\.dismiss) var dismiss
     @State private var isEditingSheetOn: Bool = false
@@ -17,26 +43,7 @@ struct ToDoListCell: View {
     
     var body: some View {
         HStack {
-            VStack(alignment: .leading, spacing: 5) {
-                Text(todo.title)
-                    .font(.headline)
-                
-                Text(todo.content)
-                    .font(.footnote)
-                    .foregroundStyle(.secondary)
-                
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack {
-                        ForEach(todo.tags, id: \.self) { tag in
-                            Text(tag)
-                                .font(.caption)
-                                .padding(.vertical, 2)
-                                .padding(.horizontal, 6)
-                                .background(Capsule().fill(.thinMaterial))
-                        }
-                    }
-                }
-            }
+            ToDoInfoCell(todo: todo)
             
             startingTimeContainer
             
@@ -58,7 +65,7 @@ struct ToDoListCell: View {
 }
 
 
-extension ToDoListCell {
+extension ToDoListRow {
     @ViewBuilder
     var startingTimeContainer: some View {
         if let timeString = todo.startingTimeString {
