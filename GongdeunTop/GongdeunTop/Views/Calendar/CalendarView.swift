@@ -129,7 +129,7 @@ extension CalendarView {
 extension CalendarView {
     @ViewBuilder
     func getCalendar() -> some View {
-        LazyVGrid(columns: Array(repeating: .init(.flexible(), spacing: 0), count: 7), spacing: 16) {
+        LazyVGrid(columns: Array(repeating: .init(.flexible(), spacing: 0), count: 7), spacing: 8) {
             weekdays
             
             blanks
