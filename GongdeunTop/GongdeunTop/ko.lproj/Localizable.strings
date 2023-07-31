@@ -139,14 +139,6 @@
 "targetForm_title_add" = "새 목표";
 "targetForm_title_edit" = "목표 수정";
 
-//Weekday
-"Sun" = "일";
-"Mon" = "월";
-"Tue" = "화";
-"Wed" = "수";
-"Thu" = "목";
-"Fri" = "금";
-"Sat" = "토";
 
 // MARK: - Target Detail View
 "targetDetail_term" = "기간";

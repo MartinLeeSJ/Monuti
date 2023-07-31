@@ -135,7 +135,7 @@ extension CalendarView {
 extension CalendarView {
     @ViewBuilder
     func getCalendar() -> some View {
-        LazyVGrid(columns: Array(repeating: .init(.flexible(), spacing: 0), count: 7), spacing: 0) {
+        LazyVGrid(columns: Array(repeating: .init(.flexible(), spacing: 0), count: 7), spacing: 16) {
             weekdays
             
             blanks
@@ -154,20 +154,29 @@ extension CalendarView {
             })
     }
     
+    private func getWeekdays() -> [String] {
+        guard var weekdays = DateFormatter().shortStandaloneWeekdaySymbols else { return [] }
+        var firstWeekdayIndex = Calendar.current.firstWeekday - 1
+        
+        while firstWeekdayIndex > 0 {
+            let first = weekdays.removeFirst()
+            weekdays.append(first)
+            firstWeekdayIndex -= 1
+        }
+        
+        return weekdays
+    }
+    
     
     @ViewBuilder
     var weekdays: some View {
-        let dateFormatter = DateFormatter()
-        if let weekdays = dateFormatter.shortWeekdaySymbols {
-            ForEach(weekdays, id: \.self) { weekday in
+            ForEach(getWeekdays(), id: \.self) { weekday in
                 HStack(alignment: .center) {
-                    Text(String(localized: LocalizedStringResource(stringLiteral: weekday))
-                    )
-                    .font(.subheadline.bold())
-                    .padding(5)
+                    Text(weekday)
+                        .font(.subheadline.bold())
+                        .padding(5)
                 }
             }
-        }
     }
     
     var blanks: some View {

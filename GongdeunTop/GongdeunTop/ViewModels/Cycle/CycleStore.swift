@@ -8,10 +8,13 @@
 import Foundation
 import Combine
 
+import Factory
+
 import FirebaseAuth
 import FirebaseFirestore
 
 final class CycleStore: ObservableObject {
+    @Injected(\.firestore) var database
     @Published var cycles: [Cycle] = [] {
         didSet {
             orderCyclesByDate()
@@ -24,7 +27,6 @@ final class CycleStore: ObservableObject {
     }
     @Published var dateEvaluations = [Date : Int]()
     
-    private let database = Firestore.firestore()
     private var listenerRegistration: ListenerRegistration?
     
     func resetAndSubscribe(_ date: Date) {

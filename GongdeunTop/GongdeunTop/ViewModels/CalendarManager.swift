@@ -16,12 +16,14 @@ final class CalendarManager: ObservableObject {
     @Published var startingPointDate: Date = Date()
     @Published var selectedDate: Date = Date()
     
-    private var cancellables = Set<AnyCancellable>()
     
     var firstWeekdayDigit: Int {
         if let startDate = currentMonthData.first {
             
-            return Int(startDate.formatted(Date.FormatStyle().weekday(.oneDigit))) ?? 1
+            let dateFormatted = Date.FormatStyle(locale: .init(identifier: "ko-KR"), calendar: Calendar.current).weekday(.oneDigit)
+            print(Int(startDate.formatted(dateFormatted)) ?? 0)
+            print(Calendar.current.firstWeekday)
+            return Int(startDate.formatted(dateFormatted)) ?? 1
         } else {
             return 1
         }
