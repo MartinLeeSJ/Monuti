@@ -18,13 +18,13 @@ struct Target: Codable, Hashable, Identifiable {
     var startDate: Date
     var dueDate: Date
     var todos: [String]
-    var achievement: Int
+    var achievement: Int?
     var memoirs: String // 회고
     
     var achievementRate: Double {
         guard todos.count != 0 else { return 0 }
-        let rate: Double = Double(achievement / todos.count)
-        return round(rate * 100) / 100
+        let rate: Double = Double(achievement ?? 0) / Double(todos.count)
+        return rate
     }
 }
 

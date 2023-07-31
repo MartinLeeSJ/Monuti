@@ -15,6 +15,10 @@ import FirebaseFirestore
 import FirebaseFirestoreSwift
 
 public class ToDoRepository: ObservableObject, FirebaseListener {
+    enum SubscribingMode {
+        case today
+        case target
+    }
     @Injected(\.authService) var authService
     @Injected(\.firestore) var database
     @Published var todos = [ToDo]()

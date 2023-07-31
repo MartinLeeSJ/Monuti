@@ -38,7 +38,7 @@
 			<string>tomorrow</string>
 		</dict>
 	</dict>
-	<key>%lld todo_in_target</key>
+	<key>%lld completedTodo_in_target</key>
 	<dict>
 		<key>NSStringLocalizedFormatKey</key>
 		<string>%#@todoInTarget@</string>

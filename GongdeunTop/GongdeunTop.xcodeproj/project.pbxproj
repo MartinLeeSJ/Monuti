@@ -90,6 +90,7 @@
 		5BB4FEC829C83124009CCD43 /* ToDoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB4FEC729C83124009CCD43 /* ToDoManager.swift */; };
 		5BB4FECA29C832D9009CCD43 /* ToDo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB4FEC929C832D9009CCD43 /* ToDo.swift */; };
 		5BB4FECC29C83964009CCD43 /* HAlignment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB4FECB29C83964009CCD43 /* HAlignment.swift */; };
+		5BBD3EED2A7758C400731E20 /* AchievementHexagon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BBD3EEC2A7758C400731E20 /* AchievementHexagon.swift */; };
 		5BC275332A6FE7DF0028F5F8 /* TimerDigit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC275322A6FE7DF0028F5F8 /* TimerDigit.swift */; };
 		5BC275352A6FE7F90028F5F8 /* TimerHexagon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC275342A6FE7F90028F5F8 /* TimerHexagon.swift */; };
 		5BC3E06629C9EA4100863AD2 /* GongdeunTopTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC3E06529C9EA4100863AD2 /* GongdeunTopTests.swift */; };
@@ -201,6 +202,7 @@
 		5BB4FEC729C83124009CCD43 /* ToDoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoManager.swift; sourceTree = "<group>"; };
 		5BB4FEC929C832D9009CCD43 /* ToDo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDo.swift; sourceTree = "<group>"; };
 		5BB4FECB29C83964009CCD43 /* HAlignment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAlignment.swift; sourceTree = "<group>"; };
+		5BBD3EEC2A7758C400731E20 /* AchievementHexagon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementHexagon.swift; sourceTree = "<group>"; };
 		5BC275322A6FE7DF0028F5F8 /* TimerDigit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerDigit.swift; sourceTree = "<group>"; };
 		5BC275342A6FE7F90028F5F8 /* TimerHexagon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerHexagon.swift; sourceTree = "<group>"; };
 		5BC3E06329C9EA4100863AD2 /* GongdeunTopTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GongdeunTopTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -286,6 +288,7 @@
 			children = (
 				5B38FC092A0F87BC003F9B5C /* TargetList.swift */,
 				5B1C71222A120A7100A5D3EB /* TargetListCell.swift */,
+				5BBD3EEC2A7758C400731E20 /* AchievementHexagon.swift */,
 				5B1C71202A120A2A00A5D3EB /* SetTargetForm.swift */,
 				5B6DF5F22A371B4600CCA57F /* TargetDetailView.swift */,
 			);
@@ -825,6 +828,7 @@
 				5B6AB24D2A30959C008D09B6 /* AppLogoView.swift in Sources */,
 				5B1C71262A121C3C00A5D3EB /* RangeDatePicker.swift in Sources */,
 				5B76D0F629C76A2B008883A8 /* CircularSector.swift in Sources */,
+				5BBD3EED2A7758C400731E20 /* AchievementHexagon.swift in Sources */,
 				5B6AB2542A316752008D09B6 /* TextFieldFormContainer.swift in Sources */,
 				5B4214F72A2D5F5F004362E5 /* MainConsole.swift in Sources */,
 				5BD3D1D929D1C45A008E8988 /* ToDo+PlaceHolder.swift in Sources */,

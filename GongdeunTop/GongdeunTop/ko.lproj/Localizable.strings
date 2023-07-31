@@ -118,7 +118,7 @@
 // MARK: - Target List Cell
 "target_days" = "목표 기간";
 "target_achievement" = "성취도";
-"target_completed" = "관련된 할 일";
+"target_completed" = "완료한 할 일";
 "target_begins" = "타겟 시작";
 "target_dues" = "타겟 종료";
 
