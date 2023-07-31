@@ -6,6 +6,7 @@
   
 */
 "Today's ToDos" = "Today's ToDos";
+"Monuti_Intro" = "Goal-Driven\nTo-do List\nWith\nPomodoro Timer.";
 
 "Monuti" = "Monuti";
 "Done" = "Done";
@@ -140,14 +141,6 @@
 "targetForm_title_add" = "New Target";
 "targetForm_title_edit" = "Edit Target";
 
-//Weekday
-"Sun" = "Sun";
-"Mon" = "Mon";
-"Tue" = "Tue";
-"Wed" = "Wed";
-"Thu" = "Thu";
-"Fri" = "Fri";
-"Sat" = "Sat";
 
 // MARK: - Target Detail View
 "targetDetail_term" = "Term";

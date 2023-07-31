@@ -82,8 +82,8 @@ extension TargetListCell {
         Date.now < target.startDate
     }
     
-    var todoCountString: AttributedString {
-        getTargetBadgeString(localized: "\(target.todos.count) todo_in_target", number: target.todos.count)
+    var completedTodoCountString: AttributedString {
+        getTargetBadgeString(localized: "\(target.achievement ?? 0) completedTodo_in_target", number: target.achievement ?? 0)
     }
     
     
@@ -133,8 +133,9 @@ extension TargetListCell {
                 .fontWeight(.semibold)
                 .fixedSize()
             Spacer()
-            RoundedHexagon(radius: 16, cornerAngle: 5)
-                .frame(width: 35)
+            AchievementHexagon(radius: 18,
+                               achievementRate: target.achievementRate,
+                               color: themeManager.colorInPriority(of: .accent))
         }
         .padding(8)
         .background(in: RoundedRectangle(cornerRadius: 10))
@@ -149,7 +150,7 @@ extension TargetListCell {
                 .fontWeight(.semibold)
                 .fixedSize()
             Spacer()
-            Text(todoCountString)
+            Text(completedTodoCountString)
                 .fixedSize()
         }
         .padding(8)
@@ -184,6 +185,9 @@ extension TargetListCell {
             .frame(height: 30)
     }
 }
+
+
+
 
 //struct TargetListCell_Previews: PreviewProvider {
 //    static var previews: some View {

@@ -57,13 +57,17 @@ struct DateCell: View {
             HAlignment(alignment: .center) {
                 
                 Text(day)
-                    .font(.caption)
-                    .foregroundColor(isToday ? .white : Color("basicFontColor"))
+                    .font(.caption.bold())
+//                    .foregroundColor(Color("basicFontColor"))
                     .frame(minWidth: 20)
                     .background {
                         if isToday {
                             Capsule()
-                                .fill(themeManager.colorInPriority(of: .accent))
+                                .fill(themeManager.componentColor())
+                                .overlay {
+                                    Capsule()
+                                        .stroke(themeManager.colorInPriority(of: .accent), lineWidth: 1.5)
+                                }
                         }
                     }
             }

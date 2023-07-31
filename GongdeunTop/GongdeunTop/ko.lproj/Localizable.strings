@@ -7,6 +7,7 @@
 */
 
 "Today's ToDos" = "오늘의 할 일";
+"Monuti_Intro" = "목표 지향적인\n투두리스트 +\n뽀모도로 타이머";
 
 "Monuti" = "모누티";
 "Done" = "완료";
@@ -118,7 +119,7 @@
 // MARK: - Target List Cell
 "target_days" = "목표 기간";
 "target_achievement" = "성취도";
-"target_completed" = "관련된 할 일";
+"target_completed" = "완료한 할 일";
 "target_begins" = "타겟 시작";
 "target_dues" = "타겟 종료";
 
@@ -139,14 +140,6 @@
 "targetForm_title_add" = "새 목표";
 "targetForm_title_edit" = "목표 수정";
 
-//Weekday
-"Sun" = "일";
-"Mon" = "월";
-"Tue" = "화";
-"Wed" = "수";
-"Thu" = "목";
-"Fri" = "금";
-"Sat" = "토";
 
 // MARK: - Target Detail View
 "targetDetail_term" = "기간";

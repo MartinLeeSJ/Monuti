@@ -54,7 +54,7 @@ struct MainRouterView: View {
                     switch currentDisplayingView {
                     case .todo: ToDoList()
                                 .transition(.move(edge: edge).animation(.linear(duration: 0.3)))
-                    case .calendar: Text("Test")
+                    case .calendar: ProgressView()
                     case .target: TargetList()
                             .transition(.move(edge: edge).animation(.linear(duration: 0.3)))
                                     
@@ -64,13 +64,6 @@ struct MainRouterView: View {
                     
                     MainConsole(displayingView: $currentDisplayingView)
                 }
-                .overlay(alignment: .bottom) {
-                    MainSettingBanner(todoCount: todoManager.todos.count,
-                                      numOfSessions: timerManager.timeSetting.sessions.count,
-                                      minute: timerManager.getMinute(of: timerManager.getTotalSeconds()),
-                                      seconds: timerManager.getSeconds(of: timerManager.getTotalSeconds()))
-                    .offset(y: -90)
-                }
             }
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -78,6 +71,13 @@ struct MainRouterView: View {
                     themeManager.appLogoImage()
                         .resizable()
                         .frame(width: 36, height: 36)
+                }
+                
+                ToolbarItem(placement: .principal) {
+                    MainSettingBanner(todoCount: todoManager.todos.count,
+                                      numOfSessions: timerManager.timeSetting.sessions.count,
+                                      minute: timerManager.getMinute(of: timerManager.getTotalSeconds()),
+                                      seconds: timerManager.getSeconds(of: timerManager.getTotalSeconds()))
                 }
                 
                 ToolbarItem(placement: .navigationBarTrailing) {

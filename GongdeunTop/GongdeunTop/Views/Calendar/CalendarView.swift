@@ -25,12 +25,12 @@ struct CalendarView: View {
 
     private func handleNextMonth() {
         calendarManager.handleNextButton(.month)
-        cycleStore.resetAndSubscribe(calendarManager.startingPointDate)
+        cycleStore.setBaseDate(calendarManager.startingPointDate)
     }
     
     private func handlePreviousMonth() {
         calendarManager.handlePreviousButton(.month)
-        cycleStore.resetAndSubscribe(calendarManager.startingPointDate)
+        cycleStore.setBaseDate(calendarManager.startingPointDate)
     }
     
     
@@ -65,13 +65,7 @@ struct CalendarView: View {
                 SetMonthView(manager: calendarManager, cycleStore: cycleStore, isShowing: $showSetMonth)
             }
         }
-        .onAppear {
-            cycleStore.subscribeCycles(Date())
-            
-        }
-        .onDisappear {
-            cycleStore.unsubscribeCycles()
-        }
+        
         
     }
 }
@@ -135,7 +129,7 @@ extension CalendarView {
 extension CalendarView {
     @ViewBuilder
     func getCalendar() -> some View {
-        LazyVGrid(columns: Array(repeating: .init(.flexible(), spacing: 0), count: 7), spacing: 0) {
+        LazyVGrid(columns: Array(repeating: .init(.flexible(), spacing: 0), count: 7), spacing: 8) {
             weekdays
             
             blanks
@@ -154,20 +148,29 @@ extension CalendarView {
             })
     }
     
+    private func getWeekdays() -> [String] {
+        guard var weekdays = DateFormatter().shortStandaloneWeekdaySymbols else { return [] }
+        var firstWeekdayIndex = Calendar.current.firstWeekday - 1
+        
+        while firstWeekdayIndex > 0 {
+            let first = weekdays.removeFirst()
+            weekdays.append(first)
+            firstWeekdayIndex -= 1
+        }
+        
+        return weekdays
+    }
+    
     
     @ViewBuilder
     var weekdays: some View {
-        let dateFormatter = DateFormatter()
-        if let weekdays = dateFormatter.shortWeekdaySymbols {
-            ForEach(weekdays, id: \.self) { weekday in
+            ForEach(getWeekdays(), id: \.self) { weekday in
                 HStack(alignment: .center) {
-                    Text(String(localized: LocalizedStringResource(stringLiteral: weekday))
-                    )
-                    .font(.subheadline.bold())
-                    .padding(5)
+                    Text(weekday)
+                        .font(.subheadline.bold())
+                        .padding(5)
                 }
             }
-        }
     }
     
     var blanks: some View {
@@ -205,7 +208,7 @@ extension CalendarView {
         ToolbarItem(placement: .navigationBarTrailing) {
             Button {
                 calendarManager.handleTodayButton()
-                cycleStore.resetAndSubscribe(calendarManager.startingPointDate)
+                cycleStore.setBaseDate(calendarManager.startingPointDate)
             } label: {
                 Text("Today")
             }

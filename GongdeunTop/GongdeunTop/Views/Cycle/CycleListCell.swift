@@ -33,25 +33,18 @@ struct CycleListCell: View {
         } label: {
 
             HStack(spacing: 0) {
-                Group {
-                    Text("sessions\(cycle.sessions ?? 0)")
-                    Text("totalTime\(cycle.minutes ?? 0)")
-                }
-                .font(.callout)
-                
+                Text("\(hourAndMinute)")
+                    .font(.body)
+                    .fontWeight(.bold)
+                    
+                    
                 Spacer()
                     
-                
-                Text("\(hourAndMinute)")
-                    .font(.footnote)
-                    .foregroundColor(.secondary)
-                    .padding(.trailing, 5)
-                
-                
                 Image(systemName: "chevron.right")
                     .font(.footnote)
                     .opacity(0.5)
             }
+            .foregroundColor(.black)
             .padding(.horizontal)
             .padding(.vertical, 10)
             .background {
