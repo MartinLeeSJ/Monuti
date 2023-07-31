@@ -49,7 +49,7 @@ struct SetMonthView: View {
                         
                         Button {
                             manager.handlePreviousButton(.year)
-                            cycleStore.resetAndSubscribe(manager.startingPointDate)
+                            cycleStore.setBaseDate(manager.startingPointDate)
                         } label: {
                             Image(systemName: "chevron.left.circle.fill")
                                 .font(.title3)
@@ -58,7 +58,7 @@ struct SetMonthView: View {
                         
                         Button {
                             manager.handleNextButton(.year)
-                            cycleStore.resetAndSubscribe(manager.startingPointDate)
+                            cycleStore.setBaseDate(manager.startingPointDate)
                         } label: {
                             Image(systemName: "chevron.right.circle.fill")
                                 .font(.title3)
@@ -70,7 +70,7 @@ struct SetMonthView: View {
                         ForEach(manager.currentYearData, id: \.self) { month in
                             Button {
                                 manager.selectStartingPointDate(month)
-                                cycleStore.resetAndSubscribe(manager.startingPointDate)
+                                cycleStore.setBaseDate(manager.startingPointDate)
                             } label: {
                                 VStack {
                                     Spacer()

@@ -25,12 +25,12 @@ struct CalendarView: View {
 
     private func handleNextMonth() {
         calendarManager.handleNextButton(.month)
-        cycleStore.resetAndSubscribe(calendarManager.startingPointDate)
+        cycleStore.setBaseDate(calendarManager.startingPointDate)
     }
     
     private func handlePreviousMonth() {
         calendarManager.handlePreviousButton(.month)
-        cycleStore.resetAndSubscribe(calendarManager.startingPointDate)
+        cycleStore.setBaseDate(calendarManager.startingPointDate)
     }
     
     
@@ -65,13 +65,7 @@ struct CalendarView: View {
                 SetMonthView(manager: calendarManager, cycleStore: cycleStore, isShowing: $showSetMonth)
             }
         }
-        .onAppear {
-            cycleStore.subscribeCycles(Date())
-            
-        }
-        .onDisappear {
-            cycleStore.unsubscribeCycles()
-        }
+        
         
     }
 }
@@ -214,7 +208,7 @@ extension CalendarView {
         ToolbarItem(placement: .navigationBarTrailing) {
             Button {
                 calendarManager.handleTodayButton()
-                cycleStore.resetAndSubscribe(calendarManager.startingPointDate)
+                cycleStore.setBaseDate(calendarManager.startingPointDate)
             } label: {
                 Text("Today")
             }
