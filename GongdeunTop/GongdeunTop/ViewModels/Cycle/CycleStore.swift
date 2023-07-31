@@ -8,75 +8,47 @@
 import Foundation
 import Combine
 
+import Factory
+
 import FirebaseAuth
 import FirebaseFirestore
 
 final class CycleStore: ObservableObject {
-    @Published var cycles: [Cycle] = [] {
-        didSet {
-            orderCyclesByDate()
-        }
-    }
-    @Published var cyclesDictionary = [Date : [Cycle]]() {
-        didSet {
-            evaluateDate()
-        }
-    }
+    @Injected(\.cycleRepository) var cycleRepository
+    @Injected(\.firestore) var database
+    @Published var cycles: [Cycle] = []
+    @Published var cyclesDictionary = [Date : [Cycle]]()
     @Published var dateEvaluations = [Date : Int]()
     
-    private let database = Firestore.firestore()
     private var listenerRegistration: ListenerRegistration?
-    
-    func resetAndSubscribe(_ date: Date) {
-        unsubscribeCycles()
-        subscribeCycles(date)
-    }
-   
-    
-    func unsubscribeCycles() {
-        if listenerRegistration != nil {
-            listenerRegistration?.remove()
-            listenerRegistration = nil
-        }
-    }
-    
-    
-    func subscribeCycles(_ startingPoint: Date) {
-        guard let uid = Auth.auth().currentUser?.uid else {
-            return
-        }
+    private var cancellables = Set<AnyCancellable>()
+    init() {
+        cycleRepository
+            .$cycles
+            .assign(to: &$cycles)
         
-        if listenerRegistration == nil {
-            let dateInterval = Calendar.current.dateInterval(of: .month, for: startingPoint)
-            
-            let startDate: Date = dateInterval?.start ?? Date()
-            let endDate: Date = dateInterval?.end ?? Date()
-            
-            print("startDate : \(startDate)")
-            print("endDate : \(endDate)")
-            
-            
-            let query = database.collection("Members")
-                .document(uid)
-                .collection("Cycle")
-                .whereField("createdAt", isGreaterThanOrEqualTo: Timestamp(date: startDate))
-                .whereField("createdAt", isLessThan: Timestamp(date: endDate))
-            
-            listenerRegistration = query.addSnapshotListener { [weak self] (snapshot, error) in
-                guard let self = self, let documents = snapshot?.documents else {
-                    print("Error fetching documents: \(error?.localizedDescription ?? "unknown")")
-                    return
-                }
-                
-                self.cycles = documents.compactMap { try? $0.data(as: Cycle.self) }
-                
+        $cycles
+            .removeDuplicates()
+            .map { [weak self] cycles in
+                self?.orderCyclesByDate(cycles: cycles) ?? [Date : [Cycle]]()
             }
-        }
+            .assign(to: &$cyclesDictionary)
+        
+        $cyclesDictionary
+            .removeDuplicates()
+            .map { [weak self] dictionary in
+                self?.evaluateDate(dictionary: dictionary) ?? [Date: Int]()
+            }
+            .assign(to: &$dateEvaluations)
+        
     }
     
-    
-    private func orderCyclesByDate() {
-        resetDict()
+    func setBaseDate(_ date: Date) {
+        cycleRepository.setBaseDate(date)
+    }
+
+    private func orderCyclesByDate(cycles: [Cycle]) -> [Date : [Cycle]] {
+        var dictionary = [Date : [Cycle]]()
         
         for cycle in cycles {
             let date: Date =  cycle.createdAt.dateValue()
@@ -84,17 +56,18 @@ final class CycleStore: ObservableObject {
             guard let dateStart = Calendar.current.dateInterval(of: .day, for: date)?.start else {
                 continue
             }
-            
-            if cyclesDictionary[dateStart] == nil {
-                cyclesDictionary[dateStart] = []
+            if dictionary[dateStart] == nil {
+                dictionary[dateStart] = []
             }
-                
-            cyclesDictionary[dateStart]?.append(cycle)
+            dictionary[dateStart]?.append(cycle)
         }
+        
+        return dictionary
     }
     
-    private func evaluateDate() {
-        for (date , cycles) in cyclesDictionary {
+    private func evaluateDate(dictionary: [Date : [Cycle]]) -> [Date : Int] {
+        var result = [Date: Int]()
+        for (date , cycles) in dictionary {
             var value: Int = 0
             var todoCount: Int = 0
             for cycle in cycles {
@@ -106,8 +79,9 @@ final class CycleStore: ObservableObject {
             guard todoCount != 0 else { continue }
             
             
-            dateEvaluations[date] = averageAndRoundUp(total: value, count: todoCount)
+            result[date] = averageAndRoundUp(total: value, count: todoCount)
         }
+        return result
     }
     
     private func averageAndRoundUp(total: Int, count: Int) -> Int {

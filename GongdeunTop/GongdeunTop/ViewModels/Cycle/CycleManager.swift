@@ -8,17 +8,19 @@
 import Foundation
 import Combine
 
+import Factory
+
 import Firebase
 import FirebaseAuth
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
 final class CycleManager: ObservableObject {
+    @Injected(\.firestore) var database
     @Published var cycle: Cycle
     @Published var todos: [ToDo] = []
     @Published var modified: Bool = false
     
-    private let database = Firestore.firestore()
     private var cancellables = Set<AnyCancellable>()
     
     init(cycle: Cycle = Cycle(createdAt: Timestamp(date: Date()), todos: [], evaluation: 0, memoirs: "", sessions: 0, minutes: 0),
@@ -152,14 +154,6 @@ final class CycleManager: ObservableObject {
             print(error.localizedDescription)
         }
     }
-    
-//    func recordCycleTimeSetting(timeSetting: TimeSetting, minutes: Int) {
-//        cycle.sessions = timeSetting.numOfSessions
-//        cycle.refreshTime = timeSetting.restTime
-//        cycle.concentrationTime = timeSetting.concentrationTime
-//        cycle.minutes = minutes
-//        
-//    }
     
    
     

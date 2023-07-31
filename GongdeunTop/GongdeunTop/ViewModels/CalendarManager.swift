@@ -6,23 +6,24 @@
 //
 
 import Foundation
+import Combine
+
 
 
 final class CalendarManager: ObservableObject {
     @Published var currentMonthData: [Date] = []
     @Published var currentYearData: [Date] = []
-    @Published var startingPointDate: Date = Date() {
-        didSet {
-            getCurrentMonthData()
-            getCurrentYearDate()
-        }
-    }
+    @Published var startingPointDate: Date = Date()
     @Published var selectedDate: Date = Date()
+    
     
     var firstWeekdayDigit: Int {
         if let startDate = currentMonthData.first {
             
-            return Int(startDate.formatted(Date.FormatStyle().weekday(.oneDigit))) ?? 1
+            let dateFormatted = Date.FormatStyle(locale: .init(identifier: "ko-KR"), calendar: Calendar.current).weekday(.oneDigit)
+            print(Int(startDate.formatted(dateFormatted)) ?? 0)
+            print(Calendar.current.firstWeekday)
+            return Int(startDate.formatted(dateFormatted)) ?? 1
         } else {
             return 1
         }
@@ -42,13 +43,22 @@ final class CalendarManager: ObservableObject {
     }
     
     init() {
-      getCurrentMonthData()
-      getCurrentYearDate()
+        $startingPointDate
+            .map { [weak self] date in
+                self?.getCurrentMonthData(from: date) ?? []
+            }
+            .assign(to: &$currentMonthData)
+        
+        $startingPointDate
+            .map { [weak self] date in
+                self?.getCurrentYearDate(from: date) ?? []
+            }
+            .assign(to: &$currentYearData)
     }
     
     
-    private func getCurrentMonthData() {
-        let dateInterval = Calendar.current.dateInterval(of: .month, for: startingPointDate)!
+    private func getCurrentMonthData(from base: Date) -> [Date] {
+        let dateInterval = Calendar.current.dateInterval(of: .month, for: base)!
         let startDate = dateInterval.start
         let endDate = dateInterval.end
         var currentDate = startDate
@@ -59,11 +69,11 @@ final class CalendarManager: ObservableObject {
             currentDate = Calendar.current.date(byAdding: .day, value: 1, to: currentDate)!
         }
 
-        currentMonthData = monthData
+        return monthData
     }
     
-    private func getCurrentYearDate() {
-        let dateInterval = Calendar.current.dateInterval(of: .year, for: startingPointDate)!
+    private func getCurrentYearDate(from base: Date) -> [Date] {
+        let dateInterval = Calendar.current.dateInterval(of: .year, for: base)!
         let startDate = dateInterval.start
         let endDate = dateInterval.end
         var currentDate = startDate
@@ -74,7 +84,7 @@ final class CalendarManager: ObservableObject {
             currentDate = Calendar.current.date(byAdding: .month, value: 1, to: currentDate)!
         }
         
-        currentYearData = yearData
+        return yearData
     }
     
     
