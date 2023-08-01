@@ -184,6 +184,13 @@ extension MainRouterView {
         }
     }
     
+    var formattedToday: String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM/dd"
+        dateFormatter.locale = .current
+        return dateFormatter.string(from: Date.now)
+    }
+    
     var calendarViewButton: some View {
         NavigationLink {
             CalendarView()
@@ -194,7 +201,7 @@ extension MainRouterView {
                     Image(systemName: "calendar")
                         .foregroundStyle(themeManager.colorInPriority(of: .accent))
                     Spacer()
-                    Text(DateFormatter.veryShortDateformat.string(from: Date.now))
+                    Text(formattedToday)
                 }
             }
         }

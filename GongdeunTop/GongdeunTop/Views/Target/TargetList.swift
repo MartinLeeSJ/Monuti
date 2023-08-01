@@ -16,28 +16,35 @@ struct TargetList: View {
     
     
     var body: some View {
-        VStack(spacing: 0) {
-            topEditingConsole
-            List(targetManager.targets, id: \.self.id, selection: $targetManager.multiSelection) { target in
-                NavigationLink {
-                    TargetDetailView(manager: TargetDetailManager(target: target), target: target)
-                } label: {
-                    TargetListCell(target: target)
+        ZStack {
+            themeManager.colorInPriority(of: .background)
+                .ignoresSafeArea()
+            VStack(spacing: 0) {
+                topEditingConsole
+                if !targetManager.targets.isEmpty {
+                    List(targetManager.targets, id: \.self.id, selection: $targetManager.multiSelection) { target in
+                        NavigationLink {
+                            TargetDetailView(manager: TargetDetailManager(target: target), target: target)
+                        } label: {
+                            TargetListCell(target: target)
+                        }
+                        .listRowBackground(Color.clear)
+                        .listRowSeparator(.hidden)
+                        .listRowInsets(.init(top: 8,
+                                             leading: 16,
+                                             bottom: 4,
+                                             trailing: 16))
+                    }
+                    .listStyle(.plain)
+                    .environment(\.editMode, .constant(targetManager.isEditing ? EditMode.active : EditMode.inactive))
                 }
-                .listRowBackground(Color.clear)
-                .listRowSeparator(.hidden)
-                .listRowInsets(.init(top: 8,
-                                     leading: 16,
-                                     bottom: 4,
-                                     trailing: 16))
-            }
-            .listStyle(.plain)
-            .environment(\.editMode, .constant(targetManager.isEditing ? EditMode.active : EditMode.inactive))
-            
-            Divider()
-            
-            if targetManager.isEditing {
-                bottomDeleteButton
+                
+                Spacer()
+                Divider()
+                
+                if targetManager.isEditing {
+                    bottomDeleteButton
+                }
             }
         }
     }
