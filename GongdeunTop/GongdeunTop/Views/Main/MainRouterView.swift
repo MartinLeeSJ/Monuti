@@ -59,11 +59,10 @@ struct MainRouterView: View {
                             .transition(.move(edge: edge).animation(.linear(duration: 0.3)))
                                     
                     }
-                    
-                    Spacer()
-                    
-                    MainConsole(displayingView: $currentDisplayingView)
                 }
+            }
+            .safeAreaInset(edge: .bottom)  {
+                MainConsole(displayingView: $currentDisplayingView)
             }
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -217,5 +216,8 @@ struct MainRouterView_Previews: PreviewProvider {
     static var previews: some View {
         MainRouterView()
             .environmentObject(ThemeManager())
+            .environmentObject(ToDoManager())
+            .environmentObject(TargetManager())
+            .environmentObject(TimerManager())
     }
 }

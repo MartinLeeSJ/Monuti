@@ -113,6 +113,7 @@
 		5BE45A802A3859F200F42F4F /* TargetDetailManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE45A7F2A3859F200F42F4F /* TargetDetailManager.swift */; };
 		5BE9EEDC29FFFBA500233C49 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE9EEDB29FFFBA500233C49 /* SettingView.swift */; };
 		5BF61E922A0296B1007592D6 /* ThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF61E912A0296B1007592D6 /* ThemeManager.swift */; };
+		5BF9CDD52A84A394002105B0 /* ExperimentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF9CDD42A84A394002105B0 /* ExperimentView.swift */; };
 		5BFFDB8529C5F299004C5376 /* SetTimeForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BFFDB8429C5F298004C5376 /* SetTimeForm.swift */; };
 /* End PBXBuildFile section */
 
@@ -231,6 +232,7 @@
 		5BE45A7F2A3859F200F42F4F /* TargetDetailManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetDetailManager.swift; sourceTree = "<group>"; };
 		5BE9EEDB29FFFBA500233C49 /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
 		5BF61E912A0296B1007592D6 /* ThemeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeManager.swift; sourceTree = "<group>"; };
+		5BF9CDD42A84A394002105B0 /* ExperimentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExperimentView.swift; sourceTree = "<group>"; };
 		5BFFDB8429C5F298004C5376 /* SetTimeForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetTimeForm.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -610,6 +612,7 @@
 		5BCF551729C3066A00A19759 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				5BF9CDD42A84A394002105B0 /* ExperimentView.swift */,
 				5B38FC052A0E176F003F9B5C /* LauchScreen.swift */,
 				5BCF550529C2CB2500A19759 /* ContentView.swift */,
 				5B6AB24E2A30AAB0008D09B6 /* Main */,
@@ -813,6 +816,7 @@
 				5B1E4CF52A691B8500D364A7 /* SetTimeGraph.swift in Sources */,
 				5BAC85EF2A00F1D500A34056 /* ColorThemeSetting.swift in Sources */,
 				5B3CCAB62A70EFED00973F43 /* AuthService.swift in Sources */,
+				5BF9CDD52A84A394002105B0 /* ExperimentView.swift in Sources */,
 				5BCF551229C2E50100A19759 /* Color+Custom.swift in Sources */,
 				5B1C71232A120A7100A5D3EB /* TargetListCell.swift in Sources */,
 				5B95E14029D80B7D00E8CBA1 /* Member.swift in Sources */,
