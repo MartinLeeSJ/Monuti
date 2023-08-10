@@ -30,6 +30,7 @@ struct MainRouterView: View {
     @EnvironmentObject var targetManager: TargetManager
     @EnvironmentObject var timerManager: TimerManager
     
+    
     @State private var isSettingViewOn: Bool = false
     @State private var currentDisplayingView: DisplayingViews = .todo {
         willSet(newValue) {
@@ -41,6 +42,7 @@ struct MainRouterView: View {
         }
     }
     @State private var edge: Edge = .leading
+   
     
     var body: some View {
         NavigationStack {

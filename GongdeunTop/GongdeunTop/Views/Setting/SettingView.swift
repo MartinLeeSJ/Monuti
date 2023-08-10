@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import FamilyControls
 
 
 
@@ -16,15 +17,14 @@ enum SheetType: Identifiable {
 
 struct SettingView: View {
     @EnvironmentObject var authManager: AuthManager
-    @AppStorage("theme") private var theme: String = "Blue"
-    @State private var modified: Bool = false
+    @EnvironmentObject var appShieldManager: AppShieldManager
     @State private var sheetType: SheetType?
     
-    private func changeTheme(color: String) {
-        theme = color
-        NotificationCenter.default.post(name: Notification.Name(rawValue: "colorPreferenceChanged"), object: nil)
-    }
+    @State private var isAppScreenModeOn: Bool = false
+    @State private var isActivitySelectionPickerOn: Bool = false
     
+    private let center = AuthorizationCenter.shared
+
     var body: some View {
         NavigationStack {
             List {
@@ -39,14 +39,47 @@ struct SettingView: View {
                 } label: {
                     Text("SignOut")
                 }
+                
+                Section {
+                    Toggle("집중 시 다른 앱 차단", isOn: $isAppScreenModeOn.animation())
+                        .onChange(of: isAppScreenModeOn) { newValue in
+                            guard newValue == true else { return }
+                            
+                            if center.authorizationStatus == .notDetermined {
+                                Task {
+                                    do {
+                                        try await center.requestAuthorization(for: .individual)
+                                        isActivitySelectionPickerOn = true
+                                        print(center.authorizationStatus.description)
+                                    } catch {
+                                        print("Failed to enroll")
+                                    }
+                                }
+                            }
+                        }
+                    if isAppScreenModeOn {
+                        HStack {
+                            Spacer()
+                            Button {
+                                isActivitySelectionPickerOn = true
+                            } label: {
+                                Text("설정하기")
+                            }
+                        }
+                    }
+                }.familyActivityPicker(isPresented: $isActivitySelectionPickerOn, selection: $appShieldManager.activitySelection)
+                
             }
             .sheet(item: $sheetType) { type in
                 switch type {
                 case .color:
-                    ColorThemeSetting(modified: $modified)
+                    ColorThemeSetting()
                         .presentationDetents([.medium])
                 }
             }
+        }
+        .task {
+            if center.authorizationStatus == .approved { isAppScreenModeOn = true }
         }
     }
 }
