@@ -41,8 +41,10 @@ struct SettingView: View {
                 }
                 
                 Section {
-                    Toggle("집중 시 다른 앱 차단", isOn: $isAppScreenModeOn.animation())
-                        .onChange(of: isAppScreenModeOn) { newValue in
+                    Toggle("집중 시 다른 앱 차단", isOn: $appShieldManager.isAppShieldOn.animation())
+                        .onChange(of: appShieldManager.isAppShieldOn) { newValue in
+                            appShieldManager.setAppShield(newValue: newValue)
+                            
                             guard newValue == true else { return }
                             
                             if center.authorizationStatus == .notDetermined {
@@ -57,7 +59,7 @@ struct SettingView: View {
                                 }
                             }
                         }
-                    if isAppScreenModeOn {
+                    if appShieldManager.isAppShieldOn {
                         HStack {
                             Spacer()
                             Button {

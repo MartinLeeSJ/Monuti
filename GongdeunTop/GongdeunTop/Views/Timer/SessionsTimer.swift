@@ -14,6 +14,7 @@ struct SessionsTimer: View {
     
     @EnvironmentObject var themeManager: ThemeManager
     @EnvironmentObject var timerManager: TimerManager
+    @EnvironmentObject var appShieldManager: AppShieldManager
     
     @AppStorage("lastTime") private var lastTimeObserved: TimeInterval = 0
     
@@ -204,8 +205,10 @@ extension SessionsTimer {
     private func handlePlay() {
         if timerManager.isRunning {
             timerManager.pauseTime()
+            appShieldManager.stopConcentrationAppShield()
         } else {
             timerManager.startTime()
+            appShieldManager.startConcentrationAppShield()
         }
     }
     
@@ -258,6 +261,9 @@ extension SessionsTimer {
     private func manageTimeWhenAwakeApp() {
         print("background => inactive")
         timerManager.subtractTimeElapsed(from: lastTimeObserved)
+        if !timerManager.isRunning {
+            appShieldManager.stopConcentrationAppShield()
+        }
     }
     
     private func recordTime() {
