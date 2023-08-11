@@ -20,13 +20,18 @@ class AppShieldManager: ObservableObject {
         UserDefaults.standard.set(bool, forKey: "isAppShieldOn")
     }
     
+    
+    
     func startConcentrationAppShield() {
         guard isAppShieldOn else { return }
+        print("::::::Shield is Operating")
+        dump(activitySelection.applicationTokens)
         concentrationStore.shield.applications = activitySelection.applicationTokens
     }
     
     func stopConcentrationAppShield() {
         guard isAppShieldOn else { return }
+        print("::::::Stop Sheilding")
         concentrationStore.clearAllSettings()
     }
     
