@@ -16,6 +16,7 @@ struct ToDoList: View {
     
     @State private var isDeleteAlertOn: Bool = false
     @State private var isExtendingTodosLifeAlertOn: Bool = false
+    @State private var isNotificationTriggered: Bool = false
     
     private func isTodoStartingTimeTomorrow(_ todo: ToDo) -> Bool {
         if let date = todo.startingTime, Calendar.current.isDateInTomorrow(date) { return true }
@@ -56,6 +57,7 @@ struct ToDoList: View {
                 }
             }
         }
+        .popNotification(hasTriggered: $isNotificationTriggered, text: "테스트입니다", lasts: .long)
     }
 }
 
@@ -131,8 +133,12 @@ extension ToDoList {
             } message: {
                 Text(String(localized: "will_extend?\(todoManager.todos.count)"))
             }
-
-            
+        } else {
+            Button {
+                isNotificationTriggered.toggle()
+            } label: {
+                Text("Test")
+            }
         }
         Spacer()
     }

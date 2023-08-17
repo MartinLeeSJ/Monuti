@@ -64,6 +64,7 @@
 		5B50E4FA2A8DB2FD00FFD3DA /* AppBlockManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF9CDD62A84D335002105B0 /* AppBlockManager.swift */; };
 		5B54FE432A2B5917000D29ED /* CGFloat+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B54FE422A2B5917000D29ED /* CGFloat+Utils.swift */; };
 		5B59207D2A627A3B009DD91F /* SetTimePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B59207C2A627A3B009DD91F /* SetTimePicker.swift */; };
+		5B6203852A8DFC44000AE1AB /* PopNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6203842A8DFC44000AE1AB /* PopNotification.swift */; };
 		5B63175A29E7F27700FF6876 /* RoundedCorners.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B63175929E7F27700FF6876 /* RoundedCorners.swift */; };
 		5B63A59129C8931300AA4525 /* SheetPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B63A59029C8931300AA4525 /* SheetPresenter.swift */; };
 		5B63A59329C95AD500AA4525 /* SetToDoForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B63A59229C95AD500AA4525 /* SetToDoForm.swift */; };
@@ -222,6 +223,7 @@
 		5B4214F62A2D5F5F004362E5 /* MainConsole.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainConsole.swift; sourceTree = "<group>"; };
 		5B54FE422A2B5917000D29ED /* CGFloat+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGFloat+Utils.swift"; sourceTree = "<group>"; };
 		5B59207C2A627A3B009DD91F /* SetTimePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetTimePicker.swift; sourceTree = "<group>"; };
+		5B6203842A8DFC44000AE1AB /* PopNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopNotification.swift; sourceTree = "<group>"; };
 		5B63175929E7F27700FF6876 /* RoundedCorners.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedCorners.swift; sourceTree = "<group>"; };
 		5B63A59029C8931300AA4525 /* SheetPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetPresenter.swift; sourceTree = "<group>"; };
 		5B63A59229C95AD500AA4525 /* SetToDoForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetToDoForm.swift; sourceTree = "<group>"; };
@@ -715,6 +717,7 @@
 				5BD5131729D5743E0008E1C9 /* ToDo */,
 				5B05A61629ECFD3E00C89417 /* Timer */,
 				5BCF551929C3067C00A19759 /* Calendar */,
+				5B6203842A8DFC44000AE1AB /* PopNotification.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -983,6 +986,7 @@
 				5B1E4CF72A69794800D364A7 /* TimePresetRepository.swift in Sources */,
 				5B3D07C52A721908001691F4 /* TagRepository.swift in Sources */,
 				5B1E4CF52A691B8500D364A7 /* SetTimeGraph.swift in Sources */,
+				5B6203852A8DFC44000AE1AB /* PopNotification.swift in Sources */,
 				5BAC85EF2A00F1D500A34056 /* ColorThemeSetting.swift in Sources */,
 				5B3CCAB62A70EFED00973F43 /* AuthService.swift in Sources */,
 				5BF9CDD52A84A394002105B0 /* ExperimentView.swift in Sources */,
