@@ -31,13 +31,13 @@ struct ToDoList: View {
                 
                 if !todoManager.todos.isEmpty {
                     List(todoManager.todos, id: \.self.id, selection: $todoManager.multiSelection) { todo in
-                        Section("오늘") {
+                        Section("toDoList_Today") {
                             if !isTodoStartingTimeTomorrow(todo) {
                                 ToDoListRow(todo: todo, targets: targetManager.targets)
                                     .todoListRowStyle()
                             }
                         }
-                        Section("내일") {
+                        Section("toDoList_Tomorrow") {
                             if isTodoStartingTimeTomorrow(todo) {
                                 ToDoListRow(todo: todo, targets: targetManager.targets)
                                     .todoListRowStyle()
