@@ -212,16 +212,6 @@ extension SetToDoForm {
                     }
                 }
             }
-            if todo.startingTime != nil {
-                Divider()
-                Button {
-                    todo.startingTime = nil
-                } label: {
-                    Text("setTodoForm_startingTimeForm_donotSetTime")
-                        .font(.caption2)
-                }
-                .tint(.red)
-            }
         }
     }
 }

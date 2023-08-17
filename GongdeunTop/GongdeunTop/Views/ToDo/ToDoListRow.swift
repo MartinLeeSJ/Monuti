@@ -71,6 +71,7 @@ struct ToDoListRow: View {
             .sheet(isPresented: $isEditingSheetOn) {
                 SetToDoForm(todo: todo, targets: targets, mode: .edit) { todo in
                     todoManager.updateToDo(todo)
+                    print("Has Been Updated")
                 }
             }
         }

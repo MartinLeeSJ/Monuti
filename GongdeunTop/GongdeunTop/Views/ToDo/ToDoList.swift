@@ -47,7 +47,6 @@ struct ToDoList: View {
                     .listStyle(.plain)
                     .environment(\.editMode, .constant(todoManager.isEditing ? EditMode.active : EditMode.inactive))
                 }
-                
                 Spacer()
                 
                 Divider()
@@ -117,11 +116,12 @@ extension ToDoList {
             }
             .buttonStyle(.bordered)
             .alert("extendTodos_alert_title", isPresented: $isExtendingTodosLifeAlertOn) {
-                Button {
-                   isExtendingTodosLifeAlertOn = false
+                Button(role: .destructive) {
+                    isExtendingTodosLifeAlertOn = false
                 } label: {
                     Text("Cancel")
                 }
+
                 Button {
                     todoManager.updateToDosExpiration(todoManager.todos)
                     isExtendingTodosLifeAlertOn = false
