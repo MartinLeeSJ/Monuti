@@ -30,18 +30,21 @@
 "viewSwitch_target" = "Target";
 "viewSwitch_calendar" = "Calendar";
 
-//ToDoList
+// MARK: - ToDoList
+//ToDoList_Sorting
 "toDoList_sort_ascend" = "Ascend";
 "toDoList_sort_descend" = "Descend";
 "toDoList_sort_basic" = "Basic";
 
+//ToDoList_Section
 "toDoList_Today" = "Today";
 "toDoList_Tomorrow" = "Tomorrow";
 
 //ToDoList_Extending Todos
-"extendTodos_button_label" = "Keep Going";
-"extendTodos_alert_title" = "Extend Expiration";
+"extendTodos_button_label" = "Keep going tomorronw";
+"extendTodos_alert_title" = "Keep at to-dos tomorrow.";
 "Extend" = "Yes";
+"extendTodos_Pop" = "The Todos are now for tomorrow.";
 
 
 // MARK: - SetToDoForm

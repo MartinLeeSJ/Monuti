@@ -54,7 +54,6 @@ struct PopNotification: ViewModifier {
             .overlay(alignment: .bottom) {
                 if hasTriggered {
                     Text(text)
-                        .font(.headline)
                         .padding(.horizontal)
                         .padding(.vertical, 6)
                         .background(.regularMaterial, in: Capsule())

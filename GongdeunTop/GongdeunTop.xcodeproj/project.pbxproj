@@ -717,7 +717,6 @@
 				5BD5131729D5743E0008E1C9 /* ToDo */,
 				5B05A61629ECFD3E00C89417 /* Timer */,
 				5BCF551929C3067C00A19759 /* Calendar */,
-				5B6203842A8DFC44000AE1AB /* PopNotification.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -746,6 +745,7 @@
 		5BF61E902A02967D007592D6 /* Etc */ = {
 			isa = PBXGroup;
 			children = (
+				5B6203842A8DFC44000AE1AB /* PopNotification.swift */,
 				5BCF551129C2E50100A19759 /* Color+Custom.swift */,
 				5B3CCAB12A70EE0100973F43 /* Firebase */,
 				5B3CCAB02A70EDEB00973F43 /* Constraints */,

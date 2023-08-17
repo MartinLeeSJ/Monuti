@@ -31,18 +31,21 @@
 "viewSwitch_target" = "목표";
 "viewSwitch_calendar" = "달력";
 
-//ToDoList
+// MARK: - ToDoList
+//ToDoList_Sorting
 "toDoList_sort_ascend" = "시간 오름차순";
 "toDoList_sort_descend" = "시간 내림차순";
 "toDoList_sort_basic" = "기본";
 
+//ToDoList_Section
 "toDoList_Today" = "오늘";
 "toDoList_Tomorrow" = "내일";
 
 //ToDoList_Extending Todos
 "extendTodos_button_label" = "내일 이어서 하기";
-"extendTodos_alert_title" = "내일 이어서 하기";
+"extendTodos_alert_title" = "할 일 내일 이어서 하기";
 "Extend" = "연장";
+"extendTodos_Pop" = "할 일들을 내일로 옮겼습니다.";
 
 // MARK: - SetToDoForm
 "setTodoForm_title_new" = "새로운 할 일";

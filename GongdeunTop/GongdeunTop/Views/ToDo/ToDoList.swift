@@ -53,11 +53,11 @@ struct ToDoList: View {
                 Divider()
                 
                 if todoManager.isEditing {
-                    bottomEditingConsole
+                    multipleEditingConsole
                 }
             }
         }
-        .popNotification(hasTriggered: $isNotificationTriggered, text: "테스트입니다", lasts: .long)
+        .popNotification(hasTriggered: $isNotificationTriggered, text: "extendTodos_Pop", lasts: .long)
     }
 }
 
@@ -68,6 +68,10 @@ extension ToDoList {
         let endOfThisHour: Date = calendar.dateInterval(of: .hour, for: Date.now)?.end ?? Date()
         let endOfThisDay: Date = calendar.dateInterval(of: .day, for: Date.now)?.end ?? Date()
         return endOfThisHour == endOfThisDay
+    }
+    
+    var isTodaysTodoLeft: Bool {
+        !todoManager.todos.filter { Calendar.current.isDateInToday($0.startingTime ?? Date.now) }.isEmpty
     }
     
     @ViewBuilder
@@ -105,10 +109,14 @@ extension ToDoList {
         }
     }
     
+    private func triggerPopNotification() {
+        isNotificationTriggered.toggle()
+    }
+    
     @ViewBuilder
     private var endOfTheDayNotice: some View {
         Spacer()
-        if isTimeNearEndOfTheDay {
+        if isTimeNearEndOfTheDay && isTodaysTodoLeft {
             Button {
                 isExtendingTodosLifeAlertOn = true
             } label: {
@@ -127,17 +135,12 @@ extension ToDoList {
                 Button {
                     todoManager.updateToDosExpiration(todoManager.todos)
                     isExtendingTodosLifeAlertOn = false
+                    triggerPopNotification()
                 } label: {
                     Text("Extend")
                 }
             } message: {
                 Text(String(localized: "will_extend?\(todoManager.todos.count)"))
-            }
-        } else {
-            Button {
-                isNotificationTriggered.toggle()
-            } label: {
-                Text("Test")
             }
         }
         Spacer()
@@ -157,14 +160,14 @@ extension ToDoList {
 }
 
 
-// MARK: - Bottom Editing Console
+// MARK: - Multiple Editing Console
 extension ToDoList {
     var multiSelectionCount: Int {
         todoManager.multiSelection.count
     }
     
     @ViewBuilder
-    var bottomEditingConsole: some View {
+    var multipleEditingConsole: some View {
         HStack {
             Button {
                 isDeleteAlertOn.toggle()
