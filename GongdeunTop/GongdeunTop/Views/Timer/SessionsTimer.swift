@@ -14,6 +14,7 @@ struct SessionsTimer: View {
     
     @EnvironmentObject var themeManager: ThemeManager
     @EnvironmentObject var timerManager: TimerManager
+    @EnvironmentObject var appBlockManager: AppBlockManager
     
     @AppStorage("lastTime") private var lastTimeObserved: TimeInterval = 0
     
@@ -30,7 +31,7 @@ struct SessionsTimer: View {
             let height = geo.size.height
             let shorterSize = min(width, height)
             let indicatorWidth = shorterSize * 0.45
-            let digitTimeWidth = shorterSize * 0.5
+//            let digitTimeWidth = shorterSize * 0.5
             
             VStack {
                 Spacer()
@@ -40,11 +41,7 @@ struct SessionsTimer: View {
                              backgroundColor: themeManager.colorInPriority(of: .weak))
                     .overlay {
                         VStack {
-                            TimerDigit(width: digitTimeWidth,
-                                       minuteString: timerManager.getMinuteString(of: timerManager.remainSeconds),
-                                       secondString: timerManager.getSecondString(of: timerManager.remainSeconds))
-                            .foregroundColor(themeManager.timerDigitAndButtonColor())
-                            .padding(.bottom, 25)
+                            timerDigit()
                             
                             timerControls(width: shorterSize)
                         }
@@ -104,6 +101,15 @@ struct SessionsTimer: View {
 
 // MARK: - Timer UI
 extension SessionsTimer {
+    private func timerDigit() -> some View {
+        Text("\(timerManager.getMinuteString(of: timerManager.remainSeconds)) : \(timerManager.getSecondString(of: timerManager.remainSeconds))")
+            .font(.system(size: 60, weight: .regular))
+            .monospacedDigit()
+            .foregroundColor(themeManager.timerDigitAndButtonColor())
+            .padding(.bottom, 25)
+    }
+    
+    
     @ViewBuilder
     private func timerControls(width: CGFloat) -> some View {
         Button {
@@ -204,8 +210,10 @@ extension SessionsTimer {
     private func handlePlay() {
         if timerManager.isRunning {
             timerManager.pauseTime()
+            appBlockManager.stopConcentrationAppShield()
         } else {
             timerManager.startTime()
+            appBlockManager.startConcentrationAppShield()
         }
     }
     
@@ -258,6 +266,9 @@ extension SessionsTimer {
     private func manageTimeWhenAwakeApp() {
         print("background => inactive")
         timerManager.subtractTimeElapsed(from: lastTimeObserved)
+        if !timerManager.isRunning {
+            appBlockManager.stopConcentrationAppShield()
+        }
     }
     
     private func recordTime() {

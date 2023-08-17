@@ -10,7 +10,6 @@ import SwiftUI
 struct ColorThemeSetting: View {
     @EnvironmentObject var themeManager: ThemeManager
     
-    @Binding var modified: Bool
     var body: some View {
         VStack {
             ForEach(ColorPriority.allCases) { priority in
@@ -41,14 +40,12 @@ struct ColorThemeSetting: View {
             }
             
         }
-        .task {
-            modified = false
-        }
+        
     }
 }
 
 struct ColorThemeSetting_Previews: PreviewProvider {
     static var previews: some View {
-        ColorThemeSetting(modified: .constant(false))
+        ColorThemeSetting()
     }
 }

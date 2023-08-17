@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import FamilyControls
 
 
 
@@ -16,14 +17,10 @@ enum SheetType: Identifiable {
 
 struct SettingView: View {
     @EnvironmentObject var authManager: AuthManager
-    @AppStorage("theme") private var theme: String = "Blue"
-    @State private var modified: Bool = false
+    @EnvironmentObject var appBlockManager: AppBlockManager
     @State private var sheetType: SheetType?
     
-    private func changeTheme(color: String) {
-        theme = color
-        NotificationCenter.default.post(name: Notification.Name(rawValue: "colorPreferenceChanged"), object: nil)
-    }
+    private let center = AuthorizationCenter.shared
     
     var body: some View {
         NavigationStack {
@@ -39,11 +36,32 @@ struct SettingView: View {
                 } label: {
                     Text("SignOut")
                 }
+                
+                Section {
+                    Toggle("집중 시 다른 앱 차단",
+                           isOn: $appBlockManager.isAppBlockOn.animation())
+                    .onChange(of: appBlockManager.isAppBlockOn,
+                              perform: { appBlockManager.setFamilyControl(isOn: $0) })
+                    
+                    if appBlockManager.isAppBlockOn {
+                        HStack {
+                            Spacer()
+                            Button {
+                                appBlockManager.isActivitySelectionPickerOn = true
+                            } label: {
+                                Text("설정하기")
+                            }
+                        }
+                    }
+                }.familyActivityPicker(
+                    isPresented: $appBlockManager.isActivitySelectionPickerOn,
+                    selection: $appBlockManager.activitySelection)
+                
             }
             .sheet(item: $sheetType) { type in
                 switch type {
                 case .color:
-                    ColorThemeSetting(modified: $modified)
+                    ColorThemeSetting()
                         .presentationDetents([.medium])
                 }
             }
