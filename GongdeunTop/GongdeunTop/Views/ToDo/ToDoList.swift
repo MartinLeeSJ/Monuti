@@ -16,6 +16,12 @@ struct ToDoList: View {
     
     @State private var isDeleteAlertOn: Bool = false
     @State private var isExtendingTodosLifeAlertOn: Bool = false
+    @State private var isNotificationTriggered: Bool = false
+    
+    private func isTodoStartingTimeTomorrow(_ todo: ToDo) -> Bool {
+        if let date = todo.startingTime, Calendar.current.isDateInTomorrow(date) { return true }
+        return false
+    }
     
     var body: some View {
         ZStack {
@@ -26,24 +32,32 @@ struct ToDoList: View {
                 
                 if !todoManager.todos.isEmpty {
                     List(todoManager.todos, id: \.self.id, selection: $todoManager.multiSelection) { todo in
-                        ToDoListRow(todo: todo, targets: targetManager.targets)
-                            .listRowBackground(Color.clear)
-                            .listRowSeparator(.hidden)
-                            .listRowInsets(.init(top: 8, leading: 16, bottom: 0, trailing: 16))
+                        Section("toDoList_Today") {
+                            if !isTodoStartingTimeTomorrow(todo) {
+                                ToDoListRow(todo: todo, targets: targetManager.targets)
+                                    .todoListRowStyle()
+                            }
+                        }
+                        Section("toDoList_Tomorrow") {
+                            if isTodoStartingTimeTomorrow(todo) {
+                                ToDoListRow(todo: todo, targets: targetManager.targets)
+                                    .todoListRowStyle()
+                            }
+                        }
                     }
                     .listStyle(.plain)
                     .environment(\.editMode, .constant(todoManager.isEditing ? EditMode.active : EditMode.inactive))
                 }
-                
                 Spacer()
                 
                 Divider()
                 
                 if todoManager.isEditing {
-                    bottomEditingConsole
+                    multipleEditingConsole
                 }
             }
         }
+        .popNotification(hasTriggered: $isNotificationTriggered, text: "extendTodos_Pop", lasts: .long)
     }
 }
 
@@ -54,6 +68,10 @@ extension ToDoList {
         let endOfThisHour: Date = calendar.dateInterval(of: .hour, for: Date.now)?.end ?? Date()
         let endOfThisDay: Date = calendar.dateInterval(of: .day, for: Date.now)?.end ?? Date()
         return endOfThisHour == endOfThisDay
+    }
+    
+    var isTodaysTodoLeft: Bool {
+        !todoManager.todos.filter { Calendar.current.isDateInToday($0.startingTime ?? Date.now) }.isEmpty
     }
     
     @ViewBuilder
@@ -91,10 +109,14 @@ extension ToDoList {
         }
     }
     
+    private func triggerPopNotification() {
+        isNotificationTriggered.toggle()
+    }
+    
     @ViewBuilder
     private var endOfTheDayNotice: some View {
         Spacer()
-        if isTimeNearEndOfTheDay {
+        if isTimeNearEndOfTheDay && isTodaysTodoLeft {
             Button {
                 isExtendingTodosLifeAlertOn = true
             } label: {
@@ -104,22 +126,22 @@ extension ToDoList {
             }
             .buttonStyle(.bordered)
             .alert("extendTodos_alert_title", isPresented: $isExtendingTodosLifeAlertOn) {
-                Button {
-                   isExtendingTodosLifeAlertOn = false
+                Button(role: .destructive) {
+                    isExtendingTodosLifeAlertOn = false
                 } label: {
                     Text("Cancel")
                 }
+
                 Button {
                     todoManager.updateToDosExpiration(todoManager.todos)
                     isExtendingTodosLifeAlertOn = false
+                    triggerPopNotification()
                 } label: {
                     Text("Extend")
                 }
             } message: {
                 Text(String(localized: "will_extend?\(todoManager.todos.count)"))
             }
-
-            
         }
         Spacer()
     }
@@ -138,14 +160,14 @@ extension ToDoList {
 }
 
 
-// MARK: - Bottom Editing Console
+// MARK: - Multiple Editing Console
 extension ToDoList {
     var multiSelectionCount: Int {
         todoManager.multiSelection.count
     }
     
     @ViewBuilder
-    var bottomEditingConsole: some View {
+    var multipleEditingConsole: some View {
         HStack {
             Button {
                 isDeleteAlertOn.toggle()

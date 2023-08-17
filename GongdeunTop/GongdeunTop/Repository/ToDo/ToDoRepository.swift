@@ -55,11 +55,12 @@ public class ToDoRepository: ObservableObject, FirebaseListener {
         let startTime = dateInterval?.start ?? Date()
         let endTime = calendar.date(byAdding: .day, value: 1, to: dateInterval?.end ?? Date()) ?? Date()
         
+            
         let query = database.collection("Members")
             .document(uid)
             .collection("ToDo")
-            .whereField("createdAt", isGreaterThanOrEqualTo: Timestamp(date: startTime))
-            .whereField("createdAt", isLessThan: Timestamp(date: endTime))
+            .whereField("startingTime", isGreaterThanOrEqualTo: Timestamp(date: startTime))
+            .whereField("startingTime", isLessThan: Timestamp(date: endTime))
             .whereField("isCompleted", isEqualTo: false)
         
         listenerRegistration = query.addSnapshotListener { [weak self] (snapshot, error) in
@@ -142,10 +143,11 @@ extension ToDoRepository {
         let calendar = Calendar.current
         
         for todo in todos {
-            guard calendar.isDateInToday(todo.createdAt) else { continue }
-            guard let updatedCreatedAt = calendar.date(byAdding: .day, value: 1, to: todo.createdAt) else { continue }
+            guard let startingTime = todo.startingTime else { continue }
+            guard calendar.isDateInToday(startingTime) else { continue }
+            guard let updatedCreatedAt = calendar.date(byAdding: .day, value: 1, to: startingTime) else { continue }
             if let id = todo.id {
-                batch.updateData(["createdAt": updatedCreatedAt],
+                batch.updateData(["startingTime": updatedCreatedAt],
                                  forDocument:  database
                     .collection("Members")
                     .document(uid)

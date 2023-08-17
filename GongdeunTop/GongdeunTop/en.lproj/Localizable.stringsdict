@@ -135,11 +135,11 @@
 			<key>NSStringFormatSpecTypeKey</key>
 			<string>NSStringPluralRuleType</string>
 			<key>one</key>
-			<string>Will you extend time of this ToDo until Tomorrow?</string>
+			<string>Will you keep at this todo tomorrow?</string>
 			<key>zero</key>
-			<string>Will you extend time of this ToDo until Tomorrow?</string>
+			<string>Will you keep at this todo tomorrow?</string>
 			<key>other</key>
-			<string>Will you extend time of %d ToDos until Tomorrow?</string>
+			<string>Will you kepp at  %d ToDos tomorrow?</string>
 		</dict>
 	</dict>
 	<key>todo_counts %lld</key>
