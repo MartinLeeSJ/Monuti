@@ -17,14 +17,11 @@ enum SheetType: Identifiable {
 
 struct SettingView: View {
     @EnvironmentObject var authManager: AuthManager
-    @EnvironmentObject var appShieldManager: AppShieldManager
+    @EnvironmentObject var appBlockManager: AppBlockManager
     @State private var sheetType: SheetType?
     
-    @State private var isAppScreenModeOn: Bool = false
-    @State private var isActivitySelectionPickerOn: Bool = false
-    
     private let center = AuthorizationCenter.shared
-
+    
     var body: some View {
         NavigationStack {
             List {
@@ -41,35 +38,24 @@ struct SettingView: View {
                 }
                 
                 Section {
-                    Toggle("집중 시 다른 앱 차단", isOn: $appShieldManager.isAppShieldOn.animation())
-                        .onChange(of: appShieldManager.isAppShieldOn) { newValue in
-                            appShieldManager.setAppShield(newValue: newValue)
-                            
-                            guard newValue == true else { return }
-                            
-                            if center.authorizationStatus == .notDetermined {
-                                Task {
-                                    do {
-                                        try await center.requestAuthorization(for: .individual)
-                                        isActivitySelectionPickerOn = true
-                                        print(center.authorizationStatus.description)
-                                    } catch {
-                                        print("Failed to enroll")
-                                    }
-                                }
-                            }
-                        }
-                    if appShieldManager.isAppShieldOn {
+                    Toggle("집중 시 다른 앱 차단",
+                           isOn: $appBlockManager.isAppBlockOn.animation())
+                    .onChange(of: appBlockManager.isAppBlockOn,
+                              perform: { appBlockManager.setFamilyControl(isOn: $0) })
+                    
+                    if appBlockManager.isAppBlockOn {
                         HStack {
                             Spacer()
                             Button {
-                                isActivitySelectionPickerOn = true
+                                appBlockManager.isActivitySelectionPickerOn = true
                             } label: {
                                 Text("설정하기")
                             }
                         }
                     }
-                }.familyActivityPicker(isPresented: $isActivitySelectionPickerOn, selection: $appShieldManager.activitySelection)
+                }.familyActivityPicker(
+                    isPresented: $appBlockManager.isActivitySelectionPickerOn,
+                    selection: $appBlockManager.activitySelection)
                 
             }
             .sheet(item: $sheetType) { type in
@@ -79,9 +65,6 @@ struct SettingView: View {
                         .presentationDetents([.medium])
                 }
             }
-        }
-        .task {
-            if center.authorizationStatus == .approved { isAppScreenModeOn = true }
         }
     }
 }

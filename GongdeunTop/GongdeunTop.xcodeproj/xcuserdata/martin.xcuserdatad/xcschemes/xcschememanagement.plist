@@ -9,10 +9,15 @@
 			<key>orderHint</key>
 			<integer>6</integer>
 		</dict>
+		<key>AppshieldMonitor.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>2</integer>
+		</dict>
 		<key>GongdeunTop.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>1</integer>
+			<integer>6</integer>
 		</dict>
 		<key>Promises (Playground) 1.xcscheme</key>
 		<dict>
@@ -56,10 +61,33 @@
 			<key>orderHint</key>
 			<integer>3</integer>
 		</dict>
+		<key>ShieldConfiguration.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
 		<key>shieldScreen.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>2</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>5B1383F92A861C7300AC892C</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>5B13841D2A8654EF00AC892C</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>5BCF54FF29C2CB2500A19759</key>
+		<dict>
+			<key>primary</key>
+			<true/>
 		</dict>
 	</dict>
 </dict>
