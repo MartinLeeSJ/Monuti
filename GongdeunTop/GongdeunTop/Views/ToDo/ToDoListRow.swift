@@ -7,6 +7,21 @@
 
 import SwiftUI
 
+struct ToDoListRowStyle: ViewModifier {
+    func body(content: Content) -> some View {
+           content
+            .listRowBackground(Color.clear)
+            .listRowSeparator(.hidden)
+            .listRowInsets(.init(top: 8, leading: 16, bottom: 0, trailing: 16))
+       }
+}
+
+extension View {
+    func todoListRowStyle() -> some View {
+        modifier(ToDoListRowStyle())
+    }
+}
+
 struct ToDoInfoCell: View {
     let todo: ToDo
     var body: some View {
@@ -35,6 +50,7 @@ struct ToDoInfoCell: View {
 
 struct ToDoListRow: View {
     @EnvironmentObject var themeManager: ThemeManager
+    @EnvironmentObject var todoManager: ToDoManager
     @Environment(\.dismiss) var dismiss
     @State private var isEditingSheetOn: Bool = false
     
@@ -54,7 +70,7 @@ struct ToDoListRow: View {
             }
             .sheet(isPresented: $isEditingSheetOn) {
                 SetToDoForm(todo: todo, targets: targets, mode: .edit) { todo in
-                    
+                    todoManager.updateToDo(todo)
                 }
             }
         }

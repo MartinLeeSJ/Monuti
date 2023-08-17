@@ -18,6 +18,9 @@ final class ToDoManager: ObservableObject {
     @Injected(\.todoRepository) var todoRepository
     
     @Published var todos = [ToDo]()
+    @Published var todayTodos = [ToDo]()
+    @Published var tomorrowTodos = [ToDo]()
+    
     @Published var isEditing: Bool = false
     @Published var multiSelection = Set<String?>()
     @Published var sortMode: SortMode = .basic

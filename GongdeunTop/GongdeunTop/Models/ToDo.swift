@@ -23,7 +23,7 @@ struct ToDo: Codable, Hashable, Identifiable {
     
     var startingTimeString: String? {
         guard let time = startingTime else { return nil }
-        var timeStringArray =  DateFormatter.shortTimeFormat.string(from:  time)
+        var timeStringArray =  DateFormatter.shortTimeFormat.string(from: time)
             .split(separator: " ")
             .map { String($0) }
         
