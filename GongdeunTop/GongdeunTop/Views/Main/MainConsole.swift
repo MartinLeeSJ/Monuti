@@ -49,7 +49,6 @@ struct MainConsole: View {
                 NavigationLink {
                     SessionsTimer(todos: todoManager.todos,
                                   currentTodo: todoManager.todos.first)
-                    .environmentObject(timerManager)
                 } label: {
                     HStack(spacing: 4) {
                         Text("Start")

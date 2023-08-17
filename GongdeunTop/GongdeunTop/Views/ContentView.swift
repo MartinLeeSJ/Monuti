@@ -13,6 +13,7 @@ struct ContentView: View {
     @StateObject var todoManager = ToDoManager()
     @StateObject var targetManager = TargetManager()
     @StateObject var timerManager = TimerManager()
+    @StateObject var appBlockManager = AppBlockManager()
     @EnvironmentObject var launchScreenManager: LaunchScreenManager
     @EnvironmentObject var themeManager: ThemeManager
     
@@ -27,6 +28,7 @@ struct ContentView: View {
                     .environmentObject(todoManager)
                     .environmentObject(targetManager)
                     .environmentObject(timerManager)
+                    .environmentObject(appBlockManager)
             default: ProgressView()
             }
         }
