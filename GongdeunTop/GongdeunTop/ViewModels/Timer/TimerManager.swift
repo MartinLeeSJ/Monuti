@@ -137,6 +137,15 @@ final class TimerManager: ObservableObject {
         return self.currentTimeIndex == numOfTimes - 1
     }
     
+    func knowIsStartingPointOfThisTime() -> Bool {
+        let sessionIndex = Int(currentTimeIndex / 2)
+        let isConcentrateTime: Bool = currentTimeIndex % 2 == 0
+        let currentSession: Session = timeSetting.sessions[safe: sessionIndex] ?? Session.getBasicSession()
+        return isConcentrateTime ?
+        remainSeconds == TimeInterval(currentSession.concentrationSeconds) :
+        remainSeconds == TimeInterval(currentSession.restSeconds)
+    }
+    
     
 // MARK: - Get CurrentTime Digit Strings
     func getMinuteString(of seconds: TimeInterval, isTwoLetters: Bool = true) -> String {
@@ -176,20 +185,25 @@ final class TimerManager: ObservableObject {
         
         return remainSeconds / Double(currentSeconds)  * 360.0
     }
-
-    func subtractTimeElapsed(from last: TimeInterval) {
+    
+    
+    /// 백그라운드 모드에서 다시 돌아올 경우 남아있는 시간에서 백그라운드 모드에서 지낸 시간을 빼주고 그 차를 리턴해주는 메소드
+    /// - Parameter last: 마지막으로 관찰된 시간
+    /// - Returns: 시간 차
+    func subtractTimeElapsed(from last: TimeInterval) -> TimeInterval {
         let diff: TimeInterval = Date.now.timeIntervalSince(Date(timeIntervalSince1970: last))
-        let newRemainSeconds: TimeInterval = floor(remainSeconds - diff)
+        let oldRemainSeconds: TimeInterval = remainSeconds
+        let newRemainSeconds: TimeInterval = floor(oldRemainSeconds - diff)
+        
         if newRemainSeconds > 0 {
             remainSeconds = newRemainSeconds
-        } else {
-            if knowIsLastTime() {
-                remainSeconds = 0
-                pauseTime()
-            } else {
-                moveToNextTimes()
-            }
+            print("\(diff) 만큼의 시간이 지났습니다")
+            return diff
         }
+        
+        print("\(oldRemainSeconds) 만큼의 시간이 지났습니다")
+        moveToNextTimes()
+        return oldRemainSeconds
     }
     
 //MARK: - Set Time

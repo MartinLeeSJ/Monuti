@@ -88,7 +88,7 @@ struct SessionsTimer: View {
             if timerManager.isRunning {
                 if timerManager.remainSeconds > 0 {
                     timerManager.elapsesTime()
-                    updateToDoTimeSpent()
+                    updateToDoTimeSpentWhenTimerTicks()
                 } else {
                     timerManager.moveToNextTimes()
                 }
@@ -236,8 +236,31 @@ extension SessionsTimer {
 
 // MARK: - Manage Times
 extension SessionsTimer {
+    private func manageTimeWithScenePhase(old oldPhase: ScenePhase, new newPhase: ScenePhase) {
+        guard timerManager.isRunning else { return }
+        switch (newPhase, oldPhase) {
+        case (.inactive, .background): manageTimeWhenWakeApp()
+        case (.background, _): manageTimeWithBackgroundMode()
+        case (.inactive, .active): print("active => inactive")
+        case (.active, _): print("active")
+        default: print("default")
+        }
+    }
     
-    private func updateToDoTimeSpent() {
+    private func manageTimeWithBackgroundMode() {
+        recordTime()
+        scheduleUserNotification()
+    }
+    
+    private func manageTimeWhenWakeApp() {
+        let timeElapsed = timerManager.subtractTimeElapsed(from: lastTimeObserved)
+        updateToDoTimeSpentWhenWakeApp(timeElapsed: timeElapsed)
+        if !timerManager.isRunning {
+            appBlockManager.stopConcentrationAppShield()
+        }
+    }
+    
+    private func updateToDoTimeSpentWhenTimerTicks() {
         guard !timerManager.knowIsInRestTime() else { return }
         
         if let index = todos.firstIndex(where: { $0.id == currentTodo?.id }) {
@@ -245,34 +268,19 @@ extension SessionsTimer {
         }
     }
     
-    private func manageTimeWithScenePhase(old oldPhase: ScenePhase, new newPhase: ScenePhase) {
-        guard timerManager.isRunning else { return }
-        switch newPhase {
-        case .inactive where oldPhase == .background: manageTimeWhenWakeApp()
-        case .inactive where oldPhase == .active: print("active => inactive")
-        case .active: print("active")
-        case .background: manageTimeWithBackgroundMode()
-        default: print("default")
+    private func updateToDoTimeSpentWhenWakeApp(timeElapsed: TimeInterval) {
+        // 만약 지금이 쉬는시간일 때엔 남은시간이 설정된 쉬는시간과 같을 때에만 기록
+        guard !timerManager.knowIsInRestTime() || timerManager.knowIsStartingPointOfThisTime() else { return }
+        
+        if let index = todos.firstIndex(where: { $0.id == currentTodo?.id }) {
+            todos[index].timeSpent += Int(timeElapsed)
+            print(todos[index].timeSpent)
         }
     }
     
-    private func manageTimeWithBackgroundMode() {
-        print("background")
-        recordTime()
-        scheduleUserNotification()
-    }
-    
-    private func manageTimeWhenWakeApp() {
-        print("background => inactive")
-        timerManager.subtractTimeElapsed(from: lastTimeObserved)
-        if !timerManager.isRunning {
-            appBlockManager.stopConcentrationAppShield()
-        }
-    }
-    
+
     private func recordTime() {
         lastTimeObserved = Date.now.timeIntervalSince1970
-        print("Time is Recorded \(lastTimeObserved)")
     }
     
     private func scheduleUserNotification() {
