@@ -16,7 +16,6 @@
 		5B1383FD2A861C7300AC892C /* ManagedSettingsUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B1383FC2A861C7300AC892C /* ManagedSettingsUI.framework */; };
 		5B1384002A861C7300AC892C /* ShieldConfigurationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1383FF2A861C7300AC892C /* ShieldConfigurationExtension.swift */; };
 		5B1384052A861C7300AC892C /* ShieldConfiguration.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 5B1383FA2A861C7300AC892C /* ShieldConfiguration.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		5B13841F2A8654EF00AC892C /* DeviceActivity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B1383E72A85FE9E00AC892C /* DeviceActivity.framework */; };
 		5B1384222A8654EF00AC892C /* DeviceActivityMonitorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1384212A8654EF00AC892C /* DeviceActivityMonitorExtension.swift */; };
 		5B1384272A8654EF00AC892C /* AppshieldMonitor.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 5B13841E2A8654EF00AC892C /* AppshieldMonitor.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		5B174C272A03720600204C75 /* RoundedHexagon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B174C262A03720600204C75 /* RoundedHexagon.swift */; };
@@ -37,7 +36,6 @@
 		5B2767CD29FA8C1B008398A3 /* CycleListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2767CC29FA8C1B008398A3 /* CycleListCell.swift */; };
 		5B2FEABF29DA645E0022F827 /* Cycle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2FEABE29DA645E0022F827 /* Cycle.swift */; };
 		5B2FEAC129DD4EF30022F827 /* TagStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2FEAC029DD4EF30022F827 /* TagStore.swift */; };
-		5B350D382A56B7C1000B8EF1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5B350D372A56B7C1000B8EF1 /* GoogleService-Info.plist */; };
 		5B350D3B2A56BCE6000B8EF1 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 5B350D3A2A56BCE6000B8EF1 /* FirebaseAnalytics */; };
 		5B350D3D2A56BCE6000B8EF1 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 5B350D3C2A56BCE6000B8EF1 /* FirebaseAuth */; };
 		5B350D3F2A56BCE6000B8EF1 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 5B350D3E2A56BCE6000B8EF1 /* FirebaseFirestore */; };
@@ -118,6 +116,8 @@
 		5BD3D1D929D1C45A008E8988 /* ToDo+PlaceHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD3D1D829D1C45A008E8988 /* ToDo+PlaceHolder.swift */; };
 		5BD5131929D574900008E1C9 /* SessionIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD5131829D574900008E1C9 /* SessionIndicator.swift */; };
 		5BD5131D29D58D060008E1C9 /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD5131C29D58D060008E1C9 /* Tag.swift */; };
+		5BD70D9F2A8F523000B2F03F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5BD70D9E2A8F523000B2F03F /* GoogleService-Info.plist */; };
+		5BD70DA02A8F52C200B2F03F /* DeviceActivity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B1383E72A85FE9E00AC892C /* DeviceActivity.framework */; };
 		5BE45A802A3859F200F42F4F /* TargetDetailManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE45A7F2A3859F200F42F4F /* TargetDetailManager.swift */; };
 		5BE9EEDC29FFFBA500233C49 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE9EEDB29FFFBA500233C49 /* SettingView.swift */; };
 		5BF61E922A0296B1007592D6 /* ThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF61E912A0296B1007592D6 /* ThemeManager.swift */; };
@@ -201,7 +201,6 @@
 		5B2767CC29FA8C1B008398A3 /* CycleListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CycleListCell.swift; sourceTree = "<group>"; };
 		5B2FEABE29DA645E0022F827 /* Cycle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cycle.swift; sourceTree = "<group>"; };
 		5B2FEAC029DD4EF30022F827 /* TagStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagStore.swift; sourceTree = "<group>"; };
-		5B350D372A56B7C1000B8EF1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		5B38FBFE2A0CDC72003F9B5C /* SetNickNameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetNickNameView.swift; sourceTree = "<group>"; };
 		5B38FC002A0E1045003F9B5C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		5B38FC012A0E1695003F9B5C /* LaunchScreenManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreenManager.swift; sourceTree = "<group>"; };
@@ -277,6 +276,7 @@
 		5BD3D1D829D1C45A008E8988 /* ToDo+PlaceHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ToDo+PlaceHolder.swift"; sourceTree = "<group>"; };
 		5BD5131829D574900008E1C9 /* SessionIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionIndicator.swift; sourceTree = "<group>"; };
 		5BD5131C29D58D060008E1C9 /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
+		5BD70D9E2A8F523000B2F03F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		5BE45A7F2A3859F200F42F4F /* TargetDetailManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetDetailManager.swift; sourceTree = "<group>"; };
 		5BE9EEDB29FFFBA500233C49 /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
 		5BF61E912A0296B1007592D6 /* ThemeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeManager.swift; sourceTree = "<group>"; };
@@ -300,7 +300,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5B13841F2A8654EF00AC892C /* DeviceActivity.framework in Frameworks */,
+				5BD70DA02A8F52C200B2F03F /* DeviceActivity.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -676,7 +676,7 @@
 			isa = PBXGroup;
 			children = (
 				5B95E13C29D804F000E8CBA1 /* GongdeunTop.entitlements */,
-				5B350D372A56B7C1000B8EF1 /* GoogleService-Info.plist */,
+				5BD70D9E2A8F523000B2F03F /* GoogleService-Info.plist */,
 				5B38FC002A0E1045003F9B5C /* Info.plist */,
 				5BCF550329C2CB2500A19759 /* GongdeunTopApp.swift */,
 				5BB4FECD29C892B0009CCD43 /* Models */,
@@ -921,7 +921,7 @@
 			files = (
 				5BCF550B29C2CB2700A19759 /* Preview Assets.xcassets in Resources */,
 				5B05A60A29EA724E00C89417 /* Localizable.strings in Resources */,
-				5B350D382A56B7C1000B8EF1 /* GoogleService-Info.plist in Resources */,
+				5BD70D9F2A8F523000B2F03F /* GoogleService-Info.plist in Resources */,
 				5BCF550829C2CB2700A19759 /* Assets.xcassets in Resources */,
 				5B05A61029EAAFD700C89417 /* Localizable.stringsdict in Resources */,
 			);

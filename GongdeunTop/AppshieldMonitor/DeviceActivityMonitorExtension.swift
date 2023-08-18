@@ -19,7 +19,7 @@ class ConcentrationMonitorExtension: DeviceActivityMonitor {
 //        let webDomainTokens = model.activitySelection.webDomainTokens
 //        store.shield.applications = applicationTokens.isEmpty ? nil : applicationTokens
 //        store.shield.webDomains = webDomainTokens.isEmpty ? nil : webDomainTokens
-//        print("this is working well")
+        print("this is working well")
         super.intervalDidStart(for: activity)
         // Handle the start of the interval.
     }

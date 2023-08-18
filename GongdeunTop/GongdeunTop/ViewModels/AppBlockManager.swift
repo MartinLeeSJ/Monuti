@@ -58,6 +58,7 @@ class AppBlockManager: ObservableObject {
         )
     }
     
+    @MainActor
     func setFamilyControl(isOn: Bool) {
         setAppBlock(isOn: isOn)
         
