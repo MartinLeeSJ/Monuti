@@ -179,6 +179,13 @@ extension SetToDoForm {
 
 // MARK: - Time
 extension SetToDoForm {
+    private var fromNowToTomorrow: ClosedRange<Date> {
+        let now = Date.now
+        let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: now) ?? Date.now
+        let tomorrowEnd = Calendar.current.date(bySettingHour: 23, minute: 59, second: 59, of: tomorrow) ?? Date.now
+        return now...tomorrowEnd
+    }
+    
     @ViewBuilder
     var startingTimeForm: some View {
         FormContainer {
@@ -186,8 +193,11 @@ extension SetToDoForm {
                     DatePicker(
                         "setTodoForm_startingTimeForm_datePickerTitle",
                         selection: dateBinding,
-                        displayedComponents: [.hourAndMinute]
+                        in: fromNowToTomorrow,
+                        displayedComponents: [.hourAndMinute, .date]
                     )
+                    .datePickerStyle(.compact)
+            
             } else {
                 HStack {
                     Text("setTodoForm_startingTimeForm_timeIsNil")
@@ -201,16 +211,6 @@ extension SetToDoForm {
                             .font(.caption2)
                     }
                 }
-            }
-            if todo.startingTime != nil {
-                Divider()
-                Button {
-                    todo.startingTime = nil
-                } label: {
-                    Text("setTodoForm_startingTimeForm_donotSetTime")
-                        .font(.caption2)
-                }
-                .tint(.red)
             }
         }
     }
