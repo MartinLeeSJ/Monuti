@@ -15,9 +15,6 @@ struct CycleMemoir: View {
     
     
     @StateObject var manager = CycleManager()
-    @StateObject var locationManager = LocationManager()
-    @ObservedObject var timerManager: TimerManager
-    
     @FocusState var editorIsFocused: Bool
     
     
@@ -205,22 +202,7 @@ extension CycleMemoir {
 //MARK: - Handle Finish
 extension CycleMemoir {
     func handleFinish() {
-//        manager.recordCycleTimeSetting(timeSetting: timerManager.timeSetting,
-//                                       minutes: timerManager.getTotalMinute())
         manager.handleFinishedCycleButton()
         dismiss()
-        
-    }
-}
-
-struct CycleMemoir_Previews: PreviewProvider {
-    static var previews: some View {
-        Group {
-            CycleMemoir(timerManager: TimerManager())
-                .environment(\.locale, .init(identifier: "en"))
-            
-            CycleMemoir(timerManager: TimerManager())
-                .environment(\.locale, .init(identifier: "ko"))
-        }
     }
 }

@@ -12,8 +12,8 @@ struct SessionsTimer: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.scenePhase) var scenePhase
     
+    @StateObject var timerManager = TimerManager(timeSetting: TimeSetting())
     @EnvironmentObject var themeManager: ThemeManager
-    @EnvironmentObject var timerManager: TimerManager
     @EnvironmentObject var appBlockManager: AppBlockManager
     
     @AppStorage("lastTime") private var lastTimeObserved: TimeInterval = 0
@@ -68,7 +68,7 @@ struct SessionsTimer: View {
             dismiss()
         } content: {
             NavigationStack {
-                CycleMemoir(manager: CycleManager(todos: todos), timerManager: timerManager)
+                CycleMemoir(manager: CycleManager(todos: todos))
             }
         }
         .overlay {
@@ -101,6 +101,7 @@ struct SessionsTimer: View {
 // MARK: - Timer UI
 extension SessionsTimer {
     private func timerDigit() -> some View {
+        
         Text("\(timerManager.getMinuteString(of: timerManager.remainSeconds)) : \(timerManager.getSecondString(of: timerManager.remainSeconds))")
             .font(.system(size: 60, weight: .regular))
             .monospacedDigit()

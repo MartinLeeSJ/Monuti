@@ -28,7 +28,7 @@ struct MainRouterView: View {
     @EnvironmentObject var themeManager: ThemeManager
     @EnvironmentObject var todoManager: ToDoManager
     @EnvironmentObject var targetManager: TargetManager
-    @EnvironmentObject var timerManager: TimerManager
+    @EnvironmentObject var timerSettingManager: TimerSettingManager
     
     
     @State private var isSettingViewOn: Bool = false
@@ -76,9 +76,9 @@ struct MainRouterView: View {
                 
                 ToolbarItem(placement: .principal) {
                     MainSettingBanner(todoCount: todoManager.todos.count,
-                                      numOfSessions: timerManager.timeSetting.sessions.count,
-                                      minute: timerManager.getMinute(of: timerManager.getTotalSeconds()),
-                                      seconds: timerManager.getSeconds(of: timerManager.getTotalSeconds()))
+                                      numOfSessions: timerSettingManager.timeSetting.sessions.count,
+                                      minute: timerSettingManager.getMinute(of: timerSettingManager.getTotalSeconds()),
+                                      seconds: timerSettingManager.getSeconds(of: timerSettingManager.getTotalSeconds()))
                 }
                 
                 ToolbarItem(placement: .navigationBarTrailing) {
@@ -214,12 +214,4 @@ extension MainRouterView {
     
 }
 
-struct MainRouterView_Previews: PreviewProvider {
-    static var previews: some View {
-        MainRouterView()
-            .environmentObject(ThemeManager())
-            .environmentObject(ToDoManager())
-            .environmentObject(TargetManager())
-            .environmentObject(TimerManager())
-    }
-}
+

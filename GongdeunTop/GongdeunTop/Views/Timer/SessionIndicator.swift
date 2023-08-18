@@ -61,8 +61,3 @@ struct SessionIndicator: View {
     }
 }
 
-struct SessionIndicator_Previews: PreviewProvider {
-    static var previews: some View {
-        SessionIndicator(manager: TimerManager())
-    }
-}

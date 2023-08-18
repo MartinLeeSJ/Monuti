@@ -9,7 +9,7 @@ import SwiftUI
 
 struct IndividualTimeSettingForm: View  {
     @EnvironmentObject var themeManager: ThemeManager
-    @ObservedObject var manager: TimerManager
+    @ObservedObject var manager: TimerSettingManager
     
     @State private var currentSession: Int = 0
     @State private var isLoading: Bool = false
@@ -101,7 +101,7 @@ struct IndividualTimeSettingForm: View  {
 
 struct IndividualTimeSettingForm_Previews: PreviewProvider {
     static var previews: some View {
-        IndividualTimeSettingForm(manager: TimerManager())
+        IndividualTimeSettingForm(manager: TimerSettingManager())
             .environmentObject(ThemeManager())
     }
 }

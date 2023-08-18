@@ -10,48 +10,9 @@ import SwiftUI
 import Combine
 
 
-
-
-
-extension Session {
-    static func getBasicSession() -> Self {
-        Session(concentrationSeconds: SetTimeContraint.basicConcentrationSecond,
-                restSeconds: SetTimeContraint.basicRestSecond)
-    }
-    static func getBasicLongRestSession() -> Self {
-        Session(concentrationSeconds: SetTimeContraint.basicConcentrationSecond,
-                restSeconds: SetTimeContraint.basicLongRestSecond)
-    }
-    static func getBasicSessions() -> [Self] {
-        var result = Array<Self>()
-        
-        (0..<SetTimeContraint.basicSessions).forEach { index in
-            result.append(index == SetTimeContraint.basicSessions - 1  ? getBasicLongRestSession() : getBasicSession())
-        }
-
-        return result
-    }
-    
-    static func getRandomLooseSessions() -> [Self] {
-        var result = Array<Self>()
-        SetTimeContraint.looseSessionsBound.forEach { _ in
-            result.append(
-                Session(
-                    concentrationSeconds: Int.random(in: SetTimeContraint.looseConcentrationSecondBound),
-                    restSeconds: Int.random(in: SetTimeContraint.looseRestSecondBound)
-                )
-            )
-        }
-        return result
-    }
-}
-
 @MainActor
 final class TimerManager: ObservableObject {
     @Published var timeSetting = TimeSetting()
-    @Published var isDefaultSessionsSetting: Bool = true
-    @Published var mode: TimeSetMode = .batch
-    
     @Published var currentTimeIndex: Int = 0
     @Published var remainSeconds: TimeInterval = 0
     @Published var isRunning: Bool = false
@@ -65,7 +26,9 @@ final class TimerManager: ObservableObject {
     }
     
     
-    init() {
+    init(timeSetting: TimeSetting) {
+        self.timeSetting = timeSetting
+        
         $currentTimeIndex
             .combineLatest($timeSetting)
             .map { (current, timeSetting) in
@@ -77,12 +40,7 @@ final class TimerManager: ObservableObject {
                 TimeInterval(currentSession.restSeconds)
             }
             .assign(to: &$remainSeconds)
-        
-        $timeSetting
-            .map { [weak self] timeSetting in
-                self?.knowIsBasicSetting(timeSetting.sessions) ?? true
-            }
-            .assign(to: &$isDefaultSessionsSetting)
+    
     }
     
     
@@ -175,9 +133,7 @@ final class TimerManager: ObservableObject {
         (seconds <= 0 ? 0 : seconds) % 60
     }
     
-    func getTotalSeconds() -> Int {
-        timeSetting.sessions.reduce(0) {$0 + $1.sessionSeconds}
-    }
+
     
 // MARK: - Get End Degree
     func getEndDegree() -> Double {
@@ -205,77 +161,5 @@ final class TimerManager: ObservableObject {
         moveToNextTimes()
         return oldRemainSeconds
     }
-    
-//MARK: - Set Time
-    func mapAllSessions() {
-        timeSetting.sessions = timeSetting.sessions.enumerated().map { (index, _) in
-            let isLastIndex: Bool = index == timeSetting.sessions.endIndex - 1
-            if isLastIndex {
-                return Session(concentrationSeconds: timeSetting.session.concentrationSeconds,
-                               restSeconds: timeSetting.willGetLongRefresh ? TimeSetting.longRefreshSeconds : 0)
-            } else {
-                return Session(concentrationSeconds: timeSetting.session.concentrationSeconds,
-                               restSeconds: timeSetting.session.restSeconds)
-            }
-        }
-    }
-    
-    func toggleLastLongRefresh(isOn: Bool) {
-        timeSetting.sessions = timeSetting.sessions.enumerated().map { (index, session) in
-            let isLastIndex: Bool = index == timeSetting.sessions.endIndex - 1
-            if isLastIndex {
-                return Session(concentrationSeconds: timeSetting.session.concentrationSeconds,
-                               restSeconds: isOn ? TimeSetting.longRefreshSeconds : 0)
-            }
-            return session
-        }
-    }
-    
-    func addNewSession() {
-        guard mode == .individual else { return }
-        guard timeSetting.numOfSessions < SetTimeContraint.looseSessionsBound.upperBound else { return }
-        timeSetting.sessions.append(Session.getBasicSession())
-    }
-    
-    func removeSession(at index: Int) {
-        guard index < timeSetting.sessions.count else { return }
-        timeSetting.sessions.remove(at: index)
-    }
-    
-    func resetToBasicSessions() {
-        timeSetting.sessions = Session.getBasicSessions()
-    }
-    
-    // MARK: - Set Time Info
-    func knowIsBasicSetting(_ sessions: [Session]) -> Bool {
-        guard sessions.count == SetTimeContraint.basicSessions else { return false }
-        let basicSessions = Session.getBasicSessions()
-        return sessions.enumerated().reduce(true) { _, element in
-            let (index,session) = element
-            let basicSession = basicSessions[index]
-            return (basicSession.concentrationSeconds == session.concentrationSeconds) &&
-            (basicSession.restSeconds == session.restSeconds)
-        }
-    }
 
 }
-
-//MARK: - TimeSetMode
-extension TimerManager {
-    enum TimeSetMode: String, CaseIterable, Identifiable {
-        case batch
-        case individual
-//        case preset
-        
-        var localizedStringKey: LocalizedStringKey {
-            switch self {
-            case .individual: return "timeSetMode_individual"
-            case .batch: return "timeSetMode_batch"
-//            case .preset: return "timeSetMode_preset"
-            }
-        }
-        
-        var id: Self { self }
-    }
-}
-
