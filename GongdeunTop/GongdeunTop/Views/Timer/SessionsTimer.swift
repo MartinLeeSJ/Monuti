@@ -82,7 +82,6 @@ struct SessionsTimer: View {
             }
         }
         .onChange(of: scenePhase) { [oldPhase = scenePhase] newPhase in
-            print("oldValue is ::: \(oldPhase)")
             manageTimeWithScenePhase(old: oldPhase, new: newPhase)
         }
         .onReceive(timerManager.timer) { _ in
@@ -249,7 +248,7 @@ extension SessionsTimer {
     private func manageTimeWithScenePhase(old oldPhase: ScenePhase, new newPhase: ScenePhase) {
         guard timerManager.isRunning else { return }
         switch newPhase {
-        case .inactive where oldPhase == .background: manageTimeWhenAwakeApp()
+        case .inactive where oldPhase == .background: manageTimeWhenWakeApp()
         case .inactive where oldPhase == .active: print("active => inactive")
         case .active: print("active")
         case .background: manageTimeWithBackgroundMode()
@@ -263,7 +262,7 @@ extension SessionsTimer {
         scheduleUserNotification()
     }
     
-    private func manageTimeWhenAwakeApp() {
+    private func manageTimeWhenWakeApp() {
         print("background => inactive")
         timerManager.subtractTimeElapsed(from: lastTimeObserved)
         if !timerManager.isRunning {
@@ -277,15 +276,18 @@ extension SessionsTimer {
     }
     
     private func scheduleUserNotification() {
+        guard timerManager.isRunning else { return }
+        
         let notificationCenter = UNUserNotificationCenter.current()
         notificationCenter.removeAllPendingNotificationRequests()
-        
+
         let content = UNMutableNotificationContent()
         var notificationBody: String = ""
-        switch timerManager.knowIsInRestTime() {
-        case true where !timerManager.knowIsLastTime(): notificationBody = String(localized: "notification_restTime_ended")
-        case true where timerManager.knowIsLastTime(): notificationBody = String(localized: "notification_allTime_ended")
-        case false: notificationBody = String(localized: "notification_concentrationTime_ended")
+        
+        switch (timerManager.knowIsInRestTime(), timerManager.knowIsLastTime()) {
+        case (true, false): notificationBody = String(localized: "notification_restTime_ended")
+        case (true, true): notificationBody = String(localized: "notification_allTime_ended")
+        case (false, _): notificationBody = String(localized: "notification_concentrationTime_ended")
         default: notificationBody = ""
         }
         content.title = String(localized: "Monuti")

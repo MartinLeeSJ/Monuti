@@ -49,12 +49,13 @@ extension Session {
 @MainActor
 final class TimerManager: ObservableObject {
     @Published var timeSetting = TimeSetting()
+    @Published var isDefaultSessionsSetting: Bool = true
+    @Published var mode: TimeSetMode = .batch
+    
     @Published var currentTimeIndex: Int = 0
     @Published var remainSeconds: TimeInterval = 0
     @Published var isRunning: Bool = false
-    @Published var isDefaultSessionsSetting: Bool = true
     @Published var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
-    @Published var mode: TimeSetMode = .batch
     
   
     var currentSession: Session {
@@ -78,8 +79,8 @@ final class TimerManager: ObservableObject {
             .assign(to: &$remainSeconds)
         
         $timeSetting
-            .map { timeSetting in
-                self.knowIsBasicSetting(timeSetting.sessions)
+            .map { [weak self] timeSetting in
+                self?.knowIsBasicSetting(timeSetting.sessions) ?? true
             }
             .assign(to: &$isDefaultSessionsSetting)
     }
