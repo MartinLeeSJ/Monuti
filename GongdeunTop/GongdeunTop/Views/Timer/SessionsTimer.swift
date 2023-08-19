@@ -92,8 +92,8 @@ struct SessionsTimer: View {
                 return
             }
             
-            let movedNextTime: Bool = timerManager.moveToNextTimes()
-            if !movedNextTime { handleQuit() }
+            let didMoveToNextTime: Bool = timerManager.moveToNextTimes()
+            if !didMoveToNextTime { handleQuit() }
             
         }
     }
