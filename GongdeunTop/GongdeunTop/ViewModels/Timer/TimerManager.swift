@@ -56,13 +56,18 @@ final class TimerManager: ObservableObject {
     }
     
     
-// MARK: - Move and Stop Time
-    func moveToNextTimes() {
+    // MARK: - Move and Stop Time
+    /// 다음 세션으로 넘어가게 해주는 메소드. 다음 세션으로 넘어간 결과를 불리언 값으로 알려준다.
+    /// - Returns: 다음 세션으로 넘어갔는 지 여부
+    func moveToNextTimes() -> Bool {
         withAnimation {
             pauseTime()
-            if knowIsInSession() && !knowIsLastTime() {
-                currentTimeIndex += 1
+            if knowIsLastTime() {
+                return false
             }
+            
+            currentTimeIndex += 1
+            return true            
         }
     }
     
@@ -122,12 +127,10 @@ final class TimerManager: ObservableObject {
         
         if newRemainSeconds > 0 {
             remainSeconds = newRemainSeconds
-            print("\(diff) 만큼의 시간이 지났습니다")
             return diff
         }
         
-        print("\(oldRemainSeconds) 만큼의 시간이 지났습니다")
-        moveToNextTimes()
+        remainSeconds = 0
         return oldRemainSeconds
     }
 

@@ -31,7 +31,6 @@ struct SessionsTimer: View {
             let height = geo.size.height
             let shorterSize = min(width, height)
             let indicatorWidth = shorterSize * 0.45
-//            let digitTimeWidth = shorterSize * 0.5
             
             VStack {
                 Spacer()
@@ -85,14 +84,17 @@ struct SessionsTimer: View {
             manageTimeWithScenePhase(old: oldPhase, new: newPhase)
         }
         .onReceive(timerManager.timer) { _ in
-            if timerManager.isRunning {
-                if timerManager.remainSeconds > 0 {
-                    timerManager.elapsesTime()
-                    updateToDoTimeSpentWhenTimerTicks()
-                } else {
-                    timerManager.moveToNextTimes()
-                }
+            guard timerManager.isRunning else { return }
+            
+            if timerManager.remainSeconds > 0 {
+                timerManager.elapsesTime()
+                updateToDoTimeSpentWhenTimerTicks()
+                return
             }
+            
+            let movedNextTime: Bool = timerManager.moveToNextTimes()
+            if !movedNextTime { handleQuit() }
+            
         }
     }
 }
@@ -222,7 +224,7 @@ extension SessionsTimer {
     }
     
     private func handleNext() {
-        timerManager.moveToNextTimes()
+        if !timerManager.moveToNextTimes() { handleQuit() }
     }
     
     private func handleQuit() {
@@ -231,7 +233,7 @@ extension SessionsTimer {
         } else {
             isShowingCycleMemoir = true
         }
-        handlePlay()
+        timerManager.pauseTime()
     }
 }
 
