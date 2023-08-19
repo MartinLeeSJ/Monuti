@@ -10,7 +10,7 @@ import SwiftUI
 struct MainConsole: View {
     @EnvironmentObject var themeManager: ThemeManager
     @EnvironmentObject var todoManager: ToDoManager
-    @EnvironmentObject var timerManager: TimerManager
+    @EnvironmentObject var timerSettingManager: TimerSettingManager
     @EnvironmentObject var targetManager: TargetManager
     
     @State private var isSetTimeViewOn: Bool = false
@@ -38,7 +38,7 @@ struct MainConsole: View {
                     .frame(width: .getScreenWidthDivided(with: 4), height: 36)
                 }
                 .sheet(isPresented: $isSetTimeViewOn) {
-                    SetTimeForm(manager: timerManager)
+                    SetTimeForm(manager: timerSettingManager)
                         .presentationDetents([.fraction(0.65)])
                 }
                 .padding(.horizontal)
@@ -47,7 +47,8 @@ struct MainConsole: View {
                             in: RoundedRectangle(cornerRadius: 10))
                 
                 NavigationLink {
-                    SessionsTimer(todos: todoManager.todos,
+                    SessionsTimer(timerManager: TimerManager(timeSetting: timerSettingManager.timeSetting),
+                        todos: todoManager.todos,
                                   currentTodo: todoManager.todos.first)
                 } label: {
                     HStack(spacing: 4) {

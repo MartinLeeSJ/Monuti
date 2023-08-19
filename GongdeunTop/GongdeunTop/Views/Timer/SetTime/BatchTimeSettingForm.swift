@@ -9,9 +9,7 @@ import SwiftUI
 
 struct BatchTimeSettingForm: View {
     @EnvironmentObject var themeManager: ThemeManager
-    @ObservedObject var manager: TimerManager
-    
-    
+    @ObservedObject var manager: TimerSettingManager
     
     var body: some View {
         VStack {
@@ -125,7 +123,7 @@ extension BatchTimeSettingForm {
 
 struct BatchTimeSettingForm_Previews: PreviewProvider {
     static var previews: some View {
-        BatchTimeSettingForm(manager: TimerManager())
+        BatchTimeSettingForm(manager: TimerSettingManager())
             .environmentObject(ThemeManager())
     }
 }

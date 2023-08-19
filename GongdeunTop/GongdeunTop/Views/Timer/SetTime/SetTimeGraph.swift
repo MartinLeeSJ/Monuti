@@ -9,10 +9,10 @@ import SwiftUI
 
 struct SetTimeGraph: View {
     @EnvironmentObject var themeManager: ThemeManager
-    @ObservedObject var manager: TimerManager
+    @ObservedObject var manager: TimerSettingManager
     @Binding var currentFocusedIndex: Int
     
-    init(manager: TimerManager, currentFocusedIndex: Binding<Int>? = nil) {
+    init(manager: TimerSettingManager, currentFocusedIndex: Binding<Int>? = nil) {
         self.manager = manager
         self._currentFocusedIndex = currentFocusedIndex ?? .constant(-1)
     }
