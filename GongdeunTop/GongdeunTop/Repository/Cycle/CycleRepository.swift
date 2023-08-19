@@ -32,6 +32,7 @@ public class CycleRepository: ObservableObject {
         $user
             .combineLatest($baseDate)
             .sink { [weak self] (user, date) in
+            print("Combine is working!")
             self?.unsubscribe()
             self?.subscribe(user: user, baseDate: date)
         }
@@ -55,6 +56,7 @@ public class CycleRepository: ObservableObject {
     
     func subscribe(user: User?, baseDate: Date = Date.now) {
         guard let uid = user?.uid else { return }
+        
         guard listenerRegistration == nil else { return }
         
         let dateInterval = Calendar.current.dateInterval(of: .month, for: baseDate)

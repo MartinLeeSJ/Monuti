@@ -48,6 +48,7 @@ final class CalendarManager: ObservableObject {
                 self?.getCurrentMonthData(from: date) ?? []
             }
             .assign(to: &$currentMonthData)
+            
         
         $startingPointDate
             .map { [weak self] date in
