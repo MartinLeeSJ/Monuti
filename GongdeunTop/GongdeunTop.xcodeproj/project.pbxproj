@@ -62,6 +62,7 @@
 		5B50E4FA2A8DB2FD00FFD3DA /* AppBlockManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF9CDD62A84D335002105B0 /* AppBlockManager.swift */; };
 		5B54FE432A2B5917000D29ED /* CGFloat+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B54FE422A2B5917000D29ED /* CGFloat+Utils.swift */; };
 		5B59207D2A627A3B009DD91F /* SetTimePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B59207C2A627A3B009DD91F /* SetTimePicker.swift */; };
+		5B5AF96E2A90AE7B00CFC2A0 /* TimeInterval+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B5AF96D2A90AE7B00CFC2A0 /* TimeInterval+Utils.swift */; };
 		5B6203852A8DFC44000AE1AB /* PopNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6203842A8DFC44000AE1AB /* PopNotification.swift */; };
 		5B63175A29E7F27700FF6876 /* RoundedCorners.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B63175929E7F27700FF6876 /* RoundedCorners.swift */; };
 		5B63A59129C8931300AA4525 /* SheetPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B63A59029C8931300AA4525 /* SheetPresenter.swift */; };
@@ -223,6 +224,7 @@
 		5B4214F62A2D5F5F004362E5 /* MainConsole.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainConsole.swift; sourceTree = "<group>"; };
 		5B54FE422A2B5917000D29ED /* CGFloat+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGFloat+Utils.swift"; sourceTree = "<group>"; };
 		5B59207C2A627A3B009DD91F /* SetTimePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetTimePicker.swift; sourceTree = "<group>"; };
+		5B5AF96D2A90AE7B00CFC2A0 /* TimeInterval+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TimeInterval+Utils.swift"; sourceTree = "<group>"; };
 		5B6203842A8DFC44000AE1AB /* PopNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopNotification.swift; sourceTree = "<group>"; };
 		5B63175929E7F27700FF6876 /* RoundedCorners.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedCorners.swift; sourceTree = "<group>"; };
 		5B63A59029C8931300AA4525 /* SheetPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetPresenter.swift; sourceTree = "<group>"; };
@@ -552,6 +554,7 @@
 				5B6DF5EF2A36C5F600CCA57F /* DateFormatter+Utils.swift */,
 				5B54FE422A2B5917000D29ED /* CGFloat+Utils.swift */,
 				5BBD3EF52A77FEA800731E20 /* String+Extension.swift */,
+				5B5AF96D2A90AE7B00CFC2A0 /* TimeInterval+Utils.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -966,6 +969,7 @@
 				5B63A59129C8931300AA4525 /* SheetPresenter.swift in Sources */,
 				5B95E0E62A5BE1B4007FA721 /* SetTimeStepper.swift in Sources */,
 				5B4214F52A2D57D1004362E5 /* MainRouterView.swift in Sources */,
+				5B5AF96E2A90AE7B00CFC2A0 /* TimeInterval+Utils.swift in Sources */,
 				5B05A61829ECFD5A00C89417 /* CycleMemoir.swift in Sources */,
 				5BF9CDD72A84D335002105B0 /* AppBlockManager.swift in Sources */,
 				5BB4FECA29C832D9009CCD43 /* ToDo.swift in Sources */,

@@ -20,8 +20,9 @@ struct CalendarView: View {
     @StateObject var calendarManager = CalendarManager()
     @StateObject var cycleStore = CycleStore()
     
-
     @State private var showSetMonth: Bool = false
+    
+    @GestureState private var dragOffset = CGSize.zero
 
     private func handleNextMonth() {
         calendarManager.handleNextButton(.month)
@@ -43,6 +44,7 @@ struct CalendarView: View {
                 getTopConsole()
                 
                 getCalendar()
+//                    .gesture(calendarDragGesture)
                 
                 Divider()
                 
@@ -65,11 +67,44 @@ struct CalendarView: View {
                 SetMonthView(manager: calendarManager, cycleStore: cycleStore, isShowing: $showSetMonth)
             }
         }
-        
-        
+        .gesture(dismissGesture)
     }
+    
+   
+}
+//MARK: - Gesture
+extension CalendarView {
+    private var dismissGestureAreaWidth: CGFloat { 20 }
+    private var dismissGestureMinimumTranslation: CGFloat { 100 }
+    
+    private var dismissGesture: GestureStateGesture<DragGesture, CGSize> {
+        let gesture = DragGesture()
+        
+        return gesture.updating($dragOffset) { value, state, transaction in
+            guard value.startLocation.x < dismissGestureAreaWidth else { return }
+            guard value.translation.width > dismissGestureMinimumTranslation  else { return }
+                
+            dismiss()
+        }
+    }
+    
+//    private var calendarDragGesture: GestureStateGesture<DragGesture, CGSize> {
+//        let gesture = DragGesture()
+//        return gesture.updating($dragOffset) { value, state, transaction in
+//            guard value.startLocation.x > dismissGestureAreaWidth else { return }
+//
+//            switch(value.translation.width, value.translation.height) {
+//            case (...0, -50...50):
+//                handleNextMonth()
+//            case (0..., -50...50):
+//                handlePreviousMonth()
+//            default:  print("no clue")
+//            }
+//        }
+//    }
 }
 
+//MARK: - Top Control Units
 extension CalendarView {
     @ViewBuilder
     func getTopConsole() -> some View {
@@ -136,17 +171,9 @@ extension CalendarView {
             
             dates
         }
-        .gesture(DragGesture(minimumDistance: 2.0, coordinateSpace: .local)
-            .onEnded { value in
-                switch(value.translation.width, value.translation.height) {
-                case (...0, -50...50):
-                    handleNextMonth()
-                case (0..., -50...50):
-                    handlePreviousMonth()
-                default:  print("no clue")
-                }
-            })
     }
+    
+   
     
     private func getWeekdays() -> [String] {
         guard var weekdays = DateFormatter().shortStandaloneWeekdaySymbols else { return [] }

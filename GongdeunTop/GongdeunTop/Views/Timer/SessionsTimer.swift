@@ -101,9 +101,9 @@ struct SessionsTimer: View {
 // MARK: - Timer UI
 extension SessionsTimer {
     private func timerDigit() -> some View {
-        
-        Text("\(timerManager.getMinuteString(of: timerManager.remainSeconds)) : \(timerManager.getSecondString(of: timerManager.remainSeconds))")
+        Text(timerManager.remainSeconds.sessionTimerDigit)
             .font(.system(size: 60, weight: .regular))
+            .kerning(3)
             .monospacedDigit()
             .foregroundColor(themeManager.timerDigitAndButtonColor())
             .padding(.bottom, 25)

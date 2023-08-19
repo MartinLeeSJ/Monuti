@@ -20,7 +20,8 @@ final class CalendarManager: ObservableObject {
     var firstWeekdayDigit: Int {
         if let startDate = currentMonthData.first {
             
-            let dateFormatted = Date.FormatStyle(locale: .init(identifier: "ko-KR"), calendar: Calendar.current).weekday(.oneDigit)
+            let dateFormatted
+            = Date.FormatStyle(locale: .init(identifier: "ko-KR"), calendar: Calendar.current).weekday(.oneDigit)
             print(Int(startDate.formatted(dateFormatted)) ?? 0)
             print(Calendar.current.firstWeekday)
             return Int(startDate.formatted(dateFormatted)) ?? 1

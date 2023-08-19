@@ -104,37 +104,6 @@ final class TimerManager: ObservableObject {
         remainSeconds == TimeInterval(currentSession.restSeconds)
     }
     
-    
-// MARK: - Get CurrentTime Digit Strings
-    func getMinuteString(of seconds: TimeInterval, isTwoLetters: Bool = true) -> String {
-        let result: Int = getMinute(of: Int(seconds))
-        
-        if result < 10 && isTwoLetters {
-            return "0" + String(result)
-        }
-        return String(result)
-    }
-    
-    func getMinute(of seconds: Int) -> Int {
-        Int((seconds <= 0 ? 0 : seconds) / 60)
-    }
-    
-    func getSecondString(of seconds: TimeInterval, isTwoLetters: Bool = true) -> String {
-        let result: Int = getSeconds(of: Int(seconds))
-        
-        if result < 10 && isTwoLetters {
-            return "0" + String(result)
-        } else {
-            return String(result)
-        }
-    }
-    
-    func getSeconds(of seconds: Int) -> Int {
-        (seconds <= 0 ? 0 : seconds) % 60
-    }
-    
-
-    
 // MARK: - Get End Degree
     func getEndDegree() -> Double {
         let currentSeconds = knowIsInRestTime() ? currentSession.restSeconds : currentSession.concentrationSeconds
