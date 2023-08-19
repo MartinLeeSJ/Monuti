@@ -105,7 +105,7 @@ extension SessionsTimer {
     private func timerDigit() -> some View {
         Text(timerManager.remainSeconds.sessionTimerDigit)
             .font(.system(size: 60, weight: .regular))
-            .kerning(3)
+            .kerning(1)
             .monospacedDigit()
             .foregroundColor(themeManager.timerDigitAndButtonColor())
             .padding(.bottom, 25)
