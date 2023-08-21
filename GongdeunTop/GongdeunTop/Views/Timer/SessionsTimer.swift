@@ -32,31 +32,35 @@ struct SessionsTimer: View {
             let shorterSize = min(width, height)
             let indicatorWidth = shorterSize * 0.45
             
-            VStack {
-                Spacer()
-                TimerHexagon(width: shorterSize,
-                             timerEndDegree: timerManager.getEndDegree(),
-                             foregroundColor: themeManager.colorInPriority(of: .medium),
-                             backgroundColor: themeManager.colorInPriority(of: .weak))
-                    .overlay {
-                        VStack {
-                            timerDigit()
-                            
-                            timerControls(width: shorterSize)
+            ZStack {
+                themeManager.colorInPriority(of: .background)
+                    .ignoresSafeArea()
+                VStack {
+                    Spacer()
+                    TimerHexagon(width: shorterSize,
+                                 timerEndDegree: timerManager.getEndDegree(),
+                                 foregroundColor: themeManager.colorInPriority(of: .medium),
+                                 backgroundColor: themeManager.colorInPriority(of: .weak))
+                        .overlay {
+                            VStack {
+                                timerDigit()
+                                
+                                timerControls(width: shorterSize)
+                            }
                         }
+                        .padding(.bottom, 20)
+                    
+                    sessionIndicator(width: indicatorWidth)
+                    
+                    Spacer()
+                    
+                    if !todos.isEmpty {
+                        todoMenu()
                     }
-                    .padding(.bottom, 20)
-                
-                sessionIndicator(width: indicatorWidth)
-                
-                Spacer()
-                
-                if !todos.isEmpty {
-                    todoMenu()
+                    Spacer()
                 }
-                Spacer()
+                .frame(width: width, height: height)
             }
-            .frame(width: width, height: height)
         }
         .navigationBarBackButtonHidden(true)
         .toolbar {
@@ -299,7 +303,6 @@ extension SessionsTimer {
         case (true, false): notificationBody = String(localized: "notification_restTime_ended")
         case (true, true): notificationBody = String(localized: "notification_allTime_ended")
         case (false, _): notificationBody = String(localized: "notification_concentrationTime_ended")
-        default: notificationBody = ""
         }
         content.title = String(localized: "Monuti")
         content.body = notificationBody

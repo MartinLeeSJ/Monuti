@@ -10,14 +10,16 @@ import SwiftUI
 
 enum ColorThemes: String, Identifiable, CaseIterable {
     case blueOcean = "GTBlueOcean"
-    case yellow = "GTYellow"
+    case lemonGrass = "GTLemonGrass"
+    case forest = "GTForest"
     
     var id: Self { self }
     
     var representativeName: String {
         switch self {
         case .blueOcean: return "BlueOcean"
-        case .yellow: return "Yellow"
+        case .lemonGrass: return "LemonGrass"
+        case .forest: return "Forest"
         }
     }
     
@@ -69,8 +71,7 @@ class ThemeManager: ObservableObject {
     }
     
     func timerDigitAndButtonColor() -> Color {
-        theme == .yellow ? Color.black : Color("\(theme.rawValue)\(ColorPriority.accent.rawValue)")
-//        Color("\(theme.rawValue)\(ColorPriority.accent.rawValue)")
+        Color("\(theme.rawValue)\(ColorPriority.accent.rawValue)")
     }
     
     func appLogoImage() -> Image {
