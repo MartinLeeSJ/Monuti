@@ -37,7 +37,7 @@ struct CalendarView: View {
     
     var body: some View {
         ZStack {
-            themeManager.colorInPriority(of: .background)
+            themeManager.colorInPriority(in: .background)
                 .ignoresSafeArea(.all)
             
             VStack(alignment:.leading, spacing: 16) {
@@ -226,7 +226,7 @@ extension CalendarView {
             } label: {
                 Image(systemName: "arrow.backward.circle.fill")
             }
-            .tint(themeManager.colorInPriority(of: .accent))
+            .tint(themeManager.colorInPriority(in: .accent))
         }
     }
     

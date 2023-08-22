@@ -24,7 +24,7 @@ struct MainConsole: View {
         VStack {
             HStack {
                 addButton
-                    .tint(themeManager.colorInPriority(of: .accent))
+                    .tint(themeManager.colorInPriority(in: .accent))
                 
                 Button {
                     isSetTimeViewOn.toggle()
@@ -43,7 +43,7 @@ struct MainConsole: View {
                 }
                 .padding(.horizontal)
                 .padding(.vertical, 8)
-                .background(themeManager.colorInPriority(of: .accent).opacity(0.3),
+                .background(themeManager.colorInPriority(in: .accent).opacity(0.3),
                             in: RoundedRectangle(cornerRadius: 10))
                 
                 NavigationLink {
@@ -65,7 +65,7 @@ struct MainConsole: View {
                             in: RoundedRectangle(cornerRadius: 10))
                 .overlay {
                     RoundedRectangle(cornerRadius: 10)
-                        .stroke(themeManager.colorInPriority(of: .accent), lineWidth: 2)
+                        .stroke(themeManager.colorInPriority(in: .accent), lineWidth: 2)
                 }
             }
             .padding(.vertical, 6)

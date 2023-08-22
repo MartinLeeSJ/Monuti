@@ -149,3 +149,13 @@
 
 // MARK: - Target Detail View
 "targetDetail_term" = "기간";
+
+// MARK: - Color Themes
+"BlueOcean" = "파란 바다";
+"LemonGrass" = "레몬그라스";
+"Forest" = "숲";
+
+//MARK: - Setting
+"ColorThemeSetting" = "테마 변경하기";
+"SignOut" = "로그아웃 하기";
+"really_signOut" = "정말로 로그아웃 하시겠습니까?";

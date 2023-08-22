@@ -15,7 +15,7 @@ struct TargetTermGauge: View {
             ForEach(0..<4) { level in
                 if level < termIndex {
                     Rectangle()
-                        .fill(themeManager.colorInPriority(of: .accent))
+                        .fill(themeManager.colorInPriority(in: .accent))
                 } else {
                     Rectangle()
                         .fill(.tertiary)

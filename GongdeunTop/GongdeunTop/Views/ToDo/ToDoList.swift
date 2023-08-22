@@ -25,7 +25,7 @@ struct ToDoList: View {
     
     var body: some View {
         ZStack {
-            themeManager.colorInPriority(of: .background)
+            themeManager.colorInPriority(in: .background)
                 .ignoresSafeArea()
             VStack(spacing: 0) {
                 topEditingConsole
@@ -83,7 +83,7 @@ extension ToDoList {
         }
         .padding(.horizontal)
         .padding(.vertical, 8)
-        .tint(themeManager.colorInPriority(of: .accent))
+        .tint(themeManager.colorInPriority(in: .accent))
     }
     
     @ViewBuilder
@@ -194,7 +194,7 @@ extension ToDoList {
             }
             
         }
-        .tint(themeManager.colorInPriority(of: .accent))
+        .tint(themeManager.colorInPriority(in: .accent))
         .disabled(todoManager.multiSelection.isEmpty)
         .padding(.horizontal, 24)
         .padding(.vertical, 6)

@@ -33,14 +33,14 @@ struct SessionsTimer: View {
             let indicatorWidth = shorterSize * 0.45
             
             ZStack {
-                themeManager.colorInPriority(of: .background)
+                themeManager.colorInPriority(in: .background)
                     .ignoresSafeArea()
                 VStack {
                     Spacer()
                     TimerHexagon(width: shorterSize,
                                  timerEndDegree: timerManager.getEndDegree(),
-                                 foregroundColor: themeManager.colorInPriority(of: .medium),
-                                 backgroundColor: themeManager.colorInPriority(of: .weak))
+                                 foregroundColor: themeManager.colorInPriority(in: .medium),
+                                 backgroundColor: themeManager.colorInPriority(in: .weak))
                         .overlay {
                             VStack {
                                 timerDigit()
@@ -205,7 +205,7 @@ extension SessionsTimer {
                 }
             }
             .menuStyle(.borderlessButton)
-            .foregroundColor(themeManager.colorInPriority(of: .accent))
+            .foregroundColor(themeManager.colorInPriority(in: .accent))
             .disabled(todos.isEmpty)
         }
     }

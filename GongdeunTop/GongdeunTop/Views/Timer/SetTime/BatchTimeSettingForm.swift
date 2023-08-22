@@ -24,7 +24,7 @@ struct BatchTimeSettingForm: View {
                             .font(.caption2)
                     }
                     .buttonStyle(.bordered)
-                    .tint(themeManager.colorInPriority(of: .accent))
+                    .tint(themeManager.colorInPriority(in: .accent))
                 }
             }
             .frame(minHeight: 60)
@@ -65,7 +65,7 @@ extension BatchTimeSettingForm {
     var concentrationTimeStepper: some View {
         HStack{
             Rectangle()
-                .fill(themeManager.colorInPriority(of: .solid))
+                .fill(themeManager.colorInPriority(in: .solid))
                 .frame(width: 20, height: 15)
             Text("setTime_concentration")
                 .font(.headline)
@@ -87,7 +87,7 @@ extension BatchTimeSettingForm {
     var restTimeStepper: some View {
         HStack {
             Rectangle()
-                .fill(themeManager.colorInPriority(of: .medium))
+                .fill(themeManager.colorInPriority(in: .medium))
                 .frame(width: 20, height: 15)
             Text("setTime_rest")
                 .font(.headline)
@@ -117,7 +117,7 @@ extension BatchTimeSettingForm {
         .onChange(of: manager.timeSetting.willGetLongRefresh) { bool in
             manager.toggleLastLongRefresh(isOn: bool)
         }
-        .tint(themeManager.colorInPriority(of: .accent))
+        .tint(themeManager.colorInPriority(in: .accent))
     }
 }
 
