@@ -155,3 +155,8 @@
 "BlueOcean" = "Blue ocean";
 "LemonGrass" = "Lemongrass";
 "Forest" = "Forest green";
+
+//MARK: - Setting
+"ColorThemeSetting" = "Change color theme";
+"SignOut" = "Sign out";
+"really_signOut" = "Are you sure you want to sign out?";
