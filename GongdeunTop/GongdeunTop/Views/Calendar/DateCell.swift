@@ -52,13 +52,13 @@ struct DateCell: View {
         Calendar.current.isDate(date, inSameDayAs: manager.selectedDate)
     }
     
+    
     var body: some View {
         VStack(spacing: 5) {
             HAlignment(alignment: .center) {
                 
                 Text(day)
                     .font(.caption.bold())
-//                    .foregroundColor(Color("basicFontColor"))
                     .frame(minWidth: 20)
                     .background {
                         if isToday {
@@ -77,7 +77,7 @@ struct DateCell: View {
                 manager.selectedDate = date
             } label: {
                 RoundedHexagon(radius: 20, cornerAngle: 5)
-                    .fill(.thinMaterial)
+                    .modifier(HexagonStyle(scheme: scheme))
                     .frame(width: 33, height: 33)
                     .overlay {
                         if let evaluation, evaluation != 0, let priority = ColorPriority(rawValue: evaluation) {
@@ -104,6 +104,20 @@ struct DateCell: View {
         
     }
 
+}
+
+struct HexagonStyle: ViewModifier {
+    var scheme: ColorScheme
+    func body(content: Content) -> some View {
+        if scheme == .light {
+            content
+                .foregroundColor(.white)
+                .opacity(0.7)
+        } else {
+            content
+                .foregroundStyle(Material.thinMaterial)
+        }
+    }
 }
 
 struct DateCell_Previews: PreviewProvider {
