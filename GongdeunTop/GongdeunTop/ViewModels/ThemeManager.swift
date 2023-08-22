@@ -23,6 +23,10 @@ enum ColorThemes: String, Identifiable, CaseIterable {
         }
     }
     
+    var localizedStringKey: LocalizedStringKey {
+        return LocalizedStringKey(self.representativeName)
+    }
+    
     var logoImage: Image {
         return Image("AppLogo\(representativeName)")
     }
@@ -58,8 +62,12 @@ class ThemeManager: ObservableObject {
         theme = newTheme
     }
     
-    func colorInPriority(of priority: ColorPriority) -> Color {
-        Color("\(theme.rawValue)\(priority.rawValue)")
+    func colorInPriority(in priorityOf: ColorPriority) -> Color {
+        Color("\(theme.rawValue)\(priorityOf.rawValue)")
+    }
+    
+    static func colorInPriority(of theme: ColorThemes, in priorityOf: ColorPriority) -> Color {
+        Color("\(theme.rawValue)\(priorityOf.rawValue)")
     }
     
     func componentColor() -> Color {

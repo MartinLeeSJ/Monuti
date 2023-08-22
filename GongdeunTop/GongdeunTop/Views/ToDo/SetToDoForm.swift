@@ -330,10 +330,10 @@ extension SetToDoForm {
                         HStack {
                             if let targetId = todo.relatedTarget, targetId == target.id {
                                 Image(systemName: "largecircle.fill.circle")
-                                    .tint(themeManager.colorInPriority(of: .accent))
+                                    .tint(themeManager.colorInPriority(in: .accent))
                             } else {
                                 Image(systemName: "circle")
-                                    .tint(themeManager.colorInPriority(of: .accent))
+                                    .tint(themeManager.colorInPriority(in: .accent))
                             }
                             Text(target.title)
                             Spacer()

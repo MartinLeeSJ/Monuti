@@ -150,3 +150,8 @@
 
 // MARK: - Target Detail View
 "targetDetail_term" = "Term";
+
+// MARK: - Color Themes
+"BlueOcean" = "Blue ocean";
+"LemonGrass" = "Lemongrass";
+"Forest" = "Forest green";

@@ -49,7 +49,7 @@ struct CycleListCell: View {
             .padding(.vertical, 10)
             .background {
                     RoundedRectangle(cornerRadius: 10)
-                    .fill(themeManager.colorInPriority(of: cycle.colorPriority))
+                    .fill(themeManager.colorInPriority(in: cycle.colorPriority))
             }
             .background {
                 if scheme == .dark {

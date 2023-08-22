@@ -51,7 +51,7 @@ struct CycleToDoList: View {
                                             .padding(3)
                                             .padding(.horizontal, 5)
                                             .background {
-                                                Capsule().fill(themeManager.colorInPriority(of: .accent))
+                                                Capsule().fill(themeManager.colorInPriority(in: .accent))
                                             }
                                     }
                                 }

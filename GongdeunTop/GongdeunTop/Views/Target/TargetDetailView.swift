@@ -32,7 +32,7 @@ struct TargetDetailView: View {
                 } label: {
                     Image(systemName: "arrow.backward.circle.fill")
                 }
-                .tint(themeManager.colorInPriority(of: .accent))
+                .tint(themeManager.colorInPriority(in: .accent))
             }
         }
     }
@@ -76,14 +76,14 @@ extension TargetDetailView {
     var termGraph: some View {
         Rectangle()
             .frame(height: 50)
-            .foregroundColor(themeManager.colorInPriority(of: .weak))
+            .foregroundColor(themeManager.colorInPriority(in: .weak))
             .overlay(alignment: .leading) {
                 GeometryReader { geo in
                     let leftDayRatio = CGFloat(target.dayLeftUntilDueDate) / CGFloat(target.daysFromStartToDueDate)
                     let leftDayWidth: CGFloat = geo.size.width * leftDayRatio
                     Rectangle()
                         .frame(width: leftDayWidth)
-                        .foregroundColor(themeManager.colorInPriority(of: .solid))
+                        .foregroundColor(themeManager.colorInPriority(in: .solid))
                 }
             }
             .clipShape(Capsule())
@@ -113,7 +113,7 @@ extension TargetDetailView {
         HAlignment(alignment: .center) {
             AchievementHexagon(radius: UIScreen.main.bounds.width / 4,
                                achievementRate: target.achievementRate,
-                               color: themeManager.colorInPriority(of: .accent))
+                               color: themeManager.colorInPriority(in: .accent))
         }
         
     }
@@ -129,7 +129,7 @@ extension TargetDetailView {
             }
         }
         .padding([.leading, .vertical])
-        .background(themeManager.colorInPriority(of: .background),
+        .background(themeManager.colorInPriority(in: .background),
                     in: RoundedRectangle(cornerRadius: 10))
     }
 }

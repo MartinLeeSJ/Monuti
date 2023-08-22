@@ -12,7 +12,7 @@ struct LauchScreen: View {
     
     @ViewBuilder
     private var background: some View {
-        themeManager.colorInPriority(of: .background)
+        themeManager.colorInPriority(in: .background)
             .ignoresSafeArea(.all)
     }
     

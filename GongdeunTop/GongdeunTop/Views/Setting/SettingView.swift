@@ -62,7 +62,7 @@ struct SettingView: View {
                 switch type {
                 case .color:
                     ColorThemeSetting()
-                        .presentationDetents([.medium])
+                        .presentationDetents([.fraction(0.2)])
                 }
             }
         }

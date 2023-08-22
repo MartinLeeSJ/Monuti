@@ -149,3 +149,8 @@
 
 // MARK: - Target Detail View
 "targetDetail_term" = "기간";
+
+// MARK: - Color Themes
+"BlueOcean" = "파란 바다";
+"LemonGrass" = "레몬그라스";
+"Forest" = "숲";

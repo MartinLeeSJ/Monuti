@@ -135,7 +135,7 @@ extension TargetListCell {
             Spacer()
             AchievementHexagon(radius: 18,
                                achievementRate: target.achievementRate,
-                               color: themeManager.colorInPriority(of: .accent))
+                               color: themeManager.colorInPriority(in: .accent))
         }
         .padding(8)
         .background(in: RoundedRectangle(cornerRadius: 10))

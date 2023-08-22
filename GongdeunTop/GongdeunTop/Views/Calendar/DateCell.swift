@@ -66,7 +66,7 @@ struct DateCell: View {
                                 .fill(themeManager.componentColor())
                                 .overlay {
                                     Capsule()
-                                        .stroke(themeManager.colorInPriority(of: .accent), lineWidth: 1.5)
+                                        .stroke(themeManager.colorInPriority(in: .accent), lineWidth: 1.5)
                                 }
                         }
                     }
@@ -82,7 +82,7 @@ struct DateCell: View {
                     .overlay {
                         if let evaluation, evaluation != 0, let priority = ColorPriority(rawValue: evaluation) {
                             RoundedHexagon(radius: 20, cornerAngle: 5)
-                                .foregroundColor(themeManager.colorInPriority(of: priority))
+                                .foregroundColor(themeManager.colorInPriority(in: priority))
                         }
                     }
                     .overlay {
@@ -94,7 +94,7 @@ struct DateCell: View {
                     .overlay {
                         if isSelected {
                             RoundedHexagon(radius: 20, cornerAngle: 5)
-                                .stroke(themeManager.colorInPriority(of: .accent), lineWidth: 2)
+                                .stroke(themeManager.colorInPriority(in: .accent), lineWidth: 2)
                         }
                     }
             }
