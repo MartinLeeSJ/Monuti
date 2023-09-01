@@ -1,5 +1,5 @@
 //
-//  SetTimeConstraints.swift
+//  TimerSettingContraint.swift
 //  GongdeunTop
 //
 //  Created by Martin on 2023/07/13.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct SetTimeContraint {
+struct TimerSettingContraint {
     static let looseSessionsBound: Range<Int> = 1..<9
     static let sessionsBound: Range<Int> = 1..<6
     static let sessionStep: Int.Stride = 1

@@ -15,25 +15,26 @@ struct FormContainer<Content>: View where Content: View {
     var footer: (() -> Text)? = nil
     
     var body: some View {
-        VStack {
-            content()
-        }
-        .padding(paddingInsets)
-        .background(themeManager.componentColor(), in: RoundedRectangle(cornerRadius: 10))
-        .overlay(alignment: .topLeading) {
+        VStack(alignment: .leading, spacing: 2) {
+            
             if let header = header {
                 header()
                     .font(.caption)
                     .foregroundStyle(.tertiary)
-                    .offset(x: 8, y: -16)
+                    .padding(.leading, 10)
             }
-        }
-        .overlay(alignment: .bottomLeading) {
+            
+            VStack {
+                content()
+            }
+            .padding(paddingInsets)
+            .background(themeManager.componentColor(), in: RoundedRectangle(cornerRadius: 10))
+            
             if let footer = footer {
                 footer()
                     .font(.caption)
                     .foregroundStyle(.tertiary)
-                    .offset(x: 8, y: 16)
+                    .padding(.leading, 10)
             }
         }
     }

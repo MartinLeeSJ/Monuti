@@ -1,5 +1,5 @@
 //
-//  TagForm.swift
+//  TagFormCell.swift
 //  GongdeunTop
 //
 //  Created by Martin on 2023/07/27.
@@ -13,7 +13,9 @@ import FirebaseFirestore
 import FirebaseFirestoreSwift
 
 
-struct TagForm: View {
+
+
+struct TagFormCell: View {
     @Binding var todo: ToDo
     @FocusState var focusedField: SetToDoForm.ToDoField?
     
@@ -25,9 +27,9 @@ struct TagForm: View {
     var onRemoveTag: (_ tag: Tag) -> Void
 
     var body: some View {
-        VStack(spacing: 32) {
+        VStack(spacing: .spacing(of: .long)) {
             FormContainer {
-                HStack(alignment: .bottom, spacing: 12){
+                HStack(alignment: .bottom, spacing: .spacing(of: .normal)){
                     tagFormTitle
                     tagFormTextField
                     tagFormCharacterLimitLabel
@@ -49,7 +51,7 @@ struct TagForm: View {
 }
 
 
-extension TagForm {
+extension TagFormCell {
     var tagLimit: Int {
         5
     }
@@ -162,7 +164,7 @@ extension TagForm {
     }
 }
 
-extension TagForm {
+extension TagFormCell {
     private func handleAddTagButton() {
         onAddTag(tag)
         tag.title = ""

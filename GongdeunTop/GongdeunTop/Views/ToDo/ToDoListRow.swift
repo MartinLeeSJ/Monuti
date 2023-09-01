@@ -83,6 +83,11 @@ struct ToDoListRow: View {
 
 
 extension ToDoListRow {
+    private func isTodoStartingTimeTomorrow(_ todo: ToDo) -> Bool {
+        if let date = todo.startingTime, Calendar.current.isDateInTomorrow(date) { return true }
+        return false
+    }
+    
     @ViewBuilder
     var startingTimeContainer: some View {
         if let timeString = todo.startingTimeString {

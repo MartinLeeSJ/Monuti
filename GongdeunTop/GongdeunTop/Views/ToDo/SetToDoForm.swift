@@ -58,14 +58,19 @@ struct SetToDoForm: View {
                 themeManager.sheetBackgroundColor()
                     .ignoresSafeArea(.all)
                 ScrollView {
-                    VStack(spacing: 32) {
-                        titleAndContentTextField
-                        startingTimeForm
-                        TagForm(todo: $todo,
-                                focusedField: _focusedField,
-                                tags: tagManager.tags,
-                                onAddTag: {onAddTag($0)},
-                                onRemoveTag: { onRemoveTag($0) })
+                    VStack(spacing: .spacing(of: .long)) {
+                        titleAndContentTextField()
+                        if let startingTime = Binding<Date>($todo.startingTime) {
+                            StartingTimeFormCell(startingTime: startingTime)
+                        }
+                        TagFormCell(
+                            todo: $todo,
+                            focusedField: _focusedField,
+                            tags: tagManager.tags,
+                            onAddTag: {onAddTag($0)},
+                            onRemoveTag: { onRemoveTag($0) }
+                        )
+                        
                         targetForm
                     }
                     .padding(.horizontal)
@@ -123,9 +128,9 @@ extension SetToDoForm {
     }
     
     @ViewBuilder
-    var titleAndContentTextField: some View {
+    func titleAndContentTextField() -> some View {
         TextFieldFormContainer {
-            HStack(alignment: .bottom, spacing: 12) {
+            HStack(alignment: .bottom, spacing: .spacing(of: .normal)) {
                 Text("title")
                     .font(.headline)
                     .fontWeight(.medium)
@@ -177,45 +182,6 @@ extension SetToDoForm {
     }
 }
 
-// MARK: - Time
-extension SetToDoForm {
-    private var fromNowToTomorrow: ClosedRange<Date> {
-        let now = Date.now
-        let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: now) ?? Date.now
-        let tomorrowEnd = Calendar.current.date(bySettingHour: 23, minute: 59, second: 59, of: tomorrow) ?? Date.now
-        return now...tomorrowEnd
-    }
-    
-    @ViewBuilder
-    var startingTimeForm: some View {
-        FormContainer {
-            if let dateBinding = Binding<Date>($todo.startingTime) {
-                    DatePicker(
-                        "setTodoForm_startingTimeForm_datePickerTitle",
-                        selection: dateBinding,
-                        in: fromNowToTomorrow,
-                        displayedComponents: [.hourAndMinute, .date]
-                    )
-                    .datePickerStyle(.compact)
-            
-            } else {
-                HStack {
-                    Text("setTodoForm_startingTimeForm_timeIsNil")
-                        .font(.caption2)
-                        .foregroundStyle(.tertiary)
-                    Spacer()
-                    Button {
-                        todo.startingTime = Date.now
-                    } label: {
-                        Text("setTodoForm_startingTimeForm_setTimeButtonLabel")
-                            .font(.caption2)
-                    }
-                }
-            }
-        }
-    }
-}
-
 // MARK: - Tag Action
 extension SetToDoForm {
     private func onAddTag(_ tag: Tag) {
@@ -231,6 +197,86 @@ extension SetToDoForm {
         tagManager.decreaseCount(of: Tag(title: tag.title))
         todo.tags = todo.tags.filter { $0 != tag.title }
     }
+}
+
+// MARK: - Connecting Target
+extension SetToDoForm {
+    private func findTargetTitle(ofId id: String?) -> String {
+        guard let id = id, let target = targets.first(where: { $0.id == id }) else { return String(localized: "setToDoForm_target_placeholder") }
+        return target.title
+    }
+    
+    @ViewBuilder
+    var targetForm: some View {
+        FormContainer {
+            currentTarget
+            if todo.id == nil || isEditingTarget {
+                targetList
+            }
+        }
+    }
+    
+    @ViewBuilder
+    private var currentTarget: some View {
+        HStack(spacing: .spacing(of: .normal)) {
+            Text("setToDoForm_target_title")
+                .font(.headline)
+                .fontWeight(.medium)
+            
+            Text(findTargetTitle(ofId: todo.relatedTarget))
+                .lineLimit(1)
+                .foregroundColor(todo.relatedTarget == nil ?
+                    .secondary :
+                    Color("basicFontColor")
+                )
+            Spacer()
+            
+            if mode == .edit {
+                Button {
+                    if !isEditingTarget {
+                        todo.relatedTarget = nil
+                    }
+                    isEditingTarget.toggle()
+                } label: {
+                    Text(isEditingTarget ? "Done" : "Edit")
+                }
+                .tint(isEditingTarget ? .blue : .red)
+            }
+            
+        }
+        
+    }
+    
+    
+    @ViewBuilder
+    var targetList: some View {
+        Divider()
+        ScrollView {
+            ForEach(targets, id: \.self) { target in
+                Button {
+                    todo.relatedTarget = target.id
+                } label: {
+                    HStack {
+                        Group {
+                            if let targetId = todo.relatedTarget, targetId == target.id {
+                                Image(systemName: "largecircle.fill.circle")
+                            } else {
+                                Image(systemName: "circle")
+                            }
+                        }
+                        .tint(themeManager.colorInPriority(in: .accent))
+                        Text(target.title)
+                            .foregroundColor(Color("basicFontColor"))
+                        Spacer()
+                    }
+                }
+                .padding(.vertical, .spacing(of: .quarter))
+            }
+        }
+        .frame(minHeight: 30)
+    }
+    
+    
 }
 
 // MARK: - Keyboard Focus Actions
@@ -261,95 +307,6 @@ extension SetToDoForm {
         return currentFocusedField.rawValue < ToDoField.allCases.count - 1
     }
 }
-
-// MARK: - Connecting Target
-extension SetToDoForm {
-    private func findTargetTitle(ofId id: String?) -> String {
-        guard let id = id, let target = targets.first(where: { $0.id == id }) else { return String(localized: "setToDoForm_target_placeholder") }
-        return target.title
-    }
-    
-    @ViewBuilder
-    var targetForm: some View {
-        FormContainer {
-            currentTarget
-            if todo.id == nil || isEditingTarget {
-                targetList
-            }
-        }
-    }
-    
-    @ViewBuilder
-    var targetFormTitle: some View {
-        Text("setToDoForm_target_title")
-            .font(.headline)
-            .fontWeight(.medium)
-    }
-    
-    @ViewBuilder
-    private var currentTarget: some View {
-        HStack(spacing: 12) {
-            targetFormTitle
-            
-            Text(findTargetTitle(ofId: todo.relatedTarget))
-                .lineLimit(1)
-                .foregroundColor(todo.relatedTarget == nil ?
-                    .black.opacity(0.2) :
-                    Color("basicFontColor")
-                )
-            Spacer()
-            
-            if mode == .edit {
-                Button {
-                    if isEditingTarget {
-                      isEditingTarget = false
-                    } else {
-                        todo.relatedTarget = nil
-                        isEditingTarget = true
-                    }
-                } label: {
-                    Text(isEditingTarget ? "Done" : "Edit")
-                }
-                .tint(isEditingTarget ? .blue : .red)
-            }
-            
-        }
-        
-    }
-    
-    
-    @ViewBuilder
-    var targetList: some View {
-        Divider()
-        ScrollView {
-            ForEach(targets, id: \.self) { target in
-                HStack {
-                    Button {
-                        todo.relatedTarget = target.id
-                    } label: {
-                        HStack {
-                            if let targetId = todo.relatedTarget, targetId == target.id {
-                                Image(systemName: "largecircle.fill.circle")
-                                    .tint(themeManager.colorInPriority(in: .accent))
-                            } else {
-                                Image(systemName: "circle")
-                                    .tint(themeManager.colorInPriority(in: .accent))
-                            }
-                            Text(target.title)
-                            Spacer()
-                        }
-                    }
-                    .tint(Color("basicFontColor"))
-                }
-                .padding(.vertical, 4)
-            }
-        }
-        .frame(minHeight: 30)
-    }
-    
-    
-}
-
 
 
 

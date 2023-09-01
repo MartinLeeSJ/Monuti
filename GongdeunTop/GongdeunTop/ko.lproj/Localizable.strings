@@ -32,6 +32,9 @@
 "viewSwitch_calendar" = "달력";
 
 // MARK: - ToDoList
+"Today" = "오늘";
+"Tomorrow" = "내일";
+
 //ToDoList_Sorting
 "toDoList_sort_ascend" = "시간 오름차순";
 "toDoList_sort_descend" = "시간 내림차순";

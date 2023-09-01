@@ -50,7 +50,7 @@ struct MainRouterView: View {
                 themeManager.colorInPriority(in: .background)
                     .ignoresSafeArea()
                 
-                VStack(spacing: 4) {
+                VStack(spacing: .spacing(of: .quarter)) {
                     viewSwitches
                     Divider()
                     switch currentDisplayingView {

@@ -17,7 +17,7 @@ final class CycleStore: ObservableObject {
     @Injected(\.cycleRepository) var cycleRepository
     @Injected(\.firestore) var database
     @Published var cycles: [Cycle] = []
-    @Published var cyclesDictionary = [Date : [Cycle]]()
+    @Published var cyclesOfDate = [Date : [Cycle]]()
     @Published var dateEvaluations = [Date : Int]()
     
     private var listenerRegistration: ListenerRegistration?
@@ -32,9 +32,9 @@ final class CycleStore: ObservableObject {
             .map { [weak self] cycles in
                 self?.orderCyclesByDate(cycles: cycles) ?? [Date : [Cycle]]()
             }
-            .assign(to: &$cyclesDictionary)
+            .assign(to: &$cyclesOfDate)
         
-        $cyclesDictionary
+        $cyclesOfDate
             .subscribe(on: DispatchQueue.main)
             .delay(for: 0.5, scheduler: DispatchQueue.global())
             .removeDuplicates()
@@ -80,6 +80,6 @@ final class CycleStore: ObservableObject {
     }
     
     private func resetDict() {
-        cyclesDictionary = [Date : [Cycle]]()
+        cyclesOfDate = [Date : [Cycle]]()
     }
 }

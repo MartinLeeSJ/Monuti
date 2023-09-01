@@ -54,8 +54,8 @@ extension BatchTimeSettingForm {
                 .foregroundColor(.secondary)
             Spacer()
             SetTimeStepper(stepValue: $manager.timeSetting.numOfSessions,
-                           bound: SetTimeContraint.sessionsBound,
-                           step: SetTimeContraint.sessionStep) { _ in
+                           bound: TimerSettingContraint.sessionsBound,
+                           step: TimerSettingContraint.sessionStep) { _ in
                 
             } label: {
                 Text("\(manager.timeSetting.numOfSessions)")
@@ -76,8 +76,8 @@ extension BatchTimeSettingForm {
             Spacer()
             
             SetTimeStepper(stepValue: $manager.timeSetting.session.concentrationSeconds,
-                           bound: SetTimeContraint.concentrationSecondBound,
-                           step: SetTimeContraint.concentrationSecondStep) { _ in
+                           bound: TimerSettingContraint.concentrationSecondBound,
+                           step: TimerSettingContraint.concentrationSecondStep) { _ in
                 manager.mapAllSessions()
             } label: {
                 Text("\(manager.getMinute(of: manager.timeSetting.session.concentrationSeconds))")
@@ -96,8 +96,8 @@ extension BatchTimeSettingForm {
                 .foregroundColor(.secondary)
             Spacer()
             SetTimeStepper(stepValue: $manager.timeSetting.session.restSeconds,
-                           bound: SetTimeContraint.restSecondBound,
-                           step: SetTimeContraint.restSecondStep) { _ in
+                           bound: TimerSettingContraint.restSecondBound,
+                           step: TimerSettingContraint.restSecondStep) { _ in
                 manager.mapAllSessions()
             } label: {
                 Text("\(manager.getMinute(of: manager.timeSetting.session.restSeconds))")

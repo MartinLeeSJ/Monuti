@@ -11,18 +11,18 @@ import Combine
 
 extension Session {
     static func getBasicSession() -> Self {
-        Session(concentrationSeconds: SetTimeContraint.basicConcentrationSecond,
-                restSeconds: SetTimeContraint.basicRestSecond)
+        Session(concentrationSeconds: TimerSettingContraint.basicConcentrationSecond,
+                restSeconds: TimerSettingContraint.basicRestSecond)
     }
     static func getBasicLongRestSession() -> Self {
-        Session(concentrationSeconds: SetTimeContraint.basicConcentrationSecond,
-                restSeconds: SetTimeContraint.basicLongRestSecond)
+        Session(concentrationSeconds: TimerSettingContraint.basicConcentrationSecond,
+                restSeconds: TimerSettingContraint.basicLongRestSecond)
     }
     static func getBasicSessions() -> [Self] {
         var result = Array<Self>()
         
-        (0..<SetTimeContraint.basicSessions).forEach { index in
-            result.append(index == SetTimeContraint.basicSessions - 1  ? getBasicLongRestSession() : getBasicSession())
+        (0..<TimerSettingContraint.basicSessions).forEach { index in
+            result.append(index == TimerSettingContraint.basicSessions - 1  ? getBasicLongRestSession() : getBasicSession())
         }
 
         return result
@@ -30,11 +30,11 @@ extension Session {
     
     static func getRandomLooseSessions() -> [Self] {
         var result = Array<Self>()
-        SetTimeContraint.looseSessionsBound.forEach { _ in
+        TimerSettingContraint.looseSessionsBound.forEach { _ in
             result.append(
                 Session(
-                    concentrationSeconds: Int.random(in: SetTimeContraint.looseConcentrationSecondBound),
-                    restSeconds: Int.random(in: SetTimeContraint.looseRestSecondBound)
+                    concentrationSeconds: Int.random(in: TimerSettingContraint.looseConcentrationSecondBound),
+                    restSeconds: Int.random(in: TimerSettingContraint.looseRestSecondBound)
                 )
             )
         }
@@ -57,7 +57,7 @@ final class TimerSettingManager: ObservableObject {
     
     // MARK: - Set Time Info
     func knowIsBasicSetting(_ sessions: [Session]) -> Bool {
-        guard sessions.count == SetTimeContraint.basicSessions else { return false }
+        guard sessions.count == TimerSettingContraint.basicSessions else { return false }
         let basicSessions = Session.getBasicSessions()
         return sessions.enumerated().reduce(true) { _, element in
             let (index,session) = element
@@ -106,7 +106,7 @@ final class TimerSettingManager: ObservableObject {
         
         func addNewSession() {
             guard mode == .individual else { return }
-            guard timeSetting.numOfSessions < SetTimeContraint.looseSessionsBound.upperBound else { return }
+            guard timeSetting.numOfSessions < TimerSettingContraint.looseSessionsBound.upperBound else { return }
             timeSetting.sessions.append(Session.getBasicSession())
         }
         

@@ -31,6 +31,9 @@
 "viewSwitch_calendar" = "Calendar";
 
 // MARK: - ToDoList
+"Today" = "Today";
+"Tomorrow" = "Tomorrow";
+
 //ToDoList_Sorting
 "toDoList_sort_ascend" = "Ascend";
 "toDoList_sort_descend" = "Descend";
