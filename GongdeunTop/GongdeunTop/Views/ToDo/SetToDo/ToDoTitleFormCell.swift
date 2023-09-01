@@ -36,16 +36,18 @@ struct ToDoTitleFormCell: View {
                 
                 TextField(String(localized: "todo_title"), text: $todo.title)
                     .focused($focusedField, equals: .title)
-                    .onReceive(Just(todo.title)) { _ in
-                        if titleCharacterLimit < todo.title.count {
-                            todo.title = String(todo.title.prefix(titleCharacterLimit))
-                        }
-                    }
+                    .textfieldLimit(text: $todo.title, limit: titleCharacterLimit)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .contentShape(Rectangle())
+                    
                 
                 Text("\(todo.title.count)/\(titleCharacterLimit)")
                     .font(.caption)
-                    .fixedSize()
+                    .fixedSize(horizontal: true, vertical: true)
                     .padding(.trailing, 8)
+            }
+            .onTapGesture {
+                focusedField = .title
             }
             
             Divider()
@@ -57,17 +59,17 @@ struct ToDoTitleFormCell: View {
                 
                 TextField(String(localized: "todo_content"), text: $todo.content)
                     .focused($focusedField, equals: .content)
-                    .onReceive(Just(todo.content)) { _ in
-                        if contentCharacterLimit < todo.content.count {
-                            todo.content = String(todo.content.prefix(contentCharacterLimit))
-                        }
-                    }
+                    .textfieldLimit(text: $todo.content, limit: contentCharacterLimit)
                 
                 Text("\(todo.content.count)/\(contentCharacterLimit)")
                     .font(.caption)
                     .fixedSize()
                     .padding(.trailing, 8)
             }
+            .onTapGesture {
+                focusedField = .content
+            }
+            
         } footer: {
             Text("todo_content_footer")
         }

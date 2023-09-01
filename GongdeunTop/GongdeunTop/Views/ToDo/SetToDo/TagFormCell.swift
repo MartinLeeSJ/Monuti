@@ -27,7 +27,6 @@ struct TagFormCell: View {
     var onRemoveTag: (_ tag: Tag) -> Void
 
     var body: some View {
-        VStack(spacing: .spacing(of: .long)) {
             FormContainer {
                 HStack(alignment: .bottom, spacing: .spacing(of: .normal)){
                     tagFormTitle
@@ -39,14 +38,17 @@ struct TagFormCell: View {
                 if !filteredTags.isEmpty && canAddMoreTag {
                     tagSearchList
                 }
+                
+                if !todo.tags.isEmpty {
+                    Divider()
+                    tagScroll
+                        .padding(.top, .spacing(of: .normal))
+                }
+                
             } footer: {
                 Text("todo_tag_footer")
+                    .opacity(todo.tags.isEmpty ? 1 : 0)
             }
-            if !todo.tags.isEmpty {
-                tagScroll
-            }
-        }
-      
     }
 }
 
@@ -112,6 +114,7 @@ extension TagFormCell {
                             Image(systemName: "magnifyingglass.circle")
                                 .opacity(0.5)
                             Text(tag.title)
+                                .fixedSize(horizontal: true, vertical: true)
                         }
                     }
                     .tint(Color("basicFontColor"))
@@ -123,7 +126,6 @@ extension TagFormCell {
     }
     
     var tagScroll: some View {
-        FormContainer {
             HStack(alignment: .bottom) {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 18) {
@@ -159,7 +161,7 @@ extension TagFormCell {
                     .font(.caption)
                     .fixedSize()
             }
-        }
+        
         
     }
 }

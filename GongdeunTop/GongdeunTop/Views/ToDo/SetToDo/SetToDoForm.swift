@@ -125,6 +125,7 @@ struct SetToDoForm: View {
 // MARK: - Tag Action
 extension SetToDoForm {
     private func onAddTag(_ tag: Tag) {
+        guard !todo.tags.contains(where:{ $0 == tag.title }) else { return }
         todo.tags.append(tag.title)
         if tagManager.tags.contains(where: { $0.title == tag.title }) {
             tagManager.increaseCount(of: tag)
@@ -142,7 +143,10 @@ extension SetToDoForm {
 // MARK: - Connecting Target
 extension SetToDoForm {
     private func findTargetTitle(ofId id: String?) -> String {
-        guard let id = id, let target = targets.first(where: { $0.id == id }) else { return String(localized: "setToDoForm_target_placeholder") }
+        guard let id = id,
+              let target = targets.first(where: { $0.id == id }) else {
+            return String(localized: "setToDoForm_target_placeholder")
+        }
         return target.title
     }
     
@@ -150,7 +154,7 @@ extension SetToDoForm {
     var targetForm: some View {
         FormContainer {
             currentTarget
-            if todo.id == nil || isEditingTarget {
+            if mode == .add || isEditingTarget {
                 targetList
             }
         }
