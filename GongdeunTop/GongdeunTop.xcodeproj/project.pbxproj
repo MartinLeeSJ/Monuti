@@ -31,6 +31,7 @@
 		5B1E4CFB2A697BB800D364A7 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1E4CFA2A697BB800D364A7 /* Session.swift */; };
 		5B1E75732AA20AA3005D803B /* CGFloat+Spacing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1E75722AA20AA3005D803B /* CGFloat+Spacing.swift */; };
 		5B1E75762AA22054005D803B /* StartingTimeFormCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1E75752AA22054005D803B /* StartingTimeFormCell.swift */; };
+		5B1E75792AA22281005D803B /* ToDoTitleFormCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1E75782AA22281005D803B /* ToDoTitleFormCell.swift */; };
 		5B2767C529F8F30D008398A3 /* CalendarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2767C429F8F30D008398A3 /* CalendarManager.swift */; };
 		5B2767C729F90355008398A3 /* SetMonthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2767C629F90355008398A3 /* SetMonthView.swift */; };
 		5B2767C929FA2229008398A3 /* DateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2767C829FA2229008398A3 /* DateCell.swift */; };
@@ -202,6 +203,7 @@
 		5B1E4CFA2A697BB800D364A7 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		5B1E75722AA20AA3005D803B /* CGFloat+Spacing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGFloat+Spacing.swift"; sourceTree = "<group>"; };
 		5B1E75752AA22054005D803B /* StartingTimeFormCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartingTimeFormCell.swift; sourceTree = "<group>"; };
+		5B1E75782AA22281005D803B /* ToDoTitleFormCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoTitleFormCell.swift; sourceTree = "<group>"; };
 		5B2767C429F8F30D008398A3 /* CalendarManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarManager.swift; sourceTree = "<group>"; };
 		5B2767C629F90355008398A3 /* SetMonthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetMonthView.swift; sourceTree = "<group>"; };
 		5B2767C829FA2229008398A3 /* DateCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateCell.swift; sourceTree = "<group>"; };
@@ -410,6 +412,17 @@
 				5B1E75722AA20AA3005D803B /* CGFloat+Spacing.swift */,
 			);
 			path = CGFloat;
+			sourceTree = "<group>";
+		};
+		5B1E75772AA2226A005D803B /* SetToDo */ = {
+			isa = PBXGroup;
+			children = (
+				5B63A59229C95AD500AA4525 /* SetToDoForm.swift */,
+				5B1E75782AA22281005D803B /* ToDoTitleFormCell.swift */,
+				5B3D07C12A721157001691F4 /* TagFormCell.swift */,
+				5B1E75752AA22054005D803B /* StartingTimeFormCell.swift */,
+			);
+			path = SetToDo;
 			sourceTree = "<group>";
 		};
 		5B2767C329F8F2E6008398A3 /* Timer */ = {
@@ -761,9 +774,7 @@
 			children = (
 				5BCF551A29C30D1600A19759 /* ToDoList.swift */,
 				5BD3D1D629D1C3BB008E8988 /* ToDoListRow.swift */,
-				5B63A59229C95AD500AA4525 /* SetToDoForm.swift */,
-				5B3D07C12A721157001691F4 /* TagFormCell.swift */,
-				5B1E75752AA22054005D803B /* StartingTimeFormCell.swift */,
+				5B1E75772AA2226A005D803B /* SetToDo */,
 			);
 			path = ToDo;
 			sourceTree = "<group>";
@@ -1024,6 +1035,7 @@
 				5B95E14029D80B7D00E8CBA1 /* Member.swift in Sources */,
 				5B1C711C2A1200A800A5D3EB /* TargetManager.swift in Sources */,
 				5B38FC022A0E1695003F9B5C /* LaunchScreenManager.swift in Sources */,
+				5B1E75792AA22281005D803B /* ToDoTitleFormCell.swift in Sources */,
 				5B2FEAC129DD4EF30022F827 /* TagStore.swift in Sources */,
 				5B59207D2A627A3B009DD91F /* SetTimePicker.swift in Sources */,
 				5B63175A29E7F27700FF6876 /* RoundedCorners.swift in Sources */,
