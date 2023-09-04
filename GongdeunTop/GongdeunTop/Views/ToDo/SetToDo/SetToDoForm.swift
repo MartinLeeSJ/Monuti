@@ -27,17 +27,29 @@ struct SetToDoForm: View {
         case tag
     }
     
-    @Environment(\.dismiss) var dismiss
-    @EnvironmentObject var themeManager: ThemeManager
-    @StateObject var tagManager = TagManager()
+    @Environment(\.dismiss) private var dismiss
+    @EnvironmentObject private var themeManager: ThemeManager
+    @StateObject private var tagManager = TagManager()
     
-    @State var todo: ToDo = ToDo(createdAt: Date.now)
+    @State private var todo: ToDo = ToDo(createdAt: Date.now)
     @State private var isEditingTarget: Bool = false
     @FocusState private var focusedField: ToDoField?
     
-    var targets: [Target]
-    var mode: Mode = .add
-    var onCommit: (_ todo: ToDo) -> Void
+    private var targets: [Target]
+    private var mode: Mode = .add
+    private var onCommit: (_ todo: ToDo) -> Void
+    
+    init(
+        todo: ToDo = ToDo(createdAt: Date.now),
+        targets: [Target],
+        mode: Mode = .add,
+        onCommit: @escaping (_ todo: ToDo) -> Void
+    ) {
+        self._todo = State(initialValue: todo)
+        self.targets = targets
+        self.mode = mode
+        self.onCommit = onCommit
+    }
     
     private func handleDoneTapped() {
         onCommit(todo)
@@ -59,14 +71,12 @@ struct SetToDoForm: View {
                     .ignoresSafeArea(.all)
                 ScrollView {
                     VStack(spacing: .spacing(of: .long)) {
-                        ToDoTitleFormCell(
-                            todo: $todo,
-                            focusedField: _focusedField
-                        )
-                        
+                        ToDoTitleFormCell(todo: $todo, focusedField: _focusedField)
+
                         if let startingTime = Binding<Date>($todo.startingTime) {
                             StartingTimeFormCell(startingTime: startingTime)
                         }
+                        
                         TagFormCell(
                             todo: $todo,
                             focusedField: _focusedField,
@@ -75,50 +85,62 @@ struct SetToDoForm: View {
                             onRemoveTag: { onRemoveTag($0) }
                         )
                         
-                        targetForm
+                        TargetFormCell(todo: $todo, targets: targets)
                     }
                     .padding(.horizontal)
                 }
-                .navigationTitle(mode == .add ?
-                                 Text("setTodoForm_title_new") :
-                                 Text("setTodoForm_title_edit"))
-                .navigationBarTitleDisplayMode(.inline)
-                .interactiveDismissDisabled()
-                .toolbar {
-                    ToolbarItem(placement: .cancellationAction) {
-                        Button {
-                            handleCloseTapped()
-                        } label: {
-                            Text("Cancel")
+            }
+            .navigationTitle(mode == .add ?
+                             Text("setTodoForm_title_new") :
+                             Text("setTodoForm_title_edit"))
+            .navigationBarTitleDisplayMode(.inline)
+            .interactiveDismissDisabled()
+            .toolbar {
+                cancelToolbarButton()
+                doneToolbarButton()
+                ToolbarItemGroup(placement: .keyboard) {
+                    HAlignment(alignment: .leading) {
+                        Button(action: focusPreviousField) {
+                            Image(systemName: "chevron.up")
                         }
-                    }
-                    
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        Button {
-                            handleDoneTapped()
-                        } label: {
-                            Text(mode == .add ? "Add" : "Edit")
+                        .disabled(!canFocusPreviousField())
+                        Button(action: focusNextField) {
+                            Image(systemName: "chevron.down")
                         }
-                        .disabled(todo.title.isEmpty)
-                    }
-                    
-                    ToolbarItemGroup(placement: .keyboard) {
-                        HAlignment(alignment: .leading) {
-                            Button(action: focusPreviousField) {
-                                Image(systemName: "chevron.up")
-                            }
-                            .disabled(!canFocusPreviousField())
-                            Button(action: focusNextField) {
-                                Image(systemName: "chevron.down")
-                            }
-                            .disabled(!canFocusNextField())
-                        }
+                        .disabled(!canFocusNextField())
                     }
                 }
             }
         }
         
     }
+}
+
+// MARK: - Toolbar
+extension SetToDoForm {
+    @ToolbarContentBuilder
+    func cancelToolbarButton() -> some ToolbarContent {
+        ToolbarItem(placement: .cancellationAction) {
+            Button {
+                handleCloseTapped()
+            } label: {
+                Text("Cancel")
+            }
+        }
+    }
+    
+    @ToolbarContentBuilder
+    func doneToolbarButton() -> some ToolbarContent {
+        ToolbarItem(placement: .navigationBarTrailing) {
+            Button {
+                handleDoneTapped()
+            } label: {
+                Text(mode == .add ? "Add" : "Edit")
+            }
+            .disabled(todo.title.isEmpty)
+        }
+    }
+    
 }
 
 
@@ -140,88 +162,6 @@ extension SetToDoForm {
     }
 }
 
-// MARK: - Connecting Target
-extension SetToDoForm {
-    private func findTargetTitle(ofId id: String?) -> String {
-        guard let id = id,
-              let target = targets.first(where: { $0.id == id }) else {
-            return String(localized: "setToDoForm_target_placeholder")
-        }
-        return target.title
-    }
-    
-    @ViewBuilder
-    var targetForm: some View {
-        FormContainer {
-            currentTarget
-            if mode == .add || isEditingTarget {
-                targetList
-            }
-        }
-    }
-    
-    @ViewBuilder
-    private var currentTarget: some View {
-        HStack(spacing: .spacing(of: .normal)) {
-            Text("setToDoForm_target_title")
-                .font(.headline)
-                .fontWeight(.medium)
-            
-            Text(findTargetTitle(ofId: todo.relatedTarget))
-                .lineLimit(1)
-                .foregroundColor(todo.relatedTarget == nil ?
-                    .secondary :
-                    Color("basicFontColor")
-                )
-            Spacer()
-            
-            if mode == .edit {
-                Button {
-                    if !isEditingTarget {
-                        todo.relatedTarget = nil
-                    }
-                    isEditingTarget.toggle()
-                } label: {
-                    Text(isEditingTarget ? "Done" : "Edit")
-                }
-                .tint(isEditingTarget ? .blue : .red)
-            }
-            
-        }
-        
-    }
-    
-    
-    @ViewBuilder
-    var targetList: some View {
-        Divider()
-        ScrollView {
-            ForEach(targets, id: \.self) { target in
-                Button {
-                    todo.relatedTarget = target.id
-                } label: {
-                    HStack {
-                        Group {
-                            if let targetId = todo.relatedTarget, targetId == target.id {
-                                Image(systemName: "largecircle.fill.circle")
-                            } else {
-                                Image(systemName: "circle")
-                            }
-                        }
-                        .tint(themeManager.colorInPriority(in: .accent))
-                        Text(target.title)
-                            .foregroundColor(Color("basicFontColor"))
-                        Spacer()
-                    }
-                }
-                .padding(.vertical, .spacing(of: .quarter))
-            }
-        }
-        .frame(minHeight: 30)
-    }
-    
-    
-}
 
 // MARK: - Keyboard Focus Actions
 extension SetToDoForm {

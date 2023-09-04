@@ -12,6 +12,7 @@
 		5B05A61529ECE5CF00C89417 /* CycleManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B05A61429ECE5CF00C89417 /* CycleManager.swift */; };
 		5B05A61829ECFD5A00C89417 /* CycleMemoir.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B05A61729ECFD5A00C89417 /* CycleMemoir.swift */; };
 		5B0EBE6F2A603A2D0011B024 /* TimerSettingContraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B0EBE6E2A603A2D0011B024 /* TimerSettingContraint.swift */; };
+		5B11CCE92AA5F70E008E1DE5 /* TargetFormCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B11CCE82AA5F70E008E1DE5 /* TargetFormCell.swift */; };
 		5B1383FB2A861C7300AC892C /* ManagedSettings.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BF9CDDD2A84EE44002105B0 /* ManagedSettings.framework */; };
 		5B1383FD2A861C7300AC892C /* ManagedSettingsUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B1383FC2A861C7300AC892C /* ManagedSettingsUI.framework */; };
 		5B1384002A861C7300AC892C /* ShieldConfigurationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1383FF2A861C7300AC892C /* ShieldConfigurationExtension.swift */; };
@@ -181,6 +182,7 @@
 		5B05A61429ECE5CF00C89417 /* CycleManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CycleManager.swift; sourceTree = "<group>"; };
 		5B05A61729ECFD5A00C89417 /* CycleMemoir.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CycleMemoir.swift; sourceTree = "<group>"; };
 		5B0EBE6E2A603A2D0011B024 /* TimerSettingContraint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerSettingContraint.swift; sourceTree = "<group>"; };
+		5B11CCE82AA5F70E008E1DE5 /* TargetFormCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetFormCell.swift; sourceTree = "<group>"; };
 		5B1383E72A85FE9E00AC892C /* DeviceActivity.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DeviceActivity.framework; path = System/Library/Frameworks/DeviceActivity.framework; sourceTree = SDKROOT; };
 		5B1383FA2A861C7300AC892C /* ShieldConfiguration.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ShieldConfiguration.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B1383FC2A861C7300AC892C /* ManagedSettingsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ManagedSettingsUI.framework; path = System/Library/Frameworks/ManagedSettingsUI.framework; sourceTree = SDKROOT; };
@@ -421,8 +423,9 @@
 			children = (
 				5B63A59229C95AD500AA4525 /* SetToDoForm.swift */,
 				5B1E75782AA22281005D803B /* ToDoTitleFormCell.swift */,
-				5B3D07C12A721157001691F4 /* TagFormCell.swift */,
 				5B1E75752AA22054005D803B /* StartingTimeFormCell.swift */,
+				5B3D07C12A721157001691F4 /* TagFormCell.swift */,
+				5B11CCE82AA5F70E008E1DE5 /* TargetFormCell.swift */,
 			);
 			path = SetToDo;
 			sourceTree = "<group>";
@@ -752,11 +755,11 @@
 		5BCF551729C3066A00A19759 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				5BCF550529C2CB2500A19759 /* ContentView.swift */,
 				5B1E757C2AA23BF7005D803B /* ViewModifier */,
 				5B6AB2512A316698008D09B6 /* Components */,
 				5BF9CDD42A84A394002105B0 /* ExperimentView.swift */,
 				5B38FC052A0E176F003F9B5C /* LauchScreen.swift */,
-				5BCF550529C2CB2500A19759 /* ContentView.swift */,
 				5B6AB24E2A30AAB0008D09B6 /* Main */,
 				5B1C71242A120A9200A5D3EB /* Target */,
 				5B38FBFD2A0CDC58003F9B5C /* Auth */,
@@ -1056,6 +1059,7 @@
 				5B1E757B2AA23BE8005D803B /* TextFieldLimitModifier.swift in Sources */,
 				5BFFDB8529C5F299004C5376 /* SetTimeForm.swift in Sources */,
 				5BCF550629C2CB2500A19759 /* ContentView.swift in Sources */,
+				5B11CCE92AA5F70E008E1DE5 /* TargetFormCell.swift in Sources */,
 				5BF61E922A0296B1007592D6 /* ThemeManager.swift in Sources */,
 				5B2767C929FA2229008398A3 /* DateCell.swift in Sources */,
 				5B54FE432A2B5917000D29ED /* CGFloat+Utils.swift in Sources */,

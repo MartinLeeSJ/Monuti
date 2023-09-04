@@ -31,7 +31,6 @@ struct ToDoTitleFormCell: View {
                             .font(.system(size: 6))
                             .foregroundColor(.red)
                             .offset(x: 8)
-
                     }
                 
                 TextField(String(localized: "todo_title"), text: $todo.title)
@@ -44,7 +43,7 @@ struct ToDoTitleFormCell: View {
                 Text("\(todo.title.count)/\(titleCharacterLimit)")
                     .font(.caption)
                     .fixedSize(horizontal: true, vertical: true)
-                    .padding(.trailing, 8)
+                    .padding(.trailing, .spacing(of: .half))
             }
             .onTapGesture {
                 focusedField = .title
@@ -52,7 +51,7 @@ struct ToDoTitleFormCell: View {
             
             Divider()
             
-            HStack(alignment: .bottom, spacing: 12) {
+            HStack(alignment: .bottom, spacing: .spacing(of: .normal)) {
                 Text("content")
                     .font(.headline)
                     .fontWeight(.medium)
@@ -63,8 +62,8 @@ struct ToDoTitleFormCell: View {
                 
                 Text("\(todo.content.count)/\(contentCharacterLimit)")
                     .font(.caption)
-                    .fixedSize()
-                    .padding(.trailing, 8)
+                    .fixedSize(horizontal: true, vertical: true)
+                    .padding(.trailing, .spacing(of: .half))
             }
             .onTapGesture {
                 focusedField = .content
