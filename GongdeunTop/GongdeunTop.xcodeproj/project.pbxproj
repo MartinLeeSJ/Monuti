@@ -39,6 +39,7 @@
 		5B2767C929FA2229008398A3 /* DateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2767C829FA2229008398A3 /* DateCell.swift */; };
 		5B2767CB29FA4633008398A3 /* CycleStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2767CA29FA4633008398A3 /* CycleStore.swift */; };
 		5B2767CD29FA8C1B008398A3 /* CycleListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2767CC29FA8C1B008398A3 /* CycleListCell.swift */; };
+		5B2C772E2AA7571400EEFBC3 /* HAlignmentModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2C772D2AA7571400EEFBC3 /* HAlignmentModifier.swift */; };
 		5B2FEABF29DA645E0022F827 /* Cycle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2FEABE29DA645E0022F827 /* Cycle.swift */; };
 		5B2FEAC129DD4EF30022F827 /* TagStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2FEAC029DD4EF30022F827 /* TagStore.swift */; };
 		5B350D3B2A56BCE6000B8EF1 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 5B350D3A2A56BCE6000B8EF1 /* FirebaseAnalytics */; };
@@ -213,6 +214,7 @@
 		5B2767C829FA2229008398A3 /* DateCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateCell.swift; sourceTree = "<group>"; };
 		5B2767CA29FA4633008398A3 /* CycleStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CycleStore.swift; sourceTree = "<group>"; };
 		5B2767CC29FA8C1B008398A3 /* CycleListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CycleListCell.swift; sourceTree = "<group>"; };
+		5B2C772D2AA7571400EEFBC3 /* HAlignmentModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAlignmentModifier.swift; sourceTree = "<group>"; };
 		5B2FEABE29DA645E0022F827 /* Cycle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cycle.swift; sourceTree = "<group>"; };
 		5B2FEAC029DD4EF30022F827 /* TagStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagStore.swift; sourceTree = "<group>"; };
 		5B38FBFE2A0CDC72003F9B5C /* SetNickNameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetNickNameView.swift; sourceTree = "<group>"; };
@@ -434,6 +436,7 @@
 			isa = PBXGroup;
 			children = (
 				5B1E757A2AA23BE8005D803B /* TextFieldLimitModifier.swift */,
+				5B2C772D2AA7571400EEFBC3 /* HAlignmentModifier.swift */,
 			);
 			path = ViewModifier;
 			sourceTree = "<group>";
@@ -1108,6 +1111,7 @@
 				5BD5131929D574900008E1C9 /* SessionIndicator.swift in Sources */,
 				5B3D07CA2A723957001691F4 /* TagManager.swift in Sources */,
 				5B3CCAB82A70F3CC00973F43 /* AuthService+Injection.swift in Sources */,
+				5B2C772E2AA7571400EEFBC3 /* HAlignmentModifier.swift in Sources */,
 				5B6AB2562A316A75008D09B6 /* FormContainer.swift in Sources */,
 				5B1C71212A120A2A00A5D3EB /* SetTargetForm.swift in Sources */,
 				5BA9A43C2A09310A00453D65 /* CycleToDoList.swift in Sources */,

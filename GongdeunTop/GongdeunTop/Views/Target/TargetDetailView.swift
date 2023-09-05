@@ -20,7 +20,7 @@ struct TargetDetailView: View {
     
     var body: some View {
         ScrollView(.vertical) {
-            LazyVStack(alignment: .leading, spacing: 16) {
+            LazyVStack(spacing: .spacing(of: .long)) {
                 titles
                 termInfo()
                 achievementInfo()
@@ -47,28 +47,32 @@ struct TargetDetailView: View {
 extension TargetDetailView {
     @ViewBuilder
     var titles: some View {
-        Text(target.title)
-            .font(.title)
-            .fontWeight(.bold)
-        Text(target.subtitle)
-            .font(.title3)
-            .fontWeight(.semibold)
-        Divider()
+        VStack(alignment: .leading, spacing: .spacing(of: .normal)) {
+            Text(target.title)
+                .font(.title)
+                .fontWeight(.bold)
+            Text(target.subtitle)
+                .font(.title3)
+                .fontWeight(.semibold)
+            Divider()
+        }
     }
 }
 
 // MARK: - Term Info
 extension TargetDetailView {
-    @ViewBuilder
+    
     private func termInfo() -> some View {
-        termText
-        termGraph
+        VStack(alignment: .leading, spacing: .spacing(of: .normal)) {
+            termText
+            termGraph
+        }
     }
     
     private var termText: some View {
         HStack {
             Text("targetDetail_term")
-                .font(.headline)
+                .font(.title3.bold())
             Divider()
             
             Text(target.startDateString)
@@ -98,6 +102,7 @@ extension TargetDetailView {
                         Text("\(target.dayLeftUntilDueDate)")
                         Text("/")
                         Text("\(target.daysFromStartToDueDate)")
+                        Text(target.dayLeftUntilDueDate > 1 ? "targetDetail_days" : "targetDetail_day")
                     }
                     .font(.headline)
                     .padding(.spacing(of: .quarter))
@@ -111,18 +116,20 @@ extension TargetDetailView {
 
 // MARK: - Achievement Info
 extension TargetDetailView {
-    @ViewBuilder
+    
     private func achievementInfo() -> some View {
-        Text("target_completed")
-            .font(.headline)
-        HAlignment(alignment: .center) {
-            AchievementHexagon(radius: UIScreen.main.bounds.width / 4,
-                               achievementRate: target.achievementRate,
-                               color: themeManager.colorInPriority(in: .accent))
+        VStack(alignment: .leading, spacing: .spacing(of: .normal)) {
+            Text("target_completed")
+                .font(.title3.bold())
+            HAlignment(alignment: .center) {
+                AchievementHexagon(radius: UIScreen.main.bounds.width / 4,
+                                   achievementRate: target.achievementRate,
+                                   color: themeManager.colorInPriority(in: .accent))
+            }
         }
     }
     
-    @ViewBuilder
+    
     private var completedTodos: some View {
         VStack(alignment: .leading) {
             ForEach(0..<manager.completedTodo.count, id: \.self) { index in

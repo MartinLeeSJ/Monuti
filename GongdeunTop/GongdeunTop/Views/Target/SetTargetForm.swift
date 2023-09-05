@@ -159,7 +159,7 @@ struct SetTargetForm: View {
             Text("\(target.daysFromStartToDueDate) target_total_days")
             Spacer()
             TargetTermGauge(termIndex: target.termIndex)
-            Text(target.dateTerms)
+            Text(target.termDescription)
         }
         .padding()
         .background(themeManager.componentColor(), in: RoundedRectangle(cornerRadius: 10))

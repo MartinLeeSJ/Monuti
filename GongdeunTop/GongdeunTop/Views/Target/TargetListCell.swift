@@ -12,50 +12,35 @@ struct TargetListCell: View {
  
     let target: Target
     var body: some View {
-        VStack(spacing: 8) {
-            targetDatesHeader
-            targetTitles
-            Divider()
-            targetInfoBadges
+        HStack {
+            VStack(alignment: .leading, spacing: .spacing(of: .normal)) {
+                targetTitlesAndTermGauge()
+                Divider()
+                targetInfoBadges
+            }
+            Image(systemName: "chevron.right")
+                .foregroundStyle(.tertiary)
         }
-        .padding(.horizontal)
-        .padding(.vertical, 8)
+        .padding(.vertical)
+        .padding(.leading)
+        .padding(.trailing, .spacing(of: .half))
         .background(themeManager.componentColor(), in: RoundedRectangle(cornerRadius: 10))
-    }
-}
-// MARK: - Header
-extension TargetListCell {
-    @ViewBuilder
-    var targetDatesHeader: some View {
-        HStack(spacing: 5) {
-            TargetTermGauge(termIndex: target.termIndex)
-            Spacer()
-            Text(target.startDateString)
-                .font(.caption)
-                .fontWeight(.semibold)
-                .fixedSize()
-                .padding(4)
-                .background(.thickMaterial, in: RoundedRectangle(cornerRadius: 8))
-            
-            Text(target.dueDateString)
-                .font(.caption)
-                .fontWeight(.semibold)
-                .fixedSize()
-                .padding(4)
-                .background(.thickMaterial, in: RoundedRectangle(cornerRadius: 8))
-        }
-        
     }
 }
 
 // MARK: - Titles
 extension TargetListCell {
-    @ViewBuilder
-    var targetTitles: some View {
-        HAlignment(alignment: .leading) {
-            VStack(alignment: .leading) {
+    private func targetTitlesAndTermGauge() -> some View {
+        VStack(alignment: .leading, spacing: .spacing(of: .quarter)) {
+            HStack(alignment: .bottom){
                 Text(target.title)
                     .font(.headline)
+                    .lineLimit(1)
+                Spacer()
+                TargetTermGauge(termIndex: target.termIndex, description: target.termDescription)
+            }
+            
+            if !target.subtitle.isEmpty {
                 Text(target.subtitle)
                     .font(.subheadline)
                     .foregroundColor(.secondary)

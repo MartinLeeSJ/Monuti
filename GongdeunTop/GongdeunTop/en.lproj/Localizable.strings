@@ -126,6 +126,9 @@
 "concentration_textEditor_subtitle" = "Write a memoir about this cycle";
 
 // MARK: - Target List Cell
+"target_dateStarts" = "From";
+"target_dateEnds" = "To";
+
 "target_days" = "DAYS";
 "target_achievement" = "ACHIEVEMENT";
 "target_completed" = "COMPLETED";
@@ -153,6 +156,8 @@
 
 // MARK: - Target Detail View
 "targetDetail_term" = "Term";
+"targetDetail_days" = "Days";
+"targetDetail_day" = "Day";
 
 // MARK: - Color Themes
 "BlueOcean" = "Blue ocean";
