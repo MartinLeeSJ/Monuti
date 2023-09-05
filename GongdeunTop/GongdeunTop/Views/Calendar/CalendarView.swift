@@ -86,22 +86,8 @@ extension CalendarView {
             dismiss()
         }
     }
-    
-//    private var calendarDragGesture: GestureStateGesture<DragGesture, CGSize> {
-//        let gesture = DragGesture()
-//        return gesture.updating($dragOffset) { value, state, transaction in
-//            guard value.startLocation.x > dismissGestureAreaWidth else { return }
-//
-//            switch(value.translation.width, value.translation.height) {
-//            case (...0, -50...50):
-//                handleNextMonth()
-//            case (0..., -50...50):
-//                handlePreviousMonth()
-//            default:  print("no clue")
-//            }
-//        }
-//    }
 }
+
 
 //MARK: - Top Control Units
 extension CalendarView {

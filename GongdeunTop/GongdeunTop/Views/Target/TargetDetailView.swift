@@ -11,6 +11,7 @@ struct TargetDetailView: View {
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject private var themeManager: ThemeManager
     @StateObject private var manager: TargetDetailManager
+    @GestureState private var dragOffset = CGSize.zero
     private let target: Target
     
     init(target: Target) {
@@ -40,6 +41,7 @@ struct TargetDetailView: View {
                 .tint(themeManager.colorInPriority(in: .accent))
             }
         }
+        .gesture(dismissGesture)
     }
 }
 
@@ -143,6 +145,23 @@ extension TargetDetailView {
         .background(themeManager.sheetBackgroundColor(),
                     in: RoundedRectangle(cornerRadius: 10))
         .opacity(manager.completedTodo.isEmpty ? 0 : 1)
+    }
+}
+
+//MARK: - Gesture
+extension TargetDetailView {
+    private var dismissGestureAreaWidth: CGFloat { 30 }
+    private var dismissGestureMinimumTranslation: CGFloat { 80 }
+    
+    private var dismissGesture: GestureStateGesture<DragGesture, CGSize> {
+        let gesture = DragGesture()
+        
+        return gesture.updating($dragOffset) { value, state, transaction in
+            guard value.startLocation.x < dismissGestureAreaWidth else { return }
+            guard value.translation.width > dismissGestureMinimumTranslation  else { return }
+                
+            dismiss()
+        }
     }
 }
 
