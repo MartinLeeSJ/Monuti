@@ -9,21 +9,20 @@ import SwiftUI
 
 struct TargetDetailView: View {
     @Environment(\.dismiss) private var dismiss
-    @EnvironmentObject var themeManager: ThemeManager
+    @EnvironmentObject private var themeManager: ThemeManager
     @StateObject private var manager: TargetDetailManager
     private let target: Target
     
     init(target: Target) {
         self.target = target
         self._manager = StateObject(wrappedValue: TargetDetailManager(target: target))
-        
     }
     
     var body: some View {
         ScrollView(.vertical) {
             LazyVStack(alignment: .leading, spacing: 16) {
                 titles
-                termInfo
+                termInfo()
                 achievementInfo
                 completedTodos
             }
@@ -61,12 +60,12 @@ extension TargetDetailView {
 // MARK: - Term Info
 extension TargetDetailView {
     @ViewBuilder
-    var termInfo: some View {    
+    private func termInfo() -> some View {
         termText
         termGraph
     }
     
-    var termText: some View {
+    private var termText: some View {
         HStack {
             Text("targetDetail_term")
                 .font(.headline)
@@ -79,7 +78,7 @@ extension TargetDetailView {
     }
     
     @ViewBuilder
-    var termGraph: some View {
+    private var termGraph: some View {
         Rectangle()
             .frame(height: 50)
             .foregroundColor(themeManager.colorInPriority(in: .weak))
@@ -89,19 +88,19 @@ extension TargetDetailView {
                     let leftDayWidth: CGFloat = geo.size.width * leftDayRatio
                     Rectangle()
                         .frame(width: leftDayWidth)
-                        .foregroundColor(themeManager.colorInPriority(in: .solid))
+                        .foregroundColor(themeManager.colorInPriority(in: .accent))
                 }
             }
             .clipShape(Capsule())
             .overlay {
                 HAlignment(alignment: .center) {
-                    HStack(spacing: 4) {
+                    HStack(spacing: .spacing(of: .quarter)) {
                         Text("\(target.dayLeftUntilDueDate)")
                         Text("/")
                         Text("\(target.daysFromStartToDueDate)")
                     }
                     .font(.headline)
-                    .padding(4)
+                    .padding(.spacing(of: .quarter))
                     .background(.thinMaterial, in: RoundedRectangle(cornerRadius: 8))
                 }
             }
