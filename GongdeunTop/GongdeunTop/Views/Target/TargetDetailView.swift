@@ -8,10 +8,16 @@
 import SwiftUI
 
 struct TargetDetailView: View {
-    @Environment(\.dismiss) var dismiss
+    @Environment(\.dismiss) private var dismiss
     @EnvironmentObject var themeManager: ThemeManager
-    @StateObject var manager = TargetDetailManager()
-    let target: Target
+    @StateObject private var manager: TargetDetailManager
+    private let target: Target
+    
+    init(target: Target) {
+        self.target = target
+        self._manager = StateObject(wrappedValue: TargetDetailManager(target: target))
+        
+    }
     
     var body: some View {
         ScrollView(.vertical) {
@@ -137,7 +143,7 @@ extension TargetDetailView {
 struct TargetDetailView_Previews: PreviewProvider {
     static var previews: some View {
         let target = Target(title: "Sample", subtitle: "This is an sample", createdAt: .now, startDate: .now, dueDate: Date.distantFuture, todos: [], memoirs: "")
-        TargetDetailView(manager: TargetDetailManager(target: target), target: target)
+        TargetDetailView(target: target)
             .environmentObject(ThemeManager())
     }
 }

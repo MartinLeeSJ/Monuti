@@ -24,7 +24,7 @@ struct TargetList: View {
                 if !targetManager.targets.isEmpty {
                     List(targetManager.targets, id: \.self.id, selection: $targetManager.multiSelection) { target in
                         NavigationLink {
-                            TargetDetailView(manager: TargetDetailManager(target: target), target: target)
+                            TargetDetailView(target: target)
                         } label: {
                             TargetListCell(target: target)
                         }
