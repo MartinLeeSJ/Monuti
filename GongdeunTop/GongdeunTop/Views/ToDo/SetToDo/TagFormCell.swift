@@ -1,5 +1,5 @@
 //
-//  TagForm.swift
+//  TagFormCell.swift
 //  GongdeunTop
 //
 //  Created by Martin on 2023/07/27.
@@ -13,7 +13,9 @@ import FirebaseFirestore
 import FirebaseFirestoreSwift
 
 
-struct TagForm: View {
+
+
+struct TagFormCell: View {
     @Binding var todo: ToDo
     @FocusState var focusedField: SetToDoForm.ToDoField?
     
@@ -25,9 +27,8 @@ struct TagForm: View {
     var onRemoveTag: (_ tag: Tag) -> Void
 
     var body: some View {
-        VStack(spacing: 32) {
             FormContainer {
-                HStack(alignment: .bottom, spacing: 12){
+                HStack(alignment: .bottom, spacing: .spacing(of: .normal)){
                     tagFormTitle
                     tagFormTextField
                     tagFormCharacterLimitLabel
@@ -37,19 +38,22 @@ struct TagForm: View {
                 if !filteredTags.isEmpty && canAddMoreTag {
                     tagSearchList
                 }
+                
+                if !todo.tags.isEmpty {
+                    Divider()
+                    tagScroll
+                        .padding(.top, .spacing(of: .normal))
+                }
+                
             } footer: {
                 Text("todo_tag_footer")
+                    .opacity(todo.tags.isEmpty ? 1 : 0)
             }
-            if !todo.tags.isEmpty {
-                tagScroll
-            }
-        }
-      
     }
 }
 
 
-extension TagForm {
+extension TagFormCell {
     var tagLimit: Int {
         5
     }
@@ -110,6 +114,7 @@ extension TagForm {
                             Image(systemName: "magnifyingglass.circle")
                                 .opacity(0.5)
                             Text(tag.title)
+                                .fixedSize(horizontal: true, vertical: true)
                         }
                     }
                     .tint(Color("basicFontColor"))
@@ -121,7 +126,6 @@ extension TagForm {
     }
     
     var tagScroll: some View {
-        FormContainer {
             HStack(alignment: .bottom) {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 18) {
@@ -157,12 +161,12 @@ extension TagForm {
                     .font(.caption)
                     .fixedSize()
             }
-        }
+        
         
     }
 }
 
-extension TagForm {
+extension TagFormCell {
     private func handleAddTagButton() {
         onAddTag(tag)
         tag.title = ""

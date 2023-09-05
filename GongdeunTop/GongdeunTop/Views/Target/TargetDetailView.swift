@@ -8,17 +8,23 @@
 import SwiftUI
 
 struct TargetDetailView: View {
-    @Environment(\.dismiss) var dismiss
-    @EnvironmentObject var themeManager: ThemeManager
-    @StateObject var manager = TargetDetailManager()
-    let target: Target
+    @Environment(\.dismiss) private var dismiss
+    @EnvironmentObject private var themeManager: ThemeManager
+    @StateObject private var manager: TargetDetailManager
+    @GestureState private var dragOffset = CGSize.zero
+    private let target: Target
+    
+    init(target: Target) {
+        self.target = target
+        self._manager = StateObject(wrappedValue: TargetDetailManager(target: target))
+    }
     
     var body: some View {
         ScrollView(.vertical) {
-            LazyVStack(alignment: .leading, spacing: 16) {
+            LazyVStack(spacing: .spacing(of: .long)) {
                 titles
-                termInfo
-                achievementInfo
+                termInfo()
+                achievementInfo()
                 completedTodos
             }
             .padding()
@@ -35,6 +41,7 @@ struct TargetDetailView: View {
                 .tint(themeManager.colorInPriority(in: .accent))
             }
         }
+        .gesture(dismissGesture)
     }
 }
 
@@ -42,28 +49,32 @@ struct TargetDetailView: View {
 extension TargetDetailView {
     @ViewBuilder
     var titles: some View {
-        Text(target.title)
-            .font(.title)
-            .fontWeight(.bold)
-        Text(target.subtitle)
-            .font(.title3)
-            .fontWeight(.semibold)
-        Divider()
+        VStack(alignment: .leading, spacing: .spacing(of: .normal)) {
+            Text(target.title)
+                .font(.title)
+                .fontWeight(.bold)
+            Text(target.subtitle)
+                .font(.title3)
+                .fontWeight(.semibold)
+            Divider()
+        }
     }
 }
 
 // MARK: - Term Info
 extension TargetDetailView {
-    @ViewBuilder
-    var termInfo: some View {    
-        termText
-        termGraph
+    
+    private func termInfo() -> some View {
+        VStack(alignment: .leading, spacing: .spacing(of: .normal)) {
+            termText
+            termGraph
+        }
     }
     
-    var termText: some View {
+    private var termText: some View {
         HStack {
             Text("targetDetail_term")
-                .font(.headline)
+                .font(.title3.bold())
             Divider()
             
             Text(target.startDateString)
@@ -73,29 +84,30 @@ extension TargetDetailView {
     }
     
     @ViewBuilder
-    var termGraph: some View {
+    private var termGraph: some View {
         Rectangle()
+            .fill(.tertiary)
             .frame(height: 50)
-            .foregroundColor(themeManager.colorInPriority(in: .weak))
             .overlay(alignment: .leading) {
                 GeometryReader { geo in
                     let leftDayRatio = CGFloat(target.dayLeftUntilDueDate) / CGFloat(target.daysFromStartToDueDate)
                     let leftDayWidth: CGFloat = geo.size.width * leftDayRatio
                     Rectangle()
                         .frame(width: leftDayWidth)
-                        .foregroundColor(themeManager.colorInPriority(in: .solid))
+                        .foregroundColor(themeManager.colorInPriority(in: .accent))
                 }
             }
             .clipShape(Capsule())
             .overlay {
                 HAlignment(alignment: .center) {
-                    HStack(spacing: 4) {
+                    HStack(spacing: .spacing(of: .quarter)) {
                         Text("\(target.dayLeftUntilDueDate)")
                         Text("/")
                         Text("\(target.daysFromStartToDueDate)")
+                        Text(target.dayLeftUntilDueDate > 1 ? "targetDetail_days" : "targetDetail_day")
                     }
                     .font(.headline)
-                    .padding(4)
+                    .padding(.spacing(of: .quarter))
                     .background(.thinMaterial, in: RoundedRectangle(cornerRadius: 8))
                 }
             }
@@ -106,20 +118,21 @@ extension TargetDetailView {
 
 // MARK: - Achievement Info
 extension TargetDetailView {
-    @ViewBuilder
-    var achievementInfo: some View {
-        Text("target_completed")
-            .font(.headline)
-        HAlignment(alignment: .center) {
-            AchievementHexagon(radius: UIScreen.main.bounds.width / 4,
-                               achievementRate: target.achievementRate,
-                               color: themeManager.colorInPriority(in: .accent))
+    
+    private func achievementInfo() -> some View {
+        VStack(alignment: .leading, spacing: .spacing(of: .normal)) {
+            Text("target_completed")
+                .font(.title3.bold())
+            HAlignment(alignment: .center) {
+                AchievementHexagon(radius: UIScreen.main.bounds.width / 4,
+                                   achievementRate: target.achievementRate,
+                                   color: themeManager.colorInPriority(in: .accent))
+            }
         }
-        
     }
     
-    @ViewBuilder
-    var completedTodos: some View {
+    
+    private var completedTodos: some View {
         VStack(alignment: .leading) {
             ForEach(0..<manager.completedTodo.count, id: \.self) { index in
                 ToDoInfoCell(todo: manager.completedTodo[index])
@@ -129,15 +142,33 @@ extension TargetDetailView {
             }
         }
         .padding([.leading, .vertical])
-        .background(themeManager.colorInPriority(in: .background),
+        .background(themeManager.sheetBackgroundColor(),
                     in: RoundedRectangle(cornerRadius: 10))
+        .opacity(manager.completedTodo.isEmpty ? 0 : 1)
+    }
+}
+
+//MARK: - Gesture
+extension TargetDetailView {
+    private var dismissGestureAreaWidth: CGFloat { 30 }
+    private var dismissGestureMinimumTranslation: CGFloat { 80 }
+    
+    private var dismissGesture: GestureStateGesture<DragGesture, CGSize> {
+        let gesture = DragGesture()
+        
+        return gesture.updating($dragOffset) { value, state, transaction in
+            guard value.startLocation.x < dismissGestureAreaWidth else { return }
+            guard value.translation.width > dismissGestureMinimumTranslation  else { return }
+                
+            dismiss()
+        }
     }
 }
 
 struct TargetDetailView_Previews: PreviewProvider {
     static var previews: some View {
         let target = Target(title: "Sample", subtitle: "This is an sample", createdAt: .now, startDate: .now, dueDate: Date.distantFuture, todos: [], memoirs: "")
-        TargetDetailView(manager: TargetDetailManager(target: target), target: target)
+        TargetDetailView(target: target)
             .environmentObject(ThemeManager())
     }
 }

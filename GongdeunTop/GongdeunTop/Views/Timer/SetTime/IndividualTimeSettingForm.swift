@@ -27,7 +27,7 @@ struct IndividualTimeSettingForm: View  {
     }
     
     private var hasReachedSessionLimit: Bool {
-        manager.timeSetting.numOfSessions == SetTimeContraint.looseSessionsBound.upperBound
+        manager.timeSetting.numOfSessions == TimerSettingContraint.looseSessionsBound.upperBound
     }
     
     
@@ -67,7 +67,7 @@ struct IndividualTimeSettingForm: View  {
                                     .font(.subheadline.bold())
                                 Spacer()
                                 SetTimePicker(time: $manager.timeSetting.sessions[index].concentrationSeconds,
-                                              in: SetTimeContraint.looseConcentrationSecondBound,
+                                              in: TimerSettingContraint.looseConcentrationSecondBound,
                                               secondStride: 5)
                             }
                             
@@ -79,7 +79,7 @@ struct IndividualTimeSettingForm: View  {
                                     .font(.subheadline.bold())
                                 Spacer()
                                 SetTimePicker(time: $manager.timeSetting.sessions[index].restSeconds,
-                                              in: SetTimeContraint.looseRestSecondBound,
+                                              in: TimerSettingContraint.looseRestSecondBound,
                                               secondStride: 5)
                             }
                         }

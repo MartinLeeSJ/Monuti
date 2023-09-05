@@ -74,7 +74,7 @@ struct DateCell: View {
             
             
             Button {
-                manager.selectedDate = date
+                manager.selectDate(date)
             } label: {
                 RoundedHexagon(radius: 20, cornerAngle: 5)
                     .modifier(HexagonStyle(scheme: scheme))

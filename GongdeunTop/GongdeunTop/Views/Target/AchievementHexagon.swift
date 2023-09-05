@@ -36,6 +36,7 @@ struct AchievementHexagon: View {
         .frame(width: frameWidth, height: frameWidth)
         .overlay {
             Text(percent)
+                .foregroundColor(.white)
                 .font(.system(size: frameWidth / 4, weight: .black))
                 .blendMode(.overlay)
         }

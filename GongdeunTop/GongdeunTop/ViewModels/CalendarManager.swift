@@ -91,6 +91,9 @@ final class CalendarManager: ObservableObject {
     
     
     
+    func selectDate(_ date: Date) {
+        selectedDate = date
+    }
     
    func selectStartingPointDate(_ date: Date) {
         startingPointDate = date

@@ -10,6 +10,7 @@ import AuthenticationServices
 
 struct SignUpView: View {
     @Environment(\.colorScheme) var scheme: ColorScheme
+    @EnvironmentObject var themeManager: ThemeManager
     @ObservedObject var manager: AuthManager
     @State private var text: String = ""
     let finalText = String(localized: "Monuti_Intro")
@@ -30,12 +31,12 @@ struct SignUpView: View {
     
     var body: some View {
         ZStack {
-            Color("GTBlue1")
+            themeManager.colorInPriority(in: .background)
                 .ignoresSafeArea()
             VStack {
                 Spacer()
                 
-                Image("AppLogoBlue")
+                themeManager.appLogoImage()
                     .resizable()
                     .scaledToFit()
                     .frame(width: UIScreen.main.bounds.width / 1.2)

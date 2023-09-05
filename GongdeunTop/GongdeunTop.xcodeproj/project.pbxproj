@@ -11,7 +11,8 @@
 		5B05A61029EAAFD700C89417 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 5B05A61229EAAFD700C89417 /* Localizable.stringsdict */; };
 		5B05A61529ECE5CF00C89417 /* CycleManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B05A61429ECE5CF00C89417 /* CycleManager.swift */; };
 		5B05A61829ECFD5A00C89417 /* CycleMemoir.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B05A61729ECFD5A00C89417 /* CycleMemoir.swift */; };
-		5B0EBE6F2A603A2D0011B024 /* SetTimeConstraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B0EBE6E2A603A2D0011B024 /* SetTimeConstraints.swift */; };
+		5B0EBE6F2A603A2D0011B024 /* TimerSettingContraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B0EBE6E2A603A2D0011B024 /* TimerSettingContraint.swift */; };
+		5B11CCE92AA5F70E008E1DE5 /* TargetFormCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B11CCE82AA5F70E008E1DE5 /* TargetFormCell.swift */; };
 		5B1383FB2A861C7300AC892C /* ManagedSettings.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BF9CDDD2A84EE44002105B0 /* ManagedSettings.framework */; };
 		5B1383FD2A861C7300AC892C /* ManagedSettingsUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B1383FC2A861C7300AC892C /* ManagedSettingsUI.framework */; };
 		5B1384002A861C7300AC892C /* ShieldConfigurationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1383FF2A861C7300AC892C /* ShieldConfigurationExtension.swift */; };
@@ -29,11 +30,16 @@
 		5B1E4CF72A69794800D364A7 /* TimePresetRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1E4CF62A69794800D364A7 /* TimePresetRepository.swift */; };
 		5B1E4CF92A697BB000D364A7 /* TimeSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1E4CF82A697BB000D364A7 /* TimeSetting.swift */; };
 		5B1E4CFB2A697BB800D364A7 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1E4CFA2A697BB800D364A7 /* Session.swift */; };
+		5B1E75732AA20AA3005D803B /* CGFloat+Spacing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1E75722AA20AA3005D803B /* CGFloat+Spacing.swift */; };
+		5B1E75762AA22054005D803B /* StartingTimeFormCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1E75752AA22054005D803B /* StartingTimeFormCell.swift */; };
+		5B1E75792AA22281005D803B /* ToDoTitleFormCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1E75782AA22281005D803B /* ToDoTitleFormCell.swift */; };
+		5B1E757B2AA23BE8005D803B /* TextFieldLimitModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1E757A2AA23BE8005D803B /* TextFieldLimitModifier.swift */; };
 		5B2767C529F8F30D008398A3 /* CalendarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2767C429F8F30D008398A3 /* CalendarManager.swift */; };
 		5B2767C729F90355008398A3 /* SetMonthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2767C629F90355008398A3 /* SetMonthView.swift */; };
 		5B2767C929FA2229008398A3 /* DateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2767C829FA2229008398A3 /* DateCell.swift */; };
 		5B2767CB29FA4633008398A3 /* CycleStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2767CA29FA4633008398A3 /* CycleStore.swift */; };
 		5B2767CD29FA8C1B008398A3 /* CycleListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2767CC29FA8C1B008398A3 /* CycleListCell.swift */; };
+		5B2C772E2AA7571400EEFBC3 /* HAlignmentModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2C772D2AA7571400EEFBC3 /* HAlignmentModifier.swift */; };
 		5B2FEABF29DA645E0022F827 /* Cycle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2FEABE29DA645E0022F827 /* Cycle.swift */; };
 		5B2FEAC129DD4EF30022F827 /* TagStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2FEAC029DD4EF30022F827 /* TagStore.swift */; };
 		5B350D3B2A56BCE6000B8EF1 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 5B350D3A2A56BCE6000B8EF1 /* FirebaseAnalytics */; };
@@ -53,7 +59,7 @@
 		5B3CCABA2A710AF100973F43 /* TargetRepository+Injection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3CCAB92A710AF100973F43 /* TargetRepository+Injection.swift */; };
 		5B3CCABD2A71519800973F43 /* ToDoRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3CCABC2A71519800973F43 /* ToDoRepository.swift */; };
 		5B3CCABF2A7166AF00973F43 /* ToDoRepository+Injection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3CCABE2A7166AF00973F43 /* ToDoRepository+Injection.swift */; };
-		5B3D07C22A721157001691F4 /* TagForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3D07C12A721157001691F4 /* TagForm.swift */; };
+		5B3D07C22A721157001691F4 /* TagFormCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3D07C12A721157001691F4 /* TagFormCell.swift */; };
 		5B3D07C52A721908001691F4 /* TagRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3D07C42A721908001691F4 /* TagRepository.swift */; };
 		5B3D07C72A72390B001691F4 /* TagRepository+Injection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3D07C62A72390B001691F4 /* TagRepository+Injection.swift */; };
 		5B3D07CA2A723957001691F4 /* TagManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3D07C92A723957001691F4 /* TagManager.swift */; };
@@ -102,7 +108,7 @@
 		5BBD3EEF2A77758600731E20 /* ToDoOfTargetRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BBD3EEE2A77758600731E20 /* ToDoOfTargetRepository.swift */; };
 		5BBD3EF22A77DB6D00731E20 /* CycleRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BBD3EF12A77DB6D00731E20 /* CycleRepository.swift */; };
 		5BBD3EF42A77E55B00731E20 /* CycleRepository+Injection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BBD3EF32A77E55B00731E20 /* CycleRepository+Injection.swift */; };
-		5BBD3EF62A77FEA800731E20 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BBD3EF52A77FEA800731E20 /* String+Extension.swift */; };
+		5BBD3EF62A77FEA800731E20 /* String+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BBD3EF52A77FEA800731E20 /* String+Utils.swift */; };
 		5BC275352A6FE7F90028F5F8 /* TimerHexagon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC275342A6FE7F90028F5F8 /* TimerHexagon.swift */; };
 		5BC3E06629C9EA4100863AD2 /* GongdeunTopTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC3E06529C9EA4100863AD2 /* GongdeunTopTests.swift */; };
 		5BCF550429C2CB2500A19759 /* GongdeunTopApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCF550329C2CB2500A19759 /* GongdeunTopApp.swift */; };
@@ -120,6 +126,8 @@
 		5BD70D9F2A8F523000B2F03F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5BD70D9E2A8F523000B2F03F /* GoogleService-Info.plist */; };
 		5BD70DA02A8F52C200B2F03F /* DeviceActivity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B1383E72A85FE9E00AC892C /* DeviceActivity.framework */; };
 		5BD70DA42A8F641A00B2F03F /* TimerSettingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD70DA32A8F641A00B2F03F /* TimerSettingManager.swift */; };
+		5BDE83402A95FE88006185E8 /* DayDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDE833F2A95FE88006185E8 /* DayDetailView.swift */; };
+		5BDE83422A9600F0006185E8 /* Cycle+Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDE83412A9600F0006185E8 /* Cycle+Preview.swift */; };
 		5BE45A802A3859F200F42F4F /* TargetDetailManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE45A7F2A3859F200F42F4F /* TargetDetailManager.swift */; };
 		5BE9EEDC29FFFBA500233C49 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE9EEDB29FFFBA500233C49 /* SettingView.swift */; };
 		5BF61E922A0296B1007592D6 /* ThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF61E912A0296B1007592D6 /* ThemeManager.swift */; };
@@ -174,7 +182,8 @@
 		5B05A61329EC0A4000C89417 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = ko; path = ko.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		5B05A61429ECE5CF00C89417 /* CycleManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CycleManager.swift; sourceTree = "<group>"; };
 		5B05A61729ECFD5A00C89417 /* CycleMemoir.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CycleMemoir.swift; sourceTree = "<group>"; };
-		5B0EBE6E2A603A2D0011B024 /* SetTimeConstraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetTimeConstraints.swift; sourceTree = "<group>"; };
+		5B0EBE6E2A603A2D0011B024 /* TimerSettingContraint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerSettingContraint.swift; sourceTree = "<group>"; };
+		5B11CCE82AA5F70E008E1DE5 /* TargetFormCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetFormCell.swift; sourceTree = "<group>"; };
 		5B1383E72A85FE9E00AC892C /* DeviceActivity.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DeviceActivity.framework; path = System/Library/Frameworks/DeviceActivity.framework; sourceTree = SDKROOT; };
 		5B1383FA2A861C7300AC892C /* ShieldConfiguration.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ShieldConfiguration.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B1383FC2A861C7300AC892C /* ManagedSettingsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ManagedSettingsUI.framework; path = System/Library/Frameworks/ManagedSettingsUI.framework; sourceTree = SDKROOT; };
@@ -196,11 +205,16 @@
 		5B1E4CF62A69794800D364A7 /* TimePresetRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimePresetRepository.swift; sourceTree = "<group>"; };
 		5B1E4CF82A697BB000D364A7 /* TimeSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeSetting.swift; sourceTree = "<group>"; };
 		5B1E4CFA2A697BB800D364A7 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
+		5B1E75722AA20AA3005D803B /* CGFloat+Spacing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGFloat+Spacing.swift"; sourceTree = "<group>"; };
+		5B1E75752AA22054005D803B /* StartingTimeFormCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartingTimeFormCell.swift; sourceTree = "<group>"; };
+		5B1E75782AA22281005D803B /* ToDoTitleFormCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoTitleFormCell.swift; sourceTree = "<group>"; };
+		5B1E757A2AA23BE8005D803B /* TextFieldLimitModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldLimitModifier.swift; sourceTree = "<group>"; };
 		5B2767C429F8F30D008398A3 /* CalendarManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarManager.swift; sourceTree = "<group>"; };
 		5B2767C629F90355008398A3 /* SetMonthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetMonthView.swift; sourceTree = "<group>"; };
 		5B2767C829FA2229008398A3 /* DateCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateCell.swift; sourceTree = "<group>"; };
 		5B2767CA29FA4633008398A3 /* CycleStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CycleStore.swift; sourceTree = "<group>"; };
 		5B2767CC29FA8C1B008398A3 /* CycleListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CycleListCell.swift; sourceTree = "<group>"; };
+		5B2C772D2AA7571400EEFBC3 /* HAlignmentModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAlignmentModifier.swift; sourceTree = "<group>"; };
 		5B2FEABE29DA645E0022F827 /* Cycle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cycle.swift; sourceTree = "<group>"; };
 		5B2FEAC029DD4EF30022F827 /* TagStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagStore.swift; sourceTree = "<group>"; };
 		5B38FBFE2A0CDC72003F9B5C /* SetNickNameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetNickNameView.swift; sourceTree = "<group>"; };
@@ -216,7 +230,7 @@
 		5B3CCAB92A710AF100973F43 /* TargetRepository+Injection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TargetRepository+Injection.swift"; sourceTree = "<group>"; };
 		5B3CCABC2A71519800973F43 /* ToDoRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoRepository.swift; sourceTree = "<group>"; };
 		5B3CCABE2A7166AF00973F43 /* ToDoRepository+Injection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ToDoRepository+Injection.swift"; sourceTree = "<group>"; };
-		5B3D07C12A721157001691F4 /* TagForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagForm.swift; sourceTree = "<group>"; };
+		5B3D07C12A721157001691F4 /* TagFormCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagFormCell.swift; sourceTree = "<group>"; };
 		5B3D07C42A721908001691F4 /* TagRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagRepository.swift; sourceTree = "<group>"; };
 		5B3D07C62A72390B001691F4 /* TagRepository+Injection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TagRepository+Injection.swift"; sourceTree = "<group>"; };
 		5B3D07C92A723957001691F4 /* TagManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagManager.swift; sourceTree = "<group>"; };
@@ -262,7 +276,7 @@
 		5BBD3EEE2A77758600731E20 /* ToDoOfTargetRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoOfTargetRepository.swift; sourceTree = "<group>"; };
 		5BBD3EF12A77DB6D00731E20 /* CycleRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CycleRepository.swift; sourceTree = "<group>"; };
 		5BBD3EF32A77E55B00731E20 /* CycleRepository+Injection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CycleRepository+Injection.swift"; sourceTree = "<group>"; };
-		5BBD3EF52A77FEA800731E20 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
+		5BBD3EF52A77FEA800731E20 /* String+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Utils.swift"; sourceTree = "<group>"; };
 		5BC275342A6FE7F90028F5F8 /* TimerHexagon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerHexagon.swift; sourceTree = "<group>"; };
 		5BC3E06329C9EA4100863AD2 /* GongdeunTopTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GongdeunTopTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5BC3E06529C9EA4100863AD2 /* GongdeunTopTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GongdeunTopTests.swift; sourceTree = "<group>"; };
@@ -281,6 +295,8 @@
 		5BD5131C29D58D060008E1C9 /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
 		5BD70D9E2A8F523000B2F03F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		5BD70DA32A8F641A00B2F03F /* TimerSettingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerSettingManager.swift; sourceTree = "<group>"; };
+		5BDE833F2A95FE88006185E8 /* DayDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayDetailView.swift; sourceTree = "<group>"; };
+		5BDE83412A9600F0006185E8 /* Cycle+Preview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Cycle+Preview.swift"; sourceTree = "<group>"; };
 		5BE45A7F2A3859F200F42F4F /* TargetDetailManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetDetailManager.swift; sourceTree = "<group>"; };
 		5BE9EEDB29FFFBA500233C49 /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
 		5BF61E912A0296B1007592D6 /* ThemeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeManager.swift; sourceTree = "<group>"; };
@@ -395,6 +411,36 @@
 			path = Target;
 			sourceTree = "<group>";
 		};
+		5B1E75742AA20AB5005D803B /* CGFloat */ = {
+			isa = PBXGroup;
+			children = (
+				5B54FE422A2B5917000D29ED /* CGFloat+Utils.swift */,
+				5B1E75722AA20AA3005D803B /* CGFloat+Spacing.swift */,
+			);
+			path = CGFloat;
+			sourceTree = "<group>";
+		};
+		5B1E75772AA2226A005D803B /* SetToDo */ = {
+			isa = PBXGroup;
+			children = (
+				5B63A59229C95AD500AA4525 /* SetToDoForm.swift */,
+				5B1E75782AA22281005D803B /* ToDoTitleFormCell.swift */,
+				5B1E75752AA22054005D803B /* StartingTimeFormCell.swift */,
+				5B3D07C12A721157001691F4 /* TagFormCell.swift */,
+				5B11CCE82AA5F70E008E1DE5 /* TargetFormCell.swift */,
+			);
+			path = SetToDo;
+			sourceTree = "<group>";
+		};
+		5B1E757C2AA23BF7005D803B /* ViewModifier */ = {
+			isa = PBXGroup;
+			children = (
+				5B1E757A2AA23BE8005D803B /* TextFieldLimitModifier.swift */,
+				5B2C772D2AA7571400EEFBC3 /* HAlignmentModifier.swift */,
+			);
+			path = ViewModifier;
+			sourceTree = "<group>";
+		};
 		5B2767C329F8F2E6008398A3 /* Timer */ = {
 			isa = PBXGroup;
 			children = (
@@ -445,7 +491,7 @@
 		5B3CCAB02A70EDEB00973F43 /* Constraints */ = {
 			isa = PBXGroup;
 			children = (
-				5B0EBE6E2A603A2D0011B024 /* SetTimeConstraints.swift */,
+				5B0EBE6E2A603A2D0011B024 /* TimerSettingContraint.swift */,
 			);
 			path = Constraints;
 			sourceTree = "<group>";
@@ -552,8 +598,8 @@
 			children = (
 				5B95E0E32A5BB71F007FA721 /* Array+Utils.swift */,
 				5B6DF5EF2A36C5F600CCA57F /* DateFormatter+Utils.swift */,
-				5B54FE422A2B5917000D29ED /* CGFloat+Utils.swift */,
-				5BBD3EF52A77FEA800731E20 /* String+Extension.swift */,
+				5B1E75742AA20AB5005D803B /* CGFloat */,
+				5BBD3EF52A77FEA800731E20 /* String+Utils.swift */,
 				5B5AF96D2A90AE7B00CFC2A0 /* TimeInterval+Utils.swift */,
 			);
 			path = Utils;
@@ -690,7 +736,6 @@
 				5B76D0F729C7755A008883A8 /* ViewModels */,
 				5B3CCAAE2A70E47800973F43 /* Repository */,
 				5BF61E902A02967D007592D6 /* Etc */,
-				5B6AB2512A316698008D09B6 /* Components */,
 				5BCF550729C2CB2700A19759 /* Assets.xcassets */,
 				5BCF550929C2CB2700A19759 /* Preview Content */,
 				5B05A60C29EA724E00C89417 /* Localizable.strings */,
@@ -705,6 +750,7 @@
 				5BCF550A29C2CB2700A19759 /* Preview Assets.xcassets */,
 				5BD3D1D829D1C45A008E8988 /* ToDo+PlaceHolder.swift */,
 				5B1C711E2A12012C00A5D3EB /* Target+PlaceHolder.swift */,
+				5BDE83412A9600F0006185E8 /* Cycle+Preview.swift */,
 			);
 			path = "Preview Content";
 			sourceTree = "<group>";
@@ -712,9 +758,11 @@
 		5BCF551729C3066A00A19759 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				5BCF550529C2CB2500A19759 /* ContentView.swift */,
+				5B1E757C2AA23BF7005D803B /* ViewModifier */,
+				5B6AB2512A316698008D09B6 /* Components */,
 				5BF9CDD42A84A394002105B0 /* ExperimentView.swift */,
 				5B38FC052A0E176F003F9B5C /* LauchScreen.swift */,
-				5BCF550529C2CB2500A19759 /* ContentView.swift */,
 				5B6AB24E2A30AAB0008D09B6 /* Main */,
 				5B1C71242A120A9200A5D3EB /* Target */,
 				5B38FBFD2A0CDC58003F9B5C /* Auth */,
@@ -731,6 +779,7 @@
 			isa = PBXGroup;
 			children = (
 				5BCF551529C3065E00A19759 /* CalendarView.swift */,
+				5BDE833F2A95FE88006185E8 /* DayDetailView.swift */,
 				5B2767C629F90355008398A3 /* SetMonthView.swift */,
 				5B2767C829FA2229008398A3 /* DateCell.swift */,
 			);
@@ -742,8 +791,7 @@
 			children = (
 				5BCF551A29C30D1600A19759 /* ToDoList.swift */,
 				5BD3D1D629D1C3BB008E8988 /* ToDoListRow.swift */,
-				5B63A59229C95AD500AA4525 /* SetToDoForm.swift */,
-				5B3D07C12A721157001691F4 /* TagForm.swift */,
+				5B1E75772AA2226A005D803B /* SetToDo */,
 			);
 			path = ToDo;
 			sourceTree = "<group>";
@@ -967,6 +1015,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5B63A59129C8931300AA4525 /* SheetPresenter.swift in Sources */,
+				5BDE83422A9600F0006185E8 /* Cycle+Preview.swift in Sources */,
 				5B95E0E62A5BE1B4007FA721 /* SetTimeStepper.swift in Sources */,
 				5B4214F52A2D57D1004362E5 /* MainRouterView.swift in Sources */,
 				5B5AF96E2A90AE7B00CFC2A0 /* TimeInterval+Utils.swift in Sources */,
@@ -981,7 +1030,7 @@
 				5B6DF5F32A371B4600CCA57F /* TargetDetailView.swift in Sources */,
 				5BCF551D29C30DA800A19759 /* SessionsTimer.swift in Sources */,
 				5B2767CB29FA4633008398A3 /* CycleStore.swift in Sources */,
-				5BBD3EF62A77FEA800731E20 /* String+Extension.swift in Sources */,
+				5BBD3EF62A77FEA800731E20 /* String+Utils.swift in Sources */,
 				5BD5131D29D58D060008E1C9 /* Tag.swift in Sources */,
 				5B6AB24B2A306281008D09B6 /* TargetTermGauge.swift in Sources */,
 				5B05A61529ECE5CF00C89417 /* CycleManager.swift in Sources */,
@@ -1003,17 +1052,21 @@
 				5B95E14029D80B7D00E8CBA1 /* Member.swift in Sources */,
 				5B1C711C2A1200A800A5D3EB /* TargetManager.swift in Sources */,
 				5B38FC022A0E1695003F9B5C /* LaunchScreenManager.swift in Sources */,
+				5B1E75792AA22281005D803B /* ToDoTitleFormCell.swift in Sources */,
 				5B2FEAC129DD4EF30022F827 /* TagStore.swift in Sources */,
 				5B59207D2A627A3B009DD91F /* SetTimePicker.swift in Sources */,
 				5B63175A29E7F27700FF6876 /* RoundedCorners.swift in Sources */,
 				5B3CCABD2A71519800973F43 /* ToDoRepository.swift in Sources */,
 				5BA9A4392A092E6A00453D65 /* CycleListCellDetail.swift in Sources */,
+				5BDE83402A95FE88006185E8 /* DayDetailView.swift in Sources */,
+				5B1E757B2AA23BE8005D803B /* TextFieldLimitModifier.swift in Sources */,
 				5BFFDB8529C5F299004C5376 /* SetTimeForm.swift in Sources */,
 				5BCF550629C2CB2500A19759 /* ContentView.swift in Sources */,
+				5B11CCE92AA5F70E008E1DE5 /* TargetFormCell.swift in Sources */,
 				5BF61E922A0296B1007592D6 /* ThemeManager.swift in Sources */,
 				5B2767C929FA2229008398A3 /* DateCell.swift in Sources */,
 				5B54FE432A2B5917000D29ED /* CGFloat+Utils.swift in Sources */,
-				5B0EBE6F2A603A2D0011B024 /* SetTimeConstraints.swift in Sources */,
+				5B0EBE6F2A603A2D0011B024 /* TimerSettingContraint.swift in Sources */,
 				5B3CCAAD2A70E46100973F43 /* TargetRepository.swift in Sources */,
 				5B95E0EB2A5BF79F007FA721 /* IndividualTimeSettingForm.swift in Sources */,
 				5B1E4CF92A697BB000D364A7 /* TimeSetting.swift in Sources */,
@@ -1027,11 +1080,13 @@
 				5BCF551B29C30D1600A19759 /* ToDoList.swift in Sources */,
 				5BB4FEC829C83124009CCD43 /* ToDoManager.swift in Sources */,
 				5B3CCABF2A7166AF00973F43 /* ToDoRepository+Injection.swift in Sources */,
+				5B1E75732AA20AA3005D803B /* CGFloat+Spacing.swift in Sources */,
 				5B3D07C72A72390B001691F4 /* TagRepository+Injection.swift in Sources */,
 				5B38FC082A0F8268003F9B5C /* Target.swift in Sources */,
 				5B38FC062A0E176F003F9B5C /* LauchScreen.swift in Sources */,
+				5B1E75762AA22054005D803B /* StartingTimeFormCell.swift in Sources */,
 				5B8B119529D07EE6009BB0E6 /* FirstCountdown.swift in Sources */,
-				5B3D07C22A721157001691F4 /* TagForm.swift in Sources */,
+				5B3D07C22A721157001691F4 /* TagFormCell.swift in Sources */,
 				5B6AB24D2A30959C008D09B6 /* AppLogoView.swift in Sources */,
 				5BBD3EF42A77E55B00731E20 /* CycleRepository+Injection.swift in Sources */,
 				5B1C71262A121C3C00A5D3EB /* RangeDatePicker.swift in Sources */,
@@ -1056,6 +1111,7 @@
 				5BD5131929D574900008E1C9 /* SessionIndicator.swift in Sources */,
 				5B3D07CA2A723957001691F4 /* TagManager.swift in Sources */,
 				5B3CCAB82A70F3CC00973F43 /* AuthService+Injection.swift in Sources */,
+				5B2C772E2AA7571400EEFBC3 /* HAlignmentModifier.swift in Sources */,
 				5B6AB2562A316A75008D09B6 /* FormContainer.swift in Sources */,
 				5B1C71212A120A2A00A5D3EB /* SetTargetForm.swift in Sources */,
 				5BA9A43C2A09310A00453D65 /* CycleToDoList.swift in Sources */,

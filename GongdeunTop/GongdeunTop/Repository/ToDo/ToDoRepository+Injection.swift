@@ -16,6 +16,6 @@ extension Container {
     }
     
     var todoOfTargetRepository: ParameterFactory<Target, ToDoOfTargetRepository> {
-        self { ToDoOfTargetRepository(target: $0) }.singleton
+        self { ToDoOfTargetRepository(target: $0) }
     }
 }

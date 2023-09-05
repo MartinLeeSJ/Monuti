@@ -18,11 +18,6 @@ struct ToDoList: View {
     @State private var isExtendingTodosLifeAlertOn: Bool = false
     @State private var isNotificationTriggered: Bool = false
     
-    private func isTodoStartingTimeTomorrow(_ todo: ToDo) -> Bool {
-        if let date = todo.startingTime, Calendar.current.isDateInTomorrow(date) { return true }
-        return false
-    }
-    
     var body: some View {
         ZStack {
             themeManager.colorInPriority(in: .background)
@@ -32,18 +27,8 @@ struct ToDoList: View {
                 
                 if !todoManager.todos.isEmpty {
                     List(todoManager.todos, id: \.self.id, selection: $todoManager.multiSelection) { todo in
-                        Section("toDoList_Today") {
-                            if !isTodoStartingTimeTomorrow(todo) {
-                                ToDoListRow(todo: todo, targets: targetManager.targets)
-                                    .todoListRowStyle()
-                            }
-                        }
-                        Section("toDoList_Tomorrow") {
-                            if isTodoStartingTimeTomorrow(todo) {
-                                ToDoListRow(todo: todo, targets: targetManager.targets)
-                                    .todoListRowStyle()
-                            }
-                        }
+                        ToDoListRow(todo: todo, targets: targetManager.targets)
+                            .todoListRowStyle()
                     }
                     .listStyle(.plain)
                     .environment(\.editMode, .constant(todoManager.isEditing ? EditMode.active : EditMode.inactive))

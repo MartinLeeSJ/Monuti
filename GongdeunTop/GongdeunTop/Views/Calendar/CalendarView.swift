@@ -41,14 +41,13 @@ struct CalendarView: View {
                 .ignoresSafeArea(.all)
             
             VStack(alignment:.leading, spacing: 16) {
-                getTopConsole()
+                calendarControls()
                 
-                getCalendar()
-//                    .gesture(calendarDragGesture)
+                calendar()
                 
                 Divider()
                 
-                getCycleList()
+                DayDetailView(cycles: cycleStore.cyclesOfDate[calendarManager.selectedDate] ?? [])
             }
             .padding(.horizontal)
             .blur(radius: showSetMonth ? 10 : 0)
@@ -87,29 +86,15 @@ extension CalendarView {
             dismiss()
         }
     }
-    
-//    private var calendarDragGesture: GestureStateGesture<DragGesture, CGSize> {
-//        let gesture = DragGesture()
-//        return gesture.updating($dragOffset) { value, state, transaction in
-//            guard value.startLocation.x > dismissGestureAreaWidth else { return }
-//
-//            switch(value.translation.width, value.translation.height) {
-//            case (...0, -50...50):
-//                handleNextMonth()
-//            case (0..., -50...50):
-//                handlePreviousMonth()
-//            default:  print("no clue")
-//            }
-//        }
-//    }
 }
+
 
 //MARK: - Top Control Units
 extension CalendarView {
     @ViewBuilder
-    func getTopConsole() -> some View {
+    func calendarControls() -> some View {
         HStack {
-            setMonthButton()
+            monthButton()
             Spacer()
             previousMonthButton()
             nextMonthButton()
@@ -117,7 +102,7 @@ extension CalendarView {
     }
     
     @ViewBuilder
-    func setMonthButton() -> some View {
+    func monthButton() -> some View {
             Button {
                 showSetMonth.toggle()
             } label: {
@@ -163,7 +148,7 @@ extension CalendarView {
 // MARK: - 캘린더
 extension CalendarView {
     @ViewBuilder
-    func getCalendar() -> some View {
+    func calendar() -> some View {
         LazyVGrid(columns: Array(repeating: .init(.flexible(), spacing: 0), count: 7), spacing: 8) {
             weekdays
             
@@ -242,26 +227,6 @@ extension CalendarView {
         }
     }
 }
-
-// MARK: - Cycle List
-extension CalendarView {
-    @ViewBuilder
-    func getCycleList() -> some View {
-        ScrollView {
-            VStack {
-                ForEach(cycleStore.cyclesDictionary[calendarManager.selectedDate] ?? [], id: \.self) {
-                    cycle in
-                    CycleListCell(cycleManager: CycleManager(cycle: cycle))
-                        .tint(Color("basicFontColor"))
-                }
-            }
-        }
-    }
-}
-
-
-
-
 
 struct RecordView_Previews: PreviewProvider {
     static var previews: some View {
