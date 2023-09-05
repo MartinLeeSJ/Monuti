@@ -26,24 +26,13 @@ struct ToDoTitleFormCell: View {
                 Text("title")
                     .font(.headline)
                     .fontWeight(.medium)
-                    .overlay(alignment: .topTrailing) {
-                        Image(systemName: "staroflife.fill")
-                            .font(.system(size: 6))
-                            .foregroundColor(.red)
-                            .offset(x: 8)
-                    }
+                    .requiredMark()
                 
                 TextField(String(localized: "todo_title"), text: $todo.title)
                     .focused($focusedField, equals: .title)
                     .textfieldLimit(text: $todo.title, limit: titleCharacterLimit)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .contentShape(Rectangle())
-                    
-                
-                Text("\(todo.title.count)/\(titleCharacterLimit)")
-                    .font(.caption)
-                    .fixedSize(horizontal: true, vertical: true)
-                    .padding(.trailing, .spacing(of: .half))
             }
             .onTapGesture {
                 focusedField = .title
@@ -59,11 +48,6 @@ struct ToDoTitleFormCell: View {
                 TextField(String(localized: "todo_content"), text: $todo.content)
                     .focused($focusedField, equals: .content)
                     .textfieldLimit(text: $todo.content, limit: contentCharacterLimit)
-                
-                Text("\(todo.content.count)/\(contentCharacterLimit)")
-                    .font(.caption)
-                    .fixedSize(horizontal: true, vertical: true)
-                    .padding(.trailing, .spacing(of: .half))
             }
             .onTapGesture {
                 focusedField = .content

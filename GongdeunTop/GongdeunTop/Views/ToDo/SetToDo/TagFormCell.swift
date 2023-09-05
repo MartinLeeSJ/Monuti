@@ -31,7 +31,6 @@ struct TagFormCell: View {
                 HStack(alignment: .bottom, spacing: .spacing(of: .normal)){
                     tagFormTitle
                     tagFormTextField
-                    tagFormCharacterLimitLabel
                     addTagButton
                 }
                 
@@ -78,18 +77,10 @@ extension TagFormCell {
             .onChange(of: tag.title) { string in
                 filteredTags = tags.filter { $0.title.localizedCaseInsensitiveContains(string) }
             }
-            .onReceive(Just(tag.title)) { _ in
-                if tag.title.count > tagCharacterLimit {
-                    tag.title = String(tag.title.prefix(tagCharacterLimit))
-                }
-            }
+            .textfieldLimit(text: $tag.title, limit: tagCharacterLimit)
+          
     }
     
-    private var tagFormCharacterLimitLabel: some View {
-        Text("\(tag.title.count)/\(tagCharacterLimit)")
-            .font(.caption)
-            .fixedSize()
-    }
     
     private var addTagButton: some View {
         Button {
