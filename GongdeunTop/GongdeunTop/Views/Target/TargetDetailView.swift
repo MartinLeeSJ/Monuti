@@ -23,7 +23,7 @@ struct TargetDetailView: View {
             LazyVStack(alignment: .leading, spacing: 16) {
                 titles
                 termInfo()
-                achievementInfo
+                achievementInfo()
                 completedTodos
             }
             .padding()
@@ -80,8 +80,8 @@ extension TargetDetailView {
     @ViewBuilder
     private var termGraph: some View {
         Rectangle()
+            .fill(.tertiary)
             .frame(height: 50)
-            .foregroundColor(themeManager.colorInPriority(in: .weak))
             .overlay(alignment: .leading) {
                 GeometryReader { geo in
                     let leftDayRatio = CGFloat(target.dayLeftUntilDueDate) / CGFloat(target.daysFromStartToDueDate)
@@ -112,7 +112,7 @@ extension TargetDetailView {
 // MARK: - Achievement Info
 extension TargetDetailView {
     @ViewBuilder
-    var achievementInfo: some View {
+    private func achievementInfo() -> some View {
         Text("target_completed")
             .font(.headline)
         HAlignment(alignment: .center) {
@@ -120,11 +120,10 @@ extension TargetDetailView {
                                achievementRate: target.achievementRate,
                                color: themeManager.colorInPriority(in: .accent))
         }
-        
     }
     
     @ViewBuilder
-    var completedTodos: some View {
+    private var completedTodos: some View {
         VStack(alignment: .leading) {
             ForEach(0..<manager.completedTodo.count, id: \.self) { index in
                 ToDoInfoCell(todo: manager.completedTodo[index])
@@ -134,8 +133,9 @@ extension TargetDetailView {
             }
         }
         .padding([.leading, .vertical])
-        .background(themeManager.colorInPriority(in: .background),
+        .background(themeManager.sheetBackgroundColor(),
                     in: RoundedRectangle(cornerRadius: 10))
+        .opacity(manager.completedTodo.isEmpty ? 0 : 1)
     }
 }
 

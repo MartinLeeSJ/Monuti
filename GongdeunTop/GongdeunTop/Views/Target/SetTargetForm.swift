@@ -17,22 +17,27 @@ struct SetTargetForm: View {
         case title
         case content
     }
-    @Environment(\.dismiss) var dismiss
-    @EnvironmentObject var themeManager: ThemeManager
-    @State var target: Target = Target(title: "",
+    @Environment(\.dismiss) private var dismiss
+    @EnvironmentObject private var themeManager: ThemeManager
+    @State private var target: Target = Target(title: "",
                                        subtitle: "",
                                        createdAt: Date.now,
-                                       startDate: Date.now,
+                                               startDate: Date.now,
                                        dueDate: Date.now,
                                        todos: [],
                                        achievement: 0,
                                        memoirs: "")
     @FocusState private var focusedField: TargetField?
     
-    var mode: Mode = .add
-    var onCommit: (_ target: Target) -> Void
+    private var mode: Mode = .add
+    private var onCommit: (_ target: Target) -> Void
     
-    let startDateRange: ClosedRange<Date> = {
+    init(mode: Mode = .add, onCommit: @escaping (_: Target) -> Void) {
+        self.mode = mode
+        self.onCommit = onCommit
+    }
+    
+    private let startDateRange: ClosedRange<Date> = {
         let calendar = Calendar.current
         let dateInterval = calendar.dateInterval(of: .day, for: Date())
         let startTime: Date = dateInterval?.start ?? Date()
@@ -40,10 +45,10 @@ struct SetTargetForm: View {
         return startTime...endTime
     }()
     
-    var endDateRange: ClosedRange<Date> {
+    private var endDateRange: ClosedRange<Date> {
         let calendar = Calendar.current
         let dateInterval = calendar.dateInterval(of: .day, for: target.startDate)
-        let startTime: Date = dateInterval?.start ?? Date()
+        let startTime: Date = dateInterval?.end ?? Date()
         let endTime = calendar.date(byAdding: .month, value: 6, to: startTime) ?? Date()
         return startTime...endTime
     }
@@ -161,10 +166,3 @@ struct SetTargetForm: View {
 
     }
 }
-//
-//struct SetTargetForm_Previews: PreviewProvider {
-//    static var previews: some View {
-//        SetTargetForm()
-//            .environmentObject(ThemeManager())
-//    }
-//}
