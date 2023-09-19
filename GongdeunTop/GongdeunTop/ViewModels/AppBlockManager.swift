@@ -100,17 +100,15 @@ class AppBlockManager: ObservableObject {
             
             let applicationTokens = activitySelection.applicationTokens
             let webDomainTokens = activitySelection.webDomainTokens
-            print("applicationTokens count : \(applicationTokens.count)")
-            print("webDomainTokens count : \(webDomainTokens.count)")
+            
             managedSettingsStore.shield.applications = applicationTokens.isEmpty ? nil : applicationTokens
             managedSettingsStore.shield.webDomains = webDomainTokens.isEmpty ? nil : webDomainTokens
             
             try deviceActivityCenter.startMonitoring(.concentration,
                                                      during: schedule,
                                                      events: [.concentration : event])
-            print("activity monitoring has been started")
+            
         } catch {
-            print("error has occured")
             if let monitoringError = error as? DeviceActivityCenter.MonitoringError {
                 print("Error while monitoring:::\(monitoringError.errorDescription ?? "")")
             }

@@ -57,9 +57,7 @@ struct CalendarView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             backButton()
-            if !calendarManager.isCalendarInCurrentMonth {
-                backToToday()
-            }
+            backToToday()
         }
         .overlay {
             if showSetMonth {
@@ -91,8 +89,8 @@ extension CalendarView {
 
 //MARK: - Top Control Units
 extension CalendarView {
-    @ViewBuilder
-    func calendarControls() -> some View {
+   
+    private func calendarControls() -> some View {
         HStack {
             monthButton()
             Spacer()
@@ -101,8 +99,7 @@ extension CalendarView {
         }
     }
     
-    @ViewBuilder
-    func monthButton() -> some View {
+    private func monthButton() -> some View {
             Button {
                 showSetMonth.toggle()
             } label: {
@@ -122,7 +119,7 @@ extension CalendarView {
             .tint(Color("basicFontColor"))
     }
     
-    func previousMonthButton() -> some View {
+    private func previousMonthButton() -> some View {
         Button {
             handlePreviousMonth()
         } label: {
@@ -133,7 +130,7 @@ extension CalendarView {
         .buttonStyle(.bordered)
     }
     
-    func nextMonthButton() -> some View {
+    private func nextMonthButton() -> some View {
         Button {
             handleNextMonth()
         } label: {
@@ -154,7 +151,7 @@ extension CalendarView {
             
             blanks
             
-            dates
+            dateCells
         }
     }
     
@@ -193,7 +190,7 @@ extension CalendarView {
         }
     }
     
-    var dates: some View {
+    var dateCells: some View {
         ForEach(calendarManager.currentMonthData, id: \.self) { date in
             DateCell(manager: calendarManager, date: date, evaluation: cycleStore.dateEvaluations[date])
                 .id(date)
@@ -219,12 +216,19 @@ extension CalendarView {
     func backToToday() -> some ToolbarContent {
         ToolbarItem(placement: .navigationBarTrailing) {
             Button {
-                calendarManager.handleTodayButton()
+                calendarManager.handleBackToTodayButton()
                 cycleStore.setBaseDate(calendarManager.startingPointDate)
             } label: {
                 Text("Today")
             }
+            .tint(themeManager.colorInPriority(in: .accent))
+            .opacity(isSelectedDateInSameDayAsToday ? 0 : 1)
         }
+    }
+    
+    private var isSelectedDateInSameDayAsToday: Bool {
+        let calendar = Calendar.current
+        return calendar.isDate(calendarManager.selectedDate, inSameDayAs: Date.now)
     }
 }
 

@@ -67,11 +67,12 @@ struct SetTargetForm: View {
             ZStack {
                 themeManager.sheetBackgroundColor()
                     .ignoresSafeArea(.all)
-                VStack(spacing: 32) {
-                    titleAndSubtitleTextField
-                    startAndDuteDatePicker
-                    termsInfos
-                    Spacer()
+                ScrollView {
+                    VStack(spacing: .spacing(of: .long)) {
+                        titleAndSubtitleTextField
+                        startAndDuteDatePicker
+                        termsInfos
+                    }
                 }
                 .toolbar {
                     ToolbarItem(placement: .cancellationAction) {
@@ -88,6 +89,7 @@ struct SetTargetForm: View {
                         } label: {
                             Text(mode == .add ? "Add" : "Edit")
                         }
+                        .disabled(target.title.isEmpty)
                     }
                 }
                 .navigationBarTitleDisplayMode(.inline)
@@ -96,7 +98,6 @@ struct SetTargetForm: View {
                                     String(localized: "targetForm_title_edit"))
                 .font(.headline)
                 .padding()
-                .padding(.top, 32)
             }
         }
     }

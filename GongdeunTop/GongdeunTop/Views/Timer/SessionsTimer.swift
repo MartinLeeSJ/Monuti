@@ -281,7 +281,7 @@ extension SessionsTimer {
         
         if let index = todos.firstIndex(where: { $0.id == currentTodo?.id }) {
             todos[index].timeSpent += Int(timeElapsed)
-            print(todos[index].timeSpent)
+           
         }
     }
     

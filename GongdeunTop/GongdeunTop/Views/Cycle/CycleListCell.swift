@@ -8,58 +8,53 @@
 import SwiftUI
 
 struct CycleListCell: View {
-    @Environment(\.colorScheme) var scheme: ColorScheme
-    @EnvironmentObject var themeManager: ThemeManager
+    @Environment(\.colorScheme) private var scheme: ColorScheme
+    @EnvironmentObject private var themeManager: ThemeManager
     
-    @StateObject var cycleManager = CycleManager()
+    @StateObject private var cycleManager = CycleManager()
     @State private var showDetails: Bool = false
     
-    var cycle: Cycle {
+    init(cycle: Cycle) {
+        self._cycleManager = StateObject(wrappedValue: CycleManager(cycle: cycle))
+    }
+    
+    private var cycle: Cycle {
         cycleManager.cycle
     }
     
-    var hourAndMinute: String {
+    private var hourAndMinute: String {
         cycle.createdAt.dateValue().formatted(
             Date.FormatStyle()
                 .hour()
                 .minute()
         )
-        
     }
     
+    private func handleShowDetail() {
+        showDetails.toggle()
+    }
+    
+    private let cellSizeRadius: CGFloat = 20
+    private let cellCornerRadius: CGFloat = 5
+    
     var body: some View {
-        Button {
-            showDetails.toggle()
-        } label: {
-
-            HStack(spacing: 0) {
-                Text("\(hourAndMinute)")
-                    .font(.body)
-                    .fontWeight(.bold)
-                    
-                    
-                Spacer()
-                    
-                Image(systemName: "chevron.right")
-                    .font(.footnote)
-                    .opacity(0.5)
-            }
-            .foregroundColor(.black)
-            .padding(.horizontal)
-            .padding(.vertical, 10)
-            .background {
-                    RoundedRectangle(cornerRadius: 10)
+        
+        Button (action: handleShowDetail) {
+            VStack {
+                RoundedHexagon(radius: cellSizeRadius, cornerAngle: cellCornerRadius)
                     .fill(themeManager.colorInPriority(in: cycle.colorPriority))
-            }
-            .background {
-                if scheme == .dark {
-                    RoundedRectangle(cornerRadius: 10)
-                        .stroke(Color.white, lineWidth: 0.5)
-                }
+                    .background {
+                        if scheme == .dark {
+                            RoundedHexagon(radius: cellSizeRadius, cornerAngle: cellCornerRadius)
+                                .stroke(Color.white, lineWidth: 0.5)
+                        }
+                    }
+                    .frame(width: cellSizeRadius * 2, height: cellSizeRadius * 2)
+                Text("\(hourAndMinute)")
+                    .font(.caption2)
+                    .fontWeight(.bold)
             }
         }
-        .padding(.top, 6)
-        .padding(.horizontal, 5)
         .sheet(isPresented: $showDetails) {
             CycleListCellDetail(cycleManager: cycleManager)
                 .presentationDetents([.medium, .large])

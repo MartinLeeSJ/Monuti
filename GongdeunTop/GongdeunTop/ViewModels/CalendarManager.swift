@@ -8,8 +8,6 @@
 import Foundation
 import Combine
 
-
-
 final class CalendarManager: ObservableObject {
     @Published var currentMonthData: [Date] = []
     @Published var currentYearData: [Date] = []
@@ -19,11 +17,9 @@ final class CalendarManager: ObservableObject {
     
     var firstWeekdayDigit: Int {
         if let startDate = currentMonthData.first {
-            
             let dateFormatted
             = Date.FormatStyle(locale: .init(identifier: "ko-KR"), calendar: Calendar.current).weekday(.oneDigit)
-            print(Int(startDate.formatted(dateFormatted)) ?? 0)
-            print(Calendar.current.firstWeekday)
+            
             return Int(startDate.formatted(dateFormatted)) ?? 1
         } else {
             return 1
@@ -45,13 +41,15 @@ final class CalendarManager: ObservableObject {
     
     init() {
         $startingPointDate
+            .receive(on: DispatchQueue.main)
             .map { [weak self] date in
                 self?.getCurrentMonthData(from: date) ?? []
             }
             .assign(to: &$currentMonthData)
-            
+        
         
         $startingPointDate
+            .receive(on: DispatchQueue.main)
             .map { [weak self] date in
                 self?.getCurrentYearDate(from: date) ?? []
             }
@@ -70,7 +68,7 @@ final class CalendarManager: ObservableObject {
             monthData.append(currentDate)
             currentDate = Calendar.current.date(byAdding: .day, value: 1, to: currentDate)!
         }
-
+        
         return monthData
     }
     
@@ -91,23 +89,25 @@ final class CalendarManager: ObservableObject {
     
     
     
-    func selectDate(_ date: Date) {
+    public func selectDate(_ date: Date) {
         selectedDate = date
     }
     
-   func selectStartingPointDate(_ date: Date) {
+    public func selectStartingPointDate(_ date: Date) {
         startingPointDate = date
     }
     
-    func handleNextButton(_ components: Calendar.Component) {
+    public func handleNextButton(_ components: Calendar.Component) {
         startingPointDate = Calendar.current.date(byAdding: components, value: 1, to: startingPointDate)!
     }
     
-    func handleTodayButton() {
-        startingPointDate = Date()
+    public func handleBackToTodayButton() {
+        let now = Date.now
+        startingPointDate = now
+        selectedDate = now
     }
     
-    func handlePreviousButton(_ components: Calendar.Component) {
+    public func handlePreviousButton(_ components: Calendar.Component) {
         startingPointDate = Calendar.current.date(byAdding: components, value: -1, to: startingPointDate)!
     }
 }
