@@ -10,16 +10,23 @@ import SwiftUI
 struct DayDetailView: View {
     let cycles: [Cycle]
     var body: some View {
-            VStack {
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: .spacing(of: .normal)) {
-                        ForEach(cycles, id: \.self) {
-                            cycle in
-                            CycleListCell(cycle: cycle)
-                                .tint(Color("basicFontColor"))
-                        }
-                    }
-                }
+          VStack(alignment: .leading) {
+              if !cycles.isEmpty {
+                  Text("집중 사이클")
+                      .font(.title3.bold())
+                  
+                  ScrollView(.horizontal, showsIndicators: false) {
+                      HStack(spacing: .spacing(of: .normal)) {
+                          ForEach(cycles, id: \.self) {
+                              cycle in
+                              CycleListCell(cycle: cycle)
+                                  .tint(Color("basicFontColor"))
+                          }
+                      }
+                  }
+                  .padding()
+                  .background(.thinMaterial, in: RoundedRectangle(cornerRadius: 10))
+              }
                 Spacer()
             }
     }

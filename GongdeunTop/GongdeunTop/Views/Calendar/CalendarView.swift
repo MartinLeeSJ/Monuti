@@ -40,7 +40,7 @@ struct CalendarView: View {
             themeManager.colorInPriority(in: .background)
                 .ignoresSafeArea(.all)
             
-            VStack(alignment:.leading, spacing: 16) {
+            VStack(alignment:.leading, spacing: .spacing(of: .normal)) {
                 calendarControls()
                 
                 calendar()
@@ -89,7 +89,6 @@ extension CalendarView {
 
 //MARK: - Top Control Units
 extension CalendarView {
-   
     private func calendarControls() -> some View {
         HStack {
             monthButton()
@@ -144,18 +143,16 @@ extension CalendarView {
 
 // MARK: - 캘린더
 extension CalendarView {
-    @ViewBuilder
-    func calendar() -> some View {
-        LazyVGrid(columns: Array(repeating: .init(.flexible(), spacing: 0), count: 7), spacing: 8) {
+    private func calendar() -> some View {
+        LazyVGrid(
+            columns: Array(repeating: .init(.flexible(), spacing: .zero), count: 7),
+            spacing: .spacing(of: .normal)
+        ) {
             weekdays
-            
             blanks
-            
             dateCells
         }
     }
-    
-   
     
     private func getWeekdays() -> [String] {
         guard var weekdays = DateFormatter().shortStandaloneWeekdaySymbols else { return [] }
@@ -169,17 +166,16 @@ extension CalendarView {
         
         return weekdays
     }
-    
-    
+        
     @ViewBuilder
     var weekdays: some View {
-            ForEach(getWeekdays(), id: \.self) { weekday in
-                HStack(alignment: .center) {
-                    Text(weekday)
-                        .font(.subheadline.bold())
-                        .padding(5)
-                }
+        ForEach(getWeekdays(), id: \.self) { weekday in
+            HStack(alignment: .center) {
+                Text(weekday)
+                    .font(.subheadline.bold())
+                    .padding(5)
             }
+        }
     }
     
     var blanks: some View {

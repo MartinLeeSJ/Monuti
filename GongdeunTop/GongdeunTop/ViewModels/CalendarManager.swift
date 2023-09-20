@@ -15,7 +15,7 @@ final class CalendarManager: ObservableObject {
     @Published var selectedDate: Date = Date()
     
     
-    var firstWeekdayDigit: Int {
+    public var firstWeekdayDigit: Int {
         if let startDate = currentMonthData.first {
             let dateFormatted
             = Date.FormatStyle(locale: .init(identifier: "ko-KR"), calendar: Calendar.current).weekday(.oneDigit)
@@ -26,22 +26,23 @@ final class CalendarManager: ObservableObject {
         }
     }
     
-    var currentMonth: String {
+    public var currentMonth: String {
         startingPointDate.formatted(Date.FormatStyle().month(.abbreviated))
     }
     
-    var isCalendarInCurrentMonth: Bool {
+    public var isCalendarInCurrentMonth: Bool {
         startingPointDate.formatted(Date.FormatStyle().year().month())
         == Date().formatted(Date.FormatStyle().year().month())
     }
     
-    var currentYear: String {
+    public var currentYear: String {
         startingPointDate.formatted(Date.FormatStyle().year(.defaultDigits))
     }
     
+    private let calendarCache = NSCache<NSDate, NSArray>()
+    
     init() {
         $startingPointDate
-            .receive(on: DispatchQueue.main)
             .map { [weak self] date in
                 self?.getCurrentMonthData(from: date) ?? []
             }
@@ -49,18 +50,26 @@ final class CalendarManager: ObservableObject {
         
         
         $startingPointDate
-            .receive(on: DispatchQueue.main)
+//            .receive(on: DispatchQueue.main)
             .map { [weak self] date in
                 self?.getCurrentYearDate(from: date) ?? []
             }
             .assign(to: &$currentYearData)
     }
     
-    
     private func getCurrentMonthData(from base: Date) -> [Date] {
-        let dateInterval = Calendar.current.dateInterval(of: .month, for: base)!
+        let calendar = Calendar.current
+        let dateInterval = calendar.dateInterval(of: .month, for: base)!
         let startDate = dateInterval.start
         let endDate = dateInterval.end
+        
+        let cacheKey = calendar.startOfDay(for: startDate) as NSDate
+        
+        if let cachedMonthData = calendarCache.object(forKey: cacheKey) as? [Date] {
+            print("Caching is working well")
+            return cachedMonthData
+        }
+        
         var currentDate = startDate
         var monthData: [Date] = []
         
@@ -68,6 +77,8 @@ final class CalendarManager: ObservableObject {
             monthData.append(currentDate)
             currentDate = Calendar.current.date(byAdding: .day, value: 1, to: currentDate)!
         }
+        
+        calendarCache.setObject(monthData as NSArray, forKey: cacheKey)
         
         return monthData
     }
