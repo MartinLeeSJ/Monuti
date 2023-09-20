@@ -50,7 +50,7 @@ final class CalendarManager: ObservableObject {
         
         
         $startingPointDate
-//            .receive(on: DispatchQueue.main)
+            .subscribe(on: DispatchQueue.main)
             .map { [weak self] date in
                 self?.getCurrentYearDate(from: date) ?? []
             }
@@ -66,7 +66,6 @@ final class CalendarManager: ObservableObject {
         let cacheKey = calendar.startOfDay(for: startDate) as NSDate
         
         if let cachedMonthData = calendarCache.object(forKey: cacheKey) as? [Date] {
-            print("Caching is working well")
             return cachedMonthData
         }
         
