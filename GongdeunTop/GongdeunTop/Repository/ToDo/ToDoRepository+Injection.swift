@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import FirebaseFirestore
 import Factory
 
 extension Container {
@@ -13,6 +14,10 @@ extension Container {
         self {
             ToDoRepository()
         }.singleton
+    }
+    
+    var todoHistoryRepository: Factory<ToDoHistoryRepository>  {
+        self { ToDoHistoryRepository() }.singleton
     }
     
     var todoOfTargetRepository: ParameterFactory<Target, ToDoOfTargetRepository> {

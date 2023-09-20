@@ -15,10 +15,11 @@ enum RecordSheetType: Identifiable {
 }
 
 struct CalendarView: View {
-    @Environment(\.dismiss) var dismiss
-    @EnvironmentObject var themeManager: ThemeManager
-    @StateObject var calendarManager = CalendarManager()
-    @StateObject var cycleStore = CycleStore()
+    @Environment(\.dismiss) private var dismiss
+    @EnvironmentObject private var themeManager: ThemeManager
+    @StateObject private var calendarManager = CalendarManager()
+    @StateObject private var cycleStore = CycleStore()
+    @StateObject private var todoHistoryManager = ToDoHistoryManager()
     
     @State private var showSetMonth: Bool = false
     
@@ -47,7 +48,11 @@ struct CalendarView: View {
                 
                 Divider()
                 
-                DayDetailView(cycles: cycleStore.cyclesOfDate[calendarManager.selectedDate] ?? [])
+                DayDetailView(
+                    cycles: cycleStore.cyclesOfDate[calendarManager.selectedDate] ?? [],
+                    completedTodos: todoHistoryManager.completedTodos,
+                    notCompletedTodos: todoHistoryManager.notCompletedTodos
+                )
             }
             .padding(.horizontal)
             .blur(radius: showSetMonth ? 10 : 0)
@@ -188,8 +193,15 @@ extension CalendarView {
     
     var dateCells: some View {
         ForEach(calendarManager.currentMonthData, id: \.self) { date in
-            DateCell(manager: calendarManager, date: date, evaluation: cycleStore.dateEvaluations[date])
-                .id(date)
+            DateCell(
+                selectedDate: $calendarManager.selectedDate,
+                date: date,
+                evaluation: cycleStore.dateEvaluations[date]
+            ) {
+                calendarManager.selectDate(date)
+                todoHistoryManager.setDate(date)
+            }
+            .id(date)
         }
     }
 }
@@ -225,15 +237,5 @@ extension CalendarView {
     private var isSelectedDateInSameDayAsToday: Bool {
         let calendar = Calendar.current
         return calendar.isDate(calendarManager.selectedDate, inSameDayAs: Date.now)
-    }
-}
-
-struct RecordView_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationStack {
-            CalendarView(calendarManager: CalendarManager(), cycleStore: CycleStore())
-                .environment(\.locale, .init(identifier: "ko"))
-                .environmentObject(ThemeManager())
-        }
     }
 }

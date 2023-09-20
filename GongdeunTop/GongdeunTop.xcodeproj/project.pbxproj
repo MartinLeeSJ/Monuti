@@ -66,6 +66,8 @@
 		5B3D07CA2A723957001691F4 /* TagManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3D07C92A723957001691F4 /* TagManager.swift */; };
 		5B4214F52A2D57D1004362E5 /* MainRouterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4214F42A2D57D1004362E5 /* MainRouterView.swift */; };
 		5B4214F72A2D5F5F004362E5 /* MainConsole.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4214F62A2D5F5F004362E5 /* MainConsole.swift */; };
+		5B4EB8432ABAC09B00C3A3F3 /* ToDoHistoryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4EB8422ABAC09B00C3A3F3 /* ToDoHistoryManager.swift */; };
+		5B4EB8452ABAC60A00C3A3F3 /* ToDoHistoryRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4EB8442ABAC60A00C3A3F3 /* ToDoHistoryRepository.swift */; };
 		5B50E4FA2A8DB2FD00FFD3DA /* AppBlockManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF9CDD62A84D335002105B0 /* AppBlockManager.swift */; };
 		5B54FE432A2B5917000D29ED /* CGFloat+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B54FE422A2B5917000D29ED /* CGFloat+Utils.swift */; };
 		5B59207D2A627A3B009DD91F /* SetTimePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B59207C2A627A3B009DD91F /* SetTimePicker.swift */; };
@@ -238,6 +240,8 @@
 		5B3D07C92A723957001691F4 /* TagManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagManager.swift; sourceTree = "<group>"; };
 		5B4214F42A2D57D1004362E5 /* MainRouterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainRouterView.swift; sourceTree = "<group>"; };
 		5B4214F62A2D5F5F004362E5 /* MainConsole.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainConsole.swift; sourceTree = "<group>"; };
+		5B4EB8422ABAC09B00C3A3F3 /* ToDoHistoryManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoHistoryManager.swift; sourceTree = "<group>"; };
+		5B4EB8442ABAC60A00C3A3F3 /* ToDoHistoryRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoHistoryRepository.swift; sourceTree = "<group>"; };
 		5B54FE422A2B5917000D29ED /* CGFloat+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGFloat+Utils.swift"; sourceTree = "<group>"; };
 		5B59207C2A627A3B009DD91F /* SetTimePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetTimePicker.swift; sourceTree = "<group>"; };
 		5B5AF96D2A90AE7B00CFC2A0 /* TimeInterval+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TimeInterval+Utils.swift"; sourceTree = "<group>"; };
@@ -458,6 +462,7 @@
 			isa = PBXGroup;
 			children = (
 				5BB4FEC729C83124009CCD43 /* ToDoManager.swift */,
+				5B4EB8422ABAC09B00C3A3F3 /* ToDoHistoryManager.swift */,
 			);
 			path = ToDo;
 			sourceTree = "<group>";
@@ -522,6 +527,7 @@
 			children = (
 				5B3CCABC2A71519800973F43 /* ToDoRepository.swift */,
 				5BBD3EEE2A77758600731E20 /* ToDoOfTargetRepository.swift */,
+				5B4EB8442ABAC60A00C3A3F3 /* ToDoHistoryRepository.swift */,
 				5B3CCABE2A7166AF00973F43 /* ToDoRepository+Injection.swift */,
 			);
 			path = ToDo;
@@ -1076,6 +1082,7 @@
 				5B95E0E42A5BB71F007FA721 /* Array+Utils.swift in Sources */,
 				5B95E0ED2A5BF7B5007FA721 /* PresetTimeSettingForm.swift in Sources */,
 				5B6585A629EEAE6200F9E758 /* CubeHexagon.swift in Sources */,
+				5B4EB8452ABAC60A00C3A3F3 /* ToDoHistoryRepository.swift in Sources */,
 				5BE9EEDC29FFFBA500233C49 /* SettingView.swift in Sources */,
 				5B6AB2502A30AB0A008D09B6 /* MainSettingBanner.swift in Sources */,
 				5B2767CD29FA8C1B008398A3 /* CycleListCell.swift in Sources */,
@@ -1121,6 +1128,7 @@
 				5BA9A43C2A09310A00453D65 /* CycleToDoList.swift in Sources */,
 				5BCF550429C2CB2500A19759 /* GongdeunTopApp.swift in Sources */,
 				5B841E9F29FBC4D600F1675E /* LocationManager.swift in Sources */,
+				5B4EB8432ABAC09B00C3A3F3 /* ToDoHistoryManager.swift in Sources */,
 				5BB4FECC29C83964009CCD43 /* HAlignment.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

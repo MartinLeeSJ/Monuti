@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Combine
 
 enum DateEvaluations: Int {
     case weak = 1
@@ -25,14 +26,21 @@ struct DateCell: View {
     @EnvironmentObject private var themeManager: ThemeManager
     @Environment(\.colorScheme) private var scheme
     
-    @ObservedObject private var manager: CalendarManager
+    @Binding var selectedDate: Date
     private let date: Date
     private var evaluation: Int? = nil
-    
-    init(manager: CalendarManager, date: Date, evaluation: Int? = nil) {
-        self.manager = manager
+    private let onSelect: () -> Void
+
+    init(
+        selectedDate: Binding<Date>,
+        date: Date,
+        evaluation: Int? = nil,
+        onSelect: @escaping () -> Void
+    ) {
+        self._selectedDate = selectedDate
         self.date = date
         self.evaluation = evaluation
+        self.onSelect = onSelect
     }
     
     private var dateDigit: String {
@@ -50,11 +58,7 @@ struct DateCell: View {
     }
     
     private var isSelected: Bool {
-        Calendar.current.isDate(date, inSameDayAs: manager.selectedDate)
-    }
-    
-    private func selectDate() {
-        manager.selectDate(date)
+        Calendar.current.isDate(date, inSameDayAs: selectedDate)
     }
     
     private let dateCellRadius: CGFloat = 18
@@ -84,7 +88,7 @@ struct DateCell: View {
     
     private var dateCellButton: some View {
         Button {
-            selectDate()
+            onSelect()
         } label: {
             dateCellHexagon
                 .modifier(HexagonStyle(scheme: scheme))
@@ -130,16 +134,6 @@ struct HexagonStyle: ViewModifier {
         } else {
             content
                 .foregroundStyle(Material.thinMaterial)
-        }
-    }
-}
-
-struct DateCell_Previews: PreviewProvider {
-    static var previews: some View {
-        Group {
-            VStack {
-                DateCell(manager: CalendarManager(), date: Date.now)
-            }.frame(width: 50)
         }
     }
 }
