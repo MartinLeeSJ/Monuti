@@ -94,18 +94,22 @@ final class CycleManager: ObservableObject {
     }
     
     
-    func handleUpdateButton(){
+    public func handleUpdateButton(){
         self.updateCycle()
     }
     
     
-    func handleFinishedCycleButton() {
+    public func handleFinishedCycleButton() {
         Task {
             self.addToDoIdInCycle()
             await updateToDos()
             await updateTargetAchievements()
             self.addCycle()
         }
+    }
+    
+    public func evaluateCycle(_ evaluation: Int) {
+        self.cycle.evaluation = evaluation
     }
     
     private func addToDoIdInCycle() {
@@ -164,7 +168,7 @@ final class CycleManager: ObservableObject {
     
    
     
-    func fetchToDos() {
+    public func fetchToDos() {
         guard !cycle.todos.isEmpty else { return }
         guard !cycle.todos.contains("") else { return }
         guard cycle.id != nil else { return }
@@ -186,7 +190,5 @@ final class CycleManager: ObservableObject {
             }
             print(todos)
         }
-        
-       
     }
 }
