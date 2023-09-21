@@ -152,8 +152,8 @@ extension CycleMemoir {
     
     @ViewBuilder
     func getMemoirButtons(_ geo: GeometryProxy) -> some View {
-        let gridWidth = geo.size.width * 0.3
-        let hexagonRadius = gridWidth / 2.5
+        let gridWidth = (geo.size.width - 64) / 3
+        let hexagonRadius = gridWidth / 2
         let buttonImageWidth = hexagonRadius * 2 - 8
         
         titleAndSubTitle(of: .evaluation)
@@ -223,11 +223,9 @@ extension CycleMemoir {
 extension CycleMemoir {
     @ViewBuilder
     var toDoListForMemoir: some View {
-        Group {
-            titleAndSubTitle(of: .todoList)
-            
-            CycleToDoList(manager: manager, mode: .memoir)
-        }
+        titleAndSubTitle(of: .todoList)
+        
+        CycleToDoList(manager: manager, mode: .memoir)
     }
 }
 

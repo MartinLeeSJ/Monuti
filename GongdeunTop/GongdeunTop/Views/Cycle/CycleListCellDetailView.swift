@@ -17,7 +17,6 @@ struct CycleListCellDetailView: View {
     
     var body: some View {
         VStack {
-            let _ = dump(cycleManager.cycle)
             if let sessions = cycleManager.cycle.sessions,
                let concentrationTime = cycleManager.cycle.concentrationSeconds,
                let refreshTime = cycleManager.cycle.refreshSeconds,

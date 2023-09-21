@@ -112,6 +112,13 @@ final class CycleManager: ObservableObject {
         self.cycle.evaluation = evaluation
     }
     
+    public func toggleToDoCompletion(of index: Int) {
+        guard !todos.isEmpty else { return }
+        guard (0..<todos.count).contains(index) else { return }
+        
+        todos[index].isCompleted.toggle()
+    }
+    
     private func addToDoIdInCycle() {
         self.cycle.todos = todos.compactMap { $0.id }
     }
