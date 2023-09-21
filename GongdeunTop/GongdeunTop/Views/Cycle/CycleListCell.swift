@@ -11,7 +11,7 @@ struct CycleListCell: View {
     @Environment(\.colorScheme) private var scheme: ColorScheme
     @EnvironmentObject private var themeManager: ThemeManager
     
-    @StateObject private var cycleManager = CycleManager()
+    @StateObject private var cycleManager: CycleManager
     @State private var showDetails: Bool = false
     
     init(cycle: Cycle) {

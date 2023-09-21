@@ -19,9 +19,9 @@ struct CycleListCellDetailView: View {
         VStack {
             let _ = dump(cycleManager.cycle)
             if let sessions = cycleManager.cycle.sessions,
-               let concentrationTime = cycleManager.cycle.concentrationTime,
-               let refreshTime = cycleManager.cycle.refreshTime,
-               let totalTime = cycleManager.cycle.minutes {
+               let concentrationTime = cycleManager.cycle.concentrationSeconds,
+               let refreshTime = cycleManager.cycle.refreshSeconds,
+               let totalTime = cycleManager.cycle.totalSeconds {
                 HStack(alignment: .firstTextBaseline, spacing: 10) {
                     Text("\(sessions)개 세션")
                         .font(.title2.bold())
@@ -73,8 +73,4 @@ struct CycleListCellDetailView: View {
     }
 }
 
-struct CycleListCellDetail_Previews: PreviewProvider {
-    static var previews: some View {
-        CycleListCellDetailView(cycleManager: CycleManager())
-    }
-}
+

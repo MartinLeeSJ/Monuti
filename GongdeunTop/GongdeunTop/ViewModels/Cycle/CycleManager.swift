@@ -23,8 +23,15 @@ final class CycleManager: ObservableObject {
     
     private var cancellables = Set<AnyCancellable>()
     
-    init(cycle: Cycle = Cycle(createdAt: Timestamp(date: Date()), todos: [], evaluation: 0, memoirs: "", sessions: 0, minutes: 0),
-         todos: [ToDo] = []) {
+    init(
+        cycle: Cycle = Cycle(
+            createdAt: Timestamp(date: Date.now),
+            todos: [],
+            evaluation: 0,
+            memoirs: ""
+        ),
+        todos: [ToDo] = []
+    ) {
         self.cycle = cycle
         self.todos = todos
         self.$cycle

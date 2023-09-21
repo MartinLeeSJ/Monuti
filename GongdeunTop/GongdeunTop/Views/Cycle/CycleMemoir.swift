@@ -10,12 +10,30 @@ import SwiftUI
 
 
 struct CycleMemoir: View {
-    @Environment(\.dismiss) var dismiss
-    @Environment(\.colorScheme) var scheme: ColorScheme
+    @Environment(\.dismiss) private var dismiss
+    @Environment(\.colorScheme) private var scheme: ColorScheme
     
     
-    @StateObject var manager = CycleManager()
-    @FocusState var editorIsFocused: Bool
+    @StateObject private var manager: CycleManager
+    @FocusState private var editorIsFocused: Bool
+    
+    init(
+        todos: [ToDo],
+        timeSetting: TimeSetting
+    ) {
+        let cycle = Cycle(
+            todos: [],
+            evaluation: 0,
+            memoirs: "",
+            sessions: timeSetting.numOfSessions,
+            concentrationSeconds: timeSetting.totalConcentrationSeconds,
+            refreshSeconds: timeSetting.totalRefreshSeconds,
+            totalSeconds: timeSetting.totalSeconds
+        )
+        
+        let cycleManager = CycleManager(cycle: cycle, todos: todos)
+        self._manager = StateObject(wrappedValue: cycleManager)
+    }
     
     var body: some View {
         GeometryReader { geo in
