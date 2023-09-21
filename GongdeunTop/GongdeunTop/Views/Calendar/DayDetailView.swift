@@ -8,6 +8,12 @@
 import SwiftUI
 
 struct DayDetailView: View {
+    @Environment(\.colorScheme) private var scheme
+    @EnvironmentObject private var themeManager: ThemeManager
+    
+    @State private var isCompletedToDoHistorySheetPresented: Bool = false
+    @State private var isNotCompletedToDoHistorySheetPresented: Bool = false
+    
     private let cycles: [Cycle]
     private let completedTodos: [ToDo]
     private let notCompletedTodos: [ToDo]
@@ -22,37 +28,61 @@ struct DayDetailView: View {
         self.notCompletedTodos = notCompletedTodos
     }
     
+    private func presentCompletedToDoHistorySheet() {
+        isCompletedToDoHistorySheetPresented = true
+    }
+    
+    private func presentNotCompletedToDoHistorySheet() {
+        isNotCompletedToDoHistorySheetPresented = true
+    }
     
     var body: some View {
-        VStack(alignment: .leading) {
-            timerRecords()
-            Divider()
-            HStack {
-                Text("완료한 할 일")
-                    .font(.headline)
-                Spacer()
-                Button {
-                    
-                } label: {
-                    Text("\(completedTodos.count)")
+        ScrollView(.vertical) {
+            VStack(alignment: .leading) {
+                timerRecords()
+                
+                HStack {
+                    Text("완료한 할 일")
+                        .font(.headline)
+                    Spacer()
+                    Button {
+                        if !completedTodos.isEmpty {
+                            presentCompletedToDoHistorySheet()
+                        }
+                    } label: {
+                        Text("\(completedTodos.count)")
+                            .padding(.horizontal, 8)
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .buttonBorderShape(.capsule)
+                    .tint(themeManager.colorInPriority(in: .accent))
                 }
-                .buttonStyle(.bordered)
-                .buttonBorderShape(.capsule)
-            }
-            Divider()
-            HStack {
-                Text("완료하지 못한 할 일")
-                    .font(.headline)
-                Spacer()
-                Button {
-                    
-                } label: {
-                    Text("\(notCompletedTodos.count)")
+                .sheet(isPresented: $isCompletedToDoHistorySheetPresented) {
+                    ToDoHistoryList(.completed, todos: completedTodos)
                 }
-                .buttonStyle(.bordered)
-                .buttonBorderShape(.capsule)
+                
+                HStack {
+                    Text("완료하지 못한 할 일")
+                        .font(.headline)
+                    Spacer()
+                    Button {
+                        if !notCompletedTodos.isEmpty {
+                            presentNotCompletedToDoHistorySheet()
+                        }
+                    } label: {
+                        Text("\(notCompletedTodos.count)")
+                            .padding(.horizontal, 8)
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .buttonBorderShape(.capsule)
+                    .tint(themeManager.colorInPriority(in: .accent))
+                }
+                .sheet(isPresented: $isNotCompletedToDoHistorySheetPresented) {
+                    ToDoHistoryList(.notCompleted, todos: notCompletedTodos)
+                }
+                
+                
             }
-            Spacer()
         }
         
     }

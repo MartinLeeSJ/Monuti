@@ -17,8 +17,6 @@ struct CycleMemoir: View {
     @StateObject var manager = CycleManager()
     @FocusState var editorIsFocused: Bool
     
-    
-    
     var body: some View {
         GeometryReader { geo in
             ScrollView {

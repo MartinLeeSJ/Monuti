@@ -56,7 +56,7 @@ struct CycleListCell: View {
             }
         }
         .sheet(isPresented: $showDetails) {
-            CycleListCellDetail(cycleManager: cycleManager)
+            CycleListCellDetailView(cycleManager: cycleManager)
                 .presentationDetents([.medium, .large])
         }
     }

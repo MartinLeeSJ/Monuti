@@ -167,3 +167,7 @@
 "ColorThemeSetting" = "테마 변경하기";
 "SignOut" = "로그아웃 하기";
 "really_signOut" = "정말로 로그아웃 하시겠습니까?";
+
+// MARK: - Calendar Day Detail
+"ToDoHistoryList_Completed" = "완료한 할 일들";
+"ToDoHistoryList_NotCompleted" = "완료하지 못한 할 일들";

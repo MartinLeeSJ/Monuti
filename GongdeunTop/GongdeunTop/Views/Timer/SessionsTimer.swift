@@ -13,17 +13,27 @@ struct SessionsTimer: View {
     @Environment(\.scenePhase) var scenePhase
     
     @StateObject var timerManager = TimerManager(timeSetting: TimeSetting())
-    @EnvironmentObject var themeManager: ThemeManager
-    @EnvironmentObject var appBlockManager: AppBlockManager
+    @EnvironmentObject private var themeManager: ThemeManager
+    @EnvironmentObject private var appBlockManager: AppBlockManager
     
     @AppStorage("lastTime") private var lastTimeObserved: TimeInterval = 0
     
-    @State var todos: [ToDo] = []
-    @State var currentTodo: ToDo? = nil
+    @State private var todos: [ToDo]
+    @State private var currentTodo: ToDo? = nil
     
     @State private var isFirstCountDownEnded: Bool = false
     @State private var isShowingReallyQuitAlert: Bool = false
     @State private var isShowingCycleMemoir: Bool = false
+    
+    init(
+        timeSetting: TimeSetting,
+        todos: [ToDo]
+    ) {
+        self._timerManager = StateObject(wrappedValue: TimerManager(timeSetting: timeSetting))
+        self._todos = State(wrappedValue: todos)
+        self._currentTodo = State(wrappedValue: todos.first)
+        
+    }
     
     var body: some View {
         GeometryReader { geo in

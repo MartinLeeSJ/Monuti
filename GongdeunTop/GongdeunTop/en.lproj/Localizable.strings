@@ -168,3 +168,7 @@
 "ColorThemeSetting" = "Change color theme";
 "SignOut" = "Sign out";
 "really_signOut" = "Are you sure you want to sign out?";
+
+// MARK: - Calendar Day Detail
+"ToDoHistoryList_Completed" = "Completed Todos";
+"ToDoHistoryList_NotCompleted" = "Not Completed Todos";

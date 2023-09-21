@@ -1,5 +1,5 @@
 //
-//  CycleListCellDetail.swift
+//  CycleListCellDetailView.swift
 //  GongdeunTop
 //
 //  Created by Martin on 2023/05/08.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct CycleListCellDetail: View {
+struct CycleListCellDetailView: View {
     @EnvironmentObject var themeManager: ThemeManager
     @ObservedObject var cycleManager: CycleManager
     
@@ -17,6 +17,7 @@ struct CycleListCellDetail: View {
     
     var body: some View {
         VStack {
+            let _ = dump(cycleManager.cycle)
             if let sessions = cycleManager.cycle.sessions,
                let concentrationTime = cycleManager.cycle.concentrationTime,
                let refreshTime = cycleManager.cycle.refreshTime,
@@ -74,6 +75,6 @@ struct CycleListCellDetail: View {
 
 struct CycleListCellDetail_Previews: PreviewProvider {
     static var previews: some View {
-        CycleListCellDetail(cycleManager: CycleManager())
+        CycleListCellDetailView(cycleManager: CycleManager())
     }
 }

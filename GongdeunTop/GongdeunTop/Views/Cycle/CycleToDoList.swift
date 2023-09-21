@@ -8,14 +8,19 @@
 import SwiftUI
 
 struct CycleToDoList: View {
-    @EnvironmentObject var themeManager: ThemeManager
-    @ObservedObject var manager: CycleManager
+    @EnvironmentObject private var themeManager: ThemeManager
+    @ObservedObject private var manager: CycleManager
     
-    var mode: CycleToDoList.Mode = .memoir
+    private var mode: CycleToDoList.Mode = .memoir
     
     enum Mode {
         case memoir
         case cycleListCellDetail
+    }
+    
+    init(manager: CycleManager, mode: CycleToDoList.Mode = .memoir) {
+        self.manager = manager
+        self.mode = mode
     }
     
     private func convertSecToMin(_ input: Int) -> (minute: Int, second: Int) {
