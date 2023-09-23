@@ -104,7 +104,7 @@ extension CyclesOfDayDetailView {
         Text("\(cycleManager.todos.count)개의 한 일")
             .font(.title2.bold())
         if !cycleManager.todos.isEmpty {
-            CycleToDoList(manager: cycleManager, mode: .cycleListCellDetail)
+            CycleToDoList(manager: cycleManager, mode: .cyclesOfDayDetail)
                 .padding()
                 .background(.thinMaterial ,in: RoundedRectangle(cornerRadius: 10))
         }

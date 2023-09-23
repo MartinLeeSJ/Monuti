@@ -126,6 +126,7 @@ extension SetToDoForm {
             } label: {
                 Text("Cancel")
             }
+            .tint(themeManager.colorInPriority(in: .accent))
         }
     }
     
@@ -137,6 +138,7 @@ extension SetToDoForm {
             } label: {
                 Text(mode == .add ? "Add" : "Edit")
             }
+            .tint(themeManager.colorInPriority(in: .accent))
             .disabled(todo.title.isEmpty)
         }
     }

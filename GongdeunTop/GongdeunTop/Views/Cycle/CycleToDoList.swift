@@ -15,7 +15,7 @@ struct CycleToDoList: View {
     
     enum Mode {
         case memoir
-        case cycleListCellDetail
+        case cyclesOfDayDetail
     }
     
     init(manager: CycleManager, mode: CycleToDoList.Mode = .memoir) {

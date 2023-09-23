@@ -103,15 +103,18 @@ struct DateCell: View {
                     }
                 }
                 .overlay {
-                    if scheme == .dark {
                         dateCellHexagon
-                            .stroke(.white.opacity(0.6), lineWidth: 1.5)
-                    }
+                            .stroke(
+                                scheme == .dark ?
+                                    .white.opacity(0.6) :
+                                    .gray.opacity(0.1),
+                                lineWidth: 1.5
+                            )
                 }
                 .overlay {
                     if isSelected {
                         dateCellHexagon
-                            .stroke(themeManager.colorInPriority(in: .accent), lineWidth: 2)
+                            .stroke(themeManager.colorInPriority(in: .accent), lineWidth: 2.5)
                     }
                 }
         }
