@@ -341,6 +341,7 @@ extension SessionsTimer {
             } label: {
                 Text(String(localized: "Quit"))
             }
+            .tint(themeManager.colorInPriority(in: .accent))
             .alert(String(localized: "Quit") ,isPresented: $isShowingReallyQuitAlert) {
                 Button {
                     handlePlay()

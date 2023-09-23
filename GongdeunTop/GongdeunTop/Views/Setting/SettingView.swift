@@ -33,13 +33,14 @@ struct SettingView: View {
                     Text("ColorThemeSetting")
                 }
                 .tint(.basicFontColor)
+            
 
                 Section {
                     Toggle("집중 시 다른 앱 차단",
                            isOn: $appBlockManager.isAppBlockOn.animation())
                     .onChange(of: appBlockManager.isAppBlockOn,
                               perform: { appBlockManager.setFamilyControl(isOn: $0) })
-                    
+                    .disabled(true)
                     if appBlockManager.isAppBlockOn {
                         HStack {
                             Spacer()
@@ -50,15 +51,22 @@ struct SettingView: View {
                             }
                         }
                     }
-                }.familyActivityPicker(
+                } header: {
+                    Text("Coming Soon")
+                }
+                .familyActivityPicker(
                     isPresented: $appBlockManager.isActivitySelectionPickerOn,
-                    selection: $appBlockManager.activitySelection)
+                    selection: $appBlockManager.activitySelection
+                )
                 
                 Section {
                     Button {
                         isSignOutPresented = true
                     } label: {
-                        Text("SignOut")
+                        HAlignment(alignment: .center) {
+                            Text("SignOut")
+                                .font(.callout)
+                        }
                     }
                     .tint(.basicFontColor)
                     .confirmationDialog("SignOut", isPresented: $isSignOutPresented) {
@@ -78,6 +86,19 @@ struct SettingView: View {
                     }
                 }
                 
+            }
+            .toolbar {
+                ToolbarItem(placement: .bottomBar) {
+                    Text(
+                      """
+                       V 0.9.4
+                       ⓒ 2023. SeokJun Lee all rights reserved.
+                      """
+                    )
+                    .font(.footnote)
+                    .foregroundStyle(.tertiary)
+                    .multilineTextAlignment(.center)
+                }
             }
             .sheet(item: $sheetType) { type in
                 switch type {

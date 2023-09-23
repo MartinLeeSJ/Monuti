@@ -56,6 +56,7 @@ struct DayRecordView: View {
                     .buttonStyle(.borderedProminent)
                     .buttonBorderShape(.capsule)
                     .tint(themeManager.colorInPriority(in: .accent))
+                    .disabled(completedTodos.isEmpty)
                 }
                 .sheet(isPresented: $isCompletedToDoHistorySheetPresented) {
                     ToDoHistoryList(.completed, todos: completedTodos)
@@ -76,6 +77,7 @@ struct DayRecordView: View {
                     .buttonStyle(.borderedProminent)
                     .buttonBorderShape(.capsule)
                     .tint(themeManager.colorInPriority(in: .accent))
+                    .disabled(notCompletedTodos.isEmpty)
                 }
                 .sheet(isPresented: $isNotCompletedToDoHistorySheetPresented) {
                     ToDoHistoryList(.notCompleted, todos: notCompletedTodos)
