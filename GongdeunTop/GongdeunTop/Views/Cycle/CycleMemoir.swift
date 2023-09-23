@@ -7,8 +7,6 @@
 
 import SwiftUI
 
-
-
 struct CycleMemoir: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.colorScheme) private var scheme: ColorScheme

@@ -29,14 +29,26 @@ struct ToDoHistoryList: View {
     }
     
     var body: some View {
-        List {
-            ForEach(todos, id: \.self) { todo in
-                Text(todo.title)
+        NavigationStack {
+            ScrollView {
+                VStack(spacing: .spacing(of: .twoThird)) {
+                    ForEach(todos, id: \.self) { todo in
+                        VStack(spacing: .spacing(of: .twoThird)) {
+                            HStack {
+                                ToDoInfoCell(todo: todo)
+                                
+                                Text(TimeInterval(todo.timeSpent).todoSpentTimeString)
+                            }
+                            
+                            Divider()
+                        }
+                    }
+                }
+                .padding()
             }
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationTitle(Text(todoCompletionState.localizedTitle))
         }
-        .navigationBarTitleDisplayMode(.inline)
-        .navigationTitle(Text(todoCompletionState.localizedTitle))
-
     }
 }
 
