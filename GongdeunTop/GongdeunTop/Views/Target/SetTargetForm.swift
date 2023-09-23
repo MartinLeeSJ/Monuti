@@ -67,11 +67,12 @@ struct SetTargetForm: View {
             ZStack {
                 themeManager.sheetBackgroundColor()
                     .ignoresSafeArea(.all)
-                VStack(spacing: 32) {
-                    titleAndSubtitleTextField
-                    startAndDuteDatePicker
-                    termsInfos
-                    Spacer()
+                ScrollView {
+                    VStack(spacing: .spacing(of: .long)) {
+                        titleAndSubtitleTextField
+                        startAndDuteDatePicker
+                        termsInfos
+                    }
                 }
                 .toolbar {
                     ToolbarItem(placement: .cancellationAction) {
@@ -88,6 +89,7 @@ struct SetTargetForm: View {
                         } label: {
                             Text(mode == .add ? "Add" : "Edit")
                         }
+                        .disabled(target.title.isEmpty)
                     }
                 }
                 .navigationBarTitleDisplayMode(.inline)
@@ -96,19 +98,26 @@ struct SetTargetForm: View {
                                     String(localized: "targetForm_title_edit"))
                 .font(.headline)
                 .padding()
-                .padding(.top, 32)
             }
         }
     }
     
+    
+    private var titleCharacterLimit: Int { 25 }
+    private var subtitleCharacterLimit: Int { 40 }
+    
     @ViewBuilder
     var titleAndSubtitleTextField: some View {
         TextFieldFormContainer {
-            HStack {
+            HStack(alignment: .bottom, spacing: .spacing(of: .normal)) {
                 Text("targetTitle")
+                    .font(.headline)
+                    .fontWeight(.medium)
+                    .requiredMark()
                 TextField(text: $target.title) {
                     Text("targetTitle_placeholder")
                 }
+                .textfieldLimit(text: $target.title, limit: titleCharacterLimit)
                 .focused($focusedField, equals: .title)
                 .submitLabel(.next)
                 .onSubmit { DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {focusedField = .content} }
@@ -117,11 +126,14 @@ struct SetTargetForm: View {
             
             Divider()
             
-            HStack {
+            HStack(alignment: .bottom, spacing: .spacing(of: .normal)) {
                 Text("targetSubTitle")
+                    .font(.headline)
+                    .fontWeight(.medium)
                 TextField(text: $target.subtitle) {
                     Text("targetSubTitle_placeHolder")
                 }
+                .textfieldLimit(text: $target.subtitle, limit: subtitleCharacterLimit)
                 .focused($focusedField, equals: .content)
                 .submitLabel(.continue)
                 .onSubmit { focusedField = nil }

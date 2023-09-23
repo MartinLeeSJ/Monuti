@@ -168,3 +168,19 @@
 "ColorThemeSetting" = "Change color theme";
 "SignOut" = "Sign out";
 "really_signOut" = "Are you sure you want to sign out?";
+
+// MARK: - Calendar DayRecord
+"ToDoHistoryList_Completed" = "Completed Todos";
+"ToDoHistoryList_NotCompleted" = "Not Completed Todos";
+
+// MARK: - CyclesOfDayDetail
+"CyclesOfDayDetail_Concentration" = "Concentration";
+"CyclesOfDayDetail_Rest" = "Rest";
+"CyclesOfDayDetail_Total" = "Total";
+
+"CyclesOfDayDetail_ConcetrationAssesment" = "Concentration assessment";
+"CyclesOfDayDetailView_ConcentrationAssesment_Low" = "Low";
+"CyclesOfDayDetailView_ConcentrationAssesment_Medium" = "Mid";
+"CyclesOfDayDetailView_ConcentrationAssesment_High" = "High";
+
+"CyclesOfDayDetail_Memoirs" = "Memoirs";

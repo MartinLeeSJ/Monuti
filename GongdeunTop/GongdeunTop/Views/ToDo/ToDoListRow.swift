@@ -61,7 +61,7 @@ struct ToDoListRow: View {
         HStack {
             ToDoInfoCell(todo: todo)
             
-            startingTimeContainer
+            ToDoStartingTimeCell(todo: todo)
             
             Button {
                 isEditingSheetOn = true
@@ -81,15 +81,12 @@ struct ToDoListRow: View {
     }
 }
 
-
-extension ToDoListRow {
-    private func isTodoStartingTimeTomorrow(_ todo: ToDo) -> Bool {
-        if let date = todo.startingTime, Calendar.current.isDateInTomorrow(date) { return true }
-        return false
+struct ToDoStartingTimeCell: View {
+    private let todo: ToDo
+    init(todo: ToDo) {
+        self.todo = todo
     }
-    
-    @ViewBuilder
-    var startingTimeContainer: some View {
+    var body: some View {
         if let timeString = todo.startingTimeString {
             Text(timeString)
                 .font(.caption)
@@ -102,3 +99,5 @@ extension ToDoListRow {
         }
     }
 }
+
+

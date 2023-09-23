@@ -15,4 +15,12 @@ extension TimeInterval {
         formatter.allowedUnits = [.minute, .second]
         return formatter.string(from: self) ?? ""
     }
+    
+    var todoSpentTimeString: String {
+        let formatter = DateComponentsFormatter()
+        formatter.unitsStyle = .abbreviated
+        formatter.zeroFormattingBehavior = .dropLeading
+        formatter.allowedUnits = [.minute, .second]
+        return formatter.string(from: self) ?? ""
+    }
 }

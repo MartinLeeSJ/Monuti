@@ -47,9 +47,10 @@ struct MainConsole: View {
                             in: RoundedRectangle(cornerRadius: 10))
                 
                 NavigationLink {
-                    SessionsTimer(timerManager: TimerManager(timeSetting: timerSettingManager.timeSetting),
-                        todos: todoManager.todos,
-                                  currentTodo: todoManager.todos.first)
+                    SessionsTimer(
+                        timeSetting: timerSettingManager.timeSetting,
+                        todos: todoManager.todos
+                    )
                 } label: {
                     HStack(spacing: 4) {
                         Text("Start")

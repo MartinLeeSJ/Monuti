@@ -8,57 +8,40 @@
 import SwiftUI
 
 struct CycleToDoList: View {
-    @EnvironmentObject var themeManager: ThemeManager
-    @ObservedObject var manager: CycleManager
+    @EnvironmentObject private var themeManager: ThemeManager
+    @ObservedObject private var manager: CycleManager
     
-    var mode: CycleToDoList.Mode = .memoir
+    private var mode: CycleToDoList.Mode = .memoir
     
     enum Mode {
         case memoir
         case cycleListCellDetail
     }
     
-    private func convertSecToMin(_ input: Int) -> (minute: Int, second: Int) {
-        return (minute: Int(input / 60), second: Int(input % 60))
+    init(manager: CycleManager, mode: CycleToDoList.Mode = .memoir) {
+        self.manager = manager
+        self.mode = mode
     }
+    
     
     var body: some View {
         ScrollView {
             VStack {
                 ForEach(Array(manager.todos.enumerated()), id: \.offset) { (index, todo) in
-                    let (minute, second) = convertSecToMin(todo.timeSpent)
                     HStack {
                         if mode == .memoir {
                             Button {
-                                manager.todos[index].isCompleted.toggle()
+                                manager.toggleToDoCompletion(of: index)
                             } label: {
                                 Image(systemName: todo.isCompleted ? "largecircle.fill.circle" : "circle")
                             }
                             .padding(.trailing, 10)
+                            .tint(themeManager.colorInPriority(in: .accent))
                         }
                         
-                        VStack(alignment: .leading) {
-                            Text(todo.title)
-                                .font(.headline)
-                            Text(todo.content)
-                                .font(.caption)
-                            ScrollView(.horizontal) {
-                                HStack {
-                                    ForEach(todo.tags, id: \.self) { tag in
-                                        Text(tag)
-                                            .font(.caption)
-                                            .foregroundColor(.white)
-                                            .padding(3)
-                                            .padding(.horizontal, 5)
-                                            .background {
-                                                Capsule().fill(themeManager.colorInPriority(in: .accent))
-                                            }
-                                    }
-                                }
-                            }
-                        }
+                        ToDoInfoCell(todo: todo)
                         
-                        Text("\(minute) minute") + Text(" ") + Text("\(second) second")
+                        Text(TimeInterval(todo.timeSpent).todoSpentTimeString)
                     }
                     .overlay(alignment: .bottom) {
                         Divider()

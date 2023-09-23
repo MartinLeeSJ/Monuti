@@ -2,6 +2,24 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>%lld session</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@session@</string>
+		<key>session</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>other</key>
+			<string>%d개 세션</string>
+			<key>zero</key>
+			<string>세션없음</string>
+			<key>one</key>
+			<string>1개 세션</string>
+		</dict>
+	</dict>
 	<key>%lld target_total_days</key>
 	<dict>
 		<key>NSStringLocalizedFormatKey</key>

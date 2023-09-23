@@ -18,10 +18,17 @@ struct TextFieldLimitModifier: ViewModifier {
     }
     
     func body(content: Content) -> some View {
-        content
-            .onReceive(Just(text)) { _ in
-                String.textCountLimit(text: &text, limit: limit)
-            }
+        HStack(alignment: .bottom, spacing: .spacing(of: .normal)) {
+            content
+                .onReceive(Just(text)) { _ in
+                    String.textCountLimit(text: &text, limit: limit)
+                }
+            
+            Text("\(text.count)/\(limit)")
+                .font(.caption)
+                .fixedSize(horizontal: true, vertical: true)
+                .padding(.trailing, .spacing(of: .half))
+        }
     }
 }
 

@@ -35,8 +35,8 @@ final class CycleStore: ObservableObject {
             .assign(to: &$cyclesOfDate)
         
         $cyclesOfDate
-            .subscribe(on: DispatchQueue.main)
-            .delay(for: 0.5, scheduler: DispatchQueue.global())
+            .receive(on: DispatchQueue.main)
+            .delay(for: 0.2, scheduler: DispatchQueue.main)
             .removeDuplicates()
             .map { [weak self] dictionary in
                 self?.evaluateDate(dictionary: dictionary) ?? [Date: Int]()

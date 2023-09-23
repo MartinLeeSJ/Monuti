@@ -32,7 +32,6 @@ public class CycleRepository: ObservableObject {
         $user
             .combineLatest($baseDate)
             .sink { [weak self] (user, date) in
-            print("Combine is working!")
             self?.unsubscribe()
             self?.subscribe(user: user, baseDate: date)
         }

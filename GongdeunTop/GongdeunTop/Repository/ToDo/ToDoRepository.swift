@@ -14,6 +14,8 @@ import FirebaseAuth
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
+
+
 public class ToDoRepository: ObservableObject, FirebaseListener {
     @Injected(\.authService) var authService
     @Injected(\.firestore) var database
@@ -54,8 +56,7 @@ public class ToDoRepository: ObservableObject, FirebaseListener {
         let dateInterval = calendar.dateInterval(of: .day, for: Date())
         let startTime = dateInterval?.start ?? Date()
         let endTime = calendar.date(byAdding: .day, value: 1, to: dateInterval?.end ?? Date()) ?? Date()
-        
-            
+
         let query = database.collection("Members")
             .document(uid)
             .collection("ToDo")
@@ -75,6 +76,7 @@ public class ToDoRepository: ObservableObject, FirebaseListener {
         }
     }
 }
+
 
 //MARK: - CRUD
 extension ToDoRepository {

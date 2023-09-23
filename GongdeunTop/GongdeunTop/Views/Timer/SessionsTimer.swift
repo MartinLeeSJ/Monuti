@@ -10,20 +10,32 @@ import UserNotifications
 
 struct SessionsTimer: View {
     @Environment(\.dismiss) private var dismiss
-    @Environment(\.scenePhase) var scenePhase
+    @Environment(\.scenePhase) private var scenePhase
     
-    @StateObject var timerManager = TimerManager(timeSetting: TimeSetting())
-    @EnvironmentObject var themeManager: ThemeManager
-    @EnvironmentObject var appBlockManager: AppBlockManager
+    @StateObject private var timerManager: TimerManager
+    @EnvironmentObject private var themeManager: ThemeManager
+    @EnvironmentObject private var appBlockManager: AppBlockManager
     
     @AppStorage("lastTime") private var lastTimeObserved: TimeInterval = 0
     
-    @State var todos: [ToDo] = []
-    @State var currentTodo: ToDo? = nil
+    @State private var todos: [ToDo]
+    @State private var currentTodo: ToDo? = nil
     
     @State private var isFirstCountDownEnded: Bool = false
     @State private var isShowingReallyQuitAlert: Bool = false
     @State private var isShowingCycleMemoir: Bool = false
+    private let timeSetting: TimeSetting
+    
+    init(
+        timeSetting: TimeSetting,
+        todos: [ToDo]
+    ) {
+        self.timeSetting = timeSetting
+        self._timerManager = StateObject(wrappedValue: TimerManager(timeSetting: timeSetting))
+        self._todos = State(wrappedValue: todos)
+        self._currentTodo = State(wrappedValue: todos.first)
+        
+    }
     
     var body: some View {
         GeometryReader { geo in
@@ -71,7 +83,7 @@ struct SessionsTimer: View {
             dismiss()
         } content: {
             NavigationStack {
-                CycleMemoir(manager: CycleManager(todos: todos))
+                CycleMemoir(todos: todos, timeSetting: timeSetting)
             }
         }
         .overlay {
@@ -281,7 +293,7 @@ extension SessionsTimer {
         
         if let index = todos.firstIndex(where: { $0.id == currentTodo?.id }) {
             todos[index].timeSpent += Int(timeElapsed)
-            print(todos[index].timeSpent)
+           
         }
     }
     

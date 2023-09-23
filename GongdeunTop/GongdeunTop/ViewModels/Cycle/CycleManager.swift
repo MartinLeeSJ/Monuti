@@ -23,8 +23,15 @@ final class CycleManager: ObservableObject {
     
     private var cancellables = Set<AnyCancellable>()
     
-    init(cycle: Cycle = Cycle(createdAt: Timestamp(date: Date()), todos: [], evaluation: 0, memoirs: "", sessions: 0, minutes: 0),
-         todos: [ToDo] = []) {
+    init(
+        cycle: Cycle = Cycle(
+            createdAt: Timestamp(date: Date.now),
+            todos: [],
+            evaluation: 0,
+            memoirs: ""
+        ),
+        todos: [ToDo] = []
+    ) {
         self.cycle = cycle
         self.todos = todos
         self.$cycle
@@ -87,18 +94,29 @@ final class CycleManager: ObservableObject {
     }
     
     
-    func handleUpdateButton(){
+    public func handleUpdateButton(){
         self.updateCycle()
     }
     
     
-    func handleFinishedCycleButton() {
+    public func handleFinishedCycleButton() {
         Task {
             self.addToDoIdInCycle()
             await updateToDos()
             await updateTargetAchievements()
             self.addCycle()
         }
+    }
+    
+    public func evaluateCycle(_ evaluation: Int) {
+        self.cycle.evaluation = evaluation
+    }
+    
+    public func toggleToDoCompletion(of index: Int) {
+        guard !todos.isEmpty else { return }
+        guard (0..<todos.count).contains(index) else { return }
+        
+        todos[index].isCompleted.toggle()
     }
     
     private func addToDoIdInCycle() {
@@ -157,7 +175,7 @@ final class CycleManager: ObservableObject {
     
    
     
-    func fetchToDos() {
+    public func fetchToDos() {
         guard !cycle.todos.isEmpty else { return }
         guard !cycle.todos.contains("") else { return }
         guard cycle.id != nil else { return }
@@ -179,7 +197,5 @@ final class CycleManager: ObservableObject {
             }
             print(todos)
         }
-        
-       
     }
 }
