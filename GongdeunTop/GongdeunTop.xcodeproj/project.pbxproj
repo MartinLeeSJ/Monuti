@@ -38,7 +38,7 @@
 		5B2767C729F90355008398A3 /* SetMonthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2767C629F90355008398A3 /* SetMonthView.swift */; };
 		5B2767C929FA2229008398A3 /* DateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2767C829FA2229008398A3 /* DateCell.swift */; };
 		5B2767CB29FA4633008398A3 /* CycleStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2767CA29FA4633008398A3 /* CycleStore.swift */; };
-		5B2767CD29FA8C1B008398A3 /* CycleListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2767CC29FA8C1B008398A3 /* CycleListCell.swift */; };
+		5B2767CD29FA8C1B008398A3 /* CyclesOfDayListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2767CC29FA8C1B008398A3 /* CyclesOfDayListCell.swift */; };
 		5B2C772E2AA7571400EEFBC3 /* HAlignmentModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2C772D2AA7571400EEFBC3 /* HAlignmentModifier.swift */; };
 		5B2C77302AA7641800EEFBC3 /* RequiredMark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2C772F2AA7641800EEFBC3 /* RequiredMark.swift */; };
 		5B2FEABF29DA645E0022F827 /* Cycle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2FEABE29DA645E0022F827 /* Cycle.swift */; };
@@ -102,7 +102,7 @@
 		5BA271FD2A6BF1C60078B6F3 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 5BA271FC2A6BF1C60078B6F3 /* FirebaseAuth */; };
 		5BA271FF2A6BF1C60078B6F3 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 5BA271FE2A6BF1C60078B6F3 /* FirebaseFirestore */; };
 		5BA272012A6BF1C60078B6F3 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 5BA272002A6BF1C60078B6F3 /* FirebaseFirestoreSwift */; };
-		5BA9A4392A092E6A00453D65 /* CycleListCellDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA9A4382A092E6A00453D65 /* CycleListCellDetailView.swift */; };
+		5BA9A4392A092E6A00453D65 /* CyclesOfDayDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA9A4382A092E6A00453D65 /* CyclesOfDayDetailView.swift */; };
 		5BA9A43C2A09310A00453D65 /* CycleToDoList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA9A43B2A09310A00453D65 /* CycleToDoList.swift */; };
 		5BAC85EF2A00F1D500A34056 /* ColorThemeSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BAC85EE2A00F1D500A34056 /* ColorThemeSetting.swift */; };
 		5BB4FEC829C83124009CCD43 /* ToDoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB4FEC729C83124009CCD43 /* ToDoManager.swift */; };
@@ -130,7 +130,7 @@
 		5BD70D9F2A8F523000B2F03F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5BD70D9E2A8F523000B2F03F /* GoogleService-Info.plist */; };
 		5BD70DA02A8F52C200B2F03F /* DeviceActivity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B1383E72A85FE9E00AC892C /* DeviceActivity.framework */; };
 		5BD70DA42A8F641A00B2F03F /* TimerSettingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD70DA32A8F641A00B2F03F /* TimerSettingManager.swift */; };
-		5BDE83402A95FE88006185E8 /* DayDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDE833F2A95FE88006185E8 /* DayDetailView.swift */; };
+		5BDE83402A95FE88006185E8 /* DayRecordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDE833F2A95FE88006185E8 /* DayRecordView.swift */; };
 		5BDE83422A9600F0006185E8 /* Cycle+Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDE83412A9600F0006185E8 /* Cycle+Preview.swift */; };
 		5BE45A802A3859F200F42F4F /* TargetDetailManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE45A7F2A3859F200F42F4F /* TargetDetailManager.swift */; };
 		5BE9EEDC29FFFBA500233C49 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE9EEDB29FFFBA500233C49 /* SettingView.swift */; };
@@ -217,7 +217,7 @@
 		5B2767C629F90355008398A3 /* SetMonthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetMonthView.swift; sourceTree = "<group>"; };
 		5B2767C829FA2229008398A3 /* DateCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateCell.swift; sourceTree = "<group>"; };
 		5B2767CA29FA4633008398A3 /* CycleStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CycleStore.swift; sourceTree = "<group>"; };
-		5B2767CC29FA8C1B008398A3 /* CycleListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CycleListCell.swift; sourceTree = "<group>"; };
+		5B2767CC29FA8C1B008398A3 /* CyclesOfDayListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CyclesOfDayListCell.swift; sourceTree = "<group>"; };
 		5B2C772D2AA7571400EEFBC3 /* HAlignmentModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAlignmentModifier.swift; sourceTree = "<group>"; };
 		5B2C772F2AA7641800EEFBC3 /* RequiredMark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequiredMark.swift; sourceTree = "<group>"; };
 		5B2FEABE29DA645E0022F827 /* Cycle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cycle.swift; sourceTree = "<group>"; };
@@ -274,7 +274,7 @@
 		5B95E13D29D805AC00E8CBA1 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		5B95E13F29D80B7D00E8CBA1 /* Member.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Member.swift; sourceTree = "<group>"; };
 		5BA271F82A6BDB210078B6F3 /* TimerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerTest.swift; sourceTree = "<group>"; };
-		5BA9A4382A092E6A00453D65 /* CycleListCellDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CycleListCellDetailView.swift; sourceTree = "<group>"; };
+		5BA9A4382A092E6A00453D65 /* CyclesOfDayDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CyclesOfDayDetailView.swift; sourceTree = "<group>"; };
 		5BA9A43B2A09310A00453D65 /* CycleToDoList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CycleToDoList.swift; sourceTree = "<group>"; };
 		5BAC85EE2A00F1D500A34056 /* ColorThemeSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorThemeSetting.swift; sourceTree = "<group>"; };
 		5BB4FEC729C83124009CCD43 /* ToDoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoManager.swift; sourceTree = "<group>"; };
@@ -303,7 +303,7 @@
 		5BD5131C29D58D060008E1C9 /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
 		5BD70D9E2A8F523000B2F03F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		5BD70DA32A8F641A00B2F03F /* TimerSettingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerSettingManager.swift; sourceTree = "<group>"; };
-		5BDE833F2A95FE88006185E8 /* DayDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayDetailView.swift; sourceTree = "<group>"; };
+		5BDE833F2A95FE88006185E8 /* DayRecordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayRecordView.swift; sourceTree = "<group>"; };
 		5BDE83412A9600F0006185E8 /* Cycle+Preview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Cycle+Preview.swift"; sourceTree = "<group>"; };
 		5BE45A7F2A3859F200F42F4F /* TargetDetailManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetDetailManager.swift; sourceTree = "<group>"; };
 		5BE9EEDB29FFFBA500233C49 /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
@@ -672,8 +672,8 @@
 		5BA9A43A2A09307700453D65 /* Cycle */ = {
 			isa = PBXGroup;
 			children = (
-				5B2767CC29FA8C1B008398A3 /* CycleListCell.swift */,
-				5BA9A4382A092E6A00453D65 /* CycleListCellDetailView.swift */,
+				5B2767CC29FA8C1B008398A3 /* CyclesOfDayListCell.swift */,
+				5BA9A4382A092E6A00453D65 /* CyclesOfDayDetailView.swift */,
 				5B05A61729ECFD5A00C89417 /* CycleMemoir.swift */,
 				5BA9A43B2A09310A00453D65 /* CycleToDoList.swift */,
 			);
@@ -790,7 +790,7 @@
 			isa = PBXGroup;
 			children = (
 				5BCF551529C3065E00A19759 /* CalendarView.swift */,
-				5BDE833F2A95FE88006185E8 /* DayDetailView.swift */,
+				5BDE833F2A95FE88006185E8 /* DayRecordView.swift */,
 				5B2767C629F90355008398A3 /* SetMonthView.swift */,
 				5B2767C829FA2229008398A3 /* DateCell.swift */,
 			);
@@ -1069,8 +1069,8 @@
 				5B59207D2A627A3B009DD91F /* SetTimePicker.swift in Sources */,
 				5B63175A29E7F27700FF6876 /* RoundedCorners.swift in Sources */,
 				5B3CCABD2A71519800973F43 /* ToDoRepository.swift in Sources */,
-				5BA9A4392A092E6A00453D65 /* CycleListCellDetailView.swift in Sources */,
-				5BDE83402A95FE88006185E8 /* DayDetailView.swift in Sources */,
+				5BA9A4392A092E6A00453D65 /* CyclesOfDayDetailView.swift in Sources */,
+				5BDE83402A95FE88006185E8 /* DayRecordView.swift in Sources */,
 				5B1E757B2AA23BE8005D803B /* TextFieldLimitModifier.swift in Sources */,
 				5BFFDB8529C5F299004C5376 /* SetTimeForm.swift in Sources */,
 				5BCF550629C2CB2500A19759 /* ContentView.swift in Sources */,
@@ -1088,7 +1088,7 @@
 				5B4EB8452ABAC60A00C3A3F3 /* ToDoHistoryRepository.swift in Sources */,
 				5BE9EEDC29FFFBA500233C49 /* SettingView.swift in Sources */,
 				5B6AB2502A30AB0A008D09B6 /* MainSettingBanner.swift in Sources */,
-				5B2767CD29FA8C1B008398A3 /* CycleListCell.swift in Sources */,
+				5B2767CD29FA8C1B008398A3 /* CyclesOfDayListCell.swift in Sources */,
 				5BCF551629C3065E00A19759 /* CalendarView.swift in Sources */,
 				5BCF551B29C30D1600A19759 /* ToDoList.swift in Sources */,
 				5B2C77302AA7641800EEFBC3 /* RequiredMark.swift in Sources */,

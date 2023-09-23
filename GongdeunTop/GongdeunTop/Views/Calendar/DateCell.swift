@@ -26,13 +26,13 @@ struct DateCell: View {
     @EnvironmentObject private var themeManager: ThemeManager
     @Environment(\.colorScheme) private var scheme
     
-    @Binding var selectedDate: Date
+    @Binding var selectedDate: Date?
     private let date: Date
     private var evaluation: Int? = nil
     private let onSelect: () -> Void
 
     init(
-        selectedDate: Binding<Date>,
+        selectedDate: Binding<Date?>,
         date: Date,
         evaluation: Int? = nil,
         onSelect: @escaping () -> Void
@@ -58,7 +58,8 @@ struct DateCell: View {
     }
     
     private var isSelected: Bool {
-        Calendar.current.isDate(date, inSameDayAs: selectedDate)
+        guard let selectedDate = selectedDate else { return false }
+        return Calendar.current.isDate(date, inSameDayAs: selectedDate)
     }
     
     private let dateCellRadius: CGFloat = 18

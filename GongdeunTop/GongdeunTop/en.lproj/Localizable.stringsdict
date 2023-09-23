@@ -74,6 +74,24 @@
 			<string>1 minute</string>
 		</dict>
 	</dict>
+	<key>%lld session</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@session@</string>
+		<key>session</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>other</key>
+			<string>%d sessions</string>
+			<key>zero</key>
+			<string>0 session</string>
+			<key>one</key>
+			<string>1 session</string>
+		</dict>
+	</dict>
 	<key>%lld second</key>
 	<dict>
 		<key>NSStringLocalizedFormatKey</key>

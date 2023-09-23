@@ -12,7 +12,7 @@ final class CalendarManager: ObservableObject {
     @Published var currentMonthData: [Date] = []
     @Published var currentYearData: [Date] = []
     @Published var startingPointDate: Date = Date()
-    @Published var selectedDate: Date = Date()
+    @Published var selectedDate: Date? = nil
     
     
     public var firstWeekdayDigit: Int {

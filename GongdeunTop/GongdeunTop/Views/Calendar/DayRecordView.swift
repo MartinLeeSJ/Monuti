@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct DayDetailView: View {
+struct DayRecordView: View {
     @Environment(\.colorScheme) private var scheme
     @EnvironmentObject private var themeManager: ThemeManager
     
@@ -39,7 +39,7 @@ struct DayDetailView: View {
     var body: some View {
         ScrollView(.vertical) {
             VStack(alignment: .leading) {
-                timerRecords()
+                cylecesOfDayRecords()
                 
                 HStack {
                     Text("완료한 할 일")
@@ -88,7 +88,7 @@ struct DayDetailView: View {
     }
     
     @ViewBuilder
-    private func timerRecords() -> some View {
+    private func cylecesOfDayRecords() -> some View {
         if !cycles.isEmpty {
             Text("집중 타이머 기록")
                 .font(.headline)
@@ -97,7 +97,7 @@ struct DayDetailView: View {
                 HStack(spacing: .spacing(of: .normal)) {
                     ForEach(cycles, id: \.self) {
                         cycle in
-                        CycleListCell(cycle: cycle)
+                        CyclesOfDayListCell(cycle: cycle)
                             .tint(Color("basicFontColor"))
                     }
                 }

@@ -8,15 +8,10 @@
 import SwiftUI
 
 
-enum RecordSheetType: Identifiable {
-    case setting
-    case cycle
-    var id: Self { self }
-}
-
 struct CalendarView: View {
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject private var themeManager: ThemeManager
+    
     @StateObject private var calendarManager = CalendarManager()
     @StateObject private var cycleStore = CycleStore()
     @StateObject private var todoHistoryManager = ToDoHistoryManager()
@@ -35,6 +30,12 @@ struct CalendarView: View {
         cycleStore.setBaseDate(calendarManager.startingPointDate)
     }
     
+    private func handleSelectedDate(_ date: Date) {
+        calendarManager.selectDate(date)
+        todoHistoryManager.setDate(date)
+        cycleStore.setBaseDate(date)
+    }
+    
     
     var body: some View {
         ZStack {
@@ -48,11 +49,14 @@ struct CalendarView: View {
                 
                 Divider()
                 
-                DayDetailView(
-                    cycles: cycleStore.cyclesOfDate[calendarManager.selectedDate] ?? [],
-                    completedTodos: todoHistoryManager.completedTodos,
-                    notCompletedTodos: todoHistoryManager.notCompletedTodos
-                )
+                if let selectedDate = calendarManager.selectedDate {
+                    DayRecordView(
+                        cycles: cycleStore.cyclesOfDate[selectedDate] ?? [],
+                        completedTodos: todoHistoryManager.completedTodos,
+                        notCompletedTodos: todoHistoryManager.notCompletedTodos
+                    )
+                }
+                Spacer()
             }
             .padding(.horizontal)
             .blur(radius: showSetMonth ? 10 : 0)
@@ -198,8 +202,7 @@ extension CalendarView {
                 date: date,
                 evaluation: cycleStore.dateEvaluations[date]
             ) {
-                calendarManager.selectDate(date)
-                todoHistoryManager.setDate(date)
+                handleSelectedDate(date)
             }
             .id(date)
         }
@@ -225,7 +228,8 @@ extension CalendarView {
         ToolbarItem(placement: .navigationBarTrailing) {
             Button {
                 calendarManager.handleBackToTodayButton()
-                cycleStore.setBaseDate(calendarManager.startingPointDate)
+                todoHistoryManager.setDate(Date.now)
+                cycleStore.setBaseDate(Date.now)
             } label: {
                 Text("Today")
             }
@@ -235,7 +239,8 @@ extension CalendarView {
     }
     
     private var isSelectedDateInSameDayAsToday: Bool {
+        guard let selectedDate = calendarManager.selectedDate else { return false }
         let calendar = Calendar.current
-        return calendar.isDate(calendarManager.selectedDate, inSameDayAs: Date.now)
+        return calendar.isDate(selectedDate, inSameDayAs: Date.now)
     }
 }

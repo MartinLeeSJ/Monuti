@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct CycleListCell: View {
+struct CyclesOfDayListCell: View {
     @Environment(\.colorScheme) private var scheme: ColorScheme
     @EnvironmentObject private var themeManager: ThemeManager
     
@@ -56,7 +56,7 @@ struct CycleListCell: View {
             }
         }
         .sheet(isPresented: $showDetails) {
-            CycleListCellDetailView(cycleManager: cycleManager)
+            CyclesOfDayDetailView(cycleManager: cycleManager)
                 .presentationDetents([.medium, .large])
         }
     }
