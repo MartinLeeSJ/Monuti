@@ -10,7 +10,7 @@ import SwiftUI
 struct MainConsole: View {
     @EnvironmentObject var themeManager: ThemeManager
     @EnvironmentObject var todoManager: ToDoManager
-    @EnvironmentObject var timerManager: TimerManager
+    @EnvironmentObject var timerSettingManager: TimerSettingManager
     @EnvironmentObject var targetManager: TargetManager
     
     @State private var isSetTimeViewOn: Bool = false
@@ -24,7 +24,7 @@ struct MainConsole: View {
         VStack {
             HStack {
                 addButton
-                    .tint(themeManager.colorInPriority(of: .accent))
+                    .tint(themeManager.colorInPriority(in: .accent))
                 
                 Button {
                     isSetTimeViewOn.toggle()
@@ -38,17 +38,19 @@ struct MainConsole: View {
                     .frame(width: .getScreenWidthDivided(with: 4), height: 36)
                 }
                 .sheet(isPresented: $isSetTimeViewOn) {
-                    SetTimeForm(manager: timerManager)
+                    SetTimeForm(manager: timerSettingManager)
                         .presentationDetents([.fraction(0.65)])
                 }
                 .padding(.horizontal)
                 .padding(.vertical, 8)
-                .background(themeManager.colorInPriority(of: .accent).opacity(0.3),
+                .background(themeManager.colorInPriority(in: .accent).opacity(0.3),
                             in: RoundedRectangle(cornerRadius: 10))
                 
                 NavigationLink {
-                    SessionsTimer(todos: todoManager.todos,
-                                  currentTodo: todoManager.todos.first)
+                    SessionsTimer(
+                        timeSetting: timerSettingManager.timeSetting,
+                        todos: todoManager.todos
+                    )
                 } label: {
                     HStack(spacing: 4) {
                         Text("Start")
@@ -64,7 +66,7 @@ struct MainConsole: View {
                             in: RoundedRectangle(cornerRadius: 10))
                 .overlay {
                     RoundedRectangle(cornerRadius: 10)
-                        .stroke(themeManager.colorInPriority(of: .accent), lineWidth: 2)
+                        .stroke(themeManager.colorInPriority(in: .accent), lineWidth: 2)
                 }
             }
             .padding(.vertical, 6)

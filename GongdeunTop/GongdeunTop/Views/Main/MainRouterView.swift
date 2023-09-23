@@ -28,7 +28,7 @@ struct MainRouterView: View {
     @EnvironmentObject var themeManager: ThemeManager
     @EnvironmentObject var todoManager: ToDoManager
     @EnvironmentObject var targetManager: TargetManager
-    @EnvironmentObject var timerManager: TimerManager
+    @EnvironmentObject var timerSettingManager: TimerSettingManager
     
     
     @State private var isSettingViewOn: Bool = false
@@ -47,11 +47,11 @@ struct MainRouterView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                themeManager.colorInPriority(of: .background)
+                themeManager.colorInPriority(in: .background)
                     .ignoresSafeArea()
                 
-                VStack(spacing: 4) {
-                    viewSwitch
+                VStack(spacing: .spacing(of: .quarter)) {
+                    viewSwitches
                     Divider()
                     switch currentDisplayingView {
                     case .todo: ToDoList()
@@ -76,9 +76,9 @@ struct MainRouterView: View {
                 
                 ToolbarItem(placement: .principal) {
                     MainSettingBanner(todoCount: todoManager.todos.count,
-                                      numOfSessions: timerManager.timeSetting.sessions.count,
-                                      minute: timerManager.getMinute(of: timerManager.getTotalSeconds()),
-                                      seconds: timerManager.getSeconds(of: timerManager.getTotalSeconds()))
+                                      numOfSessions: timerSettingManager.timeSetting.sessions.count,
+                                      minute: timerSettingManager.getMinute(of: timerSettingManager.getTotalSeconds()),
+                                      seconds: timerSettingManager.getSeconds(of: timerSettingManager.getTotalSeconds()))
                 }
                 
                 ToolbarItem(placement: .navigationBarTrailing) {
@@ -91,7 +91,7 @@ struct MainRouterView: View {
                     .sheet(isPresented: $isSettingViewOn) {
                         SettingView()
                     }
-                    .tint(themeManager.colorInPriority(of: .accent))
+                    .tint(themeManager.colorInPriority(in: .accent))
                 }
             }
             .onAppear {
@@ -109,16 +109,29 @@ struct MainRouterView: View {
 
 extension MainRouterView {
     @ViewBuilder
-    var viewSwitch: some View {
+    var viewSwitches: some View {
         HStack(spacing: 8) {
             todoListViewButton
             targetListViewButton
             calendarViewButton
         }
-        .font(.title3.weight(.semibold))
+        .font(.headline.weight(.semibold))
         .tint(Color("basicFontColor"))
         .padding(.horizontal)
         .padding(.vertical, 4)
+    }
+    
+    func viewSwitchLabel(title: LocalizedStringKey, imageName: String, content: String) -> some View {
+        VStack(alignment: .leading, spacing: 8) {
+                Text(title)
+            HStack {
+                Image(systemName: imageName)
+                    .foregroundStyle(themeManager.colorInPriority(in: .accent), .gray)
+                    .symbolRenderingMode(.hierarchical)
+                Spacer()
+                Text(content)
+            }
+        }
     }
     
     @ViewBuilder
@@ -128,28 +141,16 @@ extension MainRouterView {
                 self.currentDisplayingView = .todo
             }
         } label: {
-            VStack(alignment: .leading, spacing: 8) {
-                    Text("viewSwitch_todo")
-                    .font(.headline)
-                
-                HStack {
-                    Image(systemName: "checklist")
-                        .foregroundStyle(themeManager.colorInPriority(of: .accent), .gray)
-                        .font(.headline)
-                        .symbolRenderingMode(.hierarchical)
-                    Spacer()
-                    Text("\(todoManager.todos.count)")
-                        .font(.title3)
-                }
-            }
+            viewSwitchLabel(title: "viewSwitch_todo",
+                            imageName: "checklist",
+                            content: "\(todoManager.todos.count)")
         }
-        .fontWeight(.bold)
         .padding(8)
         .background(themeManager.componentColor(), in: RoundedRectangle(cornerRadius: 8))
         .overlay {
             if self.currentDisplayingView == .todo {
                 RoundedRectangle(cornerRadius: 8)
-                    .stroke(themeManager.colorInPriority(of: .accent), lineWidth: 3)
+                    .stroke(themeManager.colorInPriority(in: .accent), lineWidth: 3)
             }
         }
     }
@@ -161,26 +162,16 @@ extension MainRouterView {
                 self.currentDisplayingView = .target
             }
         } label: {
-            VStack(alignment: .leading, spacing: 8) {
-                Text("viewSwitch_target")
-                    .font(.headline)
-                HStack {
-                    Image(systemName: "target")
-                        .foregroundStyle(themeManager.colorInPriority(of: .accent), .gray)
-                        .font(.headline)
-                    Spacer()
-                    Text("\(targetManager.targets.count)")
-                        .font(.title3)
-                }
-            }
+            viewSwitchLabel(title: "viewSwitch_target",
+                            imageName: "target",
+                            content: "\(targetManager.targets.count)")
         }
-        .fontWeight(.bold)
         .padding(8)
         .background(themeManager.componentColor(), in: RoundedRectangle(cornerRadius: 8))
         .overlay {
             if self.currentDisplayingView == .target {
                 RoundedRectangle(cornerRadius: 8)
-                    .stroke(themeManager.colorInPriority(of: .accent), lineWidth: 3)
+                    .stroke(themeManager.colorInPriority(in: .accent), lineWidth: 3)
             }
         }
     }
@@ -196,30 +187,14 @@ extension MainRouterView {
         NavigationLink {
             CalendarView()
         } label: {
-            VStack(alignment: .leading, spacing: 8) {
-                Text("viewSwitch_calendar")
-                HStack {
-                    Image(systemName: "calendar")
-                        .foregroundStyle(themeManager.colorInPriority(of: .accent))
-                    Spacer()
-                    Text(formattedToday)
-                }
-            }
+            viewSwitchLabel(title: "viewSwitch_calendar",
+                            imageName: "calendar",
+                            content: formattedToday)
         }
-        .font(.headline)
-        .fontWeight(.bold)
         .padding(8)
         .background(themeManager.componentColor(), in: RoundedRectangle(cornerRadius: 8))
     }
     
 }
 
-struct MainRouterView_Previews: PreviewProvider {
-    static var previews: some View {
-        MainRouterView()
-            .environmentObject(ThemeManager())
-            .environmentObject(ToDoManager())
-            .environmentObject(TargetManager())
-            .environmentObject(TimerManager())
-    }
-}
+

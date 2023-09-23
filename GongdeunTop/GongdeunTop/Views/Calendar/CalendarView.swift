@@ -8,20 +8,17 @@
 import SwiftUI
 
 
-enum RecordSheetType: Identifiable {
-    case setting
-    case cycle
-    var id: Self { self }
-}
-
 struct CalendarView: View {
-    @Environment(\.dismiss) var dismiss
-    @EnvironmentObject var themeManager: ThemeManager
-    @StateObject var calendarManager = CalendarManager()
-    @StateObject var cycleStore = CycleStore()
+    @Environment(\.dismiss) private var dismiss
+    @EnvironmentObject private var themeManager: ThemeManager
     
-
+    @StateObject private var calendarManager = CalendarManager()
+    @StateObject private var cycleStore = CycleStore()
+    @StateObject private var todoHistoryManager = ToDoHistoryManager()
+    
     @State private var showSetMonth: Bool = false
+    
+    @GestureState private var dragOffset = CGSize.zero
 
     private func handleNextMonth() {
         calendarManager.handleNextButton(.month)
@@ -33,20 +30,33 @@ struct CalendarView: View {
         cycleStore.setBaseDate(calendarManager.startingPointDate)
     }
     
+    private func handleSelectedDate(_ date: Date) {
+        calendarManager.selectDate(date)
+        todoHistoryManager.setDate(date)
+        cycleStore.setBaseDate(date)
+    }
+    
     
     var body: some View {
         ZStack {
-            themeManager.colorInPriority(of: .background)
+            themeManager.colorInPriority(in: .background)
                 .ignoresSafeArea(.all)
             
-            VStack(alignment:.leading, spacing: 16) {
-                getTopConsole()
+            VStack(alignment:.leading, spacing: .spacing(of: .normal)) {
+                calendarControls()
                 
-                getCalendar()
+                calendar()
                 
                 Divider()
                 
-                getCycleList()
+                if let selectedDate = calendarManager.selectedDate {
+                    DayRecordView(
+                        cycles: cycleStore.cyclesOfDate[selectedDate] ?? [],
+                        completedTodos: todoHistoryManager.completedTodos,
+                        notCompletedTodos: todoHistoryManager.notCompletedTodos
+                    )
+                }
+                Spacer()
             }
             .padding(.horizontal)
             .blur(radius: showSetMonth ? 10 : 0)
@@ -56,33 +66,48 @@ struct CalendarView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             backButton()
-            if !calendarManager.isCalendarInCurrentMonth {
-                backToToday()
-            }
+            backToToday()
         }
         .overlay {
             if showSetMonth {
                 SetMonthView(manager: calendarManager, cycleStore: cycleStore, isShowing: $showSetMonth)
             }
         }
+        .gesture(dismissGesture)
+    }
+    
+   
+}
+//MARK: - Gesture
+extension CalendarView {
+    private var dismissGestureAreaWidth: CGFloat { 20 }
+    private var dismissGestureMinimumTranslation: CGFloat { 100 }
+    
+    private var dismissGesture: GestureStateGesture<DragGesture, CGSize> {
+        let gesture = DragGesture()
         
-        
+        return gesture.updating($dragOffset) { value, state, transaction in
+            guard value.startLocation.x < dismissGestureAreaWidth else { return }
+            guard value.translation.width > dismissGestureMinimumTranslation  else { return }
+                
+            dismiss()
+        }
     }
 }
 
+
+//MARK: - Top Control Units
 extension CalendarView {
-    @ViewBuilder
-    func getTopConsole() -> some View {
+    private func calendarControls() -> some View {
         HStack {
-            setMonthButton()
+            monthButton()
             Spacer()
             previousMonthButton()
             nextMonthButton()
         }
     }
     
-    @ViewBuilder
-    func setMonthButton() -> some View {
+    private func monthButton() -> some View {
             Button {
                 showSetMonth.toggle()
             } label: {
@@ -102,7 +127,7 @@ extension CalendarView {
             .tint(Color("basicFontColor"))
     }
     
-    func previousMonthButton() -> some View {
+    private func previousMonthButton() -> some View {
         Button {
             handlePreviousMonth()
         } label: {
@@ -113,7 +138,7 @@ extension CalendarView {
         .buttonStyle(.bordered)
     }
     
-    func nextMonthButton() -> some View {
+    private func nextMonthButton() -> some View {
         Button {
             handleNextMonth()
         } label: {
@@ -127,25 +152,15 @@ extension CalendarView {
 
 // MARK: - 캘린더
 extension CalendarView {
-    @ViewBuilder
-    func getCalendar() -> some View {
-        LazyVGrid(columns: Array(repeating: .init(.flexible(), spacing: 0), count: 7), spacing: 8) {
+    private func calendar() -> some View {
+        LazyVGrid(
+            columns: Array(repeating: .init(.flexible(), spacing: .zero), count: 7),
+            spacing: .spacing(of: .normal)
+        ) {
             weekdays
-            
             blanks
-            
-            dates
+            dateCells
         }
-        .gesture(DragGesture(minimumDistance: 2.0, coordinateSpace: .local)
-            .onEnded { value in
-                switch(value.translation.width, value.translation.height) {
-                case (...0, -50...50):
-                    handleNextMonth()
-                case (0..., -50...50):
-                    handlePreviousMonth()
-                default:  print("no clue")
-                }
-            })
     }
     
     private func getWeekdays() -> [String] {
@@ -160,17 +175,16 @@ extension CalendarView {
         
         return weekdays
     }
-    
-    
+        
     @ViewBuilder
     var weekdays: some View {
-            ForEach(getWeekdays(), id: \.self) { weekday in
-                HStack(alignment: .center) {
-                    Text(weekday)
-                        .font(.subheadline.bold())
-                        .padding(5)
-                }
+        ForEach(getWeekdays(), id: \.self) { weekday in
+            HStack(alignment: .center) {
+                Text(weekday)
+                    .font(.subheadline.bold())
+                    .padding(5)
             }
+        }
     }
     
     var blanks: some View {
@@ -181,10 +195,16 @@ extension CalendarView {
         }
     }
     
-    var dates: some View {
+    var dateCells: some View {
         ForEach(calendarManager.currentMonthData, id: \.self) { date in
-            DateCell(manager: calendarManager, date: date, evaluation: cycleStore.dateEvaluations[date])
-                .id(date)
+            DateCell(
+                selectedDate: $calendarManager.selectedDate,
+                date: date,
+                evaluation: cycleStore.dateEvaluations[date]
+            ) {
+                handleSelectedDate(date)
+            }
+            .id(date)
         }
     }
 }
@@ -199,7 +219,7 @@ extension CalendarView {
             } label: {
                 Image(systemName: "arrow.backward.circle.fill")
             }
-            .tint(themeManager.colorInPriority(of: .accent))
+            .tint(themeManager.colorInPriority(in: .accent))
         }
     }
     
@@ -207,41 +227,20 @@ extension CalendarView {
     func backToToday() -> some ToolbarContent {
         ToolbarItem(placement: .navigationBarTrailing) {
             Button {
-                calendarManager.handleTodayButton()
-                cycleStore.setBaseDate(calendarManager.startingPointDate)
+                calendarManager.handleBackToTodayButton()
+                todoHistoryManager.setDate(Date.now)
+                cycleStore.setBaseDate(Date.now)
             } label: {
                 Text("Today")
             }
+            .tint(themeManager.colorInPriority(in: .accent))
+            .opacity(isSelectedDateInSameDayAsToday ? 0 : 1)
         }
     }
-}
-
-// MARK: - Cycle List
-extension CalendarView {
-    @ViewBuilder
-    func getCycleList() -> some View {
-        ScrollView {
-            VStack {
-                ForEach(cycleStore.cyclesDictionary[calendarManager.selectedDate] ?? [], id: \.self) {
-                    cycle in
-                    CycleListCell(cycleManager: CycleManager(cycle: cycle))
-                        .tint(Color("basicFontColor"))
-                }
-            }
-        }
-    }
-}
-
-
-
-
-
-struct RecordView_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationStack {
-            CalendarView(calendarManager: CalendarManager(), cycleStore: CycleStore())
-                .environment(\.locale, .init(identifier: "ko"))
-                .environmentObject(ThemeManager())
-        }
+    
+    private var isSelectedDateInSameDayAsToday: Bool {
+        guard let selectedDate = calendarManager.selectedDate else { return false }
+        let calendar = Calendar.current
+        return calendar.isDate(selectedDate, inSameDayAs: Date.now)
     }
 }

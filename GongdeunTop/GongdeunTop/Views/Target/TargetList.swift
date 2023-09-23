@@ -17,23 +17,41 @@ struct TargetList: View {
     
     var body: some View {
         ZStack {
-            themeManager.colorInPriority(of: .background)
+            themeManager.colorInPriority(in: .background)
                 .ignoresSafeArea()
-            VStack(spacing: 0) {
+            VStack(spacing: .zero) {
                 topEditingConsole
                 if !targetManager.targets.isEmpty {
                     List(targetManager.targets, id: \.self.id, selection: $targetManager.multiSelection) { target in
-                        NavigationLink {
-                            TargetDetailView(manager: TargetDetailManager(target: target), target: target)
-                        } label: {
+                        ZStack {
+                            NavigationLink {
+                                TargetDetailView(target: target)
+                            } label: {
+                                EmptyView()
+                            }
+                            .opacity(0.0)
+                            
                             TargetListCell(target: target)
                         }
                         .listRowBackground(Color.clear)
                         .listRowSeparator(.hidden)
-                        .listRowInsets(.init(top: 8,
-                                             leading: 16,
-                                             bottom: 4,
-                                             trailing: 16))
+                        .listRowInsets(
+                            .init(
+                                top: .zero,
+                                leading: .spacing(of: .normal),
+                                bottom: .zero,
+                                trailing: .spacing(of: .normal)
+                            )
+                        )
+                        .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                            Button("Delete", role: .destructive) {
+                                Task {
+                                    await targetManager.removeTarget(target)
+                                }
+                            }
+                        }
+                        .padding(.vertical, .spacing(of: .quarter))
+
                     }
                     .listStyle(.plain)
                     .environment(\.editMode, .constant(targetManager.isEditing ? EditMode.active : EditMode.inactive))
@@ -59,7 +77,7 @@ extension TargetList {
         }
         .padding(.horizontal)
         .padding(.vertical, 8)
-        .tint(themeManager.colorInPriority(of: .accent))
+        .tint(themeManager.colorInPriority(in: .accent))
     }
     
     @ViewBuilder
@@ -97,7 +115,7 @@ extension TargetList {
             
             Spacer()
         }
-        .tint(themeManager.colorInPriority(of: .accent))
+        .tint(themeManager.colorInPriority(in: .accent))
         .disabled(targetManager.multiSelection.isEmpty)
         .padding(.horizontal, 24)
         .padding(.vertical, 6)

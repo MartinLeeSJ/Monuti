@@ -9,16 +9,22 @@ import Foundation
 import SwiftUI
 
 enum ColorThemes: String, Identifiable, CaseIterable {
-    case blue = "GTBlue"
-    case yellow = "GTYellow"
+    case blueOcean = "GTBlueOcean"
+    case lemonGrass = "GTLemonGrass"
+    case forest = "GTForest"
     
     var id: Self { self }
     
     var representativeName: String {
         switch self {
-        case .blue: return "Blue"
-        case .yellow: return "Yellow"
+        case .blueOcean: return "BlueOcean"
+        case .lemonGrass: return "LemonGrass"
+        case .forest: return "Forest"
         }
+    }
+    
+    var localizedStringKey: LocalizedStringKey {
+        return LocalizedStringKey(self.representativeName)
     }
     
     var logoImage: Image {
@@ -49,15 +55,19 @@ enum ColorPriority: Int, Identifiable, CaseIterable {
 }
 
 class ThemeManager: ObservableObject {
-    @Published var theme: ColorThemes = ColorThemes(rawValue: UserDefaults.standard.string(forKey: "colorTheme") ?? "GTBlue") ?? .blue
+    @Published var theme: ColorThemes = ColorThemes(rawValue: UserDefaults.standard.string(forKey: "colorTheme") ?? "GTBlueOcean") ?? .blueOcean
     
     func changeTheme(as newTheme: ColorThemes) {
         UserDefaults.standard.set(newTheme.rawValue, forKey: "colorTheme")
         theme = newTheme
     }
     
-    func colorInPriority(of priority: ColorPriority) -> Color {
-        Color("\(theme.rawValue)\(priority.rawValue)")
+    func colorInPriority(in priorityOf: ColorPriority) -> Color {
+        Color("\(theme.rawValue)\(priorityOf.rawValue)")
+    }
+    
+    static func colorInPriority(of theme: ColorThemes, in priorityOf: ColorPriority) -> Color {
+        Color("\(theme.rawValue)\(priorityOf.rawValue)")
     }
     
     func componentColor() -> Color {
@@ -69,7 +79,7 @@ class ThemeManager: ObservableObject {
     }
     
     func timerDigitAndButtonColor() -> Color {
-        theme == .yellow ? Color.black : Color("\(theme.rawValue)\(ColorPriority.accent.rawValue)")
+        Color("\(theme.rawValue)\(ColorPriority.accent.rawValue)")
     }
     
     func appLogoImage() -> Image {

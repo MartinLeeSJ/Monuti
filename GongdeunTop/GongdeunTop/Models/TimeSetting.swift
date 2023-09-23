@@ -24,5 +24,20 @@ struct TimeSetting {
             }
         }
     }
+    
+    var totalConcentrationSeconds: Int {
+        sessions.reduce(0) {  $0 + $1.concentrationSeconds }
+    }
+    
+    var totalRefreshSeconds: Int {
+        sessions.reduce(0) {  $0 + $1.restSeconds }
+    }
+    
+    var totalSeconds: Int {
+        totalConcentrationSeconds + totalRefreshSeconds
+    }
+    
+    
+    
     static let longRefreshSeconds: Int = 30 * 60
 }

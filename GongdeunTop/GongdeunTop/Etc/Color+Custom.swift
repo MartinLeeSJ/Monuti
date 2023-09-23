@@ -10,6 +10,8 @@ import SwiftUI
 
 
 extension Color {
+    static let basicFontColor: Self = Color("basicFontColor")
+    
     static let GTyellow: Self = Color(hue: 0.143, saturation: 0.296, brightness: 0.978)
     static let GTyellowBright: Self = Color(hue: 0.141, saturation: 0.143, brightness: 0.984)
     

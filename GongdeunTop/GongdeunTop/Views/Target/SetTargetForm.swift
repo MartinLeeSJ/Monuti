@@ -17,22 +17,27 @@ struct SetTargetForm: View {
         case title
         case content
     }
-    @Environment(\.dismiss) var dismiss
-    @EnvironmentObject var themeManager: ThemeManager
-    @State var target: Target = Target(title: "",
+    @Environment(\.dismiss) private var dismiss
+    @EnvironmentObject private var themeManager: ThemeManager
+    @State private var target: Target = Target(title: "",
                                        subtitle: "",
                                        createdAt: Date.now,
-                                       startDate: Date.now,
+                                               startDate: Date.now,
                                        dueDate: Date.now,
                                        todos: [],
                                        achievement: 0,
                                        memoirs: "")
     @FocusState private var focusedField: TargetField?
     
-    var mode: Mode = .add
-    var onCommit: (_ target: Target) -> Void
+    private var mode: Mode = .add
+    private var onCommit: (_ target: Target) -> Void
     
-    let startDateRange: ClosedRange<Date> = {
+    init(mode: Mode = .add, onCommit: @escaping (_: Target) -> Void) {
+        self.mode = mode
+        self.onCommit = onCommit
+    }
+    
+    private let startDateRange: ClosedRange<Date> = {
         let calendar = Calendar.current
         let dateInterval = calendar.dateInterval(of: .day, for: Date())
         let startTime: Date = dateInterval?.start ?? Date()
@@ -40,10 +45,10 @@ struct SetTargetForm: View {
         return startTime...endTime
     }()
     
-    var endDateRange: ClosedRange<Date> {
+    private var endDateRange: ClosedRange<Date> {
         let calendar = Calendar.current
         let dateInterval = calendar.dateInterval(of: .day, for: target.startDate)
-        let startTime: Date = dateInterval?.start ?? Date()
+        let startTime: Date = dateInterval?.end ?? Date()
         let endTime = calendar.date(byAdding: .month, value: 6, to: startTime) ?? Date()
         return startTime...endTime
     }
@@ -62,11 +67,12 @@ struct SetTargetForm: View {
             ZStack {
                 themeManager.sheetBackgroundColor()
                     .ignoresSafeArea(.all)
-                VStack(spacing: 32) {
-                    titleAndSubtitleTextField
-                    startAndDuteDatePicker
-                    termsInfos
-                    Spacer()
+                ScrollView {
+                    VStack(spacing: .spacing(of: .long)) {
+                        titleAndSubtitleTextField
+                        startAndDuteDatePicker
+                        termsInfos
+                    }
                 }
                 .toolbar {
                     ToolbarItem(placement: .cancellationAction) {
@@ -83,6 +89,7 @@ struct SetTargetForm: View {
                         } label: {
                             Text(mode == .add ? "Add" : "Edit")
                         }
+                        .disabled(target.title.isEmpty)
                     }
                 }
                 .navigationBarTitleDisplayMode(.inline)
@@ -91,19 +98,26 @@ struct SetTargetForm: View {
                                     String(localized: "targetForm_title_edit"))
                 .font(.headline)
                 .padding()
-                .padding(.top, 32)
             }
         }
     }
     
+    
+    private var titleCharacterLimit: Int { 25 }
+    private var subtitleCharacterLimit: Int { 40 }
+    
     @ViewBuilder
     var titleAndSubtitleTextField: some View {
         TextFieldFormContainer {
-            HStack {
+            HStack(alignment: .bottom, spacing: .spacing(of: .normal)) {
                 Text("targetTitle")
+                    .font(.headline)
+                    .fontWeight(.medium)
+                    .requiredMark()
                 TextField(text: $target.title) {
                     Text("targetTitle_placeholder")
                 }
+                .textfieldLimit(text: $target.title, limit: titleCharacterLimit)
                 .focused($focusedField, equals: .title)
                 .submitLabel(.next)
                 .onSubmit { DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {focusedField = .content} }
@@ -112,11 +126,14 @@ struct SetTargetForm: View {
             
             Divider()
             
-            HStack {
+            HStack(alignment: .bottom, spacing: .spacing(of: .normal)) {
                 Text("targetSubTitle")
+                    .font(.headline)
+                    .fontWeight(.medium)
                 TextField(text: $target.subtitle) {
                     Text("targetSubTitle_placeHolder")
                 }
+                .textfieldLimit(text: $target.subtitle, limit: subtitleCharacterLimit)
                 .focused($focusedField, equals: .content)
                 .submitLabel(.continue)
                 .onSubmit { focusedField = nil }
@@ -154,17 +171,10 @@ struct SetTargetForm: View {
             Text("\(target.daysFromStartToDueDate) target_total_days")
             Spacer()
             TargetTermGauge(termIndex: target.termIndex)
-            Text(target.dateTerms)
+            Text(target.termDescription)
         }
         .padding()
         .background(themeManager.componentColor(), in: RoundedRectangle(cornerRadius: 10))
 
     }
 }
-//
-//struct SetTargetForm_Previews: PreviewProvider {
-//    static var previews: some View {
-//        SetTargetForm()
-//            .environmentObject(ThemeManager())
-//    }
-//}

@@ -58,7 +58,7 @@ public class TargetRepository: ObservableObject, FirebaseListener {
             let query = database.collection("Members")
                 .document(uid)
                 .collection("Target")
-                .whereField("dueDate", isGreaterThanOrEqualTo: Timestamp(date: Date.now))
+                .whereField("dueDate", isGreaterThanOrEqualTo: Timestamp(date: Calendar.current.startOfDay(for: Date.now)))
             
             listenerRegistration = query.addSnapshotListener{ [weak self] (snapshot, error) in
                 guard let self = self, let documents = snapshot?.documents else {
@@ -76,6 +76,7 @@ public class TargetRepository: ObservableObject, FirebaseListener {
 
 // MARK: - CRUD
 extension TargetRepository {
+    
     func addTarget(_ target: Target) throws {
         guard let uid = user?.uid else { return }
         guard target.id == nil else { return }

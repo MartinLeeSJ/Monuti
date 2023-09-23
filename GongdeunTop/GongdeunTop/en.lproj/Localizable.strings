@@ -31,6 +31,9 @@
 "viewSwitch_calendar" = "Calendar";
 
 // MARK: - ToDoList
+"Today" = "Today";
+"Tomorrow" = "Tomorrow";
+
 //ToDoList_Sorting
 "toDoList_sort_ascend" = "Ascend";
 "toDoList_sort_descend" = "Descend";
@@ -123,6 +126,9 @@
 "concentration_textEditor_subtitle" = "Write a memoir about this cycle";
 
 // MARK: - Target List Cell
+"target_dateStarts" = "From";
+"target_dateEnds" = "To";
+
 "target_days" = "DAYS";
 "target_achievement" = "ACHIEVEMENT";
 "target_completed" = "COMPLETED";
@@ -150,3 +156,31 @@
 
 // MARK: - Target Detail View
 "targetDetail_term" = "Term";
+"targetDetail_days" = "Days";
+"targetDetail_day" = "Day";
+
+// MARK: - Color Themes
+"BlueOcean" = "Blue ocean";
+"LemonGrass" = "Lemongrass";
+"Forest" = "Forest green";
+
+//MARK: - Setting
+"ColorThemeSetting" = "Change color theme";
+"SignOut" = "Sign out";
+"really_signOut" = "Are you sure you want to sign out?";
+
+// MARK: - Calendar DayRecord
+"ToDoHistoryList_Completed" = "Completed Todos";
+"ToDoHistoryList_NotCompleted" = "Not Completed Todos";
+
+// MARK: - CyclesOfDayDetail
+"CyclesOfDayDetail_Concentration" = "Concentration";
+"CyclesOfDayDetail_Rest" = "Rest";
+"CyclesOfDayDetail_Total" = "Total";
+
+"CyclesOfDayDetail_ConcetrationAssesment" = "Concentration assessment";
+"CyclesOfDayDetailView_ConcentrationAssesment_Low" = "Low";
+"CyclesOfDayDetailView_ConcentrationAssesment_Medium" = "Mid";
+"CyclesOfDayDetailView_ConcentrationAssesment_High" = "High";
+
+"CyclesOfDayDetail_Memoirs" = "Memoirs";

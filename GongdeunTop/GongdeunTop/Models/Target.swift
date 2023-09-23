@@ -32,11 +32,11 @@ struct Target: Codable, Hashable, Identifiable {
 extension Target {
     
     var startDateString: String {
-        return DateFormatter.shortDateFormat.string(from:  startDate)
+        return DateFormatter.shortDateFormat.string(from: startDate)
     }
     
     var dueDateString: String {
-        return DateFormatter.shortDateFormat.string(from:  dueDate)
+        return DateFormatter.shortDateFormat.string(from: dueDate)
     }
     
     private func getDay(from start: Date, to end: Date) -> Int {
@@ -66,26 +66,28 @@ extension Target {
 
 // MARK: - Terms
 extension Target {
+    static let allTermsCount: Int = Terms.allCases.count
+    
     var termIndex: Int {
-        Terms.getTermIndex(of: daysFromStartToDueDate)
+        Terms.termIndex(of: daysFromStartToDueDate)
     }
     
-    var dateTerms: String {
-        let termString = Terms.getTermsString(of: daysFromStartToDueDate)
+    var termDescription: String {
+        let termString = Terms.termsDescription(of: daysFromStartToDueDate)
         return String(localized: String.LocalizationValue(termString))
     }
     
     var termColorPriority: ColorPriority {
-        Terms.getTermColorPriority(of: daysFromStartToDueDate)
+        Terms.termColorPriority(of: daysFromStartToDueDate)
     }
     
-    private enum Terms: String {
+    private enum Terms: String, CaseIterable {
         case short = "ShortTerm"
         case mid = "MidTerm"
         case long = "LongTerm"
         case verylong = "VeryLongTerm"
         
-        static func getTermsString(of days: Int) -> String {
+        static func termsDescription(of days: Int) -> String {
             switch days {
             case 0...3: return self.short.rawValue
             case 4...15: return self.mid.rawValue
@@ -95,7 +97,7 @@ extension Target {
             }
         }
         
-        static func getTermColorPriority(of days: Int) -> ColorPriority {
+        static func termColorPriority(of days: Int) -> ColorPriority {
             switch days {
             case 0...3: return .weak
             case 4...15: return .medium
@@ -105,7 +107,7 @@ extension Target {
             }
         }
         
-        static func getTermIndex(of days: Int) -> Int {
+        static func termIndex(of days: Int) -> Int {
             switch days {
             case 0...3: return 1
             case 4...15: return 2

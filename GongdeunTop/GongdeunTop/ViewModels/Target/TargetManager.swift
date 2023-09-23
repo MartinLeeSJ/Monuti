@@ -28,6 +28,7 @@ final class TargetManager: ObservableObject {
             .assign(to: &$targets)
     }
     
+    
     func addTarget(_ target: Target) {
         do {
             try targetRepository.addTarget(target)

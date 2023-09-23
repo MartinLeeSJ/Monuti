@@ -10,20 +10,37 @@ import SwiftUI
 
 
 struct CycleMemoir: View {
-    @Environment(\.dismiss) var dismiss
-    @Environment(\.colorScheme) var scheme: ColorScheme
+    @Environment(\.dismiss) private var dismiss
+    @Environment(\.colorScheme) private var scheme: ColorScheme
+    @EnvironmentObject private var themeManager: ThemeManager
     
+    @StateObject private var manager: CycleManager
+    @FocusState private var editorIsFocused: Bool
     
-    @StateObject var manager = CycleManager()
-    @StateObject var locationManager = LocationManager()
-    @ObservedObject var timerManager: TimerManager
-    
-    @FocusState var editorIsFocused: Bool
-    
-    
+    init(
+        todos: [ToDo],
+        timeSetting: TimeSetting
+    ) {
+        let cycle = Cycle(
+            todos: [],
+            evaluation: 0,
+            memoirs: "",
+            sessions: timeSetting.numOfSessions,
+            concentrationSeconds: timeSetting.totalConcentrationSeconds,
+            refreshSeconds: timeSetting.totalRefreshSeconds,
+            totalSeconds: timeSetting.totalSeconds
+        )
+        
+        let cycleManager = CycleManager(cycle: cycle, todos: todos)
+        self._manager = StateObject(wrappedValue: cycleManager)
+    }
     
     var body: some View {
         GeometryReader { geo in
+            themeManager
+                .sheetBackgroundColor()
+                .ignoresSafeArea()
+                
             ScrollView {
                 VStack(spacing: 20) {
                     
@@ -43,8 +60,8 @@ struct CycleMemoir: View {
                         .frame(height: 35)
                 }
             }
+            .padding()
         }
-        .padding()
         .interactiveDismissDisabled()
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
@@ -73,34 +90,34 @@ struct CycleMemoir: View {
 //MARK: - Title and Subtitle
 extension CycleMemoir {
     enum MemoirTitle: String {
-        case todos = "todos", textEditor, evaluation
+        case todoList, memoir, evaluation
         
-        var localizedTitle: String {
+        var localizedTitle: LocalizedStringKey {
             switch self {
-            case .todos: return String(localized: "concentration_todos_title")
-            case .textEditor: return String(localized: "concentration_textEditor_title")
-            case .evaluation: return String(localized: "concentration_evaluation_title")
+            case .todoList: return "concentration_todos_title"
+            case .memoir: return "concentration_textEditor_title"
+            case .evaluation: return "concentration_evaluation_title"
             }
         }
         
-        var localizedSubtitle: String {
+        var localizedSubtitle: LocalizedStringKey {
             switch self {
-            case .todos: return String(localized: "concentration_todos_subtitle")
-            case .textEditor: return String(localized: "concentration_textEditor_subtitle")
-            case .evaluation: return String(localized: "concentration_evaluation_subtitle")
+            case .todoList: return "concentration_todos_subtitle"
+            case .memoir: return "concentration_textEditor_subtitle"
+            case .evaluation: return "concentration_evaluation_subtitle"
             }
         }
     }
     
     @ViewBuilder
-    func getTitleAndSubTitle(_ placement: String) -> some View {
+    func titleAndSubTitle(of placement: MemoirTitle) -> some View {
         HAlignment(alignment: .leading) {
             VStack(alignment: .leading, spacing: 3) {
-                Text(MemoirTitle(rawValue: placement)?.localizedTitle ?? "")
+                Text(placement.localizedTitle)
                     .font(.title3)
                     .fontWeight(.bold)
                 
-                Text(MemoirTitle(rawValue: placement)?.localizedSubtitle ?? "")
+                Text(placement.localizedSubtitle)
                     .font(.caption)
                     .foregroundColor(.secondary)
             }
@@ -135,21 +152,44 @@ extension CycleMemoir {
     
     @ViewBuilder
     func getMemoirButtons(_ geo: GeometryProxy) -> some View {
-        Grid(verticalSpacing: 3) {
-            GridRow {
-                getTitleAndSubTitle("evaluation")
-                .gridCellColumns(3)
-            }
-            
+        let gridWidth = (geo.size.width - 64) / 3
+        let hexagonRadius = gridWidth / 2
+        let buttonImageWidth = hexagonRadius * 2 - 8
+        
+        titleAndSubTitle(of: .evaluation)
+        
+        Grid(verticalSpacing: .zero) {
             GridRow {
                 ForEach(MemoirButton.allCases) { button in
                     Button {
-                        manager.cycle.evaluation = button.number
+                        manager.evaluateCycle(button.number)
                     } label: {
-                        Image("\(button.rawValue)\(manager.cycle.evaluation == button.number ? ".clicked" : "" )\(scheme == .dark ? ".dark" : "")")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: geo.size.width * 0.31)
+                        RoundedHexagon(radius: hexagonRadius, cornerAngle: 5)
+                            .fill(
+                                themeManager
+                                    .colorInPriority(
+                                        in: ColorPriority(rawValue: button.number) ?? .accent
+                                    )
+                            )
+                            .frame(
+                                width: gridWidth,
+                                height: gridWidth
+                            )
+                            .overlay {
+                                if manager.cycle.evaluation == button.number {
+                                    RoundedHexagon(radius: hexagonRadius, cornerAngle: 5)
+                                        .stroke(
+                                            scheme == .dark ? .white : themeManager.colorInPriority(in: .accent),
+                                            lineWidth: 5
+                                        )
+                                }
+                            }
+                            .overlay {
+                                Image(button.rawValue)
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: buttonImageWidth)
+                            }
                     }
                 }
             }
@@ -169,35 +209,23 @@ extension CycleMemoir {
 extension CycleMemoir {
     @ViewBuilder
     func getTextEditor(_ geo: GeometryProxy) -> some View {
-        Group {
-            getTitleAndSubTitle("textEditor")
-            
-            VStack {
-                TextEditor(text: $manager.cycle.memoirs)
-                    .padding(5)
-                    .background {
-                        RoundedRectangle(cornerRadius: 10)
-                            .stroke(lineWidth: 1)
-                    }
-                    .padding(5)
-                    .focused($editorIsFocused)
-            }
+        titleAndSubTitle(of: .memoir)
+        
+        TextEditor(text: $manager.cycle.memoirs)
+            .cornerRadius(10)
+            .focused($editorIsFocused)
             .frame(height: geo.size.height * 0.35)
-        }
+            .background(.thinMaterial ,in: RoundedRectangle(cornerRadius: 10))
     }
 }
 
 //MARK: - ToDoList For Memoir
 extension CycleMemoir {
-    
-    
     @ViewBuilder
     var toDoListForMemoir: some View {
-        Group {
-            getTitleAndSubTitle("todos")
-            
-            CycleToDoList(manager: manager, mode: .memoir)
-        }
+        titleAndSubTitle(of: .todoList)
+        
+        CycleToDoList(manager: manager, mode: .memoir)
     }
 }
 
@@ -205,22 +233,14 @@ extension CycleMemoir {
 //MARK: - Handle Finish
 extension CycleMemoir {
     func handleFinish() {
-//        manager.recordCycleTimeSetting(timeSetting: timerManager.timeSetting,
-//                                       minutes: timerManager.getTotalMinute())
         manager.handleFinishedCycleButton()
         dismiss()
-        
     }
 }
 
 struct CycleMemoir_Previews: PreviewProvider {
     static var previews: some View {
-        Group {
-            CycleMemoir(timerManager: TimerManager())
-                .environment(\.locale, .init(identifier: "en"))
-            
-            CycleMemoir(timerManager: TimerManager())
-                .environment(\.locale, .init(identifier: "ko"))
-        }
+        CycleMemoir(todos: [ToDo.placeholder], timeSetting: TimeSetting())
+            .environmentObject(ThemeManager())
     }
 }

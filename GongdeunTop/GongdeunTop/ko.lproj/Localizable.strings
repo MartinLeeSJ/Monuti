@@ -32,6 +32,9 @@
 "viewSwitch_calendar" = "달력";
 
 // MARK: - ToDoList
+"Today" = "오늘";
+"Tomorrow" = "내일";
+
 //ToDoList_Sorting
 "toDoList_sort_ascend" = "시간 오름차순";
 "toDoList_sort_descend" = "시간 내림차순";
@@ -123,6 +126,9 @@
 "concentration_textEditor_subtitle" = "이번 집중시간은 어땠는지 적어보세요";
 
 // MARK: - Target List Cell
+"target_dateStarts" = "시작";
+"target_dateEnds" = "종료";
+
 "target_days" = "목표 기간";
 "target_achievement" = "성취도";
 "target_completed" = "완료한 할 일";
@@ -149,3 +155,31 @@
 
 // MARK: - Target Detail View
 "targetDetail_term" = "기간";
+"targetDetail_days" = "일";
+"targetDetail_day" = "일";
+
+// MARK: - Color Themes
+"BlueOcean" = "파란 바다";
+"LemonGrass" = "레몬그라스";
+"Forest" = "숲";
+
+//MARK: - Setting
+"ColorThemeSetting" = "테마 변경하기";
+"SignOut" = "로그아웃 하기";
+"really_signOut" = "정말로 로그아웃 하시겠습니까?";
+
+// MARK: - Calendar DayRecord
+"ToDoHistoryList_Completed" = "완료한 할 일들";
+"ToDoHistoryList_NotCompleted" = "완료하지 못한 할 일들";
+
+// MARK: - CyclesOfDayDetail
+"CyclesOfDayDetail_Concentration" = "집중";
+"CyclesOfDayDetail_Rest" = "휴식";
+"CyclesOfDayDetail_Total" = "총";
+
+"CyclesOfDayDetail_ConcetrationAssesment" = "집중도";
+"CyclesOfDayDetailView_ConcentrationAssesment_Low" = "하";
+"CyclesOfDayDetailView_ConcentrationAssesment_Medium" = "중";
+"CyclesOfDayDetailView_ConcentrationAssesment_High" = "상";
+
+"CyclesOfDayDetail_Memoirs" = "회고";

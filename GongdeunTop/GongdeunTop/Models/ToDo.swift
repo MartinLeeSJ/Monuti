@@ -23,13 +23,22 @@ struct ToDo: Codable, Hashable, Identifiable {
     
     var startingTimeString: String? {
         guard let time = startingTime else { return nil }
-        var timeStringArray =  DateFormatter.shortTimeFormat.string(from: time)
-            .split(separator: " ")
-            .map { String($0) }
+
+        return "\(dayString(from: time))\n\(timeString(from: time))"
+    }
+    
+    private func timeString(from time: Date) -> String {
+        DateFormatter.localizedString(from: time, dateStyle: .none, timeStyle: .short)
+    }
+    
+    private func dayString(from time: Date) -> String {
+        let current = Calendar.current
+        var result: String = ""
         
-        timeStringArray.insert("\n", at: 1)
+        if current.isDateInToday(time) { result = String(localized: "Today") }
+        else if current.isDateInTomorrow(time) { result = String(localized: "Tomorrow") }
         
-        return timeStringArray.reduce("", + )
+        return result
     }
     
 }

@@ -17,7 +17,7 @@ final class CycleStore: ObservableObject {
     @Injected(\.cycleRepository) var cycleRepository
     @Injected(\.firestore) var database
     @Published var cycles: [Cycle] = []
-    @Published var cyclesDictionary = [Date : [Cycle]]()
+    @Published var cyclesOfDate = [Date : [Cycle]]()
     @Published var dateEvaluations = [Date : Int]()
     
     private var listenerRegistration: ListenerRegistration?
@@ -32,9 +32,11 @@ final class CycleStore: ObservableObject {
             .map { [weak self] cycles in
                 self?.orderCyclesByDate(cycles: cycles) ?? [Date : [Cycle]]()
             }
-            .assign(to: &$cyclesDictionary)
+            .assign(to: &$cyclesOfDate)
         
-        $cyclesDictionary
+        $cyclesOfDate
+            .receive(on: DispatchQueue.main)
+            .delay(for: 0.2, scheduler: DispatchQueue.main)
             .removeDuplicates()
             .map { [weak self] dictionary in
                 self?.evaluateDate(dictionary: dictionary) ?? [Date: Int]()
@@ -66,29 +68,18 @@ final class CycleStore: ObservableObject {
     }
     
     private func evaluateDate(dictionary: [Date : [Cycle]]) -> [Date : Int] {
-        var result = [Date: Int]()
-        for (date , cycles) in dictionary {
-            var value: Int = 0
-            var todoCount: Int = 0
-            for cycle in cycles {
-                let cycleTodos: Int = (cycle.todos.count == 0 ? 1: cycle.todos.count)
-                value += cycle.evaluation * cycleTodos
-                todoCount += cycleTodos
-            }
+        dictionary.reduce(into: [Date: Int]()) { (result, element) in
+            let (date, cycles) = element
             
-            guard todoCount != 0 else { continue }
+            let cyclesCount = cycles.count == 0 ? 1 : cycles.count
+            let sumOfEvaluation = cycles.reduce(0) { $0 + $1.evaluation }
+            let averageOfEvaluation = Int(sumOfEvaluation / cyclesCount)
             
-            
-            result[date] = averageAndRoundUp(total: value, count: todoCount)
+            result[date] = averageOfEvaluation
         }
-        return result
-    }
-    
-    private func averageAndRoundUp(total: Int, count: Int) -> Int {
-        return Int(Double(total / count).rounded())
     }
     
     private func resetDict() {
-        cyclesDictionary = [Date : [Cycle]]()
+        cyclesOfDate = [Date : [Cycle]]()
     }
 }

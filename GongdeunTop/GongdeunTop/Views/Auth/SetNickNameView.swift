@@ -14,7 +14,7 @@ struct SetNickNameView: View {
 
     var body: some View {
         ZStack {
-            themeManager.colorInPriority(of: .background)
+            themeManager.colorInPriority(in: .background)
                 .ignoresSafeArea()
             VStack {
                 Spacer()
@@ -80,7 +80,7 @@ extension SetNickNameView {
                 }
                 .buttonStyle(.borderedProminent)
                 .buttonBorderShape(.roundedRectangle)
-                .tint(themeManager.colorInPriority(of: .accent))
+                .tint(themeManager.colorInPriority(in: .accent))
                 .disabled(!manager.nickName.isValidate)
             }
             .overlay(alignment: .bottomLeading) {
@@ -92,7 +92,7 @@ extension SetNickNameView {
                     }
                 }
                 .font(.footnote)
-                .foregroundColor(themeManager.colorInPriority(of: .accent))
+                .foregroundColor(themeManager.colorInPriority(in: .accent))
                 .offset(y: 24)
                 
             }

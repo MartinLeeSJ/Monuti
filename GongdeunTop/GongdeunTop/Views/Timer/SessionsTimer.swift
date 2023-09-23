@@ -10,20 +10,32 @@ import UserNotifications
 
 struct SessionsTimer: View {
     @Environment(\.dismiss) private var dismiss
-    @Environment(\.scenePhase) var scenePhase
+    @Environment(\.scenePhase) private var scenePhase
     
-    @EnvironmentObject var themeManager: ThemeManager
-    @EnvironmentObject var timerManager: TimerManager
-    @EnvironmentObject var appBlockManager: AppBlockManager
+    @StateObject private var timerManager: TimerManager
+    @EnvironmentObject private var themeManager: ThemeManager
+    @EnvironmentObject private var appBlockManager: AppBlockManager
     
     @AppStorage("lastTime") private var lastTimeObserved: TimeInterval = 0
     
-    @State var todos: [ToDo] = []
-    @State var currentTodo: ToDo? = nil
+    @State private var todos: [ToDo]
+    @State private var currentTodo: ToDo? = nil
     
     @State private var isFirstCountDownEnded: Bool = false
     @State private var isShowingReallyQuitAlert: Bool = false
     @State private var isShowingCycleMemoir: Bool = false
+    private let timeSetting: TimeSetting
+    
+    init(
+        timeSetting: TimeSetting,
+        todos: [ToDo]
+    ) {
+        self.timeSetting = timeSetting
+        self._timerManager = StateObject(wrappedValue: TimerManager(timeSetting: timeSetting))
+        self._todos = State(wrappedValue: todos)
+        self._currentTodo = State(wrappedValue: todos.first)
+        
+    }
     
     var body: some View {
         GeometryReader { geo in
@@ -31,33 +43,36 @@ struct SessionsTimer: View {
             let height = geo.size.height
             let shorterSize = min(width, height)
             let indicatorWidth = shorterSize * 0.45
-//            let digitTimeWidth = shorterSize * 0.5
             
-            VStack {
-                Spacer()
-                TimerHexagon(width: shorterSize,
-                             timerEndDegree: timerManager.getEndDegree(),
-                             foregroundColor: themeManager.colorInPriority(of: .medium),
-                             backgroundColor: themeManager.colorInPriority(of: .weak))
-                    .overlay {
-                        VStack {
-                            timerDigit()
-                            
-                            timerControls(width: shorterSize)
+            ZStack {
+                themeManager.colorInPriority(in: .background)
+                    .ignoresSafeArea()
+                VStack {
+                    Spacer()
+                    TimerHexagon(width: shorterSize,
+                                 timerEndDegree: timerManager.getEndDegree(),
+                                 foregroundColor: themeManager.colorInPriority(in: .medium),
+                                 backgroundColor: themeManager.colorInPriority(in: .weak))
+                        .overlay {
+                            VStack {
+                                timerDigit()
+                                
+                                timerControls(width: shorterSize)
+                            }
                         }
+                        .padding(.bottom, 20)
+                    
+                    sessionIndicator(width: indicatorWidth)
+                    
+                    Spacer()
+                    
+                    if !todos.isEmpty {
+                        todoMenu()
                     }
-                    .padding(.bottom, 20)
-                
-                sessionIndicator(width: indicatorWidth)
-                
-                Spacer()
-                
-                if !todos.isEmpty {
-                    todoMenu()
+                    Spacer()
                 }
-                Spacer()
+                .frame(width: width, height: height)
             }
-            .frame(width: width, height: height)
         }
         .navigationBarBackButtonHidden(true)
         .toolbar {
@@ -68,7 +83,7 @@ struct SessionsTimer: View {
             dismiss()
         } content: {
             NavigationStack {
-                CycleMemoir(manager: CycleManager(todos: todos), timerManager: timerManager)
+                CycleMemoir(todos: todos, timeSetting: timeSetting)
             }
         }
         .overlay {
@@ -82,18 +97,20 @@ struct SessionsTimer: View {
             }
         }
         .onChange(of: scenePhase) { [oldPhase = scenePhase] newPhase in
-            print("oldValue is ::: \(oldPhase)")
             manageTimeWithScenePhase(old: oldPhase, new: newPhase)
         }
         .onReceive(timerManager.timer) { _ in
-            if timerManager.isRunning {
-                if timerManager.remainSeconds > 0 {
-                    timerManager.elapsesTime()
-                    updateToDoTimeSpent()
-                } else {
-                    timerManager.moveToNextTimes()
-                }
+            guard timerManager.isRunning else { return }
+            
+            if timerManager.remainSeconds > 0 {
+                timerManager.elapsesTime()
+                updateToDoTimeSpentWhenTimerTicks()
+                return
             }
+            
+            let didMoveToNextTime: Bool = timerManager.moveToNextTimes()
+            if !didMoveToNextTime { handleQuit() }
+            
         }
     }
 }
@@ -102,8 +119,9 @@ struct SessionsTimer: View {
 // MARK: - Timer UI
 extension SessionsTimer {
     private func timerDigit() -> some View {
-        Text("\(timerManager.getMinuteString(of: timerManager.remainSeconds)) : \(timerManager.getSecondString(of: timerManager.remainSeconds))")
+        Text(timerManager.remainSeconds.sessionTimerDigit)
             .font(.system(size: 60, weight: .regular))
+            .kerning(1)
             .monospacedDigit()
             .foregroundColor(themeManager.timerDigitAndButtonColor())
             .padding(.bottom, 25)
@@ -199,7 +217,7 @@ extension SessionsTimer {
                 }
             }
             .menuStyle(.borderlessButton)
-            .foregroundColor(themeManager.colorInPriority(of: .accent))
+            .foregroundColor(themeManager.colorInPriority(in: .accent))
             .disabled(todos.isEmpty)
         }
     }
@@ -222,7 +240,7 @@ extension SessionsTimer {
     }
     
     private func handleNext() {
-        timerManager.moveToNextTimes()
+        if !timerManager.moveToNextTimes() { handleQuit() }
     }
     
     private func handleQuit() {
@@ -231,14 +249,37 @@ extension SessionsTimer {
         } else {
             isShowingCycleMemoir = true
         }
-        handlePlay()
+        timerManager.pauseTime()
     }
 }
 
 // MARK: - Manage Times
 extension SessionsTimer {
+    private func manageTimeWithScenePhase(old oldPhase: ScenePhase, new newPhase: ScenePhase) {
+        guard timerManager.isRunning else { return }
+        switch (newPhase, oldPhase) {
+        case (.inactive, .background): manageTimeWhenWakeApp()
+        case (.background, _): manageTimeWithBackgroundMode()
+        case (.inactive, .active): print("active => inactive")
+        case (.active, _): print("active")
+        default: print("default")
+        }
+    }
     
-    private func updateToDoTimeSpent() {
+    private func manageTimeWithBackgroundMode() {
+        recordTime()
+        scheduleUserNotification()
+    }
+    
+    private func manageTimeWhenWakeApp() {
+        let timeElapsed = timerManager.subtractTimeElapsed(from: lastTimeObserved)
+        updateToDoTimeSpentWhenWakeApp(timeElapsed: timeElapsed)
+        if !timerManager.isRunning {
+            appBlockManager.stopConcentrationAppShield()
+        }
+    }
+    
+    private func updateToDoTimeSpentWhenTimerTicks() {
         guard !timerManager.knowIsInRestTime() else { return }
         
         if let index = todos.firstIndex(where: { $0.id == currentTodo?.id }) {
@@ -246,47 +287,34 @@ extension SessionsTimer {
         }
     }
     
-    private func manageTimeWithScenePhase(old oldPhase: ScenePhase, new newPhase: ScenePhase) {
-        guard timerManager.isRunning else { return }
-        switch newPhase {
-        case .inactive where oldPhase == .background: manageTimeWhenAwakeApp()
-        case .inactive where oldPhase == .active: print("active => inactive")
-        case .active: print("active")
-        case .background: manageTimeWithBackgroundMode()
-        default: print("default")
+    private func updateToDoTimeSpentWhenWakeApp(timeElapsed: TimeInterval) {
+        // 만약 지금이 쉬는시간일 때엔 남은시간이 설정된 쉬는시간과 같을 때에만 기록
+        guard !timerManager.knowIsInRestTime() || timerManager.knowIsStartingPointOfThisTime() else { return }
+        
+        if let index = todos.firstIndex(where: { $0.id == currentTodo?.id }) {
+            todos[index].timeSpent += Int(timeElapsed)
+           
         }
     }
     
-    private func manageTimeWithBackgroundMode() {
-        print("background")
-        recordTime()
-        scheduleUserNotification()
-    }
-    
-    private func manageTimeWhenAwakeApp() {
-        print("background => inactive")
-        timerManager.subtractTimeElapsed(from: lastTimeObserved)
-        if !timerManager.isRunning {
-            appBlockManager.stopConcentrationAppShield()
-        }
-    }
-    
+
     private func recordTime() {
         lastTimeObserved = Date.now.timeIntervalSince1970
-        print("Time is Recorded \(lastTimeObserved)")
     }
     
     private func scheduleUserNotification() {
+        guard timerManager.isRunning else { return }
+        
         let notificationCenter = UNUserNotificationCenter.current()
         notificationCenter.removeAllPendingNotificationRequests()
-        
+
         let content = UNMutableNotificationContent()
         var notificationBody: String = ""
-        switch timerManager.knowIsInRestTime() {
-        case true where !timerManager.knowIsLastTime(): notificationBody = String(localized: "notification_restTime_ended")
-        case true where timerManager.knowIsLastTime(): notificationBody = String(localized: "notification_allTime_ended")
-        case false: notificationBody = String(localized: "notification_concentrationTime_ended")
-        default: notificationBody = ""
+        
+        switch (timerManager.knowIsInRestTime(), timerManager.knowIsLastTime()) {
+        case (true, false): notificationBody = String(localized: "notification_restTime_ended")
+        case (true, true): notificationBody = String(localized: "notification_allTime_ended")
+        case (false, _): notificationBody = String(localized: "notification_concentrationTime_ended")
         }
         content.title = String(localized: "Monuti")
         content.body = notificationBody

@@ -11,13 +11,13 @@ import Combine
 
 struct SetTimeForm: View {
     @EnvironmentObject var themeManager: ThemeManager
-    @ObservedObject var manager: TimerManager
+    @ObservedObject var manager: TimerSettingManager
     
 
     var body: some View {
         VStack {
             Picker("Mode", selection: $manager.mode) {
-                ForEach(TimerManager.TimeSetMode.allCases, id: \.id) { mode in
+                ForEach(TimerSettingManager.TimeSetMode.allCases, id: \.id) { mode in
                     Text(mode.localizedStringKey)
                 }
             }
@@ -34,18 +34,13 @@ struct SetTimeForm: View {
 }
 
 
-
-
-
-
-
 struct SetTimeView_Previews: PreviewProvider {
     struct Container: View {
         @StateObject var themeManger = ThemeManager()
-        @ObservedObject var timerManager = TimerManager()
+        @ObservedObject var timerSettingManager = TimerSettingManager()
         
         var body: some View {
-            SetTimeForm(manager: timerManager)
+            SetTimeForm(manager: timerSettingManager)
                 .environmentObject(themeManger)
         }
     }

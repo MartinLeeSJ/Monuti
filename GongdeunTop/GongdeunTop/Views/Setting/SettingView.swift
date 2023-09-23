@@ -12,6 +12,7 @@ import FamilyControls
 
 enum SheetType: Identifiable {
     case color
+    
     var id: Self { self }
 }
 
@@ -19,6 +20,7 @@ struct SettingView: View {
     @EnvironmentObject var authManager: AuthManager
     @EnvironmentObject var appBlockManager: AppBlockManager
     @State private var sheetType: SheetType?
+    @State private var isSignOutPresented: Bool = false
     
     private let center = AuthorizationCenter.shared
     
@@ -28,15 +30,10 @@ struct SettingView: View {
                 Button {
                     sheetType = .color
                 } label: {
-                    Text("ColorSetting")
+                    Text("ColorThemeSetting")
                 }
-                
-                Button {
-                    authManager.signOut()
-                } label: {
-                    Text("SignOut")
-                }
-                
+                .tint(.basicFontColor)
+
                 Section {
                     Toggle("집중 시 다른 앱 차단",
                            isOn: $appBlockManager.isAppBlockOn.animation())
@@ -57,14 +54,39 @@ struct SettingView: View {
                     isPresented: $appBlockManager.isActivitySelectionPickerOn,
                     selection: $appBlockManager.activitySelection)
                 
+                Section {
+                    Button {
+                        isSignOutPresented = true
+                    } label: {
+                        Text("SignOut")
+                    }
+                    .tint(.basicFontColor)
+                    .confirmationDialog("SignOut", isPresented: $isSignOutPresented) {
+                        Button(role: .cancel) {
+                            isSignOutPresented = false
+                        } label: {
+                            Text("Cancel")
+                        }
+                        
+                        Button(role: .destructive) {
+                            authManager.signOut()
+                        } label: {
+                            Text("SignOut")
+                        }
+                    } message: {
+                        Text("really_signOut")
+                    }
+                }
+                
             }
             .sheet(item: $sheetType) { type in
                 switch type {
                 case .color:
                     ColorThemeSetting()
-                        .presentationDetents([.medium])
+                        .presentationDetents([.fraction(0.2)])
                 }
             }
+            
         }
     }
 }

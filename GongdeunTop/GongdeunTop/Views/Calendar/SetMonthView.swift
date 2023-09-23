@@ -64,7 +64,7 @@ struct SetMonthView: View {
                                 .font(.title3)
                         }
                     }
-                    .tint(themeManager.colorInPriority(of: .accent))
+                    .tint(themeManager.colorInPriority(in: .accent))
                     LazyVGrid(columns: Array(repeating: .init(.flexible(), spacing: 10), count: 4), spacing: 15) {
                         
                         ForEach(manager.currentYearData, id: \.self) { month in
@@ -85,7 +85,7 @@ struct SetMonthView: View {
                                 .background {
                                     if knowIsSelectedMonth(month) {
                                         RoundedRectangle(cornerRadius: 10)
-                                            .fill(themeManager.colorInPriority(of: .accent))
+                                            .fill(themeManager.colorInPriority(in: .accent))
                                     } else {
                                         RoundedRectangle(cornerRadius: 10)
                                             .fill(Material.thinMaterial)

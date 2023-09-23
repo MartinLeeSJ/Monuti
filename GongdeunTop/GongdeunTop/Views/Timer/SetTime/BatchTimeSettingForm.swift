@@ -9,9 +9,7 @@ import SwiftUI
 
 struct BatchTimeSettingForm: View {
     @EnvironmentObject var themeManager: ThemeManager
-    @ObservedObject var manager: TimerManager
-    
-    
+    @ObservedObject var manager: TimerSettingManager
     
     var body: some View {
         VStack {
@@ -26,7 +24,7 @@ struct BatchTimeSettingForm: View {
                             .font(.caption2)
                     }
                     .buttonStyle(.bordered)
-                    .tint(themeManager.colorInPriority(of: .accent))
+                    .tint(themeManager.colorInPriority(in: .accent))
                 }
             }
             .frame(minHeight: 60)
@@ -56,8 +54,8 @@ extension BatchTimeSettingForm {
                 .foregroundColor(.secondary)
             Spacer()
             SetTimeStepper(stepValue: $manager.timeSetting.numOfSessions,
-                           bound: SetTimeContraint.sessionsBound,
-                           step: SetTimeContraint.sessionStep) { _ in
+                           bound: TimerSettingContraint.sessionsBound,
+                           step: TimerSettingContraint.sessionStep) { _ in
                 
             } label: {
                 Text("\(manager.timeSetting.numOfSessions)")
@@ -67,7 +65,7 @@ extension BatchTimeSettingForm {
     var concentrationTimeStepper: some View {
         HStack{
             Rectangle()
-                .fill(themeManager.colorInPriority(of: .solid))
+                .fill(themeManager.colorInPriority(in: .solid))
                 .frame(width: 20, height: 15)
             Text("setTime_concentration")
                 .font(.headline)
@@ -78,8 +76,8 @@ extension BatchTimeSettingForm {
             Spacer()
             
             SetTimeStepper(stepValue: $manager.timeSetting.session.concentrationSeconds,
-                           bound: SetTimeContraint.concentrationSecondBound,
-                           step: SetTimeContraint.concentrationSecondStep) { _ in
+                           bound: TimerSettingContraint.concentrationSecondBound,
+                           step: TimerSettingContraint.concentrationSecondStep) { _ in
                 manager.mapAllSessions()
             } label: {
                 Text("\(manager.getMinute(of: manager.timeSetting.session.concentrationSeconds))")
@@ -89,7 +87,7 @@ extension BatchTimeSettingForm {
     var restTimeStepper: some View {
         HStack {
             Rectangle()
-                .fill(themeManager.colorInPriority(of: .medium))
+                .fill(themeManager.colorInPriority(in: .medium))
                 .frame(width: 20, height: 15)
             Text("setTime_rest")
                 .font(.headline)
@@ -98,8 +96,8 @@ extension BatchTimeSettingForm {
                 .foregroundColor(.secondary)
             Spacer()
             SetTimeStepper(stepValue: $manager.timeSetting.session.restSeconds,
-                           bound: SetTimeContraint.restSecondBound,
-                           step: SetTimeContraint.restSecondStep) { _ in
+                           bound: TimerSettingContraint.restSecondBound,
+                           step: TimerSettingContraint.restSecondStep) { _ in
                 manager.mapAllSessions()
             } label: {
                 Text("\(manager.getMinute(of: manager.timeSetting.session.restSeconds))")
@@ -119,13 +117,13 @@ extension BatchTimeSettingForm {
         .onChange(of: manager.timeSetting.willGetLongRefresh) { bool in
             manager.toggleLastLongRefresh(isOn: bool)
         }
-        .tint(themeManager.colorInPriority(of: .accent))
+        .tint(themeManager.colorInPriority(in: .accent))
     }
 }
 
 struct BatchTimeSettingForm_Previews: PreviewProvider {
     static var previews: some View {
-        BatchTimeSettingForm(manager: TimerManager())
+        BatchTimeSettingForm(manager: TimerSettingManager())
             .environmentObject(ThemeManager())
     }
 }

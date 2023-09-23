@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Combine
 
 enum DateEvaluations: Int {
     case weak = 1
@@ -22,23 +23,31 @@ enum DateEvaluations: Int {
 }
 
 struct DateCell: View {
-    @EnvironmentObject var themeManager: ThemeManager
-    @Environment(\.colorScheme) var scheme
-    @ObservedObject var manager: CalendarManager
+    @EnvironmentObject private var themeManager: ThemeManager
+    @Environment(\.colorScheme) private var scheme
     
+    @Binding var selectedDate: Date?
+    private let date: Date
+    private var evaluation: Int? = nil
+    private let onSelect: () -> Void
+
+    init(
+        selectedDate: Binding<Date?>,
+        date: Date,
+        evaluation: Int? = nil,
+        onSelect: @escaping () -> Void
+    ) {
+        self._selectedDate = selectedDate
+        self.date = date
+        self.evaluation = evaluation
+        self.onSelect = onSelect
+    }
     
-    let date: Date
-    var evaluation: Int? = nil
-    
-    private var day: String {
-        var str: String =
-        date.formatted(
-            Date.FormatStyle()
-                .day(.defaultDigits)
-        )
+    private var dateDigit: String {
+        var str: String = date.formatted(Date.FormatStyle().day(.defaultDigits))
         
         if str.hasSuffix("일") {
-            str.removeAll { $0 == "일" }
+            str.removeLast()
         }
         
         return str
@@ -49,69 +58,83 @@ struct DateCell: View {
     }
     
     private var isSelected: Bool {
-        Calendar.current.isDate(date, inSameDayAs: manager.selectedDate)
+        guard let selectedDate = selectedDate else { return false }
+        return Calendar.current.isDate(date, inSameDayAs: selectedDate)
     }
     
+    private let dateCellRadius: CGFloat = 18
+    private let dateCellCornerRadius: CGFloat = 6
+    
+    
     var body: some View {
-        VStack(spacing: 5) {
-            HAlignment(alignment: .center) {
-                
-                Text(day)
-                    .font(.caption.bold())
-//                    .foregroundColor(Color("basicFontColor"))
-                    .frame(minWidth: 20)
-                    .background {
-                        if isToday {
-                            Capsule()
-                                .fill(themeManager.componentColor())
-                                .overlay {
-                                    Capsule()
-                                        .stroke(themeManager.colorInPriority(of: .accent), lineWidth: 1.5)
-                                }
-                        }
-                    }
-            }
-            
-            
-            Button {
-                manager.selectedDate = date
-            } label: {
-                RoundedHexagon(radius: 20, cornerAngle: 5)
-                    .fill(.thinMaterial)
-                    .frame(width: 33, height: 33)
-                    .overlay {
-                        if let evaluation, evaluation != 0, let priority = ColorPriority(rawValue: evaluation) {
-                            RoundedHexagon(radius: 20, cornerAngle: 5)
-                                .foregroundColor(themeManager.colorInPriority(of: priority))
-                        }
-                    }
-                    .overlay {
-                        if scheme == .dark {
-                            RoundedHexagon(radius: 20, cornerAngle: 5)
-                                .stroke(.white.opacity(0.6), lineWidth: 1.5)
-                        }
-                    }
-                    .overlay {
-                        if isSelected {
-                            RoundedHexagon(radius: 20, cornerAngle: 5)
-                                .stroke(themeManager.colorInPriority(of: .accent), lineWidth: 2)
-                        }
-                    }
-            }
-            
+        VStack(spacing: .spacing(of: .quarter)) {
+            dateDigitView
+            dateCellButton
         }
-        .padding(3)
         
     }
-
+    
+    private var dateDigitView: some View {
+        Text(dateDigit)
+            .font(.caption.bold())
+            .foregroundColor(isToday ? .white : Color("basicFontColor"))
+            .frame(minWidth: 20)
+            .background {
+                if isToday {
+                    Capsule()
+                        .fill(themeManager.colorInPriority(in: .accent))
+                }
+            }
+    }
+    
+    private var dateCellButton: some View {
+        Button {
+            onSelect()
+        } label: {
+            dateCellHexagon
+                .modifier(HexagonStyle(scheme: scheme))
+                .frame(width: dateCellRadius * 2, height: dateCellRadius * 2)
+                .overlay {
+                    if let evaluation,
+                       let priority = ColorPriority(rawValue: evaluation),
+                       evaluation != 0 {
+                        dateCellHexagon
+                            .foregroundColor(themeManager.colorInPriority(in: priority))
+                    }
+                }
+                .overlay {
+                    if scheme == .dark {
+                        dateCellHexagon
+                            .stroke(.white.opacity(0.6), lineWidth: 1.5)
+                    }
+                }
+                .overlay {
+                    if isSelected {
+                        dateCellHexagon
+                            .stroke(themeManager.colorInPriority(in: .accent), lineWidth: 2)
+                    }
+                }
+        }
+    }
+    
+    private var dateCellHexagon: some Shape {
+        RoundedHexagon(radius: dateCellRadius, cornerAngle: dateCellCornerRadius)
+    }
+    
+    
+    
 }
 
-struct DateCell_Previews: PreviewProvider {
-    static var previews: some View {
-        Group {
-            VStack {
-                DateCell(manager: CalendarManager(), date: Date.now)
-            }.frame(width: 50)
+struct HexagonStyle: ViewModifier {
+    var scheme: ColorScheme
+    func body(content: Content) -> some View {
+        if scheme == .light {
+            content
+                .foregroundColor(.white)
+                .opacity(0.7)
+        } else {
+            content
+                .foregroundStyle(Material.thinMaterial)
         }
     }
 }

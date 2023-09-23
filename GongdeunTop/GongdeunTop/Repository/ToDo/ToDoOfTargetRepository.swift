@@ -14,13 +14,13 @@ import FirebaseAuth
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
-public class ToDoOfTargetRepository: ObservableObject, FirebaseListener {
+public class ToDoOfTargetRepository: ObservableObject {
     @Injected(\.authService) var authService
     @Injected(\.firestore) var database
     @Published var todos = [ToDo]()
     @Published var user: User? = nil
+    private let target: Target
     
-    let target: Target
     private var cancelables = Set<AnyCancellable>()
     private var listenerRegistration: ListenerRegistration?
     
@@ -31,7 +31,8 @@ public class ToDoOfTargetRepository: ObservableObject, FirebaseListener {
             .$user
             .assign(to: &$user)
         
-        $user.sink { [weak self] user in
+        $user
+            .sink { [weak self] user in
             self?.unsubscribe()
             self?.subscribe(user: user)
         }
@@ -52,6 +53,7 @@ public class ToDoOfTargetRepository: ObservableObject, FirebaseListener {
     func subscribe(user: User?) {
         guard let uid = user?.uid else { return }
         guard listenerRegistration == nil else { return }
+        
         
         let query = database.collection("Members")
             .document(uid)

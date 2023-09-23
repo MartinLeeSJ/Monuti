@@ -20,7 +20,7 @@ struct SetTimePicker: View {
         self._time = time
         self.minute = Int(time.wrappedValue / 60)
         self.second = time.wrappedValue % 60
-        self.minuteBound = SetTimeContraint.getMinuteBound(bound: timeBound)
+        self.minuteBound = TimerSettingContraint.getMinuteBound(bound: timeBound)
         self.secondBound = 0..<59
         self.secondStride = secondStride
     }
