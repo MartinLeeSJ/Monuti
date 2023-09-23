@@ -59,8 +59,8 @@ struct CycleMemoir: View {
                     Spacer()
                         .frame(height: 35)
                 }
+                .padding()
             }
-            .padding()
         }
         .interactiveDismissDisabled()
         .toolbar {
@@ -70,6 +70,7 @@ struct CycleMemoir: View {
                 } label: {
                     Text("cycleMemoir_Quit")
                 }
+                .tint(themeManager.colorInPriority(in: .accent))
             }
             
             ToolbarItem {
@@ -78,6 +79,7 @@ struct CycleMemoir: View {
                 } label: {
                     Text("cycleMemoir_Add")
                 }
+                .tint(themeManager.colorInPriority(in: .accent))
                 .disabled(!manager.modified)
             }
         }
