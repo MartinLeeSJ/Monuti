@@ -111,9 +111,9 @@ extension CalendarView {
             Button {
                 showSetMonth.toggle()
             } label: {
-                HStack(alignment: .firstTextBaseline, spacing: 4) {
+                HStack(alignment: .firstTextBaseline, spacing: .spacing(of: .quarter)) {
                     Text(calendarManager.currentMonth)
-                        .font(.largeTitle.bold())
+                        .font(.title.bold())
                     
                     Text(calendarManager.currentYear)
                         .font(.callout)
@@ -132,7 +132,7 @@ extension CalendarView {
             handlePreviousMonth()
         } label: {
             Image(systemName: "chevron.left")
-                .font(.headline)
+                .font(.subheadline)
                 .foregroundColor(.gray)
         }
         .buttonStyle(.bordered)
@@ -143,7 +143,7 @@ extension CalendarView {
             handleNextMonth()
         } label: {
             Image(systemName: "chevron.right")
-                .font(.headline)
+                .font(.subheadline)
                 .foregroundColor(.gray)
         }
         .buttonStyle(.bordered)
@@ -155,7 +155,7 @@ extension CalendarView {
     private func calendar() -> some View {
         LazyVGrid(
             columns: Array(repeating: .init(.flexible(), spacing: .zero), count: 7),
-            spacing: .spacing(of: .normal)
+            spacing: .spacing(of: .twoThird)
         ) {
             weekdays
             blanks
@@ -182,7 +182,6 @@ extension CalendarView {
             HStack(alignment: .center) {
                 Text(weekday)
                     .font(.subheadline.bold())
-                    .padding(5)
             }
         }
     }

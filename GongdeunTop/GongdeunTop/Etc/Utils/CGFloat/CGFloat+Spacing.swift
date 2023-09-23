@@ -12,6 +12,7 @@ extension CGFloat {
         case minimum = 2
         case quarter = 4
         case half = 8
+        case twoThird = 12
         case normal = 16
         case middle = 24
         case long = 32
