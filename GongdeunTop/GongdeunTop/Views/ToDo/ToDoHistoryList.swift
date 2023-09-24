@@ -52,8 +52,8 @@ struct ToDoHistoryList: View {
     }
 }
 
-struct ToDoHistoryList_Previews: PreviewProvider {
-    static var previews: some View {
-        ToDoHistoryList(.completed ,todos: [ToDo.placeholder])
-    }
-}
+//struct ToDoHistoryList_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ToDoHistoryList(.completed ,todos: [ToDo.placeholder])
+//    }
+//}

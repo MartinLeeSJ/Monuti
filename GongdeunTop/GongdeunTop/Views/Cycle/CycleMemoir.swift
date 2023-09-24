@@ -238,9 +238,9 @@ extension CycleMemoir {
     }
 }
 
-struct CycleMemoir_Previews: PreviewProvider {
-    static var previews: some View {
-        CycleMemoir(todos: [ToDo.placeholder], timeSetting: TimeSetting())
-            .environmentObject(ThemeManager())
-    }
-}
+//struct CycleMemoir_Previews: PreviewProvider {
+//    static var previews: some View {
+//        CycleMemoir(todos: [ToDo.placeholder], timeSetting: TimeSetting())
+//            .environmentObject(ThemeManager())
+//    }
+//}
