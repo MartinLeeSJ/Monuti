@@ -152,7 +152,9 @@ extension CycleMemoir {
     
     @ViewBuilder
     func getMemoirButtons(_ geo: GeometryProxy) -> some View {
-        let gridWidth = (geo.size.width - 64) / 3
+        let horizontalEdgeInset: CGFloat = 32
+        let buttonCounts: CGFloat = 3
+        let gridWidth = abs((geo.size.width - horizontalEdgeInset * 2) / buttonCounts)
         let hexagonRadius = gridWidth / 2
         let buttonImageWidth = hexagonRadius * 2 - 8
         

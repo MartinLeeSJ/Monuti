@@ -9,10 +9,10 @@ import SwiftUI
 
 
 struct ToDoList: View {
-    @EnvironmentObject var themeManager: ThemeManager
-    @EnvironmentObject var todoManager: ToDoManager
-    @EnvironmentObject var targetManager: TargetManager
-    @EnvironmentObject var timerManager: TimerManager
+    @EnvironmentObject private var themeManager: ThemeManager
+    @EnvironmentObject private var todoManager: ToDoManager
+    @EnvironmentObject private var targetManager: TargetManager
+    @EnvironmentObject private var timerManager: TimerManager
     
     @State private var isDeleteAlertOn: Bool = false
     @State private var isExtendingTodosLifeAlertOn: Bool = false
@@ -187,4 +187,12 @@ extension ToDoList {
 }
 
 
-
+struct ToDoList_Previews: PreviewProvider {
+    static var previews: some View {
+        ToDoList()
+            .environmentObject(ThemeManager())
+            .environmentObject(ToDoManager())
+            .environmentObject(TargetManager())
+            .environmentObject(TimerManager(timeSetting: TimeSetting()))
+    }
+}

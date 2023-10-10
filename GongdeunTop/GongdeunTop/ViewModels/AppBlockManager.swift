@@ -18,20 +18,19 @@ class AppBlockManager: ObservableObject {
     
     private let center = AuthorizationCenter.shared
     private let deviceActivityCenter = DeviceActivityCenter()
-    private let managedSettingsStore = ManagedSettingsStore()
+    private let managedSettingsStore = ManagedSettingsStore(named: .concentration)
     
     
     // UserDefaults Keys
     private let screentimeSettingKey: String = "isScreenTimeActivated"
-    private let activitySelectionkey: String = "activitySelection"
+    static private let activitySelectionkey: String = "activitySelection"
     
     private let encoder = PropertyListEncoder()
-    private let decoder = PropertyListDecoder()
     
     private var cancellables = Set<AnyCancellable>()
     
     init() {
-        self.activitySelection = savedActivitySelection() ?? FamilyActivitySelection(includeEntireCategory: true)
+        self.activitySelection = AppBlockManager.savedActivitySelection() ?? FamilyActivitySelection(includeEntireCategory: true)
         
         $activitySelection
             .sink { [weak self] selection in
@@ -41,14 +40,15 @@ class AppBlockManager: ObservableObject {
     
     private func saveActivitySelection(_ selection: FamilyActivitySelection) {
         let defaults = UserDefaults.standard
-        defaults.set( try? encoder.encode(selection), forKey: activitySelectionkey)
+        defaults.set( try? encoder.encode(selection), forKey: AppBlockManager.activitySelectionkey)
     }
     
-    private func savedActivitySelection() -> FamilyActivitySelection? {
+    static public func savedActivitySelection() -> FamilyActivitySelection? {
+        let decoder = PropertyListDecoder()
         let defaults = UserDefaults.standard
         
         
-        guard let data = defaults.data(forKey: activitySelectionkey) else {
+        guard let data = defaults.data(forKey: AppBlockManager.activitySelectionkey) else {
             return nil
         }
 
@@ -85,25 +85,29 @@ class AppBlockManager: ObservableObject {
 
     func startConcentrationAppShield() {
         guard isAppBlockOn else { return }
-        
+        print("Start App Block")
         do {
+            
             let schedule = DeviceActivitySchedule(
                 intervalStart: DateComponents(hour: 0, minute: 0, second: 0),
-                intervalEnd: DateComponents(hour: 23, minute: 59, second: 0),
+                intervalEnd: DateComponents(hour: 23, minute: 59, second: 59),
                 repeats: true
             )
             
-            let event = DeviceActivityEvent(applications: activitySelection.applicationTokens,
-                                            categories: activitySelection.categoryTokens,
-                                            webDomains: activitySelection.webDomainTokens,
-                                            threshold: DateComponents(day: 1))
-            
             let applicationTokens = activitySelection.applicationTokens
+            let categoryTokens = activitySelection.categoryTokens
             let webDomainTokens = activitySelection.webDomainTokens
             
-            managedSettingsStore.shield.applications = applicationTokens.isEmpty ? nil : applicationTokens
-            managedSettingsStore.shield.webDomains = webDomainTokens.isEmpty ? nil : webDomainTokens
+            let event = DeviceActivityEvent(applications: applicationTokens,
+                                            categories: categoryTokens,
+                                            webDomains: webDomainTokens,
+                                            threshold: DateComponents(day: 1))
             
+
+            managedSettingsStore.shield.applicationCategories = ShieldSettings.ActivityCategoryPolicy.specific(categoryTokens, except: Set())
+            managedSettingsStore.shield.webDomainCategories = ShieldSettings.ActivityCategoryPolicy.specific(categoryTokens, except: Set())
+            
+
             try deviceActivityCenter.startMonitoring(.concentration,
                                                      during: schedule,
                                                      events: [.concentration : event])
@@ -129,5 +133,9 @@ extension DeviceActivityName {
 }
 
 extension DeviceActivityEvent.Name {
+    static let concentration = Self("concentration")
+}
+
+extension ManagedSettingsStore.Name {
     static let concentration = Self("concentration")
 }

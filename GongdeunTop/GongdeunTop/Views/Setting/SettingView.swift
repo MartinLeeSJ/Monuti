@@ -40,7 +40,7 @@ struct SettingView: View {
                            isOn: $appBlockManager.isAppBlockOn.animation())
                     .onChange(of: appBlockManager.isAppBlockOn,
                               perform: { appBlockManager.setFamilyControl(isOn: $0) })
-                    .disabled(true)
+                 
                     if appBlockManager.isAppBlockOn {
                         HStack {
                             Spacer()

@@ -19,4 +19,6 @@ extension Target {
                achievement: 0,
                memoirs: "")
     }
+    
 }
+

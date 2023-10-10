@@ -73,6 +73,7 @@
 		5B54FE432A2B5917000D29ED /* CGFloat+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B54FE422A2B5917000D29ED /* CGFloat+Utils.swift */; };
 		5B59207D2A627A3B009DD91F /* SetTimePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B59207C2A627A3B009DD91F /* SetTimePicker.swift */; };
 		5B5AF96E2A90AE7B00CFC2A0 /* TimeInterval+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B5AF96D2A90AE7B00CFC2A0 /* TimeInterval+Utils.swift */; };
+		5B60D7492AC047EB00B21165 /* TargetAndToDoList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B60D7482AC047EB00B21165 /* TargetAndToDoList.swift */; };
 		5B6203852A8DFC44000AE1AB /* PopNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6203842A8DFC44000AE1AB /* PopNotification.swift */; };
 		5B63175A29E7F27700FF6876 /* RoundedCorners.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B63175929E7F27700FF6876 /* RoundedCorners.swift */; };
 		5B63A59129C8931300AA4525 /* SheetPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B63A59029C8931300AA4525 /* SheetPresenter.swift */; };
@@ -247,6 +248,7 @@
 		5B54FE422A2B5917000D29ED /* CGFloat+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGFloat+Utils.swift"; sourceTree = "<group>"; };
 		5B59207C2A627A3B009DD91F /* SetTimePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetTimePicker.swift; sourceTree = "<group>"; };
 		5B5AF96D2A90AE7B00CFC2A0 /* TimeInterval+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TimeInterval+Utils.swift"; sourceTree = "<group>"; };
+		5B60D7482AC047EB00B21165 /* TargetAndToDoList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetAndToDoList.swift; sourceTree = "<group>"; };
 		5B6203842A8DFC44000AE1AB /* PopNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopNotification.swift; sourceTree = "<group>"; };
 		5B63175929E7F27700FF6876 /* RoundedCorners.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedCorners.swift; sourceTree = "<group>"; };
 		5B63A59029C8931300AA4525 /* SheetPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetPresenter.swift; sourceTree = "<group>"; };
@@ -770,6 +772,7 @@
 			isa = PBXGroup;
 			children = (
 				5BCF550529C2CB2500A19759 /* ContentView.swift */,
+				5B60D7482AC047EB00B21165 /* TargetAndToDoList.swift */,
 				5B1E757C2AA23BF7005D803B /* ViewModifier */,
 				5B6AB2512A316698008D09B6 /* Components */,
 				5BF9CDD42A84A394002105B0 /* ExperimentView.swift */,
@@ -1069,6 +1072,7 @@
 				5B59207D2A627A3B009DD91F /* SetTimePicker.swift in Sources */,
 				5B63175A29E7F27700FF6876 /* RoundedCorners.swift in Sources */,
 				5B3CCABD2A71519800973F43 /* ToDoRepository.swift in Sources */,
+				5B60D7492AC047EB00B21165 /* TargetAndToDoList.swift in Sources */,
 				5BA9A4392A092E6A00453D65 /* CyclesOfDayDetailView.swift in Sources */,
 				5BDE83402A95FE88006185E8 /* DayRecordView.swift in Sources */,
 				5B1E757B2AA23BE8005D803B /* TextFieldLimitModifier.swift in Sources */,
@@ -1190,7 +1194,7 @@
 				INFOPLIST_FILE = ShieldConfiguration/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = ShieldConfiguration;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1217,7 +1221,7 @@
 				INFOPLIST_FILE = ShieldConfiguration/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = ShieldConfiguration;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1244,7 +1248,7 @@
 				INFOPLIST_FILE = AppshieldMonitor/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = AppshieldMonitor;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1271,7 +1275,7 @@
 				INFOPLIST_FILE = AppshieldMonitor/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = AppshieldMonitor;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
